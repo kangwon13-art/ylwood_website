@@ -1,0 +1,1681 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영림우드 | 관리자 페이지</title>
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- xlsx-js-style for styled spreadsheets -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js">        function backupData() {
+            const data = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('yw_')) {
+                    data[key] = localStorage.getItem(key);
+                }
+            }
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const date = new Date().toISOString().split('T')[0];
+            a.download = yw_backup_ + date + .json;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function restoreData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (confirm('諛깆뾽 ?곗씠?곕? 蹂듭썝?섏떆寃좎뒿?덇퉴? 湲곗〈 ?곗씠?곕뒗 ??뼱?뚯썙吏묐땲??')) {
+                        for (const key in data) {
+                            if (key.startsWith('yw_')) {
+                                localStorage.setItem(key, data[key]);
+                            }
+                        }
+                        alert('蹂듭썝?섏뿀?듬땲??');
+                        location.reload();
+                    }
+                } catch(err) {
+                    alert('?섎せ??諛깆뾽 ?뚯씪?낅땲??');
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+        let referencesData = [];
+        const DEFAULT_REFERENCES = [
+            { id: 'r1', title: '?≫뙆援??洹쒕え ?꾪뙆???좎텞', items: '?앷퀬蹂대뱶, 寃쎈웾泥좉낏 ??, date: '2024.05' },
+            { id: 'r2', title: '媛뺣궓援?吏?앹궛?낆꽱??, items: '泥쒖옣?? ?⑥뿴?? 紐⑹옱', date: '2024.04' },
+            { id: 'r3', title: '?깅궓 臾쇰쪟?쇳꽣', items: '寃쎈웾泥좉낏, ?앷퀬蹂대뱶, ?꾩뼱', date: '2024.03' }
+        ];
+
+        function loadReferencesData() {
+            const saved = localStorage.getItem('yw_references_data');
+            if (saved) {
+                referencesData = JSON.parse(saved);
+            } else {
+                referencesData = JSON.parse(JSON.stringify(DEFAULT_REFERENCES));
+                localStorage.setItem('yw_references_data', JSON.stringify(referencesData));
+            }
+            renderAdminReferences();
+        }
+
+        function renderAdminReferences() {
+            const tbody = document.querySelector('#table-references tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            referencesData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = 
+                    <td><input type="text" class="form-input" value="+item.title+" onchange="updateReference('+item.id+', 'title', this.value)"></td>
+                    <td><input type="text" class="form-input" value="+item.items+" onchange="updateReference('+item.id+', 'items', this.value)"></td>
+                    <td><input type="text" class="form-input" value="+item.date+" onchange="updateReference('+item.id+', 'date', this.value)"></td>
+                    <td><button class="btn btn-outline" style="color:red;border-color:red" onclick="removeReference('+item.id+')">??젣</button></td>
+                ;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function addReferenceItem() {
+            const newId = 'r' + Date.now();
+            referencesData.unshift({ id: newId, title: '', items: '', date: '' });
+            saveReferences();
+            renderAdminReferences();
+        }
+
+        function updateReference(id, field, value) {
+            const item = referencesData.find(i => i.id === id);
+            if (item) {
+                item[field] = value;
+                saveReferences();
+            }
+        }
+
+        function removeReference(id) {
+            if(confirm('???ㅼ쟻????젣?섏떆寃좎뒿?덇퉴?')) {
+                referencesData = referencesData.filter(i => i.id !== id);
+                saveReferences();
+                renderAdminReferences();
+            }
+        }
+
+        function saveReferences() {
+            localStorage.setItem('yw_references_data', JSON.stringify(referencesData));
+        }
+
+        const originalInit2 = window.onload;
+        window.onload = function() {
+            if(originalInit2) originalInit2();
+            loadReferencesData();
+        };
+</script>
+    <style>
+        :root {
+            --color-bg-primary: #0A0F1D;
+            --color-bg-secondary: #12192C;
+            --color-bg-tertiary: #1E2943;
+            --color-accent-orange: #FF6B35;
+            --color-accent-orange-hover: #E8551E;
+            --color-accent-orange-light: rgba(255, 107, 53, 0.1);
+            --color-text-white: #FFFFFF;
+            --color-text-muted: #94A3B8;
+            --color-text-light: #E2E8F0;
+            --color-border: rgba(148, 163, 184, 0.15);
+            --font-family-base: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            --font-family-alt: 'Montserrat', sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.3);
+            --color-success: #22C55E;
+            --color-danger: #EF4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-light);
+            font-family: var(--font-family-base);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .font-num {
+            font-family: var(--font-family-alt);
+        }
+
+        /* LOGIN SCREEN */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .login-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--color-text-white);
+            margin-bottom: 8px;
+        }
+
+        .login-logo span {
+            color: var(--color-accent-orange);
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            margin-bottom: 35px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            color: var(--color-text-white);
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            margin-bottom: 16px;
+            transition: var(--transition-smooth);
+        }
+
+        .login-input:focus {
+            border-color: var(--color-accent-orange);
+        }
+
+        select.login-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            background-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--color-accent-orange);
+            color: var(--color-text-white);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .login-btn:hover {
+            background: var(--color-accent-orange-hover);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .login-error {
+            margin-top: 15px;
+            color: var(--color-danger);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* ADMIN DASHBOARD */
+        .admin-wrap {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .admin-wrap.active {
+            display: flex;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--color-bg-secondary);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .admin-header .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--color-text-white);
+        }
+
+        .admin-logo span {
+            color: var(--color-accent-orange);
+        }
+
+        .admin-badge {
+            padding: 4px 10px;
+            background: var(--color-accent-orange-light);
+            border: 1px solid var(--color-accent-orange);
+            color: var(--color-accent-orange);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .admin-logout {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .admin-logout:hover {
+            border-color: var(--color-danger);
+            color: var(--color-danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .admin-container {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            min-height: calc(100vh - 65px);
+        }
+
+        @media (max-width: 992px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .admin-tabs {
+            background: var(--color-bg-secondary);
+            border-right: 1px solid var(--color-border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        @media (max-width: 992px) {
+            .admin-tabs {
+                border-right: none;
+                border-bottom: 1px solid var(--color-border);
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 15px 20px;
+            }
+        }
+
+        .admin-tab {
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: var(--color-text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        @media (max-width: 992px) {
+            .admin-tab {
+                width: auto;
+                white-space: nowrap;
+            }
+        }
+
+        .admin-tab:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--color-text-light);
+        }
+
+        .admin-tab.active {
+            background: var(--color-accent-orange-light);
+            color: var(--color-accent-orange);
+            font-weight: 700;
+        }
+
+        .admin-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-content {
+                padding: 15px;
+            }
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .toolbar-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--color-text-white);
+        }
+
+        .toolbar-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--color-accent-orange);
+            color: var(--color-text-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-accent-orange-hover);
+        }
+
+        .btn-success {
+            background: var(--color-success);
+            color: var(--color-text-white);
+        }
+
+        .btn-success:hover {
+            background: #1ca850;
+        }
+
+        .btn-danger {
+            background: var(--color-danger);
+            color: var(--color-text-white);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-text-light);
+            color: var(--color-text-light);
+        }
+
+        .data-table-wrap {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 15px;
+            overflow-x: auto;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .data-table th {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 16px;
+            color: var(--color-text-muted);
+            font-weight: 700;
+            font-size: 13px;
+            border-bottom: 1px solid var(--color-border);
+            text-align: left;
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text-light);
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .data-table tr.dragging {
+            opacity: 0.5;
+            background: var(--color-bg-tertiary) !important;
+        }
+
+        .data-table tr.drag-over {
+            border-top: 2px solid var(--color-accent-orange);
+        }
+
+        .table-input {
+            width: 100%;
+            padding: 8px 12px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            color: var(--color-text-white);
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .table-input:focus {
+            border-color: var(--color-accent-orange);
+        }
+
+        .table-input.text-right {
+            text-align: right;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--color-accent-orange);
+            color: var(--color-text-white);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: var(--shadow-glow);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .toast.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">영림우드<span>.</span></div>
+            <div class="login-subtitle">건축자재 실시간 단가표 관리 시스템</div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <select class="login-input" id="adminAccountRole" onchange="toggleStaffNameInput()">
+                    <option value="owner">대표 계정 (모든 권한)</option>
+                    <option value="editor">직원 계정 (제한된 권한)</option>
+                </select>
+                <div id="staffNameGroup" style="display: none;">
+                    <input class="login-input" type="text" id="adminStaffName" placeholder="직원 성함 입력"
+                        autocomplete="off">
+                </div>
+                <input class="login-input" type="password" id="adminPassword" placeholder="관리자 비밀번호 입력"
+                    autocomplete="off" required>
+                <button class="login-btn" type="submit">로그인</button>
+            </form>
+            <div class="login-error" id="loginError" style="display: none;">비밀번호가 올바르지 않습니다.</div>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div class="admin-wrap" id="adminWrap">
+        <header class="admin-header">
+            <div class="header-left">
+                <span class="admin-logo">영림우드<span>.</span></span>
+                <span class="admin-badge" id="adminUserLabel">관리자</span>
+            </div>
+            <button class="admin-logout" onclick="handleLogout()">로그아웃</button>
+        </header>
+
+        <div class="admin-container">
+            <div class="admin-tabs" id="adminTabs">
+                <!-- Dynamically generated -->
+            </div>
+
+            <div class="admin-content">
+                <div class="toolbar">
+                    <div class="toolbar-title" id="toolbarTitle">마감자재</div>
+                    <div class="toolbar-actions">
+            <button class="btn btn-outline" onclick="backupData()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                諛깆뾽
+            </button>
+            <button class="btn btn-outline" onclick="document.getElementById('restoreInput').click()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                蹂듭썝
+            </button>
+            <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="restoreData(event)">
+                        <button class="btn btn-primary" onclick="addRow()">+ 품목 추가</button>
+                        <button class="btn btn-success" style="background-color: var(--color-accent-orange);"
+                            onclick="saveAllData()">💾 변경사항 저장</button>
+                        <button class="btn btn-success" onclick="exportToExcel()">엑셀 내보내기</button>
+                        <button class="btn btn-primary" style="background-color: var(--color-success);"
+                            onclick="triggerExcelUpload()">엑셀 불러오기</button>
+                        <input type="file" id="excelUpload" accept=".xlsx, .xls" style="display:none"
+                            onchange="importFromExcel(event)">
+                        <button class="btn btn-outline" onclick="exportBackupJSON()">데이터 백업</button>
+                        <button class="btn btn-outline" onclick="triggerRestoreUpload()">데이터 복원</button>
+                        <input type="file" id="restoreUpload" accept=".json" style="display:none" onchange="importBackupJSON(event)">
+                    </div>
+                </div>
+
+                <div class="data-table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px; text-align:center"></th>
+                                <th style="width: 60px;">No</th>
+                                <th style="width: 150px;">품목코드</th>
+                                <th>품명</th>
+                                <th>규격</th>
+                                <th style="width: 100px; text-align:center">단위</th>
+                                <th style="width: 150px; text-align:right">단가</th>
+                                <th style="width: 100px; text-align:center">삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody">
+                            <!-- Loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">저장되었습니다!</div>
+
+    <script>
+        // ===== CONFIG =====
+        const ADMIN_PASSWORD = "admin1234";
+        const STORAGE_KEY = "youngrim_admin_data";
+        const STORAGE_IMAGES_KEY = "youngrim_admin_images";
+
+        // Category definitions
+        const CATEGORIES = {
+            finishing: "마감자재",
+            mdf: "MDF",
+            plywood: "합판",
+            interior_plywood: "인테리어합판",
+            timber: "목재구조재",
+            plaster: "석고보드",
+            insulation: "단열재",
+            deck_timber: "방부목특수목",
+            louver_wood: "루바집성판",
+            hardware: "철물부자재",
+            delivery: "운반비",
+            references: "납품실적"
+        };
+
+        let currentCategory = "finishing";
+        let productData = {};
+        let imageStore = {};
+        let currentUser = {};
+
+        // ===== DEFAULT DATA (mirrors index.html) =====
+        function getDefaultData() {
+            return {
+                finishing: [
+                    { id: 'f5', code: '', name: '아쿠아보드 스톤A', spec: '600x1200mm', unit: '장', price: 45000, sub: 'aqua' },
+                    { id: 'f6', code: '', name: '아쿠아보드 스톤C', spec: '600x1200mm', unit: '장', price: 45000, sub: 'aqua' },
+                    { id: 'f7', code: '', name: '아쿠아보드 스톤D', spec: '600x1200mm', unit: '장', price: 45000, sub: 'aqua' },
+                    { id: 'f8r', code: '', name: '아쿠아보드 스톤E', spec: '600x1200mm', unit: '장', price: 45000, sub: 'aqua' },
+                    { id: 'f9r', code: '', name: '원스톤 플렉시블 보드 트래버틴(모던)', spec: '600x1200mm', unit: '장', price: 25000, sub: 'onestone' },
+                    { id: 'f10r', code: '', name: '원스톤 플렉시블 보드 슬레트(네츄럴)', spec: '600x1200mm', unit: '장', price: 25000, sub: 'onestone' },
+                    { id: 'f11r', code: '', name: '원스톤 플렉시블 보드 트래버틴(빈티지)', spec: '600x1200mm', unit: '장', price: 25000, sub: 'onestone' },
+                    { id: 'f12r', code: '', name: '원스톤 플렉시블 보드 슬레트(화이트)', spec: '600x1200mm', unit: '장', price: 25000, sub: 'onestone' },
+                    { id: 'f13r', code: '', name: '원스톤 플렉시블 보드 트래버틴(모던)', spec: '1200x2400mm', unit: '장', price: 75000, sub: 'onestone' },
+                    { id: 'f14r', code: '', name: '원스톤 플렉시블 보드 슬레트(네츄럴)', spec: '1200x2400mm', unit: '장', price: 75000, sub: 'onestone' },
+                    { id: 'f15r', code: '', name: '원스톤 플렉시블 보드 트래버틴(빈티지)', spec: '1200x2400mm', unit: '장', price: 75000, sub: 'onestone' },
+                    { id: 'f16r', code: '', name: '원스톤 플렉시블 보드 슬레트(화이트)', spec: '1200x2400mm', unit: '장', price: 75000, sub: 'onestone' },
+                    { id: 'f17r', code: '', name: '인피니월', spec: '900x2400mm', unit: '장', price: 62000, sub: 'infini' },
+                    { id: 'f18r', code: '', name: '월시스템와이드 600', spec: '600x2400mm', unit: '장', price: 52000, sub: 'wallsystem' },
+                    { id: 'f19r', code: '', name: '월시스템와이드 900', spec: '900x2400mm', unit: '장', price: 58000, sub: 'wallsystem' }
+                ],
+                mdf: [
+                    { id: 'm1', code: '', name: 'MDF 3T', spec: '4x8 (1220x2440mm)', unit: '장', price: 4500 },
+                    { id: 'm2', code: '', name: 'MDF 4.5T', spec: '4x8 (1220x2440mm)', unit: '장', price: 7900 },
+                    { id: 'm3', code: '', name: 'MDF 6T', spec: '4x8 (1220x2440mm)', unit: '장', price: 8300 },
+                    { id: 'm4', code: '', name: 'MDF 9T', spec: '4x8 (1220x2440mm)', unit: '장', price: 10200 },
+                    { id: 'm5', code: '', name: 'MDF 9T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 13800 },
+                    { id: 'm6', code: '', name: 'MDF 12T', spec: '4x8 (1220x2440mm)', unit: '장', price: 14200 },
+                    { id: 'm7', code: '', name: 'MDF 12T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 19200 },
+                    { id: 'm8', code: '', name: 'MDF 15T', spec: '4x8 (1220x2440mm)', unit: '장', price: 18700 },
+                    { id: 'm9', code: '', name: 'MDF 15T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 24000 },
+                    { id: 'm10', code: '', name: 'MDF 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 21200 },
+                    { id: 'm11', code: '', name: 'MDF 25T', spec: '4x8 (1220x2440mm)', unit: '장', price: 49200 },
+                    { id: 'm12', code: '', name: 'MDF 30T', spec: '4x8 (1220x2440mm)', unit: '장', price: 59000 }
+                ],
+                plywood: [
+                    { id: 'p1', code: '', name: '2.7mm 3x6 합판', spec: '3x6 (910x1820mm)', unit: '장', price: 5500 },
+                    { id: 'p2', code: '', name: '4.6mm 3x6 합판', spec: '3x6 (910x1820mm)', unit: '장', price: 7700 },
+                    { id: 'p3', code: '', name: '8.5mm 3x6 합판', spec: '3x6 (910x1820mm)', unit: '장', price: 8400 },
+                    { id: 'p4', code: '', name: '11.5mm 3x6 합판 베트남', spec: '3x6 (910x1820mm)', unit: '장', price: 8000 },
+                    { id: 'p5', code: '', name: '11.5mm 3x6 내수합판', spec: '3x6 (910x1820mm)', unit: '장', price: 12500 },
+                    { id: 'p6', code: '', name: '11.5mm 3x6 태고 코팅합판', spec: '3x6 (910x1820mm)', unit: '장', price: 11500 },
+                    { id: 'p7', code: '', name: '12mm 3x6 콘보드 CRC', spec: '3x6 (910x1820mm)', unit: '장', price: 18600 },
+                    { id: 'p8', code: '', name: '2.7mm 4x8 일반합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 8500 },
+                    { id: 'p9', code: '', name: '4mm 4x8 요꼬합판', spec: '오징어합판 / 4x8 (1220x2440mm)', unit: '장', price: 17500 },
+                    { id: 'p10', code: '', name: '4.6mm 4x8 합판 알비자', spec: '4x8 (1220x2440mm)', unit: '장', price: 8600 },
+                    { id: 'p11', code: '', name: '4.6mm 4x8 합판 BB/CC', spec: '4x8 (1220x2440mm)', unit: '장', price: 11300 },
+                    { id: 'p12', code: '', name: '8.5mm 4x8 합판 베트남', spec: '4x8 (1220x2440mm)', unit: '장', price: 15600 },
+                    { id: 'p13', code: '', name: '8.5mm 4x8 합판 인도네시아', spec: '4x8 (1220x2440mm)', unit: '장', price: 17100 },
+                    { id: 'p14', code: '', name: '8.5mm 4x8 합판 BB/CC 남양재', spec: '4x8 (1220x2440mm)', unit: '장', price: 20500 },
+                    { id: 'p15', code: '', name: '8.5mm 4x8 합판 BB/CC 콤비', spec: '4x8 (1220x2440mm)', unit: '장', price: 19000 },
+                    { id: 'p16', code: '', name: '11.5mm 4x8 합판 베트남 저가형', spec: '4x8 (1220x2440mm)', unit: '장', price: 14200 },
+                    { id: 'p17', code: '', name: '11.5mm 4x8 합판 베트남 일반형', spec: '4x8 (1220x2440mm)', unit: '장', price: 24000 },
+                    { id: 'p18', code: '', name: '11.5mm 4x8 합판 BB/CC 콤비', spec: '4x8 (1220x2440mm)', unit: '장', price: 21800 },
+                    { id: 'p19', code: '', name: '11.5mm 4x8 합판 BB/CC 라왕 (고급)', spec: '4x8 (1220x2440mm)', unit: '장', price: 28000 },
+                    { id: 'p20', code: '', name: '11.5mm 4x8 합판R', spec: '4x8 (1220x2440mm)', unit: '장', price: 24000 },
+                    { id: 'p21', code: '', name: '11.5mm 4x8 수입 내수합판(KS인증)', spec: '4x8 (1220x2440mm)', unit: '장', price: 21900 },
+                    { id: 'p22', code: '', name: '11.5mm 4x8 태고 코팅합판 (베트남)', spec: '4x8 (1220x2440mm)', unit: '장', price: 25000 },
+                    { id: 'p23', code: '', name: '14.5mm 4x8 합판 베트남', spec: '4x8 (1220x2440mm)', unit: '장', price: 25000 },
+                    { id: 'p24', code: '', name: '14.5mm 4x8 합판 BB/CC 고급형', spec: '4x8 (1220x2440mm)', unit: '장', price: 38000 },
+                    { id: 'p25', code: '', name: '14.5mm 4x8 코아합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'p26', code: '', name: '17.5mm 4x8 합판 베트남 보급형', spec: '4x8 (1220x2440mm)', unit: '장', price: 35000 },
+                    { id: 'p27', code: '', name: '17.5mm 4x8 합판 BB/CC 마감형', spec: '4x8 (1220x2440mm)', unit: '장', price: 45000 },
+                    { id: 'p28', code: '', name: '17.5mm 4x8 코아합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 29000 },
+                    { id: 'p29', code: '', name: '17.5mm 4x8 라왕코아합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 36000 },
+                    { id: 'p30', code: '', name: '11.1mm 4x8 OSB', spec: '4x8 (1220x2440mm) 루마니아', unit: '장', price: 11400 },
+                    { id: 'p31', code: '', name: '16mm 4x8 OSB 바닥용', spec: '4x8 (1220x2440mm)', unit: '장', price: 18000 },
+                    { id: 'p32', code: '', name: '6mm 4x8 콘보드 CRC', spec: '4x8 (1220x2440mm)', unit: '장', price: 16000 },
+                    { id: 'p33', code: '', name: '9mm 4x8 콘보드 CRC', spec: '4x8 (1220x2440mm)', unit: '장', price: 21500 }
+                ],
+                interior_plywood: [
+                    { id: 'ip1', code: '', name: '4.6mm 4x8 미송합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 15000 },
+                    { id: 'ip2', code: '', name: '4.6mm 4x8 미송합판 (무절)', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'ip3', code: '', name: '8.5mm 4x8 미송합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 27400 },
+                    { id: 'ip4', code: '', name: '8.5mm 4x8 미송합판 (무절)', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'ip5', code: '', name: '12mm 4x8 미송합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 36000 },
+                    { id: 'ip6', code: '', name: '11.5mm 4x8 미송합판 (무절)', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'ip7', code: '', name: '15mm 4x8 미송합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'ip8', code: '', name: '14.5mm 4x8 미송합판 (무절)', spec: '4x8 (1220x2440mm)', unit: '장', price: 40500 },
+                    { id: 'ip9', code: '', name: '18mm 4x8 미송합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 46000 },
+                    { id: 'ip10', code: '', name: '4.8mm 4x8 낙엽송합판 (라찌)', spec: '4x8 (1220x2440mm) 엠보', unit: '장', price: 13500 },
+                    { id: 'ip11', code: '', name: '7.5mm 4x8 낙엽송합판 (라찌)', spec: '4x8 (1220x2440mm) 엠보', unit: '장', price: 25800 },
+                    { id: 'ip12', code: '', name: '14.5mm 4x8 낙엽송합판 (라찌)', spec: '4x8 (1220x2440mm)', unit: '장', price: 47000 },
+                    { id: 'ip13', code: '', name: '17.5mm 4x8 낙엽송합판 (라찌)', spec: '4x8 (1220x2440mm)', unit: '장', price: 53000 },
+                    { id: 'ip14', code: '', name: '4.6T 4x8 오쿠메합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 15000 },
+                    { id: 'ip15', code: '', name: '11.5T 4x8 오쿠메합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 32000 },
+                    { id: 'ip16', code: '', name: '5T 4x8 레드오크합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 36000 },
+                    { id: 'ip17', code: '', name: '4mm 4x8 자작합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 34800 },
+                    { id: 'ip18', code: '', name: '6mm 4x8 자작합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 43500 },
+                    { id: 'ip19', code: '', name: '9mm 4x8 자작합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 52700 },
+                    { id: 'ip20', code: '', name: '12mm 4x8 자작합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 63000 },
+                    { id: 'ip21', code: '', name: '15mm 4x8 자작합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 70000 },
+                    { id: 'ip22', code: '', name: '18mm 4x8 자작합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 79800 },
+                    { id: 'ip23', code: '', name: '24mm 4x8 자작합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'ip24', code: '', name: '홀 타공판', spec: '4x8 (1220x2440mm)', unit: '장', price: 49000 },
+                    { id: 'ip25', code: '', name: '라인 타공판', spec: '4x8 (1220x2440mm)', unit: '장', price: 55000 }
+                ],
+                timber: [
+                    { id: 't1', code: '', name: '소송 각재 한치각 다루끼 (30x30)', spec: '30x30x3600mm / 12본단', unit: '단', price: 1950 },
+                    { id: 't2', code: '', name: '소송 각재 한치각 다루끼 8자 (30x30)', spec: '30x30x2400mm / 12본단', unit: '단', price: 1600 },
+                    { id: 't3', code: '', name: '소송 각재 투바이 (30x70)', spec: '30x70x3600mm / 6본단', unit: '단', price: 4500 },
+                    { id: 't4', code: '', name: '소송 각재 나나부 (30x20)', spec: '30x20x3600mm / 12본단', unit: '단', price: 1500 },
+                    { id: 't5', code: '', name: '뉴송 폼다루끼 51x39 (51x39)', spec: '51x39x3600mm / 6본단', unit: '단', price: 2570 },
+                    { id: 't6', code: '', name: '뉴송 투바이 81x51 (81x51)', spec: '81x51x3600mm', unit: '개', price: 5750 },
+                    { id: 't7', code: '', name: '뉴송 산승각 오비끼 81x81 (81x81)', spec: '81x81x3600mm', unit: '개', price: 8800 },
+                    { id: 't8', code: '', name: '구조재 1x4 (19x89)', spec: '19x89x3660mm', unit: '개', price: 8000 },
+                    { id: 't9', code: '', name: '구조재 1x6 (19x140)', spec: '19x140x3660mm', unit: '개', price: 12300 },
+                    { id: 't10', code: '', name: '구조재 1x8 (19x184)', spec: '19x184x3660mm', unit: '개', price: 17000 },
+                    { id: 't11', code: '', name: '구조재 1x10 (19x235)', spec: '19x235x3660mm', unit: '개', price: 0 },
+                    { id: 't12', code: '', name: '구조재 1x12 (19x285)', spec: '19x285x3660mm', unit: '개', price: 0 },
+                    { id: 't13', code: '', name: '구조재 2x2 (38x38)', spec: '38x38x3660mm', unit: '개', price: 4800 },
+                    { id: 't14', code: '', name: '구조재 2x4 (38x89)', spec: '38x89x3660mm', unit: '개', price: 8200 },
+                    { id: 't15', code: '', name: '구조재 2x6 (38x140)', spec: '38x140x3660mm', unit: '개', price: 14300 },
+                    { id: 't16', code: '', name: '구조재 2x8 (38x184)', spec: '38x184x3660mm', unit: '개', price: 0 },
+                    { id: 't17', code: '', name: '구조재 2x10 (38x235)', spec: '38x235x3660mm', unit: '개', price: 0 },
+                    { id: 't18', code: '', name: '구조재 2x12 (38x285)', spec: '38x285x3660mm', unit: '개', price: 0 },
+                    { id: 't19', code: '', name: '구조재 4x4 (60x60)', spec: '60x60x3600mm', unit: '개', price: 0 },
+                    { id: 't20', code: '', name: '구조재 6x6 (90x90)', spec: '90x90x3600mm', unit: '개', price: 27100 }
+                ],
+                plaster: [
+                    { id: 'pl1', code: '', name: '9.5T 3x6 일반석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 3580 },
+                    { id: 'pl2', code: '', name: '9.5T 3x8 일반석고보드', spec: '3x8 (900x2400mm)', unit: '장', price: 5100 },
+                    { id: 'pl3', code: '', name: '9.5T 3x6 방수석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 5900 },
+                    { id: 'pl4', code: '', name: '12.5T 3x6 일반석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 5500 },
+                    { id: 'pl5', code: '', name: '12.5T 3x6 방화석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 6900 },
+                    { id: 'pl6', code: '', name: '석고본드', spec: '-', unit: '포 (25kg)', price: 12100 },
+                    { id: 'pl7', code: '', name: '9.5T 3x6 방균석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 0 },
+                    { id: 'pl8', code: '', name: '9.5T 3x8 방수석고보드', spec: '3x8 (900x2400mm)', unit: '장', price: 0 },
+                    { id: 'pl9', code: '', name: '15T 3x6 방화석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 0 },
+                    { id: 'pl10', code: '', name: '12.5T 3x8 석고보드', spec: '3x8 (900x2400mm)', unit: '장', price: 0 },
+                    { id: 'pl11', code: '', name: '12.5T 3x6 방수석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 0 },
+                    { id: 'pl12', code: '', name: '12.5T 3x6 차음석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 0 }
+                ],
+                insulation: [
+                    { id: 'i3', code: '', name: '토이락 10T', spec: '3x6 (910x1820mm)', unit: '장', price: 1950 },
+                    { id: 'i4', code: '', name: '토이락 20T', spec: '3x6 (910x1820mm)', unit: '장', price: 3950 },
+                    { id: 'i7', code: '', name: '아이소핑크 30T', spec: '3x6 (910x1820mm)', unit: '장', price: 5700 },
+                    { id: 'i8', code: '', name: '아이소핑크 50T', spec: '3x6 (910x1820mm)', unit: '장', price: 9400 },
+                    { id: 'i9', code: '', name: '아이소핑크 100T', spec: '3x6 (910x1820mm)', unit: '장', price: 19800 },
+                    { id: 'i15', code: '', name: '이보드 13T 도배용', spec: '3x8 (910x2400mm) 10장입', unit: '장', price: 13500 },
+                    { id: 'i16', code: '', name: '이보드 23T 도배용', spec: '3x8 (910x2400mm) 5장입', unit: '장', price: 14200 },
+                    { id: 'i17', code: '', name: '이보드 23T 페인트용', spec: '3x8 (910x2400mm)', unit: '장', price: 19500 },
+                    { id: 'i18', code: '', name: '이보드 33T 도배용', spec: '3x8 (910x2400mm)', unit: '장', price: 25000 },
+                    { id: 'i11', code: '', name: '은박양면접착 단열재 6T', spec: '6T x 50M', unit: '롤', price: 85000 },
+                    { id: 'i12', code: '', name: '은박양면접착 단열재 10T', spec: '10T x 25M', unit: '롤', price: 69000 },
+                    { id: 'i13', code: '', name: '은박양면접착 단열재 20T', spec: '20T x 20M', unit: '롤', price: 0 },
+                    { id: 'i14', code: '', name: '은박양면접착 단열재 50T', spec: '1000x8000mm', unit: '장', price: 0 },
+                    { id: 'i1', code: '', name: '스티로폼 30T 4호', spec: '900x1800mm', unit: '장', price: 3000 },
+                    { id: 'i2', code: '', name: '스티로폼 50T 4호', spec: '900x1800mm', unit: '장', price: 3900 },
+                    { id: 'i10', code: '', name: '글라스울 24K 50T', spec: '1000x10000mm / 1롤', unit: '롤', price: 49800 },
+                    { id: 'h88', code: '', name: '충진재 50T', spec: '50x450x1000mm', unit: '장', price: 2000 }
+                ],
+                deck_timber: [
+                    { id: 'd1', code: '', name: '방부데크 21x120', spec: '21x120x3600mm', unit: '개', price: 7800, sub: 'treated' },
+                    { id: 'd2', code: '', name: '방부데크 15x95', spec: '15x95x3600mm', unit: '개', price: 5400, sub: 'treated' },
+                    { id: 'd3', code: '', name: '방부데크 25x140', spec: '25x140x3600mm', unit: '개', price: 10800, sub: 'treated' },
+                    { id: 'd4', code: '', name: '방부목 2x2 (38x38)', spec: '38x38x3600mm', unit: '개', price: 4200, sub: 'treated' },
+                    { id: 'd5', code: '', name: '방부목 2x4 (38x90)', spec: '38x90x3600mm', unit: '개', price: 8200, sub: 'treated' },
+                    { id: 'd6', code: '', name: '방부목 2x6 (38x140)', spec: '38x140x3600mm', unit: '개', price: 13500, sub: 'treated' },
+                    { id: 'd7', code: '', name: '방부목 2x8 (38x185)', spec: '38x185x3600mm', unit: '개', price: 0, sub: 'treated' },
+                    { id: 'd8', code: '', name: '방부목 2x10 (38x235)', spec: '38x235x3600mm', unit: '개', price: 0, sub: 'treated' },
+                    { id: 'd9', code: '', name: '방부목 2x12 (38x285)', spec: '38x285x3600mm', unit: '개', price: 58000, sub: 'treated' },
+                    { id: 'd10', code: '', name: '방부목 4x4 (90x90)', spec: '90x90x3600mm', unit: '개', price: 24600, sub: 'treated' },
+                    { id: 'd11', code: '', name: '방부목 5x5 (120x120)', spec: '120x120x3600mm', unit: '개', price: 41600, sub: 'treated' },
+                    { id: 'd12', code: '', name: '방부목 6x6 (140x140)', spec: '140x140x3600mm', unit: '개', price: 58000, sub: 'treated' },
+                    { id: 'd13', code: '', name: '방킬라이 19x90', spec: '19x90x3600mm', unit: '개', price: 12000, sub: 'natural' },
+                    { id: 'd14', code: '', name: '합성데크 20x140 8자', spec: '20x140x2400mm', unit: '개', price: 11700, sub: 'composite' },
+                    { id: 'd15', code: '', name: '합성데크 20x140 10자', spec: '20x140x3000mm', unit: '개', price: 16200, sub: 'composite' },
+                    { id: 'd16', code: '', name: '합성데크 25x150 8자', spec: '25x150x2400mm', unit: '개', price: 0, sub: 'composite' },
+                    { id: 'd17', code: '', name: '합성데크 25x150 10자', spec: '25x150x3000mm', unit: '개', price: 0, sub: 'composite' },
+                    { id: 'd18', code: '', name: '무방부 콤보데크 21x120', spec: '21x120x3600mm', unit: '개', price: 9000, sub: 'treated' },
+                    { id: 'd19', code: '', name: '합성데크 클립', spec: '-', unit: '개', price: 0, sub: 'composite' },
+                    { id: 'd20', code: '', name: '합성데크 스타트클립', spec: '-', unit: '개', price: 0, sub: 'composite' },
+                    { id: 'd21', code: '', name: '방부라틱스 고급', spec: '4x8x16T', unit: '장', price: 25000, sub: 'treated' },
+                    { id: 'd22', code: '', name: 'PVC라틱스 백색', spec: '1215x2430mm', unit: '장', price: 70000, sub: 'natural' },
+                    { id: 'd23', code: '', name: 'PVC라틱스 갈색', spec: '1215x2430mm', unit: '장', price: 70500, sub: 'natural' },
+                    { id: 'd24', code: '', name: 'PVC 라틱스캡', spec: '-', unit: '개', price: 0, sub: 'natural' },
+                    { id: 'd25', code: '', name: '방부라틱스캡 12자', spec: '38x38x3600mm', unit: '개', price: 0, sub: 'treated' },
+                    { id: 'd26', code: '', name: '방부찬넬사이딩', spec: '17x140x3600mm', unit: '개', price: 0, sub: 'treated' },
+                    { id: 'd27', code: '', name: '삼목찬넬사이딩', spec: '5개 묶음', unit: '단', price: 0, sub: 'natural' }
+                ],
+                louver_wood: [
+                    { id: 'lw1', code: '', name: '미송루바 8자', spec: '12x120x2400mm / 단', unit: '단', price: 31000 },
+                    { id: 'lw2', code: '', name: '미송루바 12자', spec: '12x120x3600mm / 단', unit: '단', price: 41200 },
+                    { id: 'lw3', code: '', name: '삼목루바 8자', spec: '110x2400x11mm / 8장입', unit: '단', price: 0 },
+                    { id: 'lw4', code: '', name: '삼목루바 12자', spec: '110x3600x11mm', unit: '단', price: 0 },
+                    { id: 'lw5', code: '', name: '히노끼루바 8자', spec: '10x100x2400mm / 단', unit: '단', price: 27000 },
+                    { id: 'lw6', code: '', name: '히노끼루바 12자', spec: '10x100x3600mm / 단', unit: '단', price: 39000 },
+                    { id: 'lw7', code: '', name: '히노끼판재 19x90', spec: '19x90mm', unit: '개', price: 0 },
+                    { id: 'lw8', code: '', name: '히노끼판재 19x140', spec: '19x140x3000mm', unit: '개', price: 0 },
+                    { id: 'lw9', code: '', name: '라디에타파인집성판 12T', spec: '4x8 (1220x2440mm)', unit: '장', price: 37000 },
+                    { id: 'lw10', code: '', name: '라디에타파인집성판 15T', spec: '4x8 (1220x2440mm)', unit: '장', price: 44200 },
+                    { id: 'lw11', code: '', name: '레드파인집성판 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 78000 },
+                    { id: 'lw12', code: '', name: '삼목집성판 12T', spec: '4x8 (1220x2440mm)', unit: '장', price: 35000 },
+                    { id: 'lw13', code: '', name: '라디에타파인집성판 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 53000 },
+                    { id: 'lw14', code: '', name: '삼목집성판 18T', spec: '4x8 (1220x2440mm) 탑핑거', unit: '장', price: 45000 },
+                    { id: 'lw15', code: '', name: '히노끼집성판 무절 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 110000 },
+                    { id: 'lw16', code: '', name: '히노끼집성판 유절 12T', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'lw17', code: '', name: '라디에타파인집성판 24T', spec: '4x8 (1220x2440mm)', unit: '장', price: 72000 },
+                    { id: 'lw18', code: '', name: '삼목집성판 24T', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'lw19', code: '', name: '라디에타파인집성판 30T', spec: '4x8 (1220x2440mm)', unit: '장', price: 92000 },
+                    { id: 'lw20', code: '', name: '라디에타파인집성판 33T', spec: '300x3600mm', unit: '장', price: 0 },
+                    { id: 'lw21', code: '', name: '라디에타파인집성판 38T', spec: '300x3600mm', unit: '장', price: 45000 },
+                    { id: 'lw22', code: '', name: '레드파인집성판 30T', spec: '4x8 (1220x2440mm) 솔리드', unit: '장', price: 140000 },
+                    { id: 'lw23', code: '', name: '고무나무집성판 15T', spec: '4x8 (1220x2440mm)', unit: '장', price: 56000 },
+                    { id: 'lw24', code: '', name: '고무나무집성판 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 63000 },
+                    { id: 'lw25', code: '', name: '고무나무집성판 30T', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'lw26', code: '', name: '라왕집성 한치각', spec: '27x27x3600mm', unit: '개', price: 3400 },
+                    { id: 'lw27', code: '', name: '라왕집성판 15T', spec: '910x2440mm', unit: '장', price: 0 },
+                    { id: 'lw28', code: '', name: '라왕집성판 18T', spec: '910x2440mm', unit: '장', price: 0 },
+                    { id: 'lw29', code: '', name: '라왕집성판 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 78000 },
+                    { id: 'lw30', code: '', name: '라왕집성판 24T', spec: '910x2440mm', unit: '장', price: 0 },
+                    { id: 'lw31', code: '', name: '라왕집성판 30T', spec: '4x8 (1220x2440mm)', unit: '장', price: 137000 },
+                    { id: 'lw32', code: '', name: '멀바우집성판 12T', spec: '4x8 (1220x2440mm)', unit: '장', price: 62000 },
+                    { id: 'lw33', code: '', name: '멀바우집성판 15T', spec: '915x2400mm', unit: '장', price: 0 },
+                    { id: 'lw34', code: '', name: '멀바우집성판 15T', spec: '4x8 (1220x2440mm)', unit: '장', price: 66500 },
+                    { id: 'lw35', code: '', name: '멀바우집성판 18T', spec: '915x2400mm', unit: '장', price: 0 },
+                    { id: 'lw36', code: '', name: '멀바우집성판 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 82000 },
+                    { id: 'lw37', code: '', name: '멀바우집성판 24T', spec: '910x2400mm', unit: '장', price: 87000 },
+                    { id: 'lw38', code: '', name: '멀바우집성판 30T', spec: '910x2400mm', unit: '장', price: 0 },
+                    { id: 'lw39', code: '', name: '멀바우집성판 30T 계단재', spec: '300x2400mm', unit: '장', price: 0 },
+                    { id: 'lw40', code: '', name: '멀바우 손스침 반달', spec: '40x70mm', unit: '개', price: 0 },
+                    { id: 'lw41', code: '', name: '오크집성판 15T', spec: '910x2400mm', unit: '장', price: 0 },
+                    { id: 'lw42', code: '', name: '오크집성판 18T', spec: '910x2400mm', unit: '장', price: 0 },
+                    { id: 'lw43', code: '', name: '오크집성판 24T', spec: '915x2300mm', unit: '장', price: 0 },
+                    { id: 'lw44', code: '', name: '오크집성판 30T', spec: '910x2400mm', unit: '장', price: 0 },
+                    { id: 'lw45', code: '', name: '오크집성 계단판 38T', spec: '300x3600mm', unit: '장', price: 0 },
+                    { id: 'lw46', code: '', name: '애쉬집성판 15T', spec: '910x2400mm', unit: '장', price: 0 },
+                    { id: 'lw47', code: '', name: '애쉬집성판 18T', spec: '910x2400mm', unit: '장', price: 0 },
+                    { id: 'lw48', code: '', name: '애쉬탄화집성판 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 0 },
+                    { id: 'lw49', code: '', name: '애쉬집성판 30T 계단판', spec: '300x3600mm', unit: '장', price: 0 },
+                    { id: 'lw50', code: '', name: '아카시아집성판 12T', spec: '4x8 (1220x2440mm)', unit: '장', price: 46000 },
+                    { id: 'lw51', code: '', name: '아카시아집성판 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 52000 },
+                    { id: 'lw52', code: '', name: '대봉', spec: '100x100x1200mm', unit: '개', price: 15400 },
+                    { id: 'lw53', code: '', name: '소봉', spec: '40x40x900mm', unit: '개', price: 2500 }
+                ],
+                hardware: [
+                    { id: 'h4', code: '', name: '본드 205', spec: '-', unit: '개', price: 2900 },
+                    { id: 'h5', code: '', name: '본드 505', spec: '-', unit: '개', price: 2000 },
+                    { id: 'h1', code: '', name: 'G1 본드', spec: '-', unit: '개', price: 0 },
+                    { id: 'h2', code: '', name: 'G2 본드', spec: '-', unit: '개', price: 22000 },
+                    { id: 'h3', code: '', name: 'G3 본드', spec: '-', unit: '개', price: 0 },
+                    { id: 'h6', code: '', name: '스프레이접착제 77 소', spec: '-', unit: '개', price: 11000 },
+                    { id: 'h7', code: '', name: '아이소본드', spec: '-', unit: '개', price: 0 },
+                    { id: 'h8', code: '', name: '폼 건용', spec: '-', unit: '개', price: 3000 },
+                    { id: 'h9', code: '', name: '폼본드 건용', spec: '-', unit: '개', price: 6000 },
+                    { id: 'h10', code: '', name: '실리콘 투명', spec: '-', unit: '개', price: 1900 },
+                    { id: 'h11', code: '', name: '바이오실리콘 투명', spec: '-', unit: '개', price: 2500 },
+                    { id: 'h12', code: '', name: '바이오실리콘 백색', spec: '-', unit: '개', price: 3000 },
+                    { id: 'h13', code: '', name: '실리콘 백색', spec: '-', unit: '개', price: 2000 },
+                    { id: 'h14', code: '', name: '수성실리콘 백색', spec: '-', unit: '개', price: 1800 },
+                    { id: 'h15', code: '', name: '실리콘 회색', spec: '-', unit: '개', price: 2000 },
+                    { id: 'h16', code: '', name: '실리콘 금색', spec: '-', unit: '개', price: 1800 },
+                    { id: 'h17', code: '', name: '실리콘 체리', spec: '-', unit: '개', price: 0 },
+                    { id: 'h18', code: '', name: '실리콘 흑색', spec: '-', unit: '개', price: 2000 },
+                    { id: 'h19', code: '', name: '실리콘 아이보리', spec: '-', unit: '개', price: 2000 },
+                    { id: 'h20', code: '', name: '실리콘 반투명', spec: '-', unit: '개', price: 2000 },
+                    { id: 'h21', code: '', name: '실리콘 밤색', spec: '-', unit: '개', price: 0 },
+                    { id: 'h22', code: '', name: '실리콘 외부용 회색', spec: '-', unit: '개', price: 3200 },
+                    { id: 'h23', code: '', name: '아연피스 32mm', spec: '1000EA / 봉', unit: '봉', price: 12000 },
+                    { id: 'h24', code: '', name: '아연피스 38mm', spec: '500EA / 봉', unit: '봉', price: 6500 },
+                    { id: 'h25', code: '', name: '아연피스 50mm', spec: '500EA / 봉', unit: '봉', price: 10000 },
+                    { id: 'h26', code: '', name: '아연피스 65mm', spec: '300EA / 봉', unit: '봉', price: 10000 },
+                    { id: 'h27', code: '', name: '아연피스 75mm', spec: '300EA / 봉', unit: '봉', price: 10000 },
+                    { id: 'h28', code: '', name: '아연피스 90mm', spec: '200EA / 봉', unit: '봉', price: 12000 },
+                    { id: 'h29', code: '', name: '윙스크류 38mm', spec: '500EA / 봉', unit: '봉', price: 12000 },
+                    { id: 'h30', code: '', name: '석고피스 32mm 양날', spec: '500EA / 봉', unit: '봉', price: 12000 },
+                    { id: 'h31', code: '', name: '석고피스 38mm 양날', spec: '500EA / 봉', unit: '봉', price: 0 },
+                    { id: 'h32', code: '', name: '스텐피스 19mm', spec: '500EA / 봉', unit: '봉', price: 15000 },
+                    { id: 'h33', code: '', name: '콘크리트못', spec: '-', unit: '봉', price: 0 },
+                    { id: 'h34', code: '', name: '타카 419', spec: '-', unit: '통', price: 5000 },
+                    { id: 'h35', code: '', name: '타카 422J 합판용', spec: '-', unit: '통', price: 4500 },
+                    { id: 'h36', code: '', name: '타카 T64', spec: '-', unit: '통', price: 17000 },
+                    { id: 'h37', code: '', name: '타카 T50', spec: '-', unit: '통', price: 13700 },
+                    { id: 'h38', code: '', name: '타카 T57', spec: '-', unit: '통', price: 14000 },
+                    { id: 'h39', code: '', name: '타카 1022J', spec: '-', unit: '통', price: 5700 },
+                    { id: 'h40', code: '', name: '타카 615 몰딩용', spec: '-', unit: '통', price: 5500 },
+                    { id: 'h41', code: '', name: '타카 618 몰딩용', spec: '-', unit: '통', price: 6000 },
+                    { id: 'h42', code: '', name: '타카 625', spec: '-', unit: '통', price: 5500 },
+                    { id: 'h43', code: '', name: '타카 630', spec: '-', unit: '통', price: 6500 },
+                    { id: 'h44', code: '', name: '타카 DT50 겸용', spec: '-', unit: '통', price: 13400 },
+                    { id: 'h45', code: '', name: '타카 DT64 겸용', spec: '-', unit: '통', price: 14800 },
+                    { id: 'h46', code: '', name: '타카 F15', spec: '-', unit: '통', price: 0 },
+                    { id: 'h47', code: '', name: '타카 F20', spec: '-', unit: '통', price: 4500 },
+                    { id: 'h48', code: '', name: '타카 F25', spec: '-', unit: '통', price: 4800 },
+                    { id: 'h49', code: '', name: '타카 F30', spec: '-', unit: '통', price: 4000 },
+                    { id: 'h50', code: '', name: '타카 F40', spec: '-', unit: '통', price: 9000 },
+                    { id: 'h51', code: '', name: '타카 F50', spec: '-', unit: '통', price: 7900 },
+                    { id: 'h52', code: '', name: '타카 ST18 콘크리트용', spec: '-', unit: '통', price: 5000 },
+                    { id: 'h53', code: '', name: '타카 ST25 콘크리트용', spec: '-', unit: '통', price: 5000 },
+                    { id: 'h54', code: '', name: '타카 ST32 콘크리트용', spec: '-', unit: '통', price: 6500 },
+                    { id: 'h55', code: '', name: '타카 ST38 콘크리트용', spec: '-', unit: '통', price: 4000 },
+                    { id: 'h56', code: '', name: '타카 ST45 콘크리트용', spec: '-', unit: '통', price: 4500 },
+                    { id: 'h57', code: '', name: '타카 ST50 콘크리트용', spec: '-', unit: '통', price: 5000 },
+                    { id: 'h58', code: '', name: '타카 ST64 콘크리트용', spec: '-', unit: '통', price: 6500 },
+                    { id: 'h59', code: '', name: 'PVC 점검구 300', spec: '300x300mm', unit: '개', price: 7000 },
+                    { id: 'h60', code: '', name: 'PVC 점검구 400', spec: '400x400mm', unit: '개', price: 7000 },
+                    { id: 'h61', code: '', name: 'PVC 점검구 450', spec: '450x450mm', unit: '개', price: 8000 },
+                    { id: 'h62', code: '', name: '점검구 D-400 알루미늄', spec: '400x400mm', unit: '개', price: 8000 },
+                    { id: 'h63', code: '', name: '점검구 D-450 알루미늄', spec: '450x450mm', unit: '개', price: 9000 },
+                    { id: 'h64', code: '', name: '점검구 600 알루미늄', spec: '600x600mm', unit: '개', price: 0 },
+                    { id: 'h65', code: '', name: 'A21 앵글 ㄱ자', spec: '-', unit: '개', price: 400 },
+                    { id: 'h66', code: '', name: 'L66 철물', spec: '-', unit: '개', price: 0 },
+                    { id: 'h67', code: '', name: 'T66 철물', spec: '-', unit: '개', price: 0 },
+                    { id: 'h68', code: '', name: 'LUS24 철물 U자', spec: '-', unit: '개', price: 0 },
+                    { id: 'h69', code: '', name: 'AB44 포스트베이스', spec: '-', unit: '개', price: 0 },
+                    { id: 'h70', code: '', name: 'FBP44 포스트베이스', spec: '-', unit: '개', price: 0 },
+                    { id: 'h71', code: '', name: 'FBP66 포스트베이스', spec: '-', unit: '개', price: 0 },
+                    { id: 'h72', code: '', name: '주춧돌 4x4', spec: '-', unit: '개', price: 7000 },
+                    { id: 'h73', code: '', name: '주춧돌 6x6', spec: '-', unit: '개', price: 8200 },
+                    { id: 'h74', code: '', name: '방부블랙캡 4x4용', spec: '-', unit: '개', price: 0 },
+                    { id: 'h75', code: '', name: '미서기레일 세트', spec: '-', unit: '세트', price: 16000 },
+                    { id: 'h76', code: '', name: '엘리트 SS버튼 스텐', spec: '-', unit: '개', price: 17000 },
+                    { id: 'h77', code: '', name: '실리콘 건', spec: '-', unit: '개', price: 2000 },
+                    { id: 'h78', code: '', name: '폼용 건', spec: '-', unit: '개', price: 12000 },
+                    { id: 'h79', code: '', name: '폼용 크리너', spec: '-', unit: '개', price: 3500 },
+                    { id: 'h80', code: '', name: '핫멜트건 대', spec: '-', unit: '개', price: 7000 },
+                    { id: 'h81', code: '', name: '핫멜트건 소', spec: '-', unit: '개', price: 0 },
+                    { id: 'h82', code: '', name: '핫멜트알', spec: '-', unit: '박스', price: 5000 },
+                    { id: 'h83', code: '', name: '톱날 265', spec: '-', unit: '개', price: 6500 },
+                    { id: 'h84', code: '', name: '톱자루 고무', spec: '-', unit: '개', price: 4500 },
+                    { id: 'h85', code: '', name: '프라이머 수성 1KG', spec: '-', unit: '개', price: 11000 },
+                    { id: 'h86', code: '', name: '오일스텐붓 4인치', spec: '-', unit: '개', price: 1500 },
+                    { id: 'h87', code: '', name: '바르네 퍼티 5K', spec: '-', unit: '개', price: 6000 },
+                    { id: 'h89', code: '', name: '오일스텐 투명', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h90', code: '', name: '오일스텐 소나무', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h91', code: '', name: '오일스텐 도토리', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h92', code: '', name: '오일스텐 밤나무', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h93', code: '', name: '오일스텐 호두나무', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h94', code: '', name: '오일스텐 로즈우드', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h95', code: '', name: '오일스텐 자단색', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h96', code: '', name: '오일스텐 마호가니', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h97', code: '', name: '오일스텐 올리브그린', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h98', code: '', name: '오일스텐 초록', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h99', code: '', name: '오일스텐 흑색', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h100', code: '', name: '오일스텐 티크', spec: '3.5L', unit: '통', price: 28000 },
+                    { id: 'h101', code: '', name: '오일스텐 포도주', spec: '-', unit: '통', price: 28000 },
+                    { id: 'h102', code: '', name: '오일스텐 대용량', spec: '16L / 말', unit: '말', price: 0 },
+                    { id: 'h103', code: '', name: '사포 100방', spec: '-', unit: '장', price: 800 },
+                    { id: 'h104', code: '', name: '사포 150방', spec: '-', unit: '장', price: 800 },
+                    { id: 'h105', code: '', name: '사포 400방', spec: '-', unit: '장', price: 700 },
+                    { id: 'h106', code: '', name: '사포 1500방', spec: '-', unit: '장', price: 500 },
+                    { id: 'h107', code: '', name: '장갑 반코팅', spec: '10개입', unit: '묶음', price: 2400 },
+                    { id: 'h108', code: '', name: '마대 대', spec: '50개입 / 90kg용', unit: '묶음', price: 13600 },
+                    { id: 'h109', code: '', name: '마대 중', spec: '50개입 / 80kg용', unit: '묶음', price: 7500 },
+                    { id: 'h110', code: '', name: 'PP마대', spec: '10장입', unit: '묶음', price: 3500 },
+                    { id: 'h111', code: '', name: '골판지 보양지', spec: '-', unit: '롤', price: 19000 },
+                    { id: 'h112', code: '', name: '박스테이프', spec: '-', unit: '개', price: 1000 },
+                    { id: 'h113', code: '', name: '폼양면 발포테이프 25mm', spec: '-', unit: '개', price: 1500 },
+                    { id: 'h114', code: '', name: '종이테이프 3M', spec: '-', unit: '개', price: 2500 },
+                    { id: 'h115', code: '', name: '로라 유성 4인치 소', spec: '-', unit: '개', price: 1500 },
+                    { id: 'h116', code: '', name: '로라 유성 6인치 중', spec: '-', unit: '개', price: 0 },
+                    { id: 'h117', code: '', name: '로라 유성 8인치 대', spec: '-', unit: '개', price: 2000 },
+                    { id: 'h118', code: '', name: '미니로라 6인치', spec: '-', unit: '개', price: 0 },
+                    { id: 'h119', code: '', name: '팀버탄 코팅제 무광', spec: '-', unit: '통', price: 13000 },
+                    { id: 'h120', code: '', name: '공캔', spec: '-', unit: '개', price: 0 }
+                ],
+                delivery: [
+                    { id: 'del1', code: '', name: '라보', spec: '-', unit: '회', price: 30000 },
+                    { id: 'del2', code: '', name: '1톤', spec: '-', unit: '회', price: 40000 },
+                    { id: 'del3', code: '', name: '1.4톤', spec: '-', unit: '회', price: 50000 },
+                    { id: 'del4', code: '', name: '2.5톤', spec: '-', unit: '회', price: 70000 },
+                    { id: 'del5', code: '', name: '3.5톤', spec: '-', unit: '회', price: 90000 },
+                    { id: 'del6', code: '', name: '5톤', spec: '-', unit: '회', price: 120000 },
+                    { id: 'del7', code: '', name: '5톤 축', spec: '-', unit: '회', price: 130000 },
+                    { id: 'del8', code: '', name: '11톤', spec: '-', unit: '회', price: 160000 },
+                    { id: 'del9', code: '', name: '18톤', spec: '-', unit: '회', price: 220000 },
+                    { id: 'del10', code: '', name: '25톤', spec: '-', unit: '회', price: 250000 }
+                ],
+                references: [
+                    { id: 'ref1', code: '', name: '판교 테크노밸리 오피스 신축', spec: '석고보드 외 15종', unit: '2026-06-15', price: 0 },
+                    { id: 'ref2', code: '', name: '강남구 대형 카페 리모델링', spec: '원스톤 플렉시블 보드 외', unit: '2026-05-20', price: 0 },
+                    { id: 'ref3', code: '', name: '분당 아파트 단지 보수공사', spec: 'MDF, 합판, 단열재', unit: '2026-04-10', price: 0 }
+                ]
+            };
+        }
+
+        // ===== INIT =====
+        function init() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    productData = JSON.parse(stored);
+                    const defaults = getDefaultData();
+                    for (const cat in defaults) {
+                        if (!productData[cat]) {
+                            productData[cat] = defaults[cat];
+                        } else {
+                            defaults[cat].forEach(dProd => {
+                                const matched = productData[cat].find(p => p.id === dProd.id);
+                                if (!matched) {
+                                    productData[cat].push(dProd);
+                                } else {
+                                    if (matched.code === undefined) matched.code = dProd.code || "";
+                                    if (matched.unit === undefined) matched.unit = dProd.unit || "";
+                                }
+                            });
+                        }
+                    }
+                } catch (e) {
+                    console.error("Failed to parse storage, falling back to default", e);
+                    productData = getDefaultData();
+                }
+            } else {
+                productData = getDefaultData();
+            }
+
+            const storedImages = localStorage.getItem(STORAGE_IMAGES_KEY);
+            if (storedImages) {
+                try { imageStore = JSON.parse(storedImages); } catch (e) { imageStore = {}; }
+            }
+
+            renderTabs();
+            switchAdminTab("finishing");
+        }
+
+        // ===== LOGIN & ROLE HANDLING =====
+        function toggleStaffNameInput() {
+            const role = document.getElementById("adminAccountRole").value;
+            const group = document.getElementById("staffNameGroup");
+            const staffNameInput = document.getElementById("adminStaffName");
+            if (role === 'editor') {
+                group.style.display = 'block';
+                staffNameInput.required = true;
+            } else {
+                group.style.display = 'none';
+                staffNameInput.required = false;
+                staffNameInput.value = "";
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const pwd = document.getElementById("adminPassword").value;
+            const role = document.getElementById("adminAccountRole").value;
+            const staffName = document.getElementById("adminStaffName").value.trim();
+
+            if (pwd === ADMIN_PASSWORD) {
+                if (role === 'editor' && !staffName) {
+                    alert("직원 성함을 입력해 주세요.");
+                    return;
+                }
+
+                currentUser = {
+                    role: role,
+                    staffName: role === 'owner' ? '' : staffName,
+                    name: role === 'owner' ? '대표' : `직원 (${staffName})`
+                };
+
+                document.getElementById("adminUserLabel").textContent = `${currentUser.name} 계정`;
+                document.getElementById("loginScreen").style.display = "none";
+                document.getElementById("adminWrap").classList.add("active");
+
+                init();
+            } else {
+                document.getElementById("loginError").style.display = "block";
+                setTimeout(() => {
+                    document.getElementById("loginError").style.display = "none";
+                }, 3000);
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById("loginScreen").style.display = "flex";
+            document.getElementById("adminWrap").classList.remove("active");
+            document.getElementById("adminPassword").value = "";
+            document.getElementById("adminStaffName").value = "";
+            document.getElementById("staffNameGroup").style.display = "none";
+            document.getElementById("adminAccountRole").value = "owner";
+            currentUser = {};
+        }
+
+        // Permission check helper
+        function checkPermission(action) {
+            if (currentUser.role === 'owner') {
+                return true;
+            }
+
+            // Editor (Staff) Restrictions
+            if (action === 'delete_product') {
+                alert("권한 오류: 품목 삭제 권한은 대표 계정에만 부여됩니다.");
+                return false;
+            }
+            if (action === 'import_excel') {
+                alert("권한 오류: 엑셀 불러오기(일괄 단가/코드 수정) 권한은 대표 계정에만 부여됩니다.");
+                return false;
+            }
+            return true;
+        }
+
+        // ===== TABS =====
+        function renderTabs() {
+            const tabsEl = document.getElementById("adminTabs");
+            tabsEl.innerHTML = "";
+            for (const [key, label] of Object.entries(CATEGORIES)) {
+                const btn = document.createElement("button");
+                btn.className = "admin-tab" + (key === currentCategory ? " active" : "");
+                btn.textContent = label;
+                btn.onclick = () => switchAdminTab(key);
+                tabsEl.appendChild(btn);
+            }
+        }
+
+        function switchAdminTab(key) {
+            if (currentUser.role) {
+                flushTableInputs();
+            }
+            currentCategory = key;
+            document.getElementById("toolbarTitle").textContent = CATEGORIES[key];
+            renderTabs();
+            renderTable();
+        }
+
+        // ===== TABLE RENDER =====
+        function renderTable() {
+            const tbody = document.getElementById("adminTableBody");
+            const theadTr = document.querySelector(".data-table thead tr");
+            
+            if (currentCategory === 'references') {
+                theadTr.innerHTML = `
+                    <th style="width: 40px; text-align:center"></th>
+                    <th style="width: 60px;">No</th>
+                    <th style="width: 150px; display:none;">품목코드</th>
+                    <th>프로젝트명</th>
+                    <th>납품품목</th>
+                    <th style="width: 100px; text-align:center">완료일</th>
+                    <th style="width: 150px; text-align:right; display:none;">단가</th>
+                    <th style="width: 100px; text-align:center">삭제</th>
+                `;
+            } else {
+                theadTr.innerHTML = `
+                    <th style="width: 40px; text-align:center"></th>
+                    <th style="width: 60px;">No</th>
+                    <th style="width: 150px;">품목코드</th>
+                    <th>품명</th>
+                    <th>규격</th>
+                    <th style="width: 100px; text-align:center">단위</th>
+                    <th style="width: 150px; text-align:right">단가</th>
+                    <th style="width: 100px; text-align:center">삭제</th>
+                `;
+            }
+
+            tbody.innerHTML = "";
+            const items = productData[currentCategory] || [];
+
+            const isRef = currentCategory === 'references';
+
+            items.forEach((item, index) => {
+                const tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                <td class="drag-handle" style="cursor: grab; text-align: center; color: var(--color-text-muted); font-size: 16px; user-select: none;">⠿</td>
+                <td><span class="font-num" style="font-size:13px;color:var(--color-text-muted)">${index + 1}</span></td>
+                <td style="${isRef ? 'display:none;' : ''}"><input type="text" class="table-input font-num" value="${item.code || ''}" placeholder="코드 입력"></td>
+                <td><input type="text" class="table-input" value="${item.name || ''}" placeholder="${isRef ? '프로젝트명 입력' : '품명 입력'}"></td>
+                <td><input type="text" class="table-input" value="${item.spec || ''}" placeholder="${isRef ? '납품품목 입력' : '규격 입력'}"></td>
+                <td><input type="text" class="table-input" value="${item.unit || ''}" placeholder="${isRef ? 'YYYY-MM-DD' : '단위'}" style="text-align:center;"></td>
+                <td style="${isRef ? 'display:none;' : ''}"><input type="number" class="table-input font-num text-right" value="${item.price || 0}" placeholder="0"></td>
+                <td style="text-align:center">
+                    <button class="btn btn-danger btn-sm" onclick="deleteRow('${item.id}')">삭제</button>
+                </td>
+            `;
+
+                const handle = tr.querySelector(".drag-handle");
+                handle.addEventListener("mousedown", () => {
+                    tr.setAttribute("draggable", "true");
+                });
+                handle.addEventListener("mouseup", () => {
+                    tr.removeAttribute("draggable");
+                });
+
+                tr.addEventListener("dragstart", (e) => {
+                    e.dataTransfer.setData("text/plain", index);
+                    tr.classList.add("dragging");
+                });
+
+                tr.addEventListener("dragend", () => {
+                    tr.removeAttribute("draggable");
+                    tr.classList.remove("dragging");
+                    tbody.querySelectorAll("tr").forEach(r => r.classList.remove("drag-over"));
+                });
+
+                tr.addEventListener("dragover", (e) => {
+                    e.preventDefault();
+                    tr.classList.add("drag-over");
+                });
+
+                tr.addEventListener("dragleave", () => {
+                    tr.classList.remove("drag-over");
+                });
+
+                tr.addEventListener("drop", (e) => {
+                    e.preventDefault();
+                    const fromIndex = parseInt(e.dataTransfer.getData("text/plain"));
+                    const toIndex = index;
+                    if (fromIndex !== toIndex && !isNaN(fromIndex)) {
+                        flushTableInputs();
+                        const items = productData[currentCategory];
+                        const draggedItem = items.splice(fromIndex, 1)[0];
+                        items.splice(toIndex, 0, draggedItem);
+                        renderTable();
+                    }
+                });
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Scan DOM input fields to write back to productData array
+        function flushTableInputs() {
+            const tbody = document.getElementById("adminTableBody");
+            const rows = tbody.querySelectorAll("tr");
+            const items = productData[currentCategory] || [];
+
+            rows.forEach((tr, index) => {
+                const item = items[index];
+                if (item) {
+                    const inputs = tr.querySelectorAll("input");
+                    if (inputs.length >= 5) {
+                        item.code = inputs[0].value.trim();
+                        item.name = inputs[1].value.trim();
+                        item.spec = inputs[2].value.trim();
+                        item.unit = inputs[3].value.trim();
+                        item.price = parseInt(inputs[4].value.trim()) || 0;
+                    }
+                }
+            });
+        }
+
+        // ===== ADD ROW =====
+        function addRow() {
+            if (!checkPermission('save_product')) return;
+            flushTableInputs();
+
+            const newId = currentCategory.charAt(0) + "_" + Date.now();
+            const defaultUnit = {
+                finishing: "장",
+                mdf: "장",
+                plywood: "장",
+                interior_plywood: "장",
+                timber: "개",
+                plaster: "장",
+                insulation: "장",
+                deck_timber: "개",
+                hardware: "개",
+                delivery: "회",
+                louver_wood: "장"
+            }[currentCategory] || "개";
+
+            const newItem = {
+                id: newId,
+                code: "",
+                name: "",
+                spec: "",
+                unit: defaultUnit,
+                price: 0
+            };
+
+            if (currentCategory === "finishing") {
+                newItem.sub = "other";
+            } else if (currentCategory === "deck_timber") {
+                newItem.sub = "treated";
+            }
+
+            if (!productData[currentCategory]) {
+                productData[currentCategory] = [];
+            }
+            productData[currentCategory].push(newItem);
+            renderTable();
+            showToast("새 품목 행이 추가되었습니다! 저장 버튼을 누르면 최종 반영됩니다.");
+        }
+
+        // ===== DELETE ROW =====
+        function deleteRow(productId) {
+            if (!checkPermission('delete_product')) return;
+            if (!confirm('이 품목을 삭제하시겠습니까?')) return;
+
+            flushTableInputs();
+            productData[currentCategory] = (productData[currentCategory] || []).filter(i => i.id !== productId);
+            renderTable();
+            showToast("품목이 화면에서 제거되었습니다! 저장 버튼을 누르면 최종 반영됩니다.");
+        }
+
+        // ===== SAVE ALL DATA (STORAGE + STORAGE EVENT) =====
+        function saveAllData() {
+            if (!checkPermission('save_product')) return;
+            flushTableInputs();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(productData));
+            showToast("변경사항이 성공적으로 저장되어 메인페이지에 즉시 반영되었습니다!");
+        }
+
+        // ===== EXPORT/IMPORT BACKUP JSON =====
+        function exportBackupJSON() {
+            flushTableInputs();
+            const exportData = {
+                products: productData,
+                exportDate: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "youngrim_backup_" + new Date().toISOString().slice(0, 10) + ".json";
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("백업 데이터가 다운로드되었습니다.");
+        }
+
+        function triggerRestoreUpload() {
+            document.getElementById('restoreUpload').click();
+        }
+
+        function importBackupJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!confirm("백업 데이터를 복원하시겠습니까? 현재 저장된 모든 데이터가 덮어씌워집니다.")) {
+                event.target.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data && data.products) {
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data.products));
+                        alert("복원이 완료되었습니다. 페이지를 새로고침합니다.");
+                        location.reload();
+                    } else {
+                        alert("잘못된 백업 파일 형식입니다.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("백업 파일을 읽는 중 오류가 발생했습니다.");
+                }
+                event.target.value = "";
+            };
+            reader.readAsText(file);
+        }
+
+        // ===== EXPORT EXCEL (Multi-sheet, Styled) =====
+        function exportToExcel() {
+            try {
+                flushTableInputs();
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(productData));
+
+                const workbook = XLSX.utils.book_new();
+
+                for (const catKey in productData) {
+                    const catName = CATEGORIES[catKey] || catKey;
+                    const sheetName = catName.replace(/\//g, "_");
+
+                    const aoaData = [
+                        ["No", "품목코드", "품명", "규격", "단위", "단가"]
+                    ];
+
+                    productData[catKey].forEach((item, index) => {
+                        aoaData.push([
+                            index + 1,
+                            item.code || "",
+                            item.name || "",
+                            item.spec || "",
+                            item.unit || "",
+                            item.price
+                        ]);
+                    });
+
+                    const worksheet = XLSX.utils.aoa_to_sheet(aoaData);
+
+                    // Apply style to headers: A1 to F1 (Bold, gray background, center alignment)
+                    const cols = ["A", "B", "C", "D", "E", "F"];
+                    for (let i = 0; i < 6; i++) {
+                        const cellRef = cols[i] + "1";
+                        if (worksheet[cellRef]) {
+                            worksheet[cellRef].s = {
+                                fill: { fgColor: { rgb: "EAEAEA" } },
+                                font: { bold: true, name: "맑은 고딕", size: 10 },
+                                alignment: { horizontal: "center", vertical: "center" }
+                            };
+                        }
+                    }
+
+                    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+                }
+
+                XLSX.writeFile(workbook, "youngrim_prices_" + new Date().toISOString().slice(0, 10) + ".xlsx");
+                showToast("엑셀 내보내기가 완료되었습니다! (최신 저장 데이터 기준)");
+            } catch (error) {
+                console.error(error);
+                alert("엑셀 내보내기에 실패했습니다.");
+            }
+        }
+
+        // ===== IMPORT EXCEL (Multi-sheet) =====
+        function triggerExcelUpload() {
+            if (!checkPermission('import_excel')) return;
+            document.getElementById("excelUpload").click();
+        }
+
+        function normalizeStr(str) {
+            if (!str) return "";
+            return str.toString().replace(/\s+/g, "").toLowerCase();
+        }
+
+        function importFromExcel(event) {
+            if (!checkPermission('import_excel')) {
+                event.target.value = "";
+                return;
+            }
+
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const sheetToCatKey = {
+                "마감자재": "finishing",
+                "MDF": "mdf",
+                "합판": "plywood",
+                "인테리어합판": "interior_plywood",
+                "목재구조재": "timber",
+                "석고보드": "plaster",
+                "단열재": "insulation",
+                "방부목특수목": "deck_timber",
+                "루바집성판": "louver_wood",
+                "철물부자재": "hardware",
+                "운반비": "delivery"
+            };
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    let updatedCount = 0;
+
+                    workbook.SheetNames.forEach(sheetName => {
+                        const catKey = sheetToCatKey[sheetName];
+                        if (catKey && productData[catKey]) {
+                            const worksheet = workbook.Sheets[sheetName];
+                            const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+                            jsonData.forEach(row => {
+                                const rowName = row["품명"];
+                                const rowSpec = row["규격"] || "";
+                                const rowCode = row["품목코드"] !== undefined ? row["품목코드"].toString().trim() : "";
+                                const rowUnit = row["단위"] !== undefined ? row["단위"].toString().trim() : "";
+
+                                let rowPrice = row["단가"];
+                                let parsedPrice = 0;
+                                if (rowPrice !== undefined && rowPrice !== null) {
+                                    let strPrice = rowPrice.toString().replace(/,/g, '').trim();
+                                    if (strPrice === "" || strPrice === "견적문의" || strPrice === "null" || strPrice === "0") {
+                                        parsedPrice = 0;
+                                    } else {
+                                        parsedPrice = parseInt(strPrice) || 0;
+                                    }
+                                }
+
+                                if (rowName) {
+                                    const normRowKey = normalizeStr(rowName) + "|" + normalizeStr(rowSpec);
+
+                                    // Search in the current category list
+                                    const item = productData[catKey].find(p => {
+                                        const normItemKey = normalizeStr(p.name) + "|" + normalizeStr(p.spec);
+                                        return normItemKey === normRowKey;
+                                    });
+
+                                    if (item) {
+                                        item.price = parsedPrice;
+                                        item.code = rowCode;
+                                        if (rowUnit) item.unit = rowUnit;
+                                        updatedCount++;
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                    if (updatedCount > 0) {
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(productData));
+                        showToast(`${updatedCount}개 품목의 단가/품목코드/단위가 수정 및 실시간 동기화되었습니다!`);
+                        renderTable();
+                    } else {
+                        alert("가져온 엑셀 데이터 중 매칭되는 품목이 없거나 형식이 올바르지 않습니다.");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("엑셀 파일 읽기에 실패했습니다.");
+                }
+                event.target.value = "";
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("active");
+            setTimeout(() => {
+                toast.classList.remove("active");
+            }, 2500);
+        }
+            function backupData() {
+            const data = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('yw_')) {
+                    data[key] = localStorage.getItem(key);
+                }
+            }
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const date = new Date().toISOString().split('T')[0];
+            a.download = yw_backup_ + date + .json;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function restoreData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (confirm('諛깆뾽 ?곗씠?곕? 蹂듭썝?섏떆寃좎뒿?덇퉴? 湲곗〈 ?곗씠?곕뒗 ??뼱?뚯썙吏묐땲??')) {
+                        for (const key in data) {
+                            if (key.startsWith('yw_')) {
+                                localStorage.setItem(key, data[key]);
+                            }
+                        }
+                        alert('蹂듭썝?섏뿀?듬땲??');
+                        location.reload();
+                    }
+                } catch(err) {
+                    alert('?섎せ??諛깆뾽 ?뚯씪?낅땲??');
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+        let referencesData = [];
+        const DEFAULT_REFERENCES = [
+            { id: 'r1', title: '?≫뙆援??洹쒕え ?꾪뙆???좎텞', items: '?앷퀬蹂대뱶, 寃쎈웾泥좉낏 ??, date: '2024.05' },
+            { id: 'r2', title: '媛뺣궓援?吏?앹궛?낆꽱??, items: '泥쒖옣?? ?⑥뿴?? 紐⑹옱', date: '2024.04' },
+            { id: 'r3', title: '?깅궓 臾쇰쪟?쇳꽣', items: '寃쎈웾泥좉낏, ?앷퀬蹂대뱶, ?꾩뼱', date: '2024.03' }
+        ];
+
+        function loadReferencesData() {
+            const saved = localStorage.getItem('yw_references_data');
+            if (saved) {
+                referencesData = JSON.parse(saved);
+            } else {
+                referencesData = JSON.parse(JSON.stringify(DEFAULT_REFERENCES));
+                localStorage.setItem('yw_references_data', JSON.stringify(referencesData));
+            }
+            renderAdminReferences();
+        }
+
+        function renderAdminReferences() {
+            const tbody = document.querySelector('#table-references tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            referencesData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = 
+                    <td><input type="text" class="form-input" value="+item.title+" onchange="updateReference('+item.id+', 'title', this.value)"></td>
+                    <td><input type="text" class="form-input" value="+item.items+" onchange="updateReference('+item.id+', 'items', this.value)"></td>
+                    <td><input type="text" class="form-input" value="+item.date+" onchange="updateReference('+item.id+', 'date', this.value)"></td>
+                    <td><button class="btn btn-outline" style="color:red;border-color:red" onclick="removeReference('+item.id+')">??젣</button></td>
+                ;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function addReferenceItem() {
+            const newId = 'r' + Date.now();
+            referencesData.unshift({ id: newId, title: '', items: '', date: '' });
+            saveReferences();
+            renderAdminReferences();
+        }
+
+        function updateReference(id, field, value) {
+            const item = referencesData.find(i => i.id === id);
+            if (item) {
+                item[field] = value;
+                saveReferences();
+            }
+        }
+
+        function removeReference(id) {
+            if(confirm('???ㅼ쟻????젣?섏떆寃좎뒿?덇퉴?')) {
+                referencesData = referencesData.filter(i => i.id !== id);
+                saveReferences();
+                renderAdminReferences();
+            }
+        }
+
+        function saveReferences() {
+            localStorage.setItem('yw_references_data', JSON.stringify(referencesData));
+        }
+
+        const originalInit2 = window.onload;
+        window.onload = function() {
+            if(originalInit2) originalInit2();
+            loadReferencesData();
+        };
+</script>
+</body>
+
+</html>
