@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -698,6 +698,7 @@
         }
 
         .calc-tab {
+            white-space: nowrap;
             flex: 0 0 auto;
             min-width: auto;
             background: transparent;
@@ -1968,7 +1969,7 @@
                     </div>
                     <div class="hero-stat-row">
                         <span class="hero-stat-label">실시간 단가 업데이트</span>
-                        <span class="hero-stat-value font-num" id="heroDate">오늘 09:00 기준 완료</span>
+                        <span class="hero-stat-value font-num" id="heroDate">?ㅻ뒛 09:00 湲곗? ?꾨즺</span>
                     </div>
                     <div class="hero-stat-row">
                         <span class="hero-stat-label">유통 수수료 최소화</span>
@@ -2988,8 +2989,8 @@
             const container = document.getElementById("referenceContainer");
             if (!container) return;
             container.innerHTML = "";
-            const 
-            
+            let refs = [];
+            const stored = localStorage.getItem('youngrim_admin_references') || localStorage.getItem('youngrim_references'); if(stored) { try { refs = JSON.parse(stored); } catch(e){} } if(!refs || refs.length === 0) { refs = [ { name: 'KCC / ?섎궓??吏?앹궛?낆꽱??, spec: 'KCC ?앷퀬蹂대뱶 諛?寃쎈웾泥좉낏 ?먯옱 ?⑺뭹', unit: '2024.05' }, { name: '踰쎌궛 / ?몄쿇 寃???좊룄???꾪뙆??, spec: '踰쎌궛 ?⑥뿴??諛?洹몃씪?ㅼ슱 ????⑺뭹', unit: '2024.04' }, { name: '?곷┝ / ?쒖슱 媛뺣궓援??ㅽ뵾??鍮뚮뵫', spec: '?곷┝ ?꾩뼱 諛??명뀒由ъ뼱 留덇컧???⑺뭹', unit: '2024.03' } ]; }
             refs.forEach(ref => {
                 const card = document.createElement("div");
                 card.className = "category-card";
@@ -3041,7 +3042,7 @@
             const d = new Date();
             const heroDateEl = document.getElementById("heroDate");
             if (heroDateEl) {
-                heroDateEl.innerText = `${d.getMonth() + 1}월 ${d.getDate()}일 09:00 기준 단가`;
+                heroDateEl.innerText = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 09:00 湲곗? ?꾨즺`;
             }
 
             loadProducts(currentActiveTab);
