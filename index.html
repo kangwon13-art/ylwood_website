@@ -1881,27 +1881,50 @@
         .sidebar-toggle-arrow { display: inline-block; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .calc-sidebar.expanded .sidebar-toggle-arrow { transform: rotate(180deg); }
 
-        /* PC Version Bottomsheet Layout */
+        /* PC Version: Restore to Right Sidebar layout (No Bottomsheet, No Slide-up) */
         @media (min-width: 769px) {
+            .calc-container {
+                display: grid !important;
+                grid-template-columns: 1fr 340px !important;
+                gap: 30px !important;
+                align-items: start !important;
+                margin-bottom: 0 !important;
+            }
             .calc-sidebar {
-                left: 50% !important;
+                position: sticky !important;
+                top: 100px !important;
+                bottom: auto !important;
+                left: auto !important;
                 right: auto !important;
-                bottom: 20px !important;
-                transform: translateX(-50%) !important;
-                width: 600px !important;
-                max-width: calc(100% - 40px) !important;
+                width: 100% !important;
+                height: auto !important;
+                max-height: calc(100vh - 140px) !important;
+                border-radius: 20px !important;
                 border: 1px solid var(--color-border) !important;
-                border-radius: 16px !important;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-                height: 66px;
-                transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                box-shadow: var(--shadow-premium) !important;
+                overflow: hidden !important;
+                display: flex !important;
+                flex-direction: column !important;
+                z-index: 10 !important;
+                transform: none !important;
             }
             .calc-sidebar.expanded {
-                height: 560px !important;
-                max-height: 75vh !important;
+                height: auto !important;
+            }
+            .calc-sidebar .sidebar-inner-content {
+                overflow-y: auto !important;
+                max-height: calc(100vh - 240px) !important;
+                padding: 24px !important;
+                display: block !important;
+            }
+            .sidebar-toggle-arrow {
+                display: none !important;
             }
             .summary-title {
-                border-radius: 16px 16px 0 0 !important;
+                border-radius: 20px 20px 0 0 !important;
+                cursor: default !important;
+                padding: 20px !important;
+                text-align: left !important;
             }
         }
 </style>
@@ -3304,9 +3327,11 @@
         }
 
         function toggleMobileSidebar() {
-            const sidebar = document.getElementById("calcSidebar");
-            if (sidebar) {
-                sidebar.classList.toggle("expanded");
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById("calcSidebar");
+                if (sidebar) {
+                    sidebar.classList.toggle("expanded");
+                }
             }
         }
 
