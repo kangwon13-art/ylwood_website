@@ -1530,6 +1530,7 @@
                 padding-bottom: 8px;
             }
             .calc-tab {
+            white-space: nowrap;
                 aspect-ratio: 1 / 1;
                 display: flex;
                 align-items: center;
@@ -1969,7 +1970,7 @@
                     </div>
                     <div class="hero-stat-row">
                         <span class="hero-stat-label">실시간 단가 업데이트</span>
-                        <span class="hero-stat-value font-num" id="heroDate">?ㅻ뒛 09:00 湲곗? ?꾨즺</span>
+                        <span class="hero-stat-value font-num" id="heroDate">오늘 09:00 기준 완료</span>
                     </div>
                     <div class="hero-stat-row">
                         <span class="hero-stat-label">유통 수수료 최소화</span>
@@ -2601,7 +2602,7 @@
                 { id: 'p6', code: '', name: '11.5mm 3*6 태고 코팅합판', spec: '3x6 (910x1820mm)', unit: '장', price: 11500 },
                 { id: 'p7', code: '', name: '12mm 3*6 콘보드 CRC', spec: '3x6 (910x1820mm)', unit: '장', price: 18600 },
                 { id: 'p8', code: '', name: '2.7mm 4*8 일반합판', spec: '4x8 (1220x2440mm)', unit: '장', price: 8500 },
-                { id: 'p9', code: '', name: '4mm 4x8 ?쇰컲?⑺뙋', spec: '以?댁닔 / 4x8 (1220x2440mm)', unit: '??, price: 17500 },
+                { id: 'p9', code: '', name: '4mm 4x8 요꼬합판', spec: '오징어합판 / 4x8 (1220x2440mm)', unit: '장', price: 17500 },
                 { id: 'p10', code: '', name: '4.6mm 4*8 합판 알비자', spec: '4x8 (1220x2440mm)', unit: '장', price: 8600 },
                 { id: 'p11', code: '', name: '4.6mm 4*8 합판 BB/CC', spec: '4x8 (1220x2440mm)', unit: '장', price: 11300 },
                 { id: 'p12', code: '', name: '8.5mm 4*8 합판 베트남', spec: '4x8 (1220x2440mm)', unit: '장', price: 15600 },
@@ -2682,7 +2683,7 @@
                 { id: 'pl3', code: '', name: '9.5T 3*6 방수석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 5900 },
                 { id: 'pl4', code: '', name: '12.5T 3*6 일반석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 5500 },
                 { id: 'pl5', code: '', name: '12.5T 3*6 방화석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 6900 },
-                { id: 'pl6', code: '', name: '蹂몃뱶', spec: '-', unit: '??(25kg)', price: 12100 },
+                { id: 'pl6', code: '', name: '석고본드', spec: '-', unit: '포 (25kg)', price: 12100 },
                 { id: 'pl7', code: '', name: '9.5T 3*6 방균석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 0 },
                 { id: 'pl8', code: '', name: '9.5T 3*8 방수석고보드', spec: '3x8 (900x2400mm)', unit: '장', price: 0 },
                 { id: 'pl9', code: '', name: '15T 3*6 방화석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 0 },
@@ -2990,7 +2991,7 @@
             if (!container) return;
             container.innerHTML = "";
             let refs = [];
-            const stored = localStorage.getItem('youngrim_admin_references') || localStorage.getItem('youngrim_references'); if(stored) { try { refs = JSON.parse(stored); } catch(e){} } if(!refs || refs.length === 0) { refs = [ { name: 'KCC / ?섎궓??吏?앹궛?낆꽱??, spec: 'KCC ?앷퀬蹂대뱶 諛?寃쎈웾泥좉낏 ?먯옱 ?⑺뭹', unit: '2024.05' }, { name: '踰쎌궛 / ?몄쿇 寃???좊룄???꾪뙆??, spec: '踰쎌궛 ?⑥뿴??諛?洹몃씪?ㅼ슱 ????⑺뭹', unit: '2024.04' }, { name: '?곷┝ / ?쒖슱 媛뺣궓援??ㅽ뵾??鍮뚮뵫', spec: '?곷┝ ?꾩뼱 諛??명뀒由ъ뼱 留덇컧???⑺뭹', unit: '2024.03' } ]; }
+            const stored = localStorage.getItem('youngrim_admin_references') || localStorage.getItem('youngrim_references'); if(stored) { try { refs = JSON.parse(stored); } catch(e){} } if(!refs || refs.length === 0) { refs = [ { name: 'KCC / 하남시 지식산업센터', spec: '석고보드 및 경량철골 자재 납품', unit: '2024.05' }, { name: '벽산 / 인천 검단 신도시 아파트', spec: '단열재 및 그라스울 대량 납품', unit: '2024.04' }, { name: '영림 / 서울 강남구 오피스 빌딩', spec: '도어 및 인테리어 마감재 납품', unit: '2024.03' } ]; }
             refs.forEach(ref => {
                 const card = document.createElement("div");
                 card.className = "category-card";
@@ -3042,7 +3043,7 @@
             const d = new Date();
             const heroDateEl = document.getElementById("heroDate");
             if (heroDateEl) {
-                heroDateEl.innerText = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 09:00 湲곗? ?꾨즺`;
+                heroDateEl.innerText = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 09:00 기준 완료`;
             }
 
             loadProducts(currentActiveTab);
@@ -3651,7 +3652,7 @@
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
-            dateSpan.textContent = yyyy + "." + mm + "." + dd + " 09:00 湲곗? ?꾨즺";
+            dateSpan.textContent = yyyy + "." + mm + "." + dd + " 09:00 기준 완료";
         }
     });
 </script>
