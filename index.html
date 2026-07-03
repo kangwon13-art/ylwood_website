@@ -1880,6 +1880,30 @@
         
         .sidebar-toggle-arrow { display: inline-block; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .calc-sidebar.expanded .sidebar-toggle-arrow { transform: rotate(180deg); }
+
+        /* PC Version Bottomsheet Layout */
+        @media (min-width: 769px) {
+            .calc-sidebar {
+                left: 50% !important;
+                right: auto !important;
+                bottom: 20px !important;
+                transform: translateX(-50%) !important;
+                width: 600px !important;
+                max-width: calc(100% - 40px) !important;
+                border: 1px solid var(--color-border) !important;
+                border-radius: 16px !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+                height: 66px;
+                transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+            .calc-sidebar.expanded {
+                height: 560px !important;
+                max-height: 75vh !important;
+            }
+            .summary-title {
+                border-radius: 16px 16px 0 0 !important;
+            }
+        }
 </style>
 
 </head>
@@ -3280,11 +3304,9 @@
         }
 
         function toggleMobileSidebar() {
-            if (window.innerWidth <= 768) {
-                const sidebar = document.getElementById("calcSidebar");
-                if (sidebar) {
-                    sidebar.classList.toggle("expanded");
-                }
+            const sidebar = document.getElementById("calcSidebar");
+            if (sidebar) {
+                sidebar.classList.toggle("expanded");
             }
         }
 
