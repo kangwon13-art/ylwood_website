@@ -2340,7 +2340,7 @@
                     </div>
                     <div class="category-card-body">
                         <h3 class="category-name">루바/집성판</h3>
-                        <p class="category-description">루바, 집성판, 각종 폭판 등 인테리어 마� 및 목공 전용 목재 자재 전문 공급.</p>
+                        <p class="category-description">루바, 집성판, 각종 폭판 등 인테리어 마감재 및 목공 전용 목재 자재 전문 공급.</p>
                     </div>
                     <div class="category-footer-link">
                         단가 확인 및 견적 산출
@@ -2358,7 +2358,7 @@
                         </svg>
                     </div>
                     <div class="category-card-body">
-                        <h3 class="category-name">철물<br>부자재</h3>
+                        <h3 class="category-name">철물/부자재</h3>
                         <p class="category-description">수성/유성 도료, 친환경 접착제, 목공 타카핀, 건용 폼, 실리콘 등 현장에서 쓰이는 필수 철물 자재 일체.</p>
                     </div>
                     <div class="category-footer-link">
@@ -2417,11 +2417,11 @@
                             <button class="calc-tab" onclick="switchCalcTab('insulation')"
                                 id="tab-insulation">단열재</button>
                             <button class="calc-tab" onclick="switchCalcTab('deck_timber')"
-                                id="tab-deck_timber">방부목/특수목</button>
+                                id="tab-deck_timber">방부목/특수목/합성목</button>
                             <button class="calc-tab" onclick="switchCalcTab('louver_wood')"
                                 id="tab-louver_wood">루바/집성판</button>
                             <button class="calc-tab" onclick="switchCalcTab('hardware')"
-                                id="tab-hardware">철물<br>부자재</button>
+                                id="tab-hardware">철물/부자재</button>
                             <button class="calc-tab" onclick="switchCalcTab('delivery')" id="tab-delivery">운반비</button>
                         </div>
                         <button class="tab-scroll-btn" onclick="scrollTabs(1)" aria-label="다음 탭">
@@ -3139,57 +3139,36 @@
 
         let imageStore = {};
 
-        // Google Sheets MDF CSV URL
-        const MDF_CSV_URL = "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=0";
-        let isMdfLoading = false;
+        const SHEET_CONFIG = {
+            finishing: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1" },
+            mdf: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=0" },
+            plywood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=2" },
+            interior_plywood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=3" },
+            timber: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=4" },
+            plaster: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=5" },
+            insulation: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=6" },
+            deck_timber: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=7" },
+            louver_wood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=8" },
+            hardware: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=9" },
+            delivery: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=10" }
+        };
+        const SHEET_DATA = {};
+        let isSheetLoading = false;
+        let pendingTabCategory = null;
 
         // ===== BASE SNAPSHOT: deep-copy of the hardcoded PRODUCTS_DATA =====
-        // This is captured once at script evaluation time, before any localStorage overrides.
-        // loadLocalData() always rebuilds PRODUCTS_DATA from this clean base.
+        // This is captured once at script evaluation time and remains the fallback source.
         const BASE_PRODUCTS_DATA = JSON.parse(JSON.stringify(PRODUCTS_DATA));
 
         function loadLocalData() {
-            // Step 1: Reset PRODUCTS_DATA to the hardcoded base (prevents stale/duplicate entries)
             for (const cat in BASE_PRODUCTS_DATA) {
                 PRODUCTS_DATA[cat] = JSON.parse(JSON.stringify(BASE_PRODUCTS_DATA[cat]));
             }
 
-            // Step 2: Apply localStorage overrides on top of clean base
-            const stored = localStorage.getItem("youngrim_admin_data");
-            if (stored) {
-                try {
-                    const parsed = JSON.parse(stored);
-                    for (const cat in parsed) {
-                        if (PRODUCTS_DATA[cat]) {
-                            parsed[cat].forEach(p => {
-                                const match = PRODUCTS_DATA[cat].find(item => item.id === p.id);
-                                if (match) {
-                                    // Override all editable fields from saved data
-                                    match.price = p.price;
-                                    if (p.name) match.name = p.name;
-                                    if (p.spec) match.spec = p.spec;
-                                    if (p.unit) match.unit = p.unit;
-                                    if (p.image) match.image = p.image;
-                                    if (p.sub) match.sub = p.sub;
-                                    if (p.code !== undefined) match.code = p.code;
-                                } else {
-                                    // New product added via admin (not in base) — add it
-                                    PRODUCTS_DATA[cat].push(p);
-                                }
-                            });
-                        } else {
-                            // Entirely new category added via admin
-                            PRODUCTS_DATA[cat] = parsed[cat];
-                        }
-                    }
-                } catch (e) {
-                    console.error("Failed to parse local storage youngrim_admin_data", e);
+            for (const cat in SHEET_DATA) {
+                if (Array.isArray(SHEET_DATA[cat]) && SHEET_DATA[cat].length > 0) {
+                    PRODUCTS_DATA[cat] = SHEET_DATA[cat];
                 }
-            }
-
-            const storedImages = localStorage.getItem("youngrim_admin_images");
-            if (storedImages) {
-                try { imageStore = JSON.parse(storedImages); } catch (e) { imageStore = {}; }
             }
 
             renderReferences();
@@ -3214,71 +3193,145 @@
             return result;
         }
 
-        async function fetchMdfData() {
-            isMdfLoading = true;
-            if (currentActiveTab === "mdf") {
-                loadProducts("mdf");
+        function getCsvValue(row, aliases) {
+            const normalizedAliases = aliases.map(alias => String(alias).trim().toLowerCase());
+            const headerMap = {};
+            row.forEach((value, index) => {
+                const key = String(value || '').trim().toLowerCase();
+                headerMap[key] = index;
+            });
+
+            for (const alias of normalizedAliases) {
+                if (headerMap[alias] !== undefined) {
+                    return row[headerMap[alias]] || '';
+                }
+            }
+            return '';
+        }
+
+        function transformSheetRow(row, category) {
+            const no = getCsvValue(row, ['no', '번호', '순번', 'id']);
+            const code = getCsvValue(row, ['code', '품목코드', '코드']);
+            const name = getCsvValue(row, ['name', '품명', '품목명', '제품명']);
+            const spec = getCsvValue(row, ['spec', '규격', '사양']);
+            const unit = getCsvValue(row, ['unit', '단위']);
+            const priceRaw = getCsvValue(row, ['price', '단가', '가격', 'price_krw']);
+            const image = getCsvValue(row, ['image', '이미지', 'img']);
+            const sub = getCsvValue(row, ['sub', '분류', '카테고리']);
+            const price = parseInt(String(priceRaw).replace(/[^0-9]/g, '')) || 0;
+            const slug = String(code || no || name || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
+
+            return {
+                id: `${category}_${slug || 'item'}`,
+                code: String(code || '').trim(),
+                name: String(name || '').trim(),
+                spec: String(spec || '').trim(),
+                unit: String(unit || '').trim(),
+                price: price,
+                ...(image ? { image: String(image).trim() } : {}),
+                ...(sub ? { sub: String(sub).trim() } : {})
+            };
+        }
+
+        async function fetchSheetData(category) {
+            const config = SHEET_CONFIG[category];
+            if (!config || !config.url) {
+                return;
             }
 
             try {
-                const response = await fetch(MDF_CSV_URL);
+                const response = await fetch(config.url);
                 if (!response.ok) {
                     throw new Error(`CSV fetch failed with status ${response.status}`);
                 }
+
                 const csvText = await response.text();
-                
-                // Parse CSV text into rows
-                const lines = csvText.split(/\r?\n/);
-                const rows = lines
+                const rows = csvText
+                    .split(/\r?\n/)
                     .filter(line => line.trim() !== '')
                     .map(line => parseCSVLine(line));
 
-                // Exclude header row (1st row)
-                const dataRows = rows.slice(1);
+                if (!rows.length) {
+                    return;
+                }
 
+                const headerRow = rows[0];
+                const dataRows = rows.slice(1).filter(row => row.some(cell => String(cell).trim()));
                 const transformed = dataRows
-                    .filter(row => row.length > 5 && (row[2] || row[0]))
-                    .map(row => {
-                        const no = row[0] !== undefined ? String(row[0]).trim() : '';
-                        const name = row[2] !== undefined ? String(row[2]).trim() : '';
-                        const spec = row[3] !== undefined ? String(row[3]).trim() : '';
-                        const unit = row[4] !== undefined ? String(row[4]).trim() : '';
-                        const priceRaw = row[5] !== undefined ? String(row[5]).trim() : '0';
-                        const price = parseInt(priceRaw.replace(/[^0-9]/g, '')) || 0;
-
-                        return {
-                            id: 'mdf_' + no,
-                            code: '',
-                            name: name,
-                            spec: spec,
-                            unit: unit,
-                            price: price
-                        };
-                    });
+                    .map(row => transformSheetRow(row, category))
+                    .filter(item => item.name);
 
                 if (transformed.length > 0) {
-                    BASE_PRODUCTS_DATA.mdf = transformed;
+                    SHEET_DATA[category] = transformed;
                     loadLocalData();
-                    console.log("Successfully loaded MDF data from Google Sheets CSV.");
-                } else {
-                    console.warn("Parsed MDF CSV is empty. Using fallback.");
+                    console.log(`Successfully loaded ${category} data from Google Sheets CSV.`);
                 }
             } catch (error) {
-                console.error("Failed to fetch MDF CSV data:", error);
-            } finally {
-                isMdfLoading = false;
-                if (currentActiveTab === "mdf") {
-                    loadProducts("mdf");
-                }
+                console.warn(`Failed to fetch ${category} CSV data:`, error);
             }
+        }
+
+        function renderActiveProducts() {
+            if (currentActiveTab === "finishing") {
+                loadProducts("finishing", currentFinishingSub);
+            } else if (currentActiveTab === "deck_timber") {
+                loadProducts("deck_timber", currentDeckSub);
+            } else {
+                loadProducts(currentActiveTab);
+            }
+        }
+
+        async function fetchAllSheetData() {
+            isSheetLoading = true;
+            renderActiveProducts();
+            try {
+                const categories = Object.keys(SHEET_CONFIG);
+                await Promise.allSettled(categories.map(category => fetchSheetData(category)));
+                loadLocalData();
+            } catch (error) {
+                console.warn("Failed to load all sheet data:", error);
+            } finally {
+                isSheetLoading = false;
+                if (pendingTabCategory) {
+                    currentActiveTab = pendingTabCategory;
+                    pendingTabCategory = null;
+                }
+                renderActiveProducts();
+                updateEstimateSummary();
+            }
+        }
+
+        async function fetchMdfData() {
+            return fetchSheetData('mdf');
         }
 
         function renderReferences() {
             const container = document.getElementById("referenceContainer");
             if (!container) return;
             container.innerHTML = "";
-            let refs = [];
-            const stored = localStorage.getItem('youngrim_admin_references') || localStorage.getItem('youngrim_references'); if (stored) { try { refs = JSON.parse(stored); } catch (e) { } } if (!refs || refs.length === 0) { refs = [{ name: 'KCC / 하남시 지식산업센터', spec: '석고보드 및 경량철골 자재 납품', unit: '2024.05' }, { name: '벽산 / 인천 검단 신도시 아파트', spec: '단열재 및 그라스울 대량 납품', unit: '2024.04' }, { name: '영림 / 서울 강남구 오피스 빌딩', spec: '도어 및 인테리어 마감재 납품', unit: '2024.03' }]; }
+
+            const refs = [];
+            if (!refs.length) {
+                const emptyCard = document.createElement("div");
+                emptyCard.className = "category-card";
+                emptyCard.style.cursor = "default";
+                emptyCard.style.height = "auto";
+                emptyCard.style.minHeight = "180px";
+                emptyCard.innerHTML = `
+                    <div class="category-icon-wrap">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div class="category-card-body">
+                        <h3 class="category-name">납품실적</h3>
+                        <p class="category-description">Google Sheets 연동 데이터를 준비 중입니다.</p>
+                    </div>
+                `;
+                container.appendChild(emptyCard);
+                return;
+            }
+
             refs.forEach(ref => {
                 const card = document.createElement("div");
                 card.className = "category-card";
@@ -3302,41 +3355,19 @@
             });
         }
 
-        // Listen to storage events from admin page for real-time synchronization
-        // NOTE: storage events only fire across different tabs, not within the same tab.
-        window.addEventListener("storage", (e) => {
-            if (e.key === "youngrim_admin_data" || e.key === "youngrim_admin_images") {
-                loadLocalData();
-                loadProducts(currentActiveTab);
-                updateEstimateSummary();
-            }
-        });
-
-        // Re-sync when user returns to this tab (e.g. after editing in admin tab)
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "visible") {
-                loadLocalData();
-                loadProducts(currentActiveTab);
-                updateEstimateSummary();
-            }
-        });
-
         // 1. Initialize
         window.addEventListener("DOMContentLoaded", () => {
-            // Load admin data overrides (localStorage) — BASE_PRODUCTS_DATA already has hardcoded defaults
             loadLocalData();
+            renderActiveProducts();
+            updateEstimateSummary();
+            fetchAllSheetData();
 
-            // Fetch MDF data from Google Sheets CSV
-            fetchMdfData();
             // Set Hero Date
             const d = new Date();
             const heroDateEl = document.getElementById("heroDate");
             if (heroDateEl) {
                 heroDateEl.innerText = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 09:00 기준 완료`;
             }
-
-            loadProducts(currentActiveTab);
-            updateEstimateSummary();
 
             // Header scroll effect
             window.addEventListener("scroll", () => {
@@ -3493,9 +3524,9 @@
             const tbody = document.getElementById("price-table-body");
             tbody.innerHTML = "";
 
-            if (categoryKey === "mdf" && isMdfLoading) {
+            if (isSheetLoading && !SHEET_DATA[categoryKey]?.length) {
                 const tr = document.createElement("tr");
-                tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: var(--color-text-muted);">?곗씠??遺덈윭?ㅻ뒗 以?..</td>`;
+                tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: var(--color-text-muted);">데이터를 불러오는 중입니다...</td>`;
                 tbody.appendChild(tr);
                 return;
             }
@@ -3569,6 +3600,7 @@
         // 13. Category switching logic
         function switchCalcTab(categoryKey) {
             currentActiveTab = categoryKey;
+            pendingTabCategory = categoryKey;
 
             // Remove active classes
             document.querySelectorAll(".calc-tab").forEach(tab => {
@@ -3605,7 +3637,7 @@
             } else {
                 finishWrap.style.display = "none";
                 deckWrap.style.display = "none";
-                loadProducts(categoryKey);
+                renderActiveProducts();
             }
         }
 
