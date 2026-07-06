@@ -1,0 +1,56 @@
+﻿620 :         .category-card:hover .category-footer-link svg {
+621 :             transform: translateX(4px);
+622 :         }
+623 : 
+624 :         /* CALCULATOR & PRICE TABLE SECTION */
+625 :         .calculator-section {
+626 :             padding: 100px 0;
+627 :             background-color: var(--color-bg-primary);
+628 :         }
+629 : 
+630 :         .calc-container {
+631 :             display: block;
+632 :             margin-bottom: 140px; /* buffer for fixed bottom sheet */
+633 :         }
+634 : 
+635 :         .calc-main {
+636 :             background: var(--color-bg-secondary);
+637 :             border: 1px solid var(--color-border);
+638 :             border-radius: 20px;
+639 :             padding: 30px;
+640 :             box-shadow: var(--shadow-premium);
+641 :         }
+642 : 
+643 :         /* Calculator Navigation Tabs with Arrow Scroll */
+644 :         .calc-tabs-wrapper {
+645 :             display: flex;
+
+
+=== SIDEBAR ===
+865 :             -webkit-appearance: none;
+866 :             margin: 0;
+867 :         }
+868 : 
+869 :         /* Calculator Sidebar Summary */
+870 :         .calc-sidebar {
+871 :             position: fixed;
+872 :             bottom: 0;
+873 :             left: 0;
+874 :             width: 100%;
+875 :             z-index: 2000;
+876 :             background: var(--color-bg-secondary);
+877 :             border-top: 1px solid var(--color-border);
+878 :             border-radius: 20px 20px 0 0;
+879 :             box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+880 :             transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+881 :             margin-top: 0;
+882 :             height: 66px;
+883 :             overflow: hidden;
+884 :             display: flex;
+885 :             flex-direction: column;
+886 :             will-change: height;
+887 :             transform: translateZ(0);
+888 :         }
+889 :         .calc-sidebar.expanded {
+890 :             height: 80vh;
+

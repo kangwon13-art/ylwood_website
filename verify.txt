@@ -1,0 +1,9 @@
+mok_br still exists: False
+bang_br still exists: False
+cheol_br still exists: False
+louver_wood found at: 71097
+ctx: ick="selectCategoryAndScroll('louver_wood')">
+                    <div class="category-icon-wrap">
+                     
+bang_tuk_hap count: 1
+bang_tuk count: 9

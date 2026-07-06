@@ -106,7 +106,7 @@
             background: var(--color-bg-secondary);
             border-top: 1px solid var(--color-border);
             border-radius: 20px 20px 0 0;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
             transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 0;
             height: 66px;
@@ -116,15 +116,18 @@
             will-change: height;
             transform: translateZ(0);
         }
+
         .calc-sidebar.expanded {
             height: 80vh;
             height: 80svh;
         }
+
         .calc-sidebar .sidebar-inner-content {
             overflow-y: auto;
             padding-bottom: 20px;
             flex: 1;
         }
+
         .summary-title {
             font-size: 20px;
             font-weight: 700;
@@ -138,6 +141,7 @@
             border-radius: 20px 20px 0 0;
             z-index: 2;
         }
+
         .sidebar-toggle-arrow {
             position: absolute;
             top: 8px;
@@ -147,6 +151,7 @@
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: block;
         }
+
         .calc-sidebar.expanded .sidebar-toggle-arrow {
             transform: rotate(180deg);
         }
@@ -630,7 +635,8 @@
 
         .calc-container {
             display: block;
-            margin-bottom: 140px; /* buffer for fixed bottom sheet */
+            margin-bottom: 140px;
+            /* buffer for fixed bottom sheet */
         }
 
         .calc-main {
@@ -878,7 +884,7 @@
             background: var(--color-bg-secondary);
             border-top: 1px solid var(--color-border);
             border-radius: 20px 20px 0 0;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
             transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 0;
             height: 66px;
@@ -888,15 +894,18 @@
             will-change: height;
             transform: translateZ(0);
         }
+
         .calc-sidebar.expanded {
             height: 80vh;
             height: 80svh;
         }
+
         .calc-sidebar .sidebar-inner-content {
             overflow-y: auto;
             padding-bottom: 20px;
             flex: 1;
         }
+
         .summary-title {
             font-size: 20px;
             font-weight: 700;
@@ -910,6 +919,7 @@
             border-radius: 20px 20px 0 0;
             z-index: 2;
         }
+
         .sidebar-toggle-arrow {
             position: absolute;
             top: 8px;
@@ -919,6 +929,7 @@
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: block;
         }
+
         .calc-sidebar.expanded .sidebar-toggle-arrow {
             transform: rotate(180deg);
         }
@@ -1427,7 +1438,7 @@
                 width: 100%;
                 z-index: 2000;
                 border-radius: 20px 20px 0 0;
-                box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+                box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
                 transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 margin-top: 0;
                 height: 66px;
@@ -1437,10 +1448,12 @@
                 will-change: height;
                 transform: translateZ(0);
             }
+
             .calc-sidebar.expanded {
                 height: 80vh;
                 height: 80svh;
             }
+
             .summary-title {
                 padding-top: 20px;
                 cursor: pointer;
@@ -1450,6 +1463,7 @@
                 border-radius: 20px 20px 0 0;
                 z-index: 2;
             }
+
             .sidebar-toggle-arrow {
                 position: absolute;
                 top: 8px;
@@ -1458,9 +1472,11 @@
                 color: rgba(255, 255, 255, 0.6);
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
+
             .calc-sidebar.expanded .sidebar-toggle-arrow {
                 transform: rotate(180deg);
             }
+
             .sidebar-inner-content {
                 overflow-y: auto;
                 padding-bottom: 20px;
@@ -1481,6 +1497,7 @@
                 grid-template-columns: repeat(3, 1fr);
                 gap: 8px;
             }
+
             .category-card {
                 padding: 6px 4px;
                 aspect-ratio: 1 / 1;
@@ -1490,9 +1507,12 @@
                 justify-content: center;
                 min-width: 0;
             }
-            .category-description, .category-footer-link {
+
+            .category-description,
+            .category-footer-link {
                 display: none;
             }
+
             .category-icon-wrap {
                 width: 44px;
                 height: 44px;
@@ -1501,10 +1521,12 @@
                 align-items: center;
                 justify-content: center;
             }
+
             .category-icon-wrap svg {
                 width: 24px;
                 height: 24px;
             }
+
             .category-name {
                 font-size: clamp(11px, 3.2vw, 15px);
                 margin-top: 4px;
@@ -1518,9 +1540,11 @@
                 border-bottom: none;
                 padding-bottom: 0;
             }
+
             .tab-scroll-btn {
                 display: none !important;
             }
+
             .calc-tabs {
                 display: grid !important;
                 grid-template-columns: repeat(3, 1fr) !important;
@@ -1529,8 +1553,9 @@
                 overflow: visible !important;
                 padding-bottom: 8px;
             }
+
             .calc-tab {
-            white-space: nowrap;
+                white-space: nowrap;
                 aspect-ratio: 1 / 1;
                 display: flex;
                 align-items: center;
@@ -1552,12 +1577,16 @@
                 text-align: center !important;
                 width: 100% !important;
             }
+
             .inquiry-wrap .form-group label {
                 text-align: center !important;
                 width: 100% !important;
                 display: block !important;
             }
-            .inquiry-wrap .form-input, .inquiry-wrap .form-select, .inquiry-wrap .form-textarea {
+
+            .inquiry-wrap .form-input,
+            .inquiry-wrap .form-select,
+            .inquiry-wrap .form-textarea {
                 text-align: center !important;
                 text-align-last: center !important;
                 width: 100% !important;
@@ -1593,17 +1622,21 @@
             .table-responsive {
                 overflow-x: hidden;
             }
+
             .price-table {
                 min-width: unset;
                 width: 100%;
                 display: block;
             }
+
             .price-table thead {
                 display: none;
             }
+
             .price-table tbody {
                 display: block;
             }
+
             .price-table tr {
                 display: flex;
                 flex-wrap: wrap;
@@ -1611,15 +1644,18 @@
                 padding: 16px 4px;
                 border-bottom: 1px solid var(--color-border);
             }
+
             .price-table td {
                 padding: 0;
                 border: none;
                 display: block;
             }
+
             /* Hide the Spec column cell entirely */
             .price-table td:nth-child(2) {
                 display: none;
             }
+
             /* 1st column: Name */
             .price-table td:nth-child(1) {
                 flex: 1;
@@ -1627,6 +1663,7 @@
                 padding-right: 8px;
                 font-weight: bold;
             }
+
             /* 3rd column: Unit */
             .price-table td:nth-child(3) {
                 flex: 0 0 auto;
@@ -1635,6 +1672,7 @@
                 font-size: 13px;
                 color: var(--color-text-muted);
             }
+
             /* 4th column: Price */
             .price-table td:nth-child(4) {
                 flex: 0 0 auto;
@@ -1643,16 +1681,19 @@
                 font-size: 14px;
                 margin-left: 12px;
             }
+
             /* 5th column: Qty (Full width row) */
             .price-table td:nth-child(5) {
                 flex: 0 0 100%;
                 margin-top: 12px;
             }
-            .prod-name { 
-                font-size: 14px; 
+
+            .prod-name {
+                font-size: 14px;
                 white-space: nowrap;
                 word-break: keep-all;
             }
+
             /* Mobile Spec Text under Name */
             .mobile-spec-text {
                 display: block;
@@ -1662,15 +1703,19 @@
                 white-space: nowrap;
                 word-break: keep-all;
             }
+
             /* Qty Control */
             .qty-control {
                 width: 100%;
                 justify-content: space-between;
             }
+
             .qty-btn {
                 flex: 1;
-                min-height: 44px; /* Touch target size */
+                min-height: 44px;
+                /* Touch target size */
             }
+
             .qty-input {
                 flex: 1;
                 text-align: center;
@@ -1678,6 +1723,7 @@
                 min-height: 44px;
                 margin: 0 8px;
             }
+
             .btn-inquire {
                 width: 100%;
                 padding: 12px;
@@ -1685,12 +1731,14 @@
 
             /* Task 3: Sidebar Slide-up */
             .calc-container {
-                display: block; /* Override grid */
+                display: block;
+                /* Override grid */
             }
 
 
             footer {
-                padding-bottom: 140px; /* buffer space for bottom sidebar */
+                padding-bottom: 140px;
+                /* buffer space for bottom sidebar */
             }
         }
 
@@ -1704,6 +1752,7 @@
             gap: 12px;
             z-index: 9999;
         }
+
         .floating-btn-circle {
             width: 52px;
             height: 52px;
@@ -1711,7 +1760,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             color: #fff;
             text-decoration: none;
@@ -1719,24 +1768,32 @@
             border: none;
             outline: none;
         }
+
         .floating-btn-circle:hover {
             transform: translateY(-4px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
+
         .floating-btn-circle.phone {
             background-color: var(--color-accent-orange);
         }
+
         .floating-btn-circle.kakao {
             background-color: #FEE500;
             color: #191919;
         }
-        
+
         /* Utility class to show only on PC */
         @media (max-width: 768px) {
-            .hide-on-mobile { display: none !important; }
+            .hide-on-mobile {
+                display: none !important;
+            }
         }
+
         @media (min-width: 769px) {
-            .hide-on-pc { display: none !important; }
+            .hide-on-pc {
+                display: none !important;
+            }
         }
 
         /* Camera icon & Modal SPECIFIC STYLES */
@@ -1844,9 +1901,13 @@
             background: var(--color-border);
             border-radius: 3px;
         }
-            /* Antigravity Custom Styles */
+
+        /* Antigravity Custom Styles */
         @media (max-width: 768px) {
-            .price-table thead { display: none !important; }
+            .price-table thead {
+                display: none !important;
+            }
+
             .price-table tbody tr {
                 display: flex;
                 flex-wrap: wrap;
@@ -1854,6 +1915,7 @@
                 padding: 15px 0;
                 border-bottom: 1px solid var(--color-border);
             }
+
             .price-table tbody td {
                 display: block;
                 width: 100%;
@@ -1861,25 +1923,95 @@
                 padding: 4px 16px;
                 text-align: left;
             }
-            .price-table tbody td:nth-child(1) { font-weight: 700; font-size: 15px; }
-            .price-table tbody td:nth-child(1) .prod-spec { display: block; font-size: 12px; color: var(--color-text-muted); font-weight: 400; margin-top: 2px; }
-            .price-table tbody td:nth-child(2), .price-table tbody td:nth-child(3) { display: inline-block; width: auto; padding: 2px 16px; font-size: 14px; }
-            .price-table tbody td:nth-child(4) { margin-top: 8px; }
-            .price-table tbody td:nth-child(4) .quantity-control { width: 100%; min-height: 44px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; }
-            .price-table tbody td:nth-child(4) .quantity-control button { width: 44px; height: 44px; }
-            .price-table tbody td:nth-child(4) .quantity-control span { flex-grow: 1; text-align: center; }
 
-            header .phone-call-btn, header .catalog-btn { display: none !important; }
-            
-            .category-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
-            .category-card { padding: 10px 5px !important; height: auto !important; aspect-ratio: 1/1; justify-content: center; align-items: center; }
-            .category-card .category-description, .category-card .category-footer-link { display: none !important; }
-            .category-card .category-icon-wrap { width: 40px; height: 40px; margin-bottom: 5px; }
-            .category-card .category-name { font-size: 13px !important; text-align: center; margin-bottom: 0; }
+            .price-table tbody td:nth-child(1) {
+                font-weight: 700;
+                font-size: 15px;
+            }
+
+            .price-table tbody td:nth-child(1) .prod-spec {
+                display: block;
+                font-size: 12px;
+                color: var(--color-text-muted);
+                font-weight: 400;
+                margin-top: 2px;
+            }
+
+            .price-table tbody td:nth-child(2),
+            .price-table tbody td:nth-child(3) {
+                display: inline-block;
+                width: auto;
+                padding: 2px 16px;
+                font-size: 14px;
+            }
+
+            .price-table tbody td:nth-child(4) {
+                margin-top: 8px;
+            }
+
+            .price-table tbody td:nth-child(4) .quantity-control {
+                width: 100%;
+                min-height: 44px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 8px;
+            }
+
+            .price-table tbody td:nth-child(4) .quantity-control button {
+                width: 44px;
+                height: 44px;
+            }
+
+            .price-table tbody td:nth-child(4) .quantity-control span {
+                flex-grow: 1;
+                text-align: center;
+            }
+
+            header .phone-call-btn,
+            header .catalog-btn {
+                display: none !important;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 8px !important;
+            }
+
+            .category-card {
+                padding: 10px 5px !important;
+                height: auto !important;
+                aspect-ratio: 1/1;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .category-card .category-description,
+            .category-card .category-footer-link {
+                display: none !important;
+            }
+
+            .category-card .category-icon-wrap {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 5px;
+            }
+
+            .category-card .category-name {
+                font-size: 13px !important;
+                text-align: center;
+                margin-bottom: 0;
+            }
         }
-        
-        .sidebar-toggle-arrow { display: inline-block; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .calc-sidebar.expanded .sidebar-toggle-arrow { transform: rotate(180deg); }
+
+        .sidebar-toggle-arrow {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .calc-sidebar.expanded .sidebar-toggle-arrow {
+            transform: rotate(180deg);
+        }
 
         /* PC Version: Restore to Right Sidebar layout (No Bottomsheet, No Slide-up) */
         @media (min-width: 769px) {
@@ -1890,6 +2022,7 @@
                 align-items: start !important;
                 margin-bottom: 0 !important;
             }
+
             .calc-sidebar {
                 position: sticky !important;
                 top: 100px !important;
@@ -1908,18 +2041,22 @@
                 z-index: 10 !important;
                 transform: none !important;
             }
+
             .calc-sidebar.expanded {
                 height: auto !important;
             }
+
             .calc-sidebar .sidebar-inner-content {
                 overflow-y: auto !important;
                 max-height: calc(100vh - 240px) !important;
                 padding: 24px !important;
                 display: block !important;
             }
+
             .sidebar-toggle-arrow {
                 display: none !important;
             }
+
             .summary-title {
                 border-radius: 20px 20px 0 0 !important;
                 cursor: default !important;
@@ -1927,7 +2064,7 @@
                 text-align: left !important;
             }
         }
-</style>
+    </style>
 
 </head>
 
@@ -2194,7 +2331,7 @@
                         </svg>
                     </div>
                 </div>
-                                <!-- 8.5. 루바/집성판 -->
+                <!-- 8.5. 루바/집성판 -->
                 <div class="category-card" onclick="selectCategoryAndScroll('louver_wood')">
                     <div class="category-icon-wrap">
                         <svg viewBox="0 0 24 24">
@@ -2340,8 +2477,9 @@
                 <!-- Right Sidebar Section (Total & Inquiry Shortcut) -->
                 <div class="calc-sidebar" id="calcSidebar">
                     <div class="summary-title" onclick="toggleMobileSidebar()">
-                        <svg class="sidebar-toggle-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 15l-6-6-6 6"/>
+                        <svg class="sidebar-toggle-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 15l-6-6-6 6" />
                         </svg>
                         선택 품목 내역
                         <span class="summary-badge font-num" id="selected-count">0개 선택됨</span>
@@ -2559,9 +2697,11 @@
                     d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.502-5.114-3.792-6.616-6.616l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
             </svg>
         </a>
-        <a href="https://pf.kakao.com/_example" target="_blank" class="floating-btn-circle kakao" title="카카오톡 문의" onclick="sendKakaoEstimate(event)">
+        <a href="https://pf.kakao.com/_example" target="_blank" class="floating-btn-circle kakao" title="카카오톡 문의"
+            onclick="sendKakaoEstimate(event)">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
+                <path
+                    d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
             </svg>
         </a>
     </div>
@@ -2757,24 +2897,24 @@
                 { id: 'pl12', code: '', name: '12.5T 3*6 차음석고보드', spec: '3x6 (900x1800mm)', unit: '장', price: 0 }
             ],
             insulation: [
-                    { id: 'i3', code: '', name: '토이락 10T', spec: '3x6 (910x1820mm)', unit: '장', price: 1950 },
-                    { id: 'i4', code: '', name: '토이락 20T', spec: '3x6 (910x1820mm)', unit: '장', price: 3950 },
-                    { id: 'i7', code: '', name: '아이소핑크 30T', spec: '3x6 (910x1820mm)', unit: '장', price: 5700 },
-                    { id: 'i8', code: '', name: '아이소핑크 50T', spec: '3x6 (910x1820mm)', unit: '장', price: 9400 },
-                    { id: 'i9', code: '', name: '아이소핑크 100T', spec: '3x6 (910x1820mm)', unit: '장', price: 19800 },
-                    { id: 'i15', code: '', name: '이보드 13T 도배용', spec: '3x8 (910x2400mm) 10장입', unit: '장', price: 13500 },
-                    { id: 'i16', code: '', name: '이보드 23T 도배용', spec: '3x8 (910x2400mm) 5장입', unit: '장', price: 14200 },
-                    { id: 'i17', code: '', name: '이보드 23T 페인트용', spec: '3x8 (910x2400mm)', unit: '장', price: 19500 },
-                    { id: 'i18', code: '', name: '이보드 33T 도배용', spec: '3x8 (910x2400mm)', unit: '장', price: 25000 },
-                    { id: 'i11', code: '', name: '은박양면접착 단열재 6T', spec: '6T x 50M', unit: '롤', price: 85000 },
-                    { id: 'i12', code: '', name: '은박양면접착 단열재 10T', spec: '10T x 25M', unit: '롤', price: 69000 },
-                    { id: 'i13', code: '', name: '은박양면접착 단열재 20T', spec: '20T x 20M', unit: '롤', price: 0 },
-                    { id: 'i14', code: '', name: '은박양면접착 단열재 50T', spec: '1000x8000mm', unit: '장', price: 0 },
-                    { id: 'i1', code: '', name: '스티로폼 30T 4호', spec: '900x1800mm', unit: '장', price: 3000 },
-                    { id: 'i2', code: '', name: '스티로폼 50T 4호', spec: '900x1800mm', unit: '장', price: 3900 },
-                    { id: 'i10', code: '', name: '글라스울 24K 50T', spec: '1000x10000mm / 1롤', unit: '롤', price: 49800 },
-                    { id: 'h88', code: '', name: '충진재 50T', spec: '50x450x1000mm', unit: '장', price: 2000 }
-                ],
+                { id: 'i3', code: '', name: '토이락 10T', spec: '3x6 (910x1820mm)', unit: '장', price: 1950 },
+                { id: 'i4', code: '', name: '토이락 20T', spec: '3x6 (910x1820mm)', unit: '장', price: 3950 },
+                { id: 'i7', code: '', name: '아이소핑크 30T', spec: '3x6 (910x1820mm)', unit: '장', price: 5700 },
+                { id: 'i8', code: '', name: '아이소핑크 50T', spec: '3x6 (910x1820mm)', unit: '장', price: 9400 },
+                { id: 'i9', code: '', name: '아이소핑크 100T', spec: '3x6 (910x1820mm)', unit: '장', price: 19800 },
+                { id: 'i15', code: '', name: '이보드 13T 도배용', spec: '3x8 (910x2400mm) 10장입', unit: '장', price: 13500 },
+                { id: 'i16', code: '', name: '이보드 23T 도배용', spec: '3x8 (910x2400mm) 5장입', unit: '장', price: 14200 },
+                { id: 'i17', code: '', name: '이보드 23T 페인트용', spec: '3x8 (910x2400mm)', unit: '장', price: 19500 },
+                { id: 'i18', code: '', name: '이보드 33T 도배용', spec: '3x8 (910x2400mm)', unit: '장', price: 25000 },
+                { id: 'i11', code: '', name: '은박양면접착 단열재 6T', spec: '6T x 50M', unit: '롤', price: 85000 },
+                { id: 'i12', code: '', name: '은박양면접착 단열재 10T', spec: '10T x 25M', unit: '롤', price: 69000 },
+                { id: 'i13', code: '', name: '은박양면접착 단열재 20T', spec: '20T x 20M', unit: '롤', price: 0 },
+                { id: 'i14', code: '', name: '은박양면접착 단열재 50T', spec: '1000x8000mm', unit: '장', price: 0 },
+                { id: 'i1', code: '', name: '스티로폼 30T 4호', spec: '900x1800mm', unit: '장', price: 3000 },
+                { id: 'i2', code: '', name: '스티로폼 50T 4호', spec: '900x1800mm', unit: '장', price: 3900 },
+                { id: 'i10', code: '', name: '글라스울 24K 50T', spec: '1000x10000mm / 1롤', unit: '롤', price: 49800 },
+                { id: 'h88', code: '', name: '충진재 50T', spec: '50x450x1000mm', unit: '장', price: 2000 }
+            ],
             deck_timber: [
                 { id: 'd1', code: '', name: '방부데크 21x120', spec: '21x120x3600mm', unit: '개', price: 7800, sub: 'treated' },
                 { id: 'd2', code: '', name: '방부데크 15x95', spec: '15x95x3600mm', unit: '개', price: 5400, sub: 'treated' },
@@ -2860,126 +3000,126 @@
                 { id: 'lw53', code: '', name: '소봉', spec: '40x40x900mm', unit: '개', price: 2500 }
             ],
             hardware: [
-                    { id: 'h4', code: '', name: '본드 205', spec: '-', unit: '개', price: 2900 },
-                    { id: 'h5', code: '', name: '본드 505', spec: '-', unit: '개', price: 2000 },
-                    { id: 'h1', code: '', name: 'G1 본드', spec: '-', unit: '개', price: 0 },
-                    { id: 'h2', code: '', name: 'G2 본드', spec: '-', unit: '개', price: 22000 },
-                    { id: 'h3', code: '', name: 'G3 본드', spec: '-', unit: '개', price: 0 },
-                    { id: 'h6', code: '', name: '스프레이접착제 77 소', spec: '-', unit: '개', price: 11000 },
-                    { id: 'h7', code: '', name: '아이소본드', spec: '-', unit: '개', price: 0 },
-                    { id: 'h8', code: '', name: '폼 건용', spec: '-', unit: '개', price: 3000 },
-                    { id: 'h9', code: '', name: '폼본드 건용', spec: '-', unit: '개', price: 6000 },
-                    { id: 'h10', code: '', name: '실리콘 투명', spec: '-', unit: '개', price: 1900 },
-                    { id: 'h11', code: '', name: '바이오실리콘 투명', spec: '-', unit: '개', price: 2500 },
-                    { id: 'h12', code: '', name: '바이오실리콘 백색', spec: '-', unit: '개', price: 3000 },
-                    { id: 'h13', code: '', name: '실리콘 백색', spec: '-', unit: '개', price: 2000 },
-                    { id: 'h14', code: '', name: '수성실리콘 백색', spec: '-', unit: '개', price: 1800 },
-                    { id: 'h15', code: '', name: '실리콘 회색', spec: '-', unit: '개', price: 2000 },
-                    { id: 'h16', code: '', name: '실리콘 금색', spec: '-', unit: '개', price: 1800 },
-                    { id: 'h17', code: '', name: '실리콘 체리', spec: '-', unit: '개', price: 0 },
-                    { id: 'h18', code: '', name: '실리콘 흑색', spec: '-', unit: '개', price: 2000 },
-                    { id: 'h19', code: '', name: '실리콘 아이보리', spec: '-', unit: '개', price: 2000 },
-                    { id: 'h20', code: '', name: '실리콘 반투명', spec: '-', unit: '개', price: 2000 },
-                    { id: 'h21', code: '', name: '실리콘 밤색', spec: '-', unit: '개', price: 0 },
-                    { id: 'h22', code: '', name: '실리콘 외부용 회색', spec: '-', unit: '개', price: 3200 },
-                    { id: 'h23', code: '', name: '아연피스 32mm', spec: '1000EA / 봉', unit: '봉', price: 12000 },
-                    { id: 'h24', code: '', name: '아연피스 38mm', spec: '500EA / 봉', unit: '봉', price: 6500 },
-                    { id: 'h25', code: '', name: '아연피스 50mm', spec: '500EA / 봉', unit: '봉', price: 10000 },
-                    { id: 'h26', code: '', name: '아연피스 65mm', spec: '300EA / 봉', unit: '봉', price: 10000 },
-                    { id: 'h27', code: '', name: '아연피스 75mm', spec: '300EA / 봉', unit: '봉', price: 10000 },
-                    { id: 'h28', code: '', name: '아연피스 90mm', spec: '200EA / 봉', unit: '봉', price: 12000 },
-                    { id: 'h29', code: '', name: '윙스크류 38mm', spec: '500EA / 봉', unit: '봉', price: 12000 },
-                    { id: 'h30', code: '', name: '석고피스 32mm 양날', spec: '500EA / 봉', unit: '봉', price: 12000 },
-                    { id: 'h31', code: '', name: '석고피스 38mm 양날', spec: '500EA / 봉', unit: '봉', price: 0 },
-                    { id: 'h32', code: '', name: '스텐피스 19mm', spec: '500EA / 봉', unit: '봉', price: 15000 },
-                    { id: 'h33', code: '', name: '콘크리트못', spec: '-', unit: '봉', price: 0 },
-                    { id: 'h34', code: '', name: '타카 419', spec: '-', unit: '통', price: 5000 },
-                    { id: 'h35', code: '', name: '타카 422J 합판용', spec: '-', unit: '통', price: 4500 },
-                    { id: 'h36', code: '', name: '타카 T64', spec: '-', unit: '통', price: 17000 },
-                    { id: 'h37', code: '', name: '타카 T50', spec: '-', unit: '통', price: 13700 },
-                    { id: 'h38', code: '', name: '타카 T57', spec: '-', unit: '통', price: 14000 },
-                    { id: 'h39', code: '', name: '타카 1022J', spec: '-', unit: '통', price: 5700 },
-                    { id: 'h40', code: '', name: '타카 615 몰딩용', spec: '-', unit: '통', price: 5500 },
-                    { id: 'h41', code: '', name: '타카 618 몰딩용', spec: '-', unit: '통', price: 6000 },
-                    { id: 'h42', code: '', name: '타카 625', spec: '-', unit: '통', price: 5500 },
-                    { id: 'h43', code: '', name: '타카 630', spec: '-', unit: '통', price: 6500 },
-                    { id: 'h44', code: '', name: '타카 DT50 겸용', spec: '-', unit: '통', price: 13400 },
-                    { id: 'h45', code: '', name: '타카 DT64 겸용', spec: '-', unit: '통', price: 14800 },
-                    { id: 'h46', code: '', name: '타카 F15', spec: '-', unit: '통', price: 0 },
-                    { id: 'h47', code: '', name: '타카 F20', spec: '-', unit: '통', price: 4500 },
-                    { id: 'h48', code: '', name: '타카 F25', spec: '-', unit: '통', price: 4800 },
-                    { id: 'h49', code: '', name: '타카 F30', spec: '-', unit: '통', price: 4000 },
-                    { id: 'h50', code: '', name: '타카 F40', spec: '-', unit: '통', price: 9000 },
-                    { id: 'h51', code: '', name: '타카 F50', spec: '-', unit: '통', price: 7900 },
-                    { id: 'h52', code: '', name: '타카 ST18 콘크리트용', spec: '-', unit: '통', price: 5000 },
-                    { id: 'h53', code: '', name: '타카 ST25 콘크리트용', spec: '-', unit: '통', price: 5000 },
-                    { id: 'h54', code: '', name: '타카 ST32 콘크리트용', spec: '-', unit: '통', price: 6500 },
-                    { id: 'h55', code: '', name: '타카 ST38 콘크리트용', spec: '-', unit: '통', price: 4000 },
-                    { id: 'h56', code: '', name: '타카 ST45 콘크리트용', spec: '-', unit: '통', price: 4500 },
-                    { id: 'h57', code: '', name: '타카 ST50 콘크리트용', spec: '-', unit: '통', price: 5000 },
-                    { id: 'h58', code: '', name: '타카 ST64 콘크리트용', spec: '-', unit: '통', price: 6500 },
-                    { id: 'h59', code: '', name: 'PVC 점검구 300', spec: '300x300mm', unit: '개', price: 7000 },
-                    { id: 'h60', code: '', name: 'PVC 점검구 400', spec: '400x400mm', unit: '개', price: 7000 },
-                    { id: 'h61', code: '', name: 'PVC 점검구 450', spec: '450x450mm', unit: '개', price: 8000 },
-                    { id: 'h62', code: '', name: '점검구 D-400 알루미늄', spec: '400x400mm', unit: '개', price: 8000 },
-                    { id: 'h63', code: '', name: '점검구 D-450 알루미늄', spec: '450x450mm', unit: '개', price: 9000 },
-                    { id: 'h64', code: '', name: '점검구 600 알루미늄', spec: '600x600mm', unit: '개', price: 0 },
-                    { id: 'h65', code: '', name: 'A21 앵글 ㄱ자', spec: '-', unit: '개', price: 400 },
-                    { id: 'h66', code: '', name: 'L66 철물', spec: '-', unit: '개', price: 0 },
-                    { id: 'h67', code: '', name: 'T66 철물', spec: '-', unit: '개', price: 0 },
-                    { id: 'h68', code: '', name: 'LUS24 철물 U자', spec: '-', unit: '개', price: 0 },
-                    { id: 'h69', code: '', name: 'AB44 포스트베이스', spec: '-', unit: '개', price: 0 },
-                    { id: 'h70', code: '', name: 'FBP44 포스트베이스', spec: '-', unit: '개', price: 0 },
-                    { id: 'h71', code: '', name: 'FBP66 포스트베이스', spec: '-', unit: '개', price: 0 },
-                    { id: 'h72', code: '', name: '주춧돌 4x4', spec: '-', unit: '개', price: 7000 },
-                    { id: 'h73', code: '', name: '주춧돌 6x6', spec: '-', unit: '개', price: 8200 },
-                    { id: 'h74', code: '', name: '방부블랙캡 4x4용', spec: '-', unit: '개', price: 0 },
-                    { id: 'h75', code: '', name: '미서기레일 세트', spec: '-', unit: '세트', price: 16000 },
-                    { id: 'h76', code: '', name: '엘리트 SS버튼 스텐', spec: '-', unit: '개', price: 17000 },
-                    { id: 'h77', code: '', name: '실리콘 건', spec: '-', unit: '개', price: 2000 },
-                    { id: 'h78', code: '', name: '폼용 건', spec: '-', unit: '개', price: 12000 },
-                    { id: 'h79', code: '', name: '폼용 크리너', spec: '-', unit: '개', price: 3500 },
-                    { id: 'h80', code: '', name: '핫멜트건 대', spec: '-', unit: '개', price: 7000 },
-                    { id: 'h81', code: '', name: '핫멜트건 소', spec: '-', unit: '개', price: 0 },
-                    { id: 'h82', code: '', name: '핫멜트알', spec: '-', unit: '박스', price: 5000 },
-                    { id: 'h83', code: '', name: '톱날 265', spec: '-', unit: '개', price: 6500 },
-                    { id: 'h84', code: '', name: '톱자루 고무', spec: '-', unit: '개', price: 4500 },
-                    { id: 'h85', code: '', name: '프라이머 수성 1KG', spec: '-', unit: '개', price: 11000 },
-                    { id: 'h86', code: '', name: '오일스텐붓 4인치', spec: '-', unit: '개', price: 1500 },
-                    { id: 'h87', code: '', name: '바르네 퍼티 5K', spec: '-', unit: '개', price: 6000 },
-                    { id: 'h89', code: '', name: '오일스텐 투명', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h90', code: '', name: '오일스텐 소나무', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h91', code: '', name: '오일스텐 도토리', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h92', code: '', name: '오일스텐 밤나무', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h93', code: '', name: '오일스텐 호두나무', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h94', code: '', name: '오일스텐 로즈우드', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h95', code: '', name: '오일스텐 자단색', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h96', code: '', name: '오일스텐 마호가니', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h97', code: '', name: '오일스텐 올리브그린', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h98', code: '', name: '오일스텐 초록', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h99', code: '', name: '오일스텐 흑색', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h100', code: '', name: '오일스텐 티크', spec: '3.5L', unit: '통', price: 28000 },
-                    { id: 'h101', code: '', name: '오일스텐 포도주', spec: '-', unit: '통', price: 28000 },
-                    { id: 'h102', code: '', name: '오일스텐 대용량', spec: '16L / 말', unit: '말', price: 0 },
-                    { id: 'h103', code: '', name: '사포 100방', spec: '-', unit: '장', price: 800 },
-                    { id: 'h104', code: '', name: '사포 150방', spec: '-', unit: '장', price: 800 },
-                    { id: 'h105', code: '', name: '사포 400방', spec: '-', unit: '장', price: 700 },
-                    { id: 'h106', code: '', name: '사포 1500방', spec: '-', unit: '장', price: 500 },
-                    { id: 'h107', code: '', name: '장갑 반코팅', spec: '10개입', unit: '묶음', price: 2400 },
-                    { id: 'h108', code: '', name: '마대 대', spec: '50개입 / 90kg용', unit: '묶음', price: 13600 },
-                    { id: 'h109', code: '', name: '마대 중', spec: '50개입 / 80kg용', unit: '묶음', price: 7500 },
-                    { id: 'h110', code: '', name: 'PP마대', spec: '10장입', unit: '묶음', price: 3500 },
-                    { id: 'h111', code: '', name: '골판지 보양지', spec: '-', unit: '롤', price: 19000 },
-                    { id: 'h112', code: '', name: '박스테이프', spec: '-', unit: '개', price: 1000 },
-                    { id: 'h113', code: '', name: '폼양면 발포테이프 25mm', spec: '-', unit: '개', price: 1500 },
-                    { id: 'h114', code: '', name: '종이테이프 3M', spec: '-', unit: '개', price: 2500 },
-                    { id: 'h115', code: '', name: '로라 유성 4인치 소', spec: '-', unit: '개', price: 1500 },
-                    { id: 'h116', code: '', name: '로라 유성 6인치 중', spec: '-', unit: '개', price: 0 },
-                    { id: 'h117', code: '', name: '로라 유성 8인치 대', spec: '-', unit: '개', price: 2000 },
-                    { id: 'h118', code: '', name: '미니로라 6인치', spec: '-', unit: '개', price: 0 },
-                    { id: 'h119', code: '', name: '팀버탄 코팅제 무광', spec: '-', unit: '통', price: 13000 },
-                    { id: 'h120', code: '', name: '공캔', spec: '-', unit: '개', price: 0 }
-                ],
+                { id: 'h4', code: '', name: '본드 205', spec: '-', unit: '개', price: 2900 },
+                { id: 'h5', code: '', name: '본드 505', spec: '-', unit: '개', price: 2000 },
+                { id: 'h1', code: '', name: 'G1 본드', spec: '-', unit: '개', price: 0 },
+                { id: 'h2', code: '', name: 'G2 본드', spec: '-', unit: '개', price: 22000 },
+                { id: 'h3', code: '', name: 'G3 본드', spec: '-', unit: '개', price: 0 },
+                { id: 'h6', code: '', name: '스프레이접착제 77 소', spec: '-', unit: '개', price: 11000 },
+                { id: 'h7', code: '', name: '아이소본드', spec: '-', unit: '개', price: 0 },
+                { id: 'h8', code: '', name: '폼 건용', spec: '-', unit: '개', price: 3000 },
+                { id: 'h9', code: '', name: '폼본드 건용', spec: '-', unit: '개', price: 6000 },
+                { id: 'h10', code: '', name: '실리콘 투명', spec: '-', unit: '개', price: 1900 },
+                { id: 'h11', code: '', name: '바이오실리콘 투명', spec: '-', unit: '개', price: 2500 },
+                { id: 'h12', code: '', name: '바이오실리콘 백색', spec: '-', unit: '개', price: 3000 },
+                { id: 'h13', code: '', name: '실리콘 백색', spec: '-', unit: '개', price: 2000 },
+                { id: 'h14', code: '', name: '수성실리콘 백색', spec: '-', unit: '개', price: 1800 },
+                { id: 'h15', code: '', name: '실리콘 회색', spec: '-', unit: '개', price: 2000 },
+                { id: 'h16', code: '', name: '실리콘 금색', spec: '-', unit: '개', price: 1800 },
+                { id: 'h17', code: '', name: '실리콘 체리', spec: '-', unit: '개', price: 0 },
+                { id: 'h18', code: '', name: '실리콘 흑색', spec: '-', unit: '개', price: 2000 },
+                { id: 'h19', code: '', name: '실리콘 아이보리', spec: '-', unit: '개', price: 2000 },
+                { id: 'h20', code: '', name: '실리콘 반투명', spec: '-', unit: '개', price: 2000 },
+                { id: 'h21', code: '', name: '실리콘 밤색', spec: '-', unit: '개', price: 0 },
+                { id: 'h22', code: '', name: '실리콘 외부용 회색', spec: '-', unit: '개', price: 3200 },
+                { id: 'h23', code: '', name: '아연피스 32mm', spec: '1000EA / 봉', unit: '봉', price: 12000 },
+                { id: 'h24', code: '', name: '아연피스 38mm', spec: '500EA / 봉', unit: '봉', price: 6500 },
+                { id: 'h25', code: '', name: '아연피스 50mm', spec: '500EA / 봉', unit: '봉', price: 10000 },
+                { id: 'h26', code: '', name: '아연피스 65mm', spec: '300EA / 봉', unit: '봉', price: 10000 },
+                { id: 'h27', code: '', name: '아연피스 75mm', spec: '300EA / 봉', unit: '봉', price: 10000 },
+                { id: 'h28', code: '', name: '아연피스 90mm', spec: '200EA / 봉', unit: '봉', price: 12000 },
+                { id: 'h29', code: '', name: '윙스크류 38mm', spec: '500EA / 봉', unit: '봉', price: 12000 },
+                { id: 'h30', code: '', name: '석고피스 32mm 양날', spec: '500EA / 봉', unit: '봉', price: 12000 },
+                { id: 'h31', code: '', name: '석고피스 38mm 양날', spec: '500EA / 봉', unit: '봉', price: 0 },
+                { id: 'h32', code: '', name: '스텐피스 19mm', spec: '500EA / 봉', unit: '봉', price: 15000 },
+                { id: 'h33', code: '', name: '콘크리트못', spec: '-', unit: '봉', price: 0 },
+                { id: 'h34', code: '', name: '타카 419', spec: '-', unit: '통', price: 5000 },
+                { id: 'h35', code: '', name: '타카 422J 합판용', spec: '-', unit: '통', price: 4500 },
+                { id: 'h36', code: '', name: '타카 T64', spec: '-', unit: '통', price: 17000 },
+                { id: 'h37', code: '', name: '타카 T50', spec: '-', unit: '통', price: 13700 },
+                { id: 'h38', code: '', name: '타카 T57', spec: '-', unit: '통', price: 14000 },
+                { id: 'h39', code: '', name: '타카 1022J', spec: '-', unit: '통', price: 5700 },
+                { id: 'h40', code: '', name: '타카 615 몰딩용', spec: '-', unit: '통', price: 5500 },
+                { id: 'h41', code: '', name: '타카 618 몰딩용', spec: '-', unit: '통', price: 6000 },
+                { id: 'h42', code: '', name: '타카 625', spec: '-', unit: '통', price: 5500 },
+                { id: 'h43', code: '', name: '타카 630', spec: '-', unit: '통', price: 6500 },
+                { id: 'h44', code: '', name: '타카 DT50 겸용', spec: '-', unit: '통', price: 13400 },
+                { id: 'h45', code: '', name: '타카 DT64 겸용', spec: '-', unit: '통', price: 14800 },
+                { id: 'h46', code: '', name: '타카 F15', spec: '-', unit: '통', price: 0 },
+                { id: 'h47', code: '', name: '타카 F20', spec: '-', unit: '통', price: 4500 },
+                { id: 'h48', code: '', name: '타카 F25', spec: '-', unit: '통', price: 4800 },
+                { id: 'h49', code: '', name: '타카 F30', spec: '-', unit: '통', price: 4000 },
+                { id: 'h50', code: '', name: '타카 F40', spec: '-', unit: '통', price: 9000 },
+                { id: 'h51', code: '', name: '타카 F50', spec: '-', unit: '통', price: 7900 },
+                { id: 'h52', code: '', name: '타카 ST18 콘크리트용', spec: '-', unit: '통', price: 5000 },
+                { id: 'h53', code: '', name: '타카 ST25 콘크리트용', spec: '-', unit: '통', price: 5000 },
+                { id: 'h54', code: '', name: '타카 ST32 콘크리트용', spec: '-', unit: '통', price: 6500 },
+                { id: 'h55', code: '', name: '타카 ST38 콘크리트용', spec: '-', unit: '통', price: 4000 },
+                { id: 'h56', code: '', name: '타카 ST45 콘크리트용', spec: '-', unit: '통', price: 4500 },
+                { id: 'h57', code: '', name: '타카 ST50 콘크리트용', spec: '-', unit: '통', price: 5000 },
+                { id: 'h58', code: '', name: '타카 ST64 콘크리트용', spec: '-', unit: '통', price: 6500 },
+                { id: 'h59', code: '', name: 'PVC 점검구 300', spec: '300x300mm', unit: '개', price: 7000 },
+                { id: 'h60', code: '', name: 'PVC 점검구 400', spec: '400x400mm', unit: '개', price: 7000 },
+                { id: 'h61', code: '', name: 'PVC 점검구 450', spec: '450x450mm', unit: '개', price: 8000 },
+                { id: 'h62', code: '', name: '점검구 D-400 알루미늄', spec: '400x400mm', unit: '개', price: 8000 },
+                { id: 'h63', code: '', name: '점검구 D-450 알루미늄', spec: '450x450mm', unit: '개', price: 9000 },
+                { id: 'h64', code: '', name: '점검구 600 알루미늄', spec: '600x600mm', unit: '개', price: 0 },
+                { id: 'h65', code: '', name: 'A21 앵글 ㄱ자', spec: '-', unit: '개', price: 400 },
+                { id: 'h66', code: '', name: 'L66 철물', spec: '-', unit: '개', price: 0 },
+                { id: 'h67', code: '', name: 'T66 철물', spec: '-', unit: '개', price: 0 },
+                { id: 'h68', code: '', name: 'LUS24 철물 U자', spec: '-', unit: '개', price: 0 },
+                { id: 'h69', code: '', name: 'AB44 포스트베이스', spec: '-', unit: '개', price: 0 },
+                { id: 'h70', code: '', name: 'FBP44 포스트베이스', spec: '-', unit: '개', price: 0 },
+                { id: 'h71', code: '', name: 'FBP66 포스트베이스', spec: '-', unit: '개', price: 0 },
+                { id: 'h72', code: '', name: '주춧돌 4x4', spec: '-', unit: '개', price: 7000 },
+                { id: 'h73', code: '', name: '주춧돌 6x6', spec: '-', unit: '개', price: 8200 },
+                { id: 'h74', code: '', name: '방부블랙캡 4x4용', spec: '-', unit: '개', price: 0 },
+                { id: 'h75', code: '', name: '미서기레일 세트', spec: '-', unit: '세트', price: 16000 },
+                { id: 'h76', code: '', name: '엘리트 SS버튼 스텐', spec: '-', unit: '개', price: 17000 },
+                { id: 'h77', code: '', name: '실리콘 건', spec: '-', unit: '개', price: 2000 },
+                { id: 'h78', code: '', name: '폼용 건', spec: '-', unit: '개', price: 12000 },
+                { id: 'h79', code: '', name: '폼용 크리너', spec: '-', unit: '개', price: 3500 },
+                { id: 'h80', code: '', name: '핫멜트건 대', spec: '-', unit: '개', price: 7000 },
+                { id: 'h81', code: '', name: '핫멜트건 소', spec: '-', unit: '개', price: 0 },
+                { id: 'h82', code: '', name: '핫멜트알', spec: '-', unit: '박스', price: 5000 },
+                { id: 'h83', code: '', name: '톱날 265', spec: '-', unit: '개', price: 6500 },
+                { id: 'h84', code: '', name: '톱자루 고무', spec: '-', unit: '개', price: 4500 },
+                { id: 'h85', code: '', name: '프라이머 수성 1KG', spec: '-', unit: '개', price: 11000 },
+                { id: 'h86', code: '', name: '오일스텐붓 4인치', spec: '-', unit: '개', price: 1500 },
+                { id: 'h87', code: '', name: '바르네 퍼티 5K', spec: '-', unit: '개', price: 6000 },
+                { id: 'h89', code: '', name: '오일스텐 투명', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h90', code: '', name: '오일스텐 소나무', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h91', code: '', name: '오일스텐 도토리', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h92', code: '', name: '오일스텐 밤나무', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h93', code: '', name: '오일스텐 호두나무', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h94', code: '', name: '오일스텐 로즈우드', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h95', code: '', name: '오일스텐 자단색', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h96', code: '', name: '오일스텐 마호가니', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h97', code: '', name: '오일스텐 올리브그린', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h98', code: '', name: '오일스텐 초록', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h99', code: '', name: '오일스텐 흑색', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h100', code: '', name: '오일스텐 티크', spec: '3.5L', unit: '통', price: 28000 },
+                { id: 'h101', code: '', name: '오일스텐 포도주', spec: '-', unit: '통', price: 28000 },
+                { id: 'h102', code: '', name: '오일스텐 대용량', spec: '16L / 말', unit: '말', price: 0 },
+                { id: 'h103', code: '', name: '사포 100방', spec: '-', unit: '장', price: 800 },
+                { id: 'h104', code: '', name: '사포 150방', spec: '-', unit: '장', price: 800 },
+                { id: 'h105', code: '', name: '사포 400방', spec: '-', unit: '장', price: 700 },
+                { id: 'h106', code: '', name: '사포 1500방', spec: '-', unit: '장', price: 500 },
+                { id: 'h107', code: '', name: '장갑 반코팅', spec: '10개입', unit: '묶음', price: 2400 },
+                { id: 'h108', code: '', name: '마대 대', spec: '50개입 / 90kg용', unit: '묶음', price: 13600 },
+                { id: 'h109', code: '', name: '마대 중', spec: '50개입 / 80kg용', unit: '묶음', price: 7500 },
+                { id: 'h110', code: '', name: 'PP마대', spec: '10장입', unit: '묶음', price: 3500 },
+                { id: 'h111', code: '', name: '골판지 보양지', spec: '-', unit: '롤', price: 19000 },
+                { id: 'h112', code: '', name: '박스테이프', spec: '-', unit: '개', price: 1000 },
+                { id: 'h113', code: '', name: '폼양면 발포테이프 25mm', spec: '-', unit: '개', price: 1500 },
+                { id: 'h114', code: '', name: '종이테이프 3M', spec: '-', unit: '개', price: 2500 },
+                { id: 'h115', code: '', name: '로라 유성 4인치 소', spec: '-', unit: '개', price: 1500 },
+                { id: 'h116', code: '', name: '로라 유성 6인치 중', spec: '-', unit: '개', price: 0 },
+                { id: 'h117', code: '', name: '로라 유성 8인치 대', spec: '-', unit: '개', price: 2000 },
+                { id: 'h118', code: '', name: '미니로라 6인치', spec: '-', unit: '개', price: 0 },
+                { id: 'h119', code: '', name: '팀버탄 코팅제 무광', spec: '-', unit: '통', price: 13000 },
+                { id: 'h120', code: '', name: '공캔', spec: '-', unit: '개', price: 0 }
+            ],
             delivery: [
                 { id: 'del1', code: '', name: '라보', spec: '-', unit: '회', price: 30000 },
                 { id: 'del2', code: '', name: '1톤', spec: '-', unit: '회', price: 40000 },
@@ -2998,6 +3138,10 @@
         let currentDeckSub = "all";
 
         let imageStore = {};
+
+        // Google Sheets MDF CSV URL
+        const MDF_CSV_URL = "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=0";
+        let isMdfLoading = false;
 
         // ===== BASE SNAPSHOT: deep-copy of the hardcoded PRODUCTS_DATA =====
         // This is captured once at script evaluation time, before any localStorage overrides.
@@ -3051,19 +3195,97 @@
             renderReferences();
         }
 
+        function parseCSVLine(line) {
+            const result = [];
+            let current = "";
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = "";
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result;
+        }
+
+        async function fetchMdfData() {
+            isMdfLoading = true;
+            if (currentActiveTab === "mdf") {
+                loadProducts("mdf");
+            }
+
+            try {
+                const response = await fetch(MDF_CSV_URL);
+                if (!response.ok) {
+                    throw new Error(`CSV fetch failed with status ${response.status}`);
+                }
+                const csvText = await response.text();
+                
+                // Parse CSV text into rows
+                const lines = csvText.split(/\r?\n/);
+                const rows = lines
+                    .filter(line => line.trim() !== '')
+                    .map(line => parseCSVLine(line));
+
+                // Exclude header row (1st row)
+                const dataRows = rows.slice(1);
+
+                const transformed = dataRows
+                    .filter(row => row.length > 5 && (row[2] || row[0]))
+                    .map(row => {
+                        const no = row[0] !== undefined ? String(row[0]).trim() : '';
+                        const name = row[2] !== undefined ? String(row[2]).trim() : '';
+                        const spec = row[3] !== undefined ? String(row[3]).trim() : '';
+                        const unit = row[4] !== undefined ? String(row[4]).trim() : '';
+                        const priceRaw = row[5] !== undefined ? String(row[5]).trim() : '0';
+                        const price = parseInt(priceRaw.replace(/[^0-9]/g, '')) || 0;
+
+                        return {
+                            id: 'mdf_' + no,
+                            code: '',
+                            name: name,
+                            spec: spec,
+                            unit: unit,
+                            price: price
+                        };
+                    });
+
+                if (transformed.length > 0) {
+                    BASE_PRODUCTS_DATA.mdf = transformed;
+                    loadLocalData();
+                    console.log("Successfully loaded MDF data from Google Sheets CSV.");
+                } else {
+                    console.warn("Parsed MDF CSV is empty. Using fallback.");
+                }
+            } catch (error) {
+                console.error("Failed to fetch MDF CSV data:", error);
+            } finally {
+                isMdfLoading = false;
+                if (currentActiveTab === "mdf") {
+                    loadProducts("mdf");
+                }
+            }
+        }
+
         function renderReferences() {
             const container = document.getElementById("referenceContainer");
             if (!container) return;
             container.innerHTML = "";
             let refs = [];
-            const stored = localStorage.getItem('youngrim_admin_references') || localStorage.getItem('youngrim_references'); if(stored) { try { refs = JSON.parse(stored); } catch(e){} } if(!refs || refs.length === 0) { refs = [ { name: 'KCC / 하남시 지식산업센터', spec: '석고보드 및 경량철골 자재 납품', unit: '2024.05' }, { name: '벽산 / 인천 검단 신도시 아파트', spec: '단열재 및 그라스울 대량 납품', unit: '2024.04' }, { name: '영림 / 서울 강남구 오피스 빌딩', spec: '도어 및 인테리어 마감재 납품', unit: '2024.03' } ]; }
+            const stored = localStorage.getItem('youngrim_admin_references') || localStorage.getItem('youngrim_references'); if (stored) { try { refs = JSON.parse(stored); } catch (e) { } } if (!refs || refs.length === 0) { refs = [{ name: 'KCC / 하남시 지식산업센터', spec: '석고보드 및 경량철골 자재 납품', unit: '2024.05' }, { name: '벽산 / 인천 검단 신도시 아파트', spec: '단열재 및 그라스울 대량 납품', unit: '2024.04' }, { name: '영림 / 서울 강남구 오피스 빌딩', spec: '도어 및 인테리어 마감재 납품', unit: '2024.03' }]; }
             refs.forEach(ref => {
                 const card = document.createElement("div");
                 card.className = "category-card";
                 card.style.cursor = "default";
                 card.style.height = "auto";
                 card.style.minHeight = "200px";
-                
+
                 card.innerHTML = `
                     <div class="category-icon-wrap">
                         <svg viewBox="0 0 24 24">
@@ -3104,6 +3326,8 @@
             // Load admin data overrides (localStorage) — BASE_PRODUCTS_DATA already has hardcoded defaults
             loadLocalData();
 
+            // Fetch MDF data from Google Sheets CSV
+            fetchMdfData();
             // Set Hero Date
             const d = new Date();
             const heroDateEl = document.getElementById("heroDate");
@@ -3268,6 +3492,13 @@
         function loadProducts(categoryKey, subKey = "all") {
             const tbody = document.getElementById("price-table-body");
             tbody.innerHTML = "";
+
+            if (categoryKey === "mdf" && isMdfLoading) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: var(--color-text-muted);">?곗씠??遺덈윭?ㅻ뒗 以?..</td>`;
+                tbody.appendChild(tr);
+                return;
+            }
 
             let items = PRODUCTS_DATA[categoryKey] || [];
 
@@ -3709,18 +3940,18 @@
             }
         }
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const dateSpan = document.getElementById('heroDate');
-        if(dateSpan) {
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
-            dateSpan.textContent = yyyy + "." + mm + "." + dd + " 09:00 기준 완료";
-        }
-    });
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateSpan = document.getElementById('heroDate');
+            if (dateSpan) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                dateSpan.textContent = yyyy + "." + mm + "." + dd + " 09:00 기준 완료";
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,14 @@
+renderReferences length: 527
+has broken const: False
+2988:         function renderReferences() {
+2989:             const container = document.getElementById("referenceContainer");
+2990:             if (!container) return;
+2991:             container.innerHTML = "";
+2992:             let refs = [];
+2993:             const stored = localStorage.getItem('youngrim_admin_references') || localStorage.getItem('youngrim_reference
+2994:             refs.forEach(ref => {
+2995:                 const card = document.createElement("div");
+2996:                 card.className = "category-card";
+2997:                 card.style.cursor = "default";
+2998:                 card.style.height = "auto";
+2999:                 card.style.minHeight = "200px";
