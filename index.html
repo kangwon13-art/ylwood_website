@@ -3150,7 +3150,8 @@
             deck_timber: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=7" },
             louver_wood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=8" },
             hardware: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=9" },
-            delivery: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=10" }
+            delivery: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=10" },
+            references: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1626176847" }
         };
         const SHEET_DATA = {};
         let isSheetLoading = false;
@@ -3210,11 +3211,11 @@
         }
 
         function transformSheetRow(row, category) {
-            const no = getCsvValue(row, ['no', '번호', '순번', 'id']);
+            const no = getCsvValue(row, ['no', '번호', '순번', 'id', '넘버']);
             const code = getCsvValue(row, ['code', '품목코드', '코드']);
-            const name = getCsvValue(row, ['name', '품명', '품목명', '제품명']);
-            const spec = getCsvValue(row, ['spec', '규격', '사양']);
-            const unit = getCsvValue(row, ['unit', '단위']);
+            const name = getCsvValue(row, ['name', '품명', '품목명', '제품명', '현장명', '프로젝트명', '실적명', '현장']);
+            const spec = getCsvValue(row, ['spec', '규격', '사양', '내용', '설명']);
+            const unit = getCsvValue(row, ['unit', '단위', '완료일', '납품일', '시기']);
             const priceRaw = getCsvValue(row, ['price', '단가', '가격', 'price_krw']);
             const image = getCsvValue(row, ['image', '이미지', 'img']);
             const sub = getCsvValue(row, ['sub', '분류', '카테고리']);
@@ -3310,7 +3311,7 @@
             if (!container) return;
             container.innerHTML = "";
 
-            const refs = [];
+            const refs = SHEET_DATA.references || [];
             if (!refs.length) {
                 const emptyCard = document.createElement("div");
                 emptyCard.className = "category-card";
