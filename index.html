@@ -97,65 +97,6 @@
             transition: var(--transition-smooth);
         }
 
-        .calc-sidebar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 2000;
-            background: var(--color-bg-secondary);
-            border-top: 1px solid var(--color-border);
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
-            transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 0;
-            height: 66px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            will-change: height;
-            transform: translateZ(0);
-        }
-
-        .calc-sidebar.expanded {
-            height: 80vh;
-            height: 80svh;
-        }
-
-        .calc-sidebar .sidebar-inner-content {
-            overflow-y: auto;
-            padding-bottom: 20px;
-            flex: 1;
-        }
-
-        .summary-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--color-text-white);
-            margin-bottom: 0;
-            padding-top: 20px;
-            cursor: pointer;
-            position: relative;
-            text-align: center;
-            background: var(--color-bg-secondary);
-            border-radius: 20px 20px 0 0;
-            z-index: 2;
-        }
-
-        .sidebar-toggle-arrow {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            margin-left: -12px;
-            color: rgba(255, 255, 255, 0.6);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: block;
-        }
-
-        .calc-sidebar.expanded .sidebar-toggle-arrow {
-            transform: rotate(180deg);
-        }
-
         header.scrolled {
             padding: 10px 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -682,6 +623,7 @@
 
         .calc-tabs {
             display: flex;
+            flex-wrap: nowrap;
             overflow-x: auto;
             white-space: nowrap;
             gap: 8px;
@@ -874,7 +816,7 @@
             margin: 0;
         }
 
-        /* Calculator Sidebar Summary */
+        /* CALCULATOR SIDEBAR (mobile-first bottom sheet; PC override in the min-width:769px block below) */
         .calc-sidebar {
             position: fixed;
             bottom: 0;
@@ -1427,61 +1369,6 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .calc-container {
-                grid-template-columns: 1fr;
-            }
-
-            .calc-sidebar {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                z-index: 2000;
-                border-radius: 20px 20px 0 0;
-                box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
-                transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                margin-top: 0;
-                height: 66px;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                will-change: height;
-                transform: translateZ(0);
-            }
-
-            .calc-sidebar.expanded {
-                height: 80vh;
-                height: 80svh;
-            }
-
-            .summary-title {
-                padding-top: 20px;
-                cursor: pointer;
-                position: relative;
-                text-align: center;
-                background: var(--color-bg-secondary);
-                border-radius: 20px 20px 0 0;
-                z-index: 2;
-            }
-
-            .sidebar-toggle-arrow {
-                position: absolute;
-                top: 8px;
-                left: 50%;
-                margin-left: -12px;
-                color: rgba(255, 255, 255, 0.6);
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            .calc-sidebar.expanded .sidebar-toggle-arrow {
-                transform: rotate(180deg);
-            }
-
-            .sidebar-inner-content {
-                overflow-y: auto;
-                padding-bottom: 20px;
-                flex: 1;
-            }
         }
 
         @media (max-width: 768px) {
@@ -1499,24 +1386,25 @@
             }
 
             .category-card {
-                padding: 6px 4px;
-                aspect-ratio: 1 / 1;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 min-width: 0;
+                padding: 10px 5px;
+                aspect-ratio: 1 / 1;
+                height: auto;
             }
 
-            .category-description,
-            .category-footer-link {
+            .category-card .category-description,
+            .category-card .category-footer-link {
                 display: none;
             }
 
-            .category-icon-wrap {
-                width: 44px;
-                height: 44px;
-                margin-bottom: 4px;
+            .category-card .category-icon-wrap {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 5px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -1527,13 +1415,14 @@
                 height: 24px;
             }
 
-            .category-name {
-                font-size: clamp(11px, 3.2vw, 15px);
+            .category-card .category-name {
+                font-size: 13px;
                 margin-top: 4px;
                 text-align: center;
                 word-break: keep-all;
                 letter-spacing: -0.5px;
                 line-height: 1.2;
+                margin-bottom: 0;
             }
 
             .calc-tabs-wrapper {
@@ -1560,7 +1449,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                white-space: nowrap;
                 word-break: keep-all;
                 padding: 4px;
                 text-align: center;
@@ -1614,11 +1502,12 @@
                 font-size: 16px;
             }
 
-            .header-contact .phone-call-btn {
-                display: none !important;
+            header .phone-call-btn,
+            header .catalog-btn {
+                display: none;
             }
 
-            /* Task 2: ZENFIX Style Pricing Table Mobile (2-row block) */
+            /* Mobile pricing table: stacked card layout */
             .table-responsive {
                 overflow-x: hidden;
             }
@@ -1637,53 +1526,68 @@
                 display: block;
             }
 
-            .price-table tr {
+            .price-table tbody tr {
                 display: flex;
                 flex-wrap: wrap;
+                flex-direction: column;
                 align-items: center;
-                padding: 16px 4px;
+                padding: 15px 0;
                 border-bottom: 1px solid var(--color-border);
             }
 
-            .price-table td {
-                padding: 0;
-                border: none;
+            .price-table tbody td {
                 display: block;
-            }
-
-            /* Hide the Spec column cell entirely */
-            .price-table td:nth-child(2) {
-                display: none;
+                width: 100%;
+                border: none;
+                padding: 4px 16px;
+                text-align: left;
             }
 
             /* 1st column: Name */
-            .price-table td:nth-child(1) {
+            .price-table tbody td:nth-child(1) {
                 flex: 1;
                 text-align: left;
                 padding-right: 8px;
-                font-weight: bold;
+                font-weight: 700;
+                font-size: 15px;
+            }
+
+            .price-table tbody td:nth-child(1) .prod-spec {
+                display: block;
+                font-size: 12px;
+                color: var(--color-text-muted);
+                font-weight: 400;
+                margin-top: 2px;
+            }
+
+            .price-table tbody td:nth-child(2),
+            .price-table tbody td:nth-child(3) {
+                display: inline-block;
+                width: auto;
+                padding: 2px 16px;
+                font-size: 14px;
             }
 
             /* 3rd column: Unit */
-            .price-table td:nth-child(3) {
+            .price-table tbody td:nth-child(3) {
                 flex: 0 0 auto;
                 text-align: right;
                 font-weight: bold;
-                font-size: 13px;
                 color: var(--color-text-muted);
             }
 
             /* 4th column: Price */
-            .price-table td:nth-child(4) {
+            .price-table tbody td:nth-child(4) {
                 flex: 0 0 auto;
                 text-align: right;
                 font-weight: bold;
                 font-size: 14px;
                 margin-left: 12px;
+                margin-top: 8px;
             }
 
             /* 5th column: Qty (Full width row) */
-            .price-table td:nth-child(5) {
+            .price-table tbody td:nth-child(5) {
                 flex: 0 0 100%;
                 margin-top: 12px;
             }
@@ -1728,13 +1632,6 @@
                 width: 100%;
                 padding: 12px;
             }
-
-            /* Task 3: Sidebar Slide-up */
-            .calc-container {
-                display: block;
-                /* Override grid */
-            }
-
 
             footer {
                 padding-bottom: 140px;
@@ -1849,10 +1746,6 @@
             opacity: 1;
         }
 
-        .calc-tabs {
-            flex-wrap: nowrap !important;
-        }
-
         .btn-inquire {
             background: var(--color-accent-orange-light);
             color: var(--color-accent-orange);
@@ -1902,166 +1795,55 @@
             border-radius: 3px;
         }
 
-        /* Antigravity Custom Styles */
-        @media (max-width: 768px) {
-            .price-table thead {
-                display: none !important;
-            }
-
-            .price-table tbody tr {
-                display: flex;
-                flex-wrap: wrap;
-                flex-direction: column;
-                padding: 15px 0;
-                border-bottom: 1px solid var(--color-border);
-            }
-
-            .price-table tbody td {
-                display: block;
-                width: 100%;
-                border: none;
-                padding: 4px 16px;
-                text-align: left;
-            }
-
-            .price-table tbody td:nth-child(1) {
-                font-weight: 700;
-                font-size: 15px;
-            }
-
-            .price-table tbody td:nth-child(1) .prod-spec {
-                display: block;
-                font-size: 12px;
-                color: var(--color-text-muted);
-                font-weight: 400;
-                margin-top: 2px;
-            }
-
-            .price-table tbody td:nth-child(2),
-            .price-table tbody td:nth-child(3) {
-                display: inline-block;
-                width: auto;
-                padding: 2px 16px;
-                font-size: 14px;
-            }
-
-            .price-table tbody td:nth-child(4) {
-                margin-top: 8px;
-            }
-
-            .price-table tbody td:nth-child(4) .quantity-control {
-                width: 100%;
-                min-height: 44px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-radius: 8px;
-            }
-
-            .price-table tbody td:nth-child(4) .quantity-control button {
-                width: 44px;
-                height: 44px;
-            }
-
-            .price-table tbody td:nth-child(4) .quantity-control span {
-                flex-grow: 1;
-                text-align: center;
-            }
-
-            header .phone-call-btn,
-            header .catalog-btn {
-                display: none !important;
-            }
-
-            .category-grid {
-                grid-template-columns: repeat(3, 1fr) !important;
-                gap: 8px !important;
-            }
-
-            .category-card {
-                padding: 10px 5px !important;
-                height: auto !important;
-                aspect-ratio: 1/1;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .category-card .category-description,
-            .category-card .category-footer-link {
-                display: none !important;
-            }
-
-            .category-card .category-icon-wrap {
-                width: 40px;
-                height: 40px;
-                margin-bottom: 5px;
-            }
-
-            .category-card .category-name {
-                font-size: 13px !important;
-                text-align: center;
-                margin-bottom: 0;
-            }
-        }
-
-        .sidebar-toggle-arrow {
-            display: inline-block;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .calc-sidebar.expanded .sidebar-toggle-arrow {
-            transform: rotate(180deg);
-        }
-
-        /* PC Version: Restore to Right Sidebar layout (No Bottomsheet, No Slide-up) */
+        /* PC: Calculator layout restored to right-side sticky sidebar (grid, no bottom sheet) */
         @media (min-width: 769px) {
             .calc-container {
-                display: grid !important;
-                grid-template-columns: 1fr 340px !important;
-                gap: 30px !important;
-                align-items: start !important;
-                margin-bottom: 0 !important;
+                display: grid;
+                grid-template-columns: 1fr 340px;
+                gap: 30px;
+                align-items: start;
+                margin-bottom: 0;
             }
 
             .calc-sidebar {
-                position: sticky !important;
-                top: 100px !important;
-                bottom: auto !important;
-                left: auto !important;
-                right: auto !important;
-                width: 100% !important;
-                height: auto !important;
-                max-height: calc(100vh - 140px) !important;
-                border-radius: 20px !important;
-                border: 1px solid var(--color-border) !important;
-                box-shadow: var(--shadow-premium) !important;
-                overflow: hidden !important;
-                display: flex !important;
-                flex-direction: column !important;
-                z-index: 10 !important;
-                transform: none !important;
+                position: sticky;
+                top: 100px;
+                bottom: auto;
+                left: auto;
+                right: auto;
+                width: 100%;
+                height: auto;
+                max-height: calc(100vh - 140px);
+                border-radius: 20px;
+                border: 1px solid var(--color-border);
+                box-shadow: var(--shadow-premium);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                z-index: 10;
+                transform: none;
             }
 
             .calc-sidebar.expanded {
-                height: auto !important;
+                height: auto;
             }
 
             .calc-sidebar .sidebar-inner-content {
-                overflow-y: auto !important;
-                max-height: calc(100vh - 240px) !important;
-                padding: 24px !important;
-                display: block !important;
+                overflow-y: auto;
+                max-height: calc(100vh - 240px);
+                padding: 24px;
+                display: block;
             }
 
             .sidebar-toggle-arrow {
-                display: none !important;
+                display: none;
             }
 
             .summary-title {
-                border-radius: 20px 20px 0 0 !important;
-                cursor: default !important;
-                padding: 20px !important;
-                text-align: left !important;
+                border-radius: 20px 20px 0 0;
+                cursor: default;
+                padding: 20px;
+                text-align: left;
             }
         }
     </style>
@@ -3140,17 +2922,17 @@
         let imageStore = {};
 
         const SHEET_CONFIG = {
-            finishing: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1" },
+            finishing: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1810019476" },
             mdf: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=0" },
-            plywood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=2" },
-            interior_plywood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=3" },
-            timber: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=4" },
-            plaster: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=5" },
-            insulation: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=6" },
-            deck_timber: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=7" },
-            louver_wood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=8" },
-            hardware: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=9" },
-            delivery: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=10" },
+            plywood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=2105087312" },
+            interior_plywood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1502465421" },
+            timber: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1035321209" },
+            plaster: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1430273857" },
+            insulation: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1422880070" },
+            deck_timber: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1255269005" },
+            louver_wood: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1375140463" },
+            hardware: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1436943636" },
+            delivery: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=112449290" },
             references: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1626176847" }
         };
         const SHEET_DATA = {};
@@ -3972,18 +3754,6 @@
                 item.classList.add("active");
             }
         }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const dateSpan = document.getElementById('heroDate');
-            if (dateSpan) {
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0');
-                const dd = String(today.getDate()).padStart(2, '0');
-                dateSpan.textContent = yyyy + "." + mm + "." + dd + " 09:00 기준 완료";
-            }
-        });
     </script>
 </body>
 
