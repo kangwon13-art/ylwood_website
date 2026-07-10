@@ -784,6 +784,229 @@
             background: var(--color-accent-orange-light);
         }
 
+        /* ===== 지시서#03 G2: 모바일 그룹 카드 목록 ===== */
+        .mobile-group-list {
+            display: none;
+        }
+
+        .group-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .group-card:active {
+            background: var(--color-accent-orange-light);
+            border-color: var(--color-accent-orange);
+        }
+
+        .group-card-thumb {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            background: var(--color-accent-orange-light);
+            border: 1px solid rgba(255, 107, 53, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .group-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .group-card-thumb svg {
+            width: 26px;
+            height: 26px;
+            stroke: var(--color-accent-orange);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .group-card-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .group-card-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .group-card-count {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-top: 2px;
+        }
+
+        .group-card-chevron {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-text-muted);
+        }
+
+        /* ===== 지시서#03 G2: 옵션 선택 바텀시트 ===== */
+        .option-sheet-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 31, 43, 0.45);
+            z-index: 2400;
+        }
+
+        .option-sheet {
+            display: none;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            max-height: 92vh;
+            max-height: 92svh;
+            background: var(--color-bg-secondary);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -10px 30px rgba(31, 42, 68, 0.25);
+            z-index: 2401;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        body.option-sheet-open .option-sheet-overlay,
+        body.option-sheet-open .option-sheet {
+            display: flex;
+        }
+
+        /* 배경 스크롤 잠금: body에 overflow:hidden만 주면 iOS/Android 터치 환경에서는
+           documentElement가 여전히 팬(pan)되어 잠금이 새는 경우가 많아, 스크롤 위치를 고정한 채
+           body 자체를 position:fixed로 박아 넣는 방식으로 처리 (openOptionSheet/closeOptionSheet에서 적용). */
+        body.option-sheet-open {
+            position: fixed;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .option-sheet-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 20px 20px 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .option-sheet-group-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-text-white);
+        }
+
+        .option-sheet-subtitle {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-top: 4px;
+        }
+
+        .option-sheet-close {
+            background: var(--color-bg-tertiary);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .option-sheet-body {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 12px 20px 24px;
+        }
+
+        .option-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .option-card.highlight-row {
+            background: var(--color-accent-orange-light);
+        }
+
+        .option-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .option-card-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text-white);
+        }
+
+        .option-card-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-accent-orange);
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .option-card-price-vat {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--color-text-muted);
+            margin-top: 2px;
+        }
+
+        .option-card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .option-add-btn {
+            background: var(--color-accent-orange);
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            min-width: 64px;
+            text-align: center;
+        }
+
+        .option-add-btn.added {
+            background: var(--color-text-muted);
+        }
+
         .prod-info {
             display: flex;
             flex-direction: column;
@@ -883,6 +1106,13 @@
             height: 80svh;
         }
 
+        /* 견적 바텀시트 펼침 중 배경 스크롤 잠금 (option-sheet-open과 동일한 방식) */
+        body.sidebar-expanded {
+            position: fixed;
+            width: 100%;
+            overflow: hidden;
+        }
+
         .calc-sidebar .sidebar-inner-content {
             overflow-y: auto;
             padding-bottom: 20px;
@@ -901,6 +1131,11 @@
             background: var(--color-bg-secondary);
             border-radius: 20px 20px 0 0;
             z-index: 2;
+            transition: var(--transition-smooth);
+        }
+
+        .mobile-cart-bar-label {
+            display: none;
         }
 
         .sidebar-toggle-arrow {
@@ -1538,15 +1773,16 @@
 
             .calc-tabs {
                 display: grid !important;
-                grid-template-columns: repeat(3, 1fr) !important;
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
                 gap: 8px !important;
-                white-space: nowrap !important;
+                white-space: normal !important;
                 overflow: visible !important;
                 padding-bottom: 8px;
             }
 
             .calc-tab {
-                white-space: nowrap;
+                white-space: normal;
+                min-width: 0;
                 aspect-ratio: 1 / 1;
                 display: flex;
                 align-items: center;
@@ -1795,6 +2031,36 @@
 
             /* 사이드바(견적 바텀시트)가 펼쳐진 동안은 플로팅 전화/카카오 버튼과 겹치므로 숨김 */
             body.sidebar-expanded .floating-buttons {
+                display: none;
+            }
+
+            /* 지시서#03 G2: 하단 고정 바 = 장바구니 진입점 재정의 (품목 0개/1개 이상 상태 전환) */
+            .summary-title-default,
+            .summary-title #selected-count {
+                display: none;
+            }
+
+            .mobile-cart-bar-label {
+                display: block;
+                font-size: 15px;
+                color: var(--color-text-muted);
+            }
+
+            .summary-title.has-items {
+                background: var(--color-accent-orange);
+            }
+
+            .summary-title.has-items .mobile-cart-bar-label {
+                color: #FFFFFF;
+            }
+
+            .summary-title.has-items .sidebar-toggle-arrow {
+                color: rgba(255, 255, 255, 0.85);
+            }
+
+            /* 옵션 시트가 열려 있는 동안은 장바구니 바/플로팅 버튼과 겹치므로 숨김 */
+            body.option-sheet-open .calc-sidebar,
+            body.option-sheet-open .floating-buttons {
                 display: none;
             }
         }
@@ -2162,17 +2428,23 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- 지시서#03 G2: 모바일 그룹 카드 목록 (현재 MDF 카테고리만 표시, GROUPED_UI_CATEGORIES 참고) -->
+                    <div class="mobile-group-list" id="mobileGroupList">
+                        <!-- Loaded dynamically via JavaScript (renderMobileGroupList) -->
+                    </div>
                 </div>
 
                 <!-- Right Sidebar Section (Total & Inquiry Shortcut) -->
                 <div class="calc-sidebar" id="calcSidebar">
-                    <div class="summary-title" onclick="toggleMobileSidebar()">
+                    <div class="summary-title" onclick="toggleMobileSidebar()" id="summaryTitleBar">
                         <svg class="sidebar-toggle-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 15l-6-6-6 6" />
                         </svg>
-                        선택 품목 내역
+                        <span class="summary-title-default">선택 품목 내역</span>
                         <span class="summary-badge font-num" id="selected-count">0개 선택됨</span>
+                        <span class="mobile-cart-bar-label" id="mobileCartBarLabel">품목을 담아 주세요</span>
                     </div>
                     <div class="sidebar-inner-content">
                         <div class="selected-list" id="selected-items-list">
@@ -2592,6 +2864,25 @@
         </div>
     </footer>
 
+    <!-- 지시서#03 G2: 옵션 선택 바텀시트 (그룹 카드 탭 시 노출) -->
+    <div class="option-sheet-overlay" id="optionSheetOverlay" onclick="closeOptionSheet()"></div>
+    <div class="option-sheet" id="optionSheet">
+        <div class="option-sheet-header">
+            <div>
+                <div class="option-sheet-group-name" id="optionSheetGroupName">그룹명</div>
+                <div class="option-sheet-subtitle">옵션을 선택해 주세요</div>
+            </div>
+            <button class="option-sheet-close" onclick="closeOptionSheet()" aria-label="닫기">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="option-sheet-body" id="optionSheetBody">
+            <!-- Loaded dynamically via JavaScript (openOptionSheet) -->
+        </div>
+    </div>
+
     <div class="floating-buttons">
         <a href="tel:02-1234-5678" class="floating-btn-circle phone" title="전화 연결">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -2687,18 +2978,18 @@
                 { id: 'f19r', code: '', name: '월시스템와이드 900', spec: '900x2400mm', unit: '장', price: PRICES.f19, sub: 'wallsystem' }
             ],
             mdf: [
-                { id: 'm1', code: '', name: 'MDF 3T', spec: '4x8 (1220x2440mm)', unit: '장', price: 4500 },
-                { id: 'm2', code: '', name: 'MDF 4.5T', spec: '4x8 (1220x2440mm)', unit: '장', price: 7900 },
-                { id: 'm3', code: '', name: 'MDF 6T', spec: '4x8 (1220x2440mm)', unit: '장', price: 8300 },
-                { id: 'm4', code: '', name: 'MDF 9T', spec: '4x8 (1220x2440mm)', unit: '장', price: 10200 },
-                { id: 'm5', code: '', name: 'MDF 9T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 13800 },
-                { id: 'm6', code: '', name: 'MDF 12T', spec: '4x8 (1220x2440mm)', unit: '장', price: 14200 },
-                { id: 'm7', code: '', name: 'MDF 12T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 19200 },
-                { id: 'm8', code: '', name: 'MDF 15T', spec: '4x8 (1220x2440mm)', unit: '장', price: 18700 },
-                { id: 'm9', code: '', name: 'MDF 15T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 24000 },
-                { id: 'm10', code: '', name: 'MDF 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 21200 },
-                { id: 'm11', code: '', name: 'MDF 25T', spec: '4x8 (1220x2440mm)', unit: '장', price: 49200 },
-                { id: 'm12', code: '', name: 'MDF 30T', spec: '4x8 (1220x2440mm)', unit: '장', price: 59000 }
+                { id: 'm1', code: '', name: 'MDF 3T', spec: '4x8 (1220x2440mm)', unit: '장', price: 4500, group: 'MDF 4x8' },
+                { id: 'm2', code: '', name: 'MDF 4.5T', spec: '4x8 (1220x2440mm)', unit: '장', price: 7900, group: 'MDF 4x8' },
+                { id: 'm3', code: '', name: 'MDF 6T', spec: '4x8 (1220x2440mm)', unit: '장', price: 8300, group: 'MDF 4x8' },
+                { id: 'm4', code: '', name: 'MDF 9T', spec: '4x8 (1220x2440mm)', unit: '장', price: 10200, group: 'MDF 4x8' },
+                { id: 'm5', code: '', name: 'MDF 9T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 13800, group: 'MDF 4x8' },
+                { id: 'm6', code: '', name: 'MDF 12T', spec: '4x8 (1220x2440mm)', unit: '장', price: 14200, group: 'MDF 4x8' },
+                { id: 'm7', code: '', name: 'MDF 12T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 19200, group: 'MDF 4x8' },
+                { id: 'm8', code: '', name: 'MDF 15T', spec: '4x8 (1220x2440mm)', unit: '장', price: 18700, group: 'MDF 4x8' },
+                { id: 'm9', code: '', name: 'MDF 15T (고밀도)', spec: '4x8 (1220x2440mm)', unit: '장', price: 24000, group: 'MDF 4x8' },
+                { id: 'm10', code: '', name: 'MDF 18T', spec: '4x8 (1220x2440mm)', unit: '장', price: 21200, group: 'MDF 4x8' },
+                { id: 'm11', code: '', name: 'MDF 25T', spec: '4x8 (1220x2440mm)', unit: '장', price: 49200, group: 'MDF 4x8' },
+                { id: 'm12', code: '', name: 'MDF 30T', spec: '4x8 (1220x2440mm)', unit: '장', price: 59000, group: 'MDF 4x8' }
             ],
             plywood: [
                 { id: 'p1', code: '', name: '2.7mm 3*6 합판', spec: '3x6 (910x1820mm)', unit: '장', price: 5500 },
@@ -3112,6 +3403,39 @@
             return '';
         }
 
+        // 지시서#03 G1 확정 그룹 매핑표(docs/g1-group-mapping-v2.md) 기준 폴백.
+        // 시트에 "그룹" 열이 아직 없는 카테고리를 위한 임시 매핑 — 열이 추가되면 시트 값이 우선함.
+        const GROUP_FALLBACK = {
+            mdf: () => 'MDF 4x8'
+        };
+
+        // G2 시연 범위: 모바일 그룹 카드/옵션 시트 UI를 적용할 카테고리.
+        // 다른 카테고리 확산은 이 배열에 추가 + 해당 카테고리 데이터에 group 필드/시트 열 추가만으로 가능하도록 설계.
+        const GROUPED_UI_CATEGORIES = ['mdf'];
+
+        function isMobileViewport() {
+            return window.innerWidth <= 768;
+        }
+
+        function isGroupedUiActive(categoryKey) {
+            return isMobileViewport() && GROUPED_UI_CATEGORIES.includes(categoryKey);
+        }
+
+        function getGroupsForCategory(categoryKey) {
+            const items = PRODUCTS_DATA[categoryKey] || [];
+            const groups = [];
+            const groupIndex = {};
+            items.forEach(item => {
+                const groupName = item.group || item.name;
+                if (!(groupName in groupIndex)) {
+                    groupIndex[groupName] = { name: groupName, items: [] };
+                    groups.push(groupIndex[groupName]);
+                }
+                groupIndex[groupName].items.push(item);
+            });
+            return groups;
+        }
+
         function transformSheetRow(row, category) {
             const no = getCsvValue(row, ['no', '번호', '순번', 'id', '넘버']);
             const code = getCsvValue(row, ['code', '품목코드', '코드']);
@@ -3121,8 +3445,10 @@
             const priceRaw = getCsvValue(row, ['price', '단가', '가격', 'price_krw']);
             const image = getCsvValue(row, ['image', '이미지', 'img']);
             const sub = getCsvValue(row, ['sub', '분류', '카테고리']);
+            const groupRaw = getCsvValue(row, ['group', '그룹']);
             const price = parseInt(String(priceRaw).replace(/[^0-9]/g, '')) || 0;
             const slug = String(code || no || name || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
+            const group = String(groupRaw || '').trim() || (GROUP_FALLBACK[category] ? GROUP_FALLBACK[category]() : '');
 
             return {
                 id: `${category}_${slug || 'item'}`,
@@ -3132,7 +3458,8 @@
                 unit: String(unit || '').trim(),
                 price: price,
                 ...(image ? { image: String(image).trim() } : {}),
-                ...(sub ? { sub: String(sub).trim() } : {})
+                ...(sub ? { sub: String(sub).trim() } : {}),
+                ...(group ? { group: group } : {})
             };
         }
 
@@ -3265,6 +3592,16 @@
             updateEstimateSummary();
             fetchAllSheetData();
 
+            // 지시서#03 G2: 뷰포트가 모바일↔PC 경계(768px)를 넘나들 때 그룹 UI/테이블 렌더링 모드 재적용
+            let lastIsMobile = isMobileViewport();
+            window.addEventListener("resize", () => {
+                const nowIsMobile = isMobileViewport();
+                if (nowIsMobile !== lastIsMobile) {
+                    lastIsMobile = nowIsMobile;
+                    renderActiveProducts();
+                }
+            });
+
             // Set Hero Date
             const d = new Date();
             const heroDateEl = document.getElementById("heroDate");
@@ -3375,6 +3712,11 @@
                             dropdown.style.display = "none";
                             searchInput.value = "";
 
+                            if (isGroupedUiActive(catKey)) {
+                                setTimeout(() => openGroupSheetForItem(catKey, item), 100);
+                                return;
+                            }
+
                             setTimeout(() => {
                                 const row = document.getElementById("product-row-" + item.id);
                                 if (row) {
@@ -3425,12 +3767,23 @@
         // 4. Load products into Table
         function loadProducts(categoryKey, subKey = "all") {
             const tbody = document.getElementById("price-table-body");
+            const tableWrap = document.querySelector(".table-responsive");
+            const groupListWrap = document.getElementById("mobileGroupList");
             tbody.innerHTML = "";
+
+            const groupedActive = isGroupedUiActive(categoryKey);
+            if (tableWrap) tableWrap.style.display = groupedActive ? "none" : "";
+            if (groupListWrap) groupListWrap.style.display = groupedActive ? "block" : "none";
 
             if (isSheetLoading && !SHEET_DATA[categoryKey]?.length) {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: var(--color-text-muted);">데이터를 불러오는 중입니다...</td>`;
                 tbody.appendChild(tr);
+                return;
+            }
+
+            if (groupedActive) {
+                renderMobileGroupList(categoryKey);
                 return;
             }
 
@@ -3491,12 +3844,142 @@
             });
         }
 
+        // ===== 지시서#03 G2: 모바일 그룹 카드 목록 렌더링 =====
+        function renderMobileGroupList(categoryKey) {
+            const wrap = document.getElementById("mobileGroupList");
+            if (!wrap) return;
+            wrap.innerHTML = "";
+
+            const groups = getGroupsForCategory(categoryKey);
+            groups.forEach(group => {
+                const firstItem = group.items[0];
+                const thumbImg = imageStore[firstItem.id] || firstItem.image;
+                const thumbContent = thumbImg
+                    ? `<img src="${thumbImg}" alt="">`
+                    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2zm0 8h18c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2z"/></svg>`;
+
+                const card = document.createElement("div");
+                card.className = "group-card";
+                card.onclick = () => openOptionSheet(categoryKey, group.name);
+                card.innerHTML = `
+                    <div class="group-card-thumb">${thumbContent}</div>
+                    <div class="group-card-body">
+                        <div class="group-card-name">${group.name}</div>
+                        <div class="group-card-count">${group.items.length}개 옵션</div>
+                    </div>
+                    <svg class="group-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                    </svg>
+                `;
+                wrap.appendChild(card);
+            });
+        }
+
+        function buildOptionCard(item, categoryKey) {
+            const qty = selectedQuantities[item.id] || 0;
+            const isQuoteOnly = (item.price === 0 || item.price === null || item.price === "견적문의");
+            const priceDisplay = isQuoteOnly
+                ? `<span style="color: var(--color-accent-orange); font-weight: bold;">견적문의</span>`
+                : `<span class="font-num">${formatNumber(item.price)}</span>원<span class="option-card-price-vat">(VAT 별도)</span>`;
+
+            const controlDisplay = isQuoteOnly
+                ? `<button class="btn-inquire" type="button" onclick="closeOptionSheet(); inquireProduct('${item.name.replace(/'/g, "\\'")}', '${categoryKey}')">문의하기</button>`
+                : `
+                    <div class="qty-control">
+                        <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', -1)">-</button>
+                        <input class="qty-input font-num" type="number" value="${qty}" min="0" onchange="setQty('${item.id}', this.value)" id="qty-input-${item.id}">
+                        <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', 1)">+</button>
+                    </div>
+                    <button class="option-add-btn" type="button" id="add-btn-${item.id}" onclick="handleOptionAdd('${item.id}')">담기</button>
+                `;
+
+            const card = document.createElement("div");
+            card.className = "option-card";
+            card.id = "option-card-" + item.id;
+            card.innerHTML = `
+                <div class="option-card-top">
+                    <div class="option-card-name">${item.name}<div class="option-sheet-subtitle" style="margin-top:2px;">${item.spec} · ${item.unit}</div></div>
+                    <div class="option-card-price">${priceDisplay}</div>
+                </div>
+                <div class="option-card-bottom">${controlDisplay}</div>
+            `;
+            return card;
+        }
+
+        function openOptionSheet(categoryKey, groupName) {
+            const groups = getGroupsForCategory(categoryKey);
+            const group = groups.find(g => g.name === groupName);
+            if (!group) return;
+
+            document.getElementById("optionSheetGroupName").textContent = group.name;
+            const body = document.getElementById("optionSheetBody");
+            body.innerHTML = "";
+            group.items.forEach(item => body.appendChild(buildOptionCard(item, categoryKey)));
+
+            lockBodyScroll();
+            document.body.classList.add("option-sheet-open");
+        }
+
+        function closeOptionSheet() {
+            document.body.classList.remove("option-sheet-open");
+            unlockBodyScroll();
+        }
+
+        // 배경 스크롤 잠금/해제. body{overflow:hidden}만으로는 iOS/Android 터치 스크롤이
+        // 완전히 막히지 않는 경우가 있어, 현재 스크롤 위치를 기억한 뒤 body를 position:fixed로
+        // 고정하고, 해제 시 원래 위치로 스크롤을 복원한다.
+        let lockedScrollY = 0;
+        function lockBodyScroll() {
+            lockedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+            document.body.style.top = `-${lockedScrollY}px`;
+        }
+        function unlockBodyScroll() {
+            document.body.style.top = "";
+            window.scrollTo(0, lockedScrollY);
+        }
+
+        function handleOptionAdd(productId) {
+            const currentQty = selectedQuantities[productId] || 0;
+            if (currentQty <= 0) {
+                adjustQty(productId, 1);
+            }
+            const btn = document.getElementById("add-btn-" + productId);
+            if (btn) {
+                const original = btn.textContent;
+                btn.textContent = "담김 ✓";
+                btn.classList.add("added");
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.classList.remove("added");
+                }, 1000);
+            }
+        }
+
+        // 검색 결과에서 그룹형 카테고리의 특정 옵션으로 바로 이동 (목록→시트 오픈→해당 옵션 하이라이트)
+        function openGroupSheetForItem(categoryKey, item) {
+            openOptionSheet(categoryKey, item.group || item.name);
+            setTimeout(() => {
+                const card = document.getElementById("option-card-" + item.id);
+                if (card) {
+                    card.scrollIntoView({ behavior: "smooth", block: "center" });
+                    card.classList.add("highlight-row");
+                    setTimeout(() => card.classList.remove("highlight-row"), 2000);
+                }
+            }, 150);
+        }
+
         function toggleMobileSidebar() {
             if (window.innerWidth <= 768) {
                 const sidebar = document.getElementById("calcSidebar");
                 if (sidebar) {
                     sidebar.classList.toggle("expanded");
-                    document.body.classList.toggle("sidebar-expanded", sidebar.classList.contains("expanded"));
+                    const isExpanded = sidebar.classList.contains("expanded");
+                    document.body.classList.toggle("sidebar-expanded", isExpanded);
+                    if (isExpanded) {
+                        lockBodyScroll();
+                    } else {
+                        unlockBodyScroll();
+                    }
                 }
             }
         }
@@ -3601,6 +4084,19 @@
 
             document.getElementById("selected-count").innerText = `${count}개 선택됨`;
             document.getElementById("total-val").innerText = formatNumber(total);
+
+            // 지시서#03 G2: 모바일 하단 고정 바 라벨 갱신
+            const cartBarLabel = document.getElementById("mobileCartBarLabel");
+            const summaryBar = document.getElementById("summaryTitleBar");
+            if (cartBarLabel && summaryBar) {
+                if (hasItems) {
+                    cartBarLabel.textContent = `${count}개 품목 · 합계 ${formatNumber(total)}원 — 견적 확인 ›`;
+                    summaryBar.classList.add("has-items");
+                } else {
+                    cartBarLabel.textContent = "품목을 담아 주세요";
+                    summaryBar.classList.remove("has-items");
+                }
+            }
         }
 
         // 8. Number Formatting Utility
