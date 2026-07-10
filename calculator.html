@@ -2282,33 +2282,22 @@
                     </svg>
                     <span class="font-num phone-btn-text">02-1234-5678</span>
                 </a>
-                <a href="calculator.html" class="nav-tab-link">최신단가표</a>
+                <a href="calculator.html" class="nav-tab-link active">최신단가표</a>
                 <a href="catalog.html" class="nav-tab-link">영림카탈로그</a>
-                <button class="quick-consult-btn" onclick="scrollToElement('inquiry-form-sec')">무료 견적 문의</button>
+                <button class="quick-consult-btn" onclick="copyEstimateAndScroll()">무료 견적 문의</button>
             </div>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="container hero-wrap">
-            <div class="hero-content">
-                <div class="hero-tag">
-                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="margin-top: 1px;">
-                        <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h-2v-2h4v8zm0-10h-2V5h-2v2h4z" />
-                    </svg>
-                    영림우드 공식 유통사 · 건축자재 전문
-                </div>
-                <h1 class="hero-title">
-                    찾는 자재 검색 한 번,<br>
-                    <span>단가부터 견적까지 한 화면에서</span>
-                </h1>
-                <p class="hero-desc">
-                    건축의 시작은 자재입니다. 영림우드는 석고보드부터 구조재까지, 필요한 자재가 제때·제값에·정직하게 현장에 도착할 수 있도록 책임집니다. 지금 바로 실시간 단가에서 견적을 확인해
-                    보세요.
-                </p>
-                <div class="global-search-container hero-search" style="position: relative; z-index: 10;">
+    <!-- CALCULATOR SECTION -->
+    <section class="calculator-section" id="calculator-sec" style="padding-top: 40px;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">CALCULATOR</span>
+                <h2 class="section-title">실시간 자재 견적 계산기</h2>
+                <p class="section-desc">필요한 자재 품목의 수량을 설정해 보세요. 실시간 견적 총금액을 확인하고 바로 카카오톡 또는 이메일 상담 요청을 보낼 수 있습니다.</p>
+                <!-- 2차 검색란 이식 -->
+                <div class="global-search-container hero-search" style="position: relative; z-index: 10; margin: 24px auto 0; max-width: 520px; text-align: left;">
                     <input class="form-input" type="text" id="globalProductSearchInput"
                         placeholder="품목명 또는 규격 검색 (예: 석고보드, 12T)..."
                         style="width: 100%; box-sizing: border-box; padding-left: 44px; background: var(--color-bg-secondary);">
@@ -2322,407 +2311,135 @@
                         style="display: none; position: absolute; top: calc(100% + 5px); left: 0; right: 0; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; max-height: 250px; overflow-y: auto; box-shadow: var(--shadow-premium); z-index: 9999;">
                     </div>
                 </div>
-                <div class="hero-ctas">
-                    <button class="btn btn-primary" onclick="scrollToElement('calculator-sec')">
-                        실시간 단가 계산하기
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                        </svg>
-                    </button>
-                    <button class="btn btn-secondary" onclick="scrollToElement('inquiry-form-sec')">간편 유선 상담 신청</button>
-                </div>
-                <div class="hero-badge-grid">
-                    <div class="hero-badge-item">
-                        <span class="hero-badge-title">당일 배송율</span>
-                        <span class="hero-badge-value font-num">98.4<span>%</span></span>
-                    </div>
-                    <div class="hero-badge-item">
-                        <span class="hero-badge-title">누적 거래처</span>
-                        <span class="hero-badge-value font-num">3,500<span>+</span></span>
-                    </div>
-                    <div class="hero-badge-item">
-                        <span class="hero-badge-title">품목 수</span>
-                        <span class="hero-badge-value font-num">120<span>여종</span></span>
-                    </div>
-                </div>
             </div>
-            <div class="hero-image-panel">
-                <div class="hero-card">
-                    <div class="hero-card-header">
-                        <h3 class="hero-card-title">
-                            <svg width="20" height="20" fill="none" stroke="var(--color-accent-orange)"
-                                stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div class="calc-container">
+                <!-- Left Main Section (Tabs + Price list Table) -->
+                <div class="calc-main">
+                    <div class="calc-tabs-wrapper">
+                        <button class="tab-scroll-btn" onclick="scrollTabs(-1)" aria-label="이전 탭">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                             </svg>
-                            영림우드 단가 투명 보장제
-                        </h3>
-                        <p class="hero-card-subtitle">원자재 시세 반영 투명 단가 시스템</p>
+                        </button>
+                        <div class="calc-tabs" id="calcTabsScroll">
+                            <button class="calc-tab active" onclick="switchCalcTab('finishing')"
+                                id="tab-finishing">마감자재</button>
+                            <button class="calc-tab" onclick="switchCalcTab('mdf')" id="tab-mdf">MDF</button>
+                            <button class="calc-tab" onclick="switchCalcTab('plywood')" id="tab-plywood">합판</button>
+                            <button class="calc-tab" onclick="switchCalcTab('interior_plywood')"
+                                id="tab-interior_plywood">인테리어합판</button>
+                            <button class="calc-tab" onclick="switchCalcTab('timber')" id="tab-timber">목재/구조재</button>
+                            <button class="calc-tab" onclick="switchCalcTab('plaster')" id="tab-plaster">석고보드</button>
+                            <button class="calc-tab" onclick="switchCalcTab('insulation')"
+                                id="tab-insulation">단열재</button>
+                            <button class="calc-tab" onclick="switchCalcTab('deck_timber')"
+                                id="tab-deck_timber">방부목/특수목/합성목</button>
+                            <button class="calc-tab" onclick="switchCalcTab('louver_wood')"
+                                id="tab-louver_wood">루바/집성판</button>
+                            <button class="calc-tab" onclick="switchCalcTab('hardware')"
+                                id="tab-hardware">철물/부자재</button>
+                            <button class="calc-tab" onclick="switchCalcTab('delivery')" id="tab-delivery">운반비</button>
+                        </div>
+                        <button class="tab-scroll-btn" onclick="scrollTabs(1)" aria-label="다음 탭">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
                     </div>
-                    <div class="hero-stat-row">
-                        <span class="hero-stat-label">실시간 단가 업데이트</span>
-                        <span class="hero-stat-value font-num" id="heroDate">오늘 09:00 기준 완료</span>
-                    </div>
-                    <div class="hero-stat-row">
-                        <span class="hero-stat-label">유통 수수료 최소화</span>
-                        <span class="hero-stat-value highlight font-num">직송 15% 절감 효과</span>
-                    </div>
-                    <div class="hero-stat-row">
-                        <span class="hero-stat-label">전국 직배송망</span>
-                        <span class="hero-stat-value highlight font-num">당일/익일 출고 보장</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
+                    <!-- Sub-category Tabs for 마감자재 -->
+                    <div id="sub-category-wrap" class="sub-category-tabs" style="display: none;">
+                        <button class="sub-calc-tab active" onclick="filterFinishingSub('all')">전체보기</button>
+                        <button class="sub-calc-tab" onclick="filterFinishingSub('temba')">템바보드</button>
+                        <button class="sub-calc-tab" onclick="filterFinishingSub('aqua')">아쿠아보드</button>
+                        <button class="sub-calc-tab" onclick="filterFinishingSub('onestone')">원스톤 플렉시블 보드</button>
+                        <button class="sub-calc-tab" onclick="filterFinishingSub('infini')">인피니월</button>
+                        <button class="sub-calc-tab" onclick="filterFinishingSub('wallsystem')">월시스템와이드</button>
+                    </div>
+                    <!-- Sub-category Tabs for 방부목/특수목 -->
+                    <div id="deck-subcategory-wrap" class="sub-category-tabs" style="display: none;">
+                        <button class="sub-calc-tab active" onclick="filterDeckSub('all')">전체보기</button>
+                        <button class="sub-calc-tab" onclick="filterDeckSub('treated')">방부목</button>
+                        <button class="sub-calc-tab" onclick="filterDeckSub('composite')">합성데크</button>
+                        <button class="sub-calc-tab" onclick="filterDeckSub('natural')">천연데크</button>
+                    </div>
 
+                    <!-- Delivery Info Alert (Shown only when delivery tab is active) -->
+                    <div id="delivery-info-alert"
+                        style="display: none; background: rgba(255, 107, 53, 0.12); border: 1px solid var(--color-accent-orange); border-radius: 12px; padding: 18px; margin-bottom: 22px; color: var(--color-text-white); font-weight: 600; align-items: center; gap: 12px; font-size: 14.5px; line-height: 1.5; box-shadow: var(--shadow-premium);">
+                        <span style="font-size: 18px;">⚠️</span>
+                        <span>운반비는 거리 및 상차 품목에 따라 상이합니다. 반드시 전화 문의 후 결제해 주세요.</span>
+                    </div>
 
-    <!-- CATEGORIES SECTION -->
-    <section class="categories" id="categories-sec">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Categories</span>
-                <h2 class="section-title">취급 자재 카테고리</h2>
-                <p class="section-desc">영림우드가 엄선하여 직배송하는 고품질 건축 자재 리스트입니다. 카테고리를 클릭하면 단가 계산기로 즉시 이동합니다.</p>
-            </div>
-            <div class="category-grid">
-                <!-- 1. 마감자재 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('finishing')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 4.85L18.2 13H17v5h-2v-5H9v5H7v-5H5.8L12 7.85z" />
-                        </svg>
+                    <div class="table-responsive">
+                        <table class="price-table">
+                            <thead>
+                                <tr>
+                                    <th style="min-width: 160px;">자재 품목</th>
+                                    <th style="min-width: 140px;">규격</th>
+                                    <th style="width: 60px;">단위</th>
+                                    <th style="width: 110px;">단가 (원)</th>
+                                    <th style="width: 120px; text-align: center;">수량 선택</th>
+                                </tr>
+                            </thead>
+                            <tbody id="price-table-body">
+                                <!-- Loaded dynamically via JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">마감자재</h3>
-                        <p class="category-description">템바보드, 아쿠아보드, 원스톤 플렉시블 보드, 인피니월, 월시스템와이드 등 세련된 월판넬 및 프리미엄 마감재.
-                        </p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 2. MDF -->
-                <div class="category-card" onclick="selectCategoryAndScroll('mdf')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M3 13h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2zm0 8h18c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">MDF</h3>
-                        <p class="category-description">3t부터 30t까지 다양한 두께를 지원하는 가구 제작 및 인테리어 기초 시공용 고밀도 보드 자재.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 3. 합판 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('plywood')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">합판</h3>
-                        <p class="category-description">4x8 및 3x6 규격의 베트남산, 라왕, 코아합판, 태고 코팅합판, 내수 합판 등 용도별 자재 라인업.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 4. 인테리어합판 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('interior_plywood')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M12 2c1.1 0 2 .9 2 2v3.07c0 .24.16.44.38.49L17.7 8.2c.98.24 1.7 1.12 1.7 2.14v6.83c0 1.62-1.32 2.93-2.93 2.93h-8.94c-1.61 0-2.93-1.31-2.93-2.93V10.3c0-1.02.72-1.9 1.7-2.14L9.62 7.6c.22-.05.38-.25.38-.49V4c0-1.1.9-2 2-2z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">인테리어합판</h3>
-                        <p class="category-description">미송합판, 낙엽송합판, 레드오크, 러시아산 자작합판 등 노출 마감용 인테리어 특수합판 일체.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 5. 목재/구조재 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('timber')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">목재/구조재</h3>
-                        <p class="category-description">소송 각재(다루끼, 투바이), 뉴송 각재(폼다루끼, 투바이), 산승각/오비끼, SPF/SPC 구조재 등 시공 목재
-                            전문.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 6. 석고보드 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('plaster')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">석고보드</h3>
-                        <p class="category-description">일반, 방수, 방화, 차음석고보드 등 다양한 규격을 보유하고 있습니다. 벽체 및 천장 시공 필수 자재.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 7. 단열재 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('insulation')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M12 2L2 22h20L12 2zm0 3.99L19.53 19H4.47L12 5.99zM13 16h-2v2h2v-2zm0-6h-2v4h2v-4z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">단열재</h3>
-                        <p class="category-description">그라스울, 압출법(아이소핑크), 비드법 단열재 등 준불연 고성능 열전도율 보장 자재 공급.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 8. 방부목/특수목 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('deck_timber')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M17 15.58V21H7v-5.42L12 11l5 4.58zM12 2L2 11h3v9h14v-9h3L12 2z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">방부목/특수목/합성목</h3>
-                        <p class="category-description">야외 테라스용 방부목, 친환경 합성목재 데크 및 방킬라이, 멀바우 등 천연목 데크 유통 표준 규격 완비.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 8.5. 루바/집성판 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('louver_wood')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">루바/집성판</h3>
-                        <p class="category-description">루바, 집성판, 각종 폭판 등 인테리어 마감재 및 목공 전용 목재 자재 전문 공급.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- 9. 철물/부자재 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('hardware')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.3C.5 6.7.9 9.8 2.9 11.8c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.4-2.4c.4-.4.4-1.1 0-1.4z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">철물/부자재</h3>
-                        <p class="category-description">수성/유성 도료, 친환경 접착제, 목공 타카핀, 건용 폼, 실리콘 등 현장에서 쓰이는 필수 철물 자재 일체.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
-                        <svg viewBox="0 0 24 24">
-                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- INQUIRY FORM SECTION -->
-    <section class="inquiry" id="inquiry-form-sec">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">INQUIRY</span>
-                <h2 class="section-title">빠른 무료 상담 신청</h2>
-                <p class="section-desc">자재 물량 산출이 어려우시거나, 대량 발주 할인을 원하시면 편하게 신청해 주세요. 친절하고 정확하게 안내해 드리겠습니다.</p>
-            </div>
-            <div class="inquiry-wrap">
-                <form id="inquiryForm" onsubmit="handleFormSubmit(event)">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label" for="clientName">업체명 / 성함 <span>*</span></label>
-                            <input class="form-input" type="text" id="clientName" placeholder="예: 영림건설 / 홍길동" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="clientTel">연락처 <span>*</span></label>
-                            <input class="form-input" type="tel" id="clientTel" placeholder="예: 010-1234-5678" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="targetCategory">관심 자재 품목 <span>*</span></label>
-                            <select class="form-select" id="targetCategory">
-                                <option value="전체">전체 품목</option>
-                                <option value="마감자재">마감자재</option>
-                                <option value="석고보드">석고보드</option>
-                                <option value="단열재">단열재</option>
-                                <option value="MDF">MDF</option>
-                                <option value="합판">합판</option>
-                                <option value="인테리어합판">인테리어합판</option>
-                                <option value="목재">목재/구조재</option>
-                                <option value="방부목_특수목">방부목/특수목</option>
-                                <option value="루바_집성판">루바/집성판</option>
-                                <option value="철물_부자재">철물/부자재</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="deliveryArea">배송 희망 지역</label>
-                            <input class="form-input" type="text" id="deliveryArea" placeholder="예: 서울 강남구 / 경기도 하남시">
-                        </div>
-                        <div class="form-group full-width">
-                            <label class="form-label" for="inquiryText">문의 내용 (계산기 선택 내역 자동 적용 가능)
-                                <span>*</span></label>
-                            <textarea class="form-textarea" id="inquiryText"
-                                placeholder="문의하실 자재의 규격, 필요 수량, 도면 첨부 여부 등을 입력해 주세요. 실시간 단가 계산기에서 선택하신 내역이 이곳에 복사될 수 있습니다."
-                                required></textarea>
-                        </div>
+                    <!-- 지시서#03 G2: 모바일 그룹 카드 목록 (현재 MDF 카테고리만 표시, GROUPED_UI_CATEGORIES 참고) -->
+                    <div class="mobile-group-list" id="mobileGroupList">
+                        <!-- Loaded dynamically via JavaScript (renderMobileGroupList) -->
                     </div>
-                    <label class="form-agree">
-                        <input type="checkbox" id="privacyAgree" required>
-                        개인정보 수집 및 이용 방침(상담/안내 목적)에 동의합니다. <a href="#"
-                            onclick="alert('입력하신 개인정보는 문의 응대를 위한 전화 연락 및 이메일 전송 목적 외에는 절대 타 용도로 무단 제공되지 않습니다.'); return false;">[전문보기]</a>
-                    </label>
-                    <button class="btn btn-primary btn-full" type="submit">
-                        상담 신청 완료하기
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
+                </div>
 
-    <!-- REFERENCES SECTION (시공 사례/납품 실적) -->
-    <section class="references-sec" style="padding: 100px 0; background: var(--color-bg-secondary);">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">REFERENCES</span>
-                <h2 class="section-title">주요 납품 실적</h2>
-                <p class="section-desc">영림우드가 납품을 완료한 주요 프로젝트 현장입니다.</p>
-            </div>
-            <div class="category-grid" id="referenceContainer">
-                <!-- References will be rendered here dynamically -->
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQS SECTION -->
-    <section class="faqs">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">FAQ</span>
-                <h2 class="section-title">자주 묻는 질문</h2>
-                <p class="section-desc">납품 및 배송과 관련해 가장 자주 하시는 질문들을 모았습니다.</p>
-            </div>
-            <div class="faq-wrap">
-                <!-- Q1 -->
-                <div class="faq-item">
-                    <div class="faq-header" onclick="toggleFaq(this)">
-                        <div class="faq-question"><span>Q.</span> 단가표 금액에서 추가 할인이 가능한가요?</div>
-                        <svg class="faq-icon" viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5H7z" />
+                <!-- Right Sidebar Section (Total & Inquiry Shortcut) -->
+                <div class="calc-sidebar" id="calcSidebar">
+                    <div class="summary-title" onclick="toggleMobileSidebar()" id="summaryTitleBar">
+                        <svg class="sidebar-toggle-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 15l-6-6-6 6" />
                         </svg>
+                        <span class="summary-title-default">선택 품목 내역</span>
+                        <span class="summary-badge font-num" id="selected-count">0개 선택됨</span>
+                        <span class="mobile-cart-bar-label" id="mobileCartBarLabel">품목을 담아 주세요</span>
                     </div>
-                    <div class="faq-body">
-                        <div class="faq-content">
-                            대량 발주(15톤 또는 25톤 단독 차량 분량) 시 공장 직송 및 특별 할인 단가가 적용됩니다. 대규모 상업 공간이나 공사 물량이 크실 경우, 대표 번호로 즉시 유선
-                            연락 주시거나 상담 폼에 대량 단가 견적을 의뢰해 주시면 별도의 견적서를 송부해 드립니다.
+                    <div class="sidebar-inner-content">
+                        <div class="selected-list" id="selected-items-list">
+                            <div class="empty-cart-msg">선택된 자재가 없습니다.<br>수량을 추가해 주세요.</div>
                         </div>
-                    </div>
-                </div>
-                <!-- Q2 -->
-                <div class="faq-item">
-                    <div class="faq-header" onclick="toggleFaq(this)">
-                        <div class="faq-question"><span>Q.</span> 수도권 외 타 지역도 배송이 가능한가요?</div>
-                        <svg class="faq-icon" viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5H7z" />
-                        </svg>
-                    </div>
-                    <div class="faq-body">
-                        <div class="faq-content">
-                            네, 전국 배송이 가능합니다. 경기도 및 서울 수도권은 당사 물류 거점을 통해 직배송되며, 그 외 충청/호남/영남 지역은 지역 협력 물류 네트워크를 연동하여 가장
-                            경쟁력 있고 합리적인 운송 단가로 발송 처리하고 있습니다.
+                        <div class="summary-total">
+                            <span class="total-label">총 견적 금액</span>
+                            <div class="total-price-wrap">
+                                <div class="total-price font-num"><span id="total-val">0</span>원</div>
+                                <div class="total-price-vat">(배송비 별도 / 부가세 별도)</div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <!-- Q3 -->
-                <div class="faq-item">
-                    <div class="faq-header" onclick="toggleFaq(this)">
-                        <div class="faq-question"><span>Q.</span> 당일 결제 후 즉시 수령(출고)도 가능한가요?</div>
-                        <svg class="faq-icon" viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5H7z" />
-                        </svg>
-                    </div>
-                    <div class="faq-body">
-                        <div class="faq-content">
-                            네, 물류 창고에 재고가 확보된 품목의 경우 오전 결제 완료 건에 한하여 당일 화물 발송 및 당일 수령이 가능합니다. 단, 석고텍스나 수입산 특정 마이톤 등 수급이
-                            유동적인 일부 자재는 사전 재고 조회가 필요하므로 출고 전 고객센터 확인을 권장드립니다.
-                        </div>
-                    </div>
-                </div>
-                <!-- Q4 -->
-                <div class="faq-item">
-                    <div class="faq-header" onclick="toggleFaq(this)">
-                        <div class="faq-question"><span>Q.</span> 부가세 및 세금계산서 발행이 되나요?</div>
-                        <svg class="faq-icon" viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5H7z" />
-                        </svg>
-                    </div>
-                    <div class="faq-body">
-                        <div class="faq-content">
-                            네, 당사는 법인 유통 업체로 모든 거래에 대해 세금계산서 발행이 의무이자 원칙입니다. 계산서 발급을 원하시면 사업자등록증 사본과 함께 이메일 또는 팩스/카카오톡으로
-                            전송해 주시면 당일 전자 세금계산서가 정상 발급됩니다. 단가표의 견적 금액은 부가세 별도 기준 금액입니다.
+                        <div class="sidebar-actions">
+                            <button class="btn btn-primary btn-full sidebar-cta-main" onclick="copyEstimateAndScroll()">
+                                선택 품목으로 견적 문의하기
+                            </button>
+                            <div class="sidebar-cta-secondary">
+                                <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao"
+                                    id="kakao-send-btn" onclick="sendKakaoEstimate(event)">
+                                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
+                                    </svg>
+                                    카카오톡 전송
+                                </a>
+                                <button class="btn btn-secondary" onclick="downloadEstimateImage()">
+                                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                    </svg>
+                                    PNG 저장
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2758,6 +2475,25 @@
         </div>
     </footer>
 
+    <!-- 지시서#03 G2: 옵션 선택 바텀시트 (그룹 카드 탭 시 노출) -->
+    <div class="option-sheet-overlay" id="optionSheetOverlay" onclick="closeOptionSheet()"></div>
+    <div class="option-sheet" id="optionSheet">
+        <div class="option-sheet-header">
+            <div>
+                <div class="option-sheet-group-name" id="optionSheetGroupName">그룹명</div>
+                <div class="option-sheet-subtitle">옵션을 선택해 주세요</div>
+            </div>
+            <button class="option-sheet-close" onclick="closeOptionSheet()" aria-label="닫기">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="option-sheet-body" id="optionSheetBody">
+            <!-- Loaded dynamically via JavaScript (openOptionSheet) -->
+        </div>
+    </div>
+
     <div class="floating-buttons">
         <a href="tel:02-1234-5678" class="floating-btn-circle phone" title="전화 연결">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -2765,7 +2501,8 @@
                     d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.502-5.114-3.792-6.616-6.616l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
             </svg>
         </a>
-        <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="floating-btn-circle kakao" title="카카오톡 문의">
+        <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="floating-btn-circle kakao" title="카카오톡 문의"
+            onclick="sendKakaoEstimate(event)">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path
                     d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
@@ -2787,6 +2524,31 @@
                 담당자 확인 후 기재해 주신 연락처로 30분 이내에 연락 드리겠습니다.
             </p>
             <button class="btn btn-primary btn-full" onclick="closeModal()">확인</button>
+        </div>
+    </div>
+
+    <!-- PRODUCT IMAGE MODAL -->
+    <div class="modal" id="productImageModal">
+        <div class="modal-card" style="max-width: 480px; border-color: var(--color-accent-orange);">
+            <h3 class="modal-title" id="prodModalTitle">상품 상세 보기</h3>
+            <p class="modal-desc" id="prodModalSpec" style="margin-bottom: 15px;"></p>
+            <div id="prodModalImageWrap"
+                style="width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 20px; background: var(--color-bg-primary); border: 1px solid var(--color-border); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;">
+                <img id="prodModalImg" src="" alt="상품 이미지"
+                    onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23ccc\' stroke-width=\'1\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Crect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\' ry=\'2\'/%3E%3Ccircle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/%3E%3Cpolyline points=\'21 15 16 10 5 21\'/%3E%3C/svg%3E'; this.style.objectFit='contain'; this.style.padding='20px';"
+                    style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            </div>
+            <div class="prod-details-info">
+                <div class="prod-details-row">
+                    <span class="prod-details-label">단위</span>
+                    <span class="prod-details-val" id="prodModalUnit"></span>
+                </div>
+                <div class="prod-details-row">
+                    <span class="prod-details-label">단가</span>
+                    <span class="prod-details-price" id="prodModalPrice"></span>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="closeProductModal()">닫기</button>
         </div>
     </div>
 
@@ -3538,7 +3300,59 @@
                 }
                 renderActiveProducts();
                 updateEstimateSummary();
+                handleUrlParameters();
             }
+        }
+
+        let isUrlParamProcessed = false;
+        function handleUrlParameters() {
+            if (isUrlParamProcessed) return;
+            const urlParams = new URLSearchParams(window.location.search);
+            const cat = urlParams.get('cat');
+            const q = urlParams.get('q');
+            const id = urlParams.get('id');
+
+            if (cat) {
+                switchCalcTab(cat);
+            }
+            if (q) {
+                const searchInput = document.getElementById("globalProductSearchInput");
+                if (searchInput) {
+                    searchInput.value = q;
+                    searchInput.focus();
+                    const len = searchInput.value.length;
+                    searchInput.setSelectionRange(len, len);
+                    searchInput.dispatchEvent(new Event('input'));
+                }
+            }
+            if (id) {
+                let foundItem = null;
+                let foundCat = null;
+                for (const catKey in PRODUCTS_DATA) {
+                    const item = PRODUCTS_DATA[catKey].find(i => i.id === id);
+                    if (item) {
+                        foundItem = item;
+                        foundCat = catKey;
+                        break;
+                    }
+                }
+                if (foundItem && foundCat) {
+                    switchCalcTab(foundCat);
+                    if (isGroupedUiActive(foundCat)) {
+                        setTimeout(() => openGroupSheetForItem(foundCat, foundItem), 150);
+                    } else {
+                        setTimeout(() => {
+                            const row = document.getElementById("product-row-" + id);
+                            if (row) {
+                                row.scrollIntoView({ behavior: "smooth", block: "center" });
+                                row.classList.add("highlight-row");
+                                setTimeout(() => row.classList.remove("highlight-row"), 2000);
+                            }
+                        }, 150);
+                    }
+                }
+            }
+            isUrlParamProcessed = true;
         }
 
         async function fetchMdfData() {
@@ -3597,6 +3411,36 @@
 
         // 1. Initialize
         window.addEventListener("DOMContentLoaded", () => {
+            // Immediate tab switch based on URL parameters before sheet loads
+            const urlParams = new URLSearchParams(window.location.search);
+            const cat = urlParams.get('cat');
+            const id = urlParams.get('id');
+            if (cat) {
+                currentActiveTab = cat;
+            } else if (id) {
+                for (const catKey in BASE_PRODUCTS_DATA) {
+                    if (BASE_PRODUCTS_DATA[catKey].some(i => i.id === id)) {
+                        currentActiveTab = catKey;
+                        break;
+                    }
+                }
+            }
+
+            loadLocalData();
+            renderActiveProducts();
+            updateEstimateSummary();
+            fetchAllSheetData();
+
+            // 지시서#03 G2: 뷰포트가 모바일↔PC 경계(768px)를 넘나들 때 그룹 UI/테이블 렌더링 모드 재적용
+            let lastIsMobile = isMobileViewport();
+            window.addEventListener("resize", () => {
+                const nowIsMobile = isMobileViewport();
+                if (nowIsMobile !== lastIsMobile) {
+                    lastIsMobile = nowIsMobile;
+                    renderActiveProducts();
+                }
+            });
+
             // Set Hero Date
             const d = new Date();
             const heroDateEl = document.getElementById("heroDate");
@@ -3614,7 +3458,12 @@
                 }
             });
 
-            // Success modal click-outside logic
+            // Modal click-outside logic
+            document.getElementById("productImageModal").addEventListener("click", function (e) {
+                if (e.target === this) {
+                    closeProductModal();
+                }
+            });
             document.getElementById("successModal").addEventListener("click", function (e) {
                 if (e.target === this) {
                     closeModal();
@@ -3624,58 +3473,113 @@
             // Initialize EmailJS
             emailjs.init({ publicKey: "IUoW0OjnbS5lz8_ib" });
 
-            // Initialize Global Search Redirect (1차 검색 - 입력 즉시 calculator.html로 이동)
+            // Initialize Global Product Search
             const searchInput = document.getElementById("globalProductSearchInput");
-            if (searchInput) {
-                searchInput.addEventListener("input", () => {
-                    const val = searchInput.value.trim();
-                    if (val.length >= 1) {
-                        window.location.href = `calculator.html?q=${encodeURIComponent(val)}`;
-                    }
-                });
-                searchInput.addEventListener("keydown", (e) => {
-                    if (e.key === "Enter") {
-                        const val = searchInput.value.trim();
-                        if (val.length > 0) {
-                            window.location.href = `calculator.html?q=${encodeURIComponent(val)}`;
+            const dropdown = document.getElementById("globalSearchDropdown");
+
+            const CATEGORY_LABELS = {
+                finishing: "마감자재",
+                mdf: "MDF",
+                plywood: "합판",
+                interior_plywood: "인테리어합판",
+                timber: "목재/구조재",
+                plaster: "석고보드",
+                insulation: "단열재",
+                deck_timber: "방부목/특수목",
+                louver_wood: "루바/집성판",
+                hardware: "철물/부자재",
+                delivery: "운반비"
+            };
+
+            searchInput.addEventListener("input", () => {
+                const query = searchInput.value.trim().toLowerCase();
+                if (query.length < 1) {
+                    dropdown.style.display = "none";
+                    dropdown.innerHTML = "";
+                    return;
+                }
+
+                dropdown.innerHTML = "";
+                let matches = [];
+
+                // Search across all categories
+                for (const catKey in PRODUCTS_DATA) {
+                    const items = PRODUCTS_DATA[catKey] || [];
+                    items.forEach(item => {
+                        const nameMatch = item.name && item.name.toLowerCase().includes(query);
+                        const specMatch = item.spec && item.spec.toLowerCase().includes(query);
+                        if (nameMatch || specMatch) {
+                            matches.push({ item, catKey });
                         }
-                    }
-                });
-            }
-
-            // Check for pending estimate from calculator page
-            const pendingText = localStorage.getItem('pendingEstimateText');
-            const pendingCat = localStorage.getItem('pendingCategory');
-            if (pendingText) {
-                const textarea = document.getElementById("inquiryText");
-                if (textarea) {
-                    textarea.value = pendingText + "\n\n현장 상세 정보 및 배송 가능일 조율 요청합니다.";
+                    });
                 }
-                const select = document.getElementById("targetCategory");
-                const catMap = {
-                    finishing: "마감자재",
-                    mdf: "MDF",
-                    plywood: "합판",
-                    interior_plywood: "인테리어합판",
-                    timber: "목재/구조재",
-                    plaster: "석고보드",
-                    insulation: "단열재",
-                    deck_timber: "방부목/특수목",
-                    louver_wood: "루바_집성판",
-                    hardware: "철물/부자재"
-                };
-                if (select && pendingCat && catMap[pendingCat]) {
-                    select.value = catMap[pendingCat];
-                }
-                // Clear from storage
-                localStorage.removeItem('pendingEstimateText');
-                localStorage.removeItem('pendingCategory');
 
-                // Scroll to inquiry section
-                setTimeout(() => {
-                    scrollToElement("inquiry-form-sec");
-                }, 200);
-            }
+                if (matches.length === 0) {
+                    const div = document.createElement("div");
+                    div.style.padding = "12px 16px";
+                    div.style.color = "var(--color-text-muted)";
+                    div.style.fontSize = "14px";
+                    div.textContent = "검색 결과가 없습니다.";
+                    dropdown.appendChild(div);
+                } else {
+                    // Limit to 15 results
+                    matches.slice(0, 15).forEach(({ item, catKey }) => {
+                        const div = document.createElement("div");
+                        div.className = "search-result-item";
+                        div.style.padding = "12px 16px";
+                        div.style.cursor = "pointer";
+                        div.style.borderBottom = "1px solid var(--color-border)";
+                        div.style.transition = "background 0.2s";
+
+                        div.onmouseenter = () => div.style.background = "rgba(255, 107, 53, 0.1)";
+                        div.onmouseleave = () => div.style.background = "transparent";
+
+                        const priceDisplay = (item.price === 0 || item.price === null || item.price === "견적문의")
+                            ? "견적문의"
+                            : formatNumber(item.price) + "원";
+
+                        div.innerHTML = `
+                            <div style="font-weight: 700; color: var(--color-text-white); font-size: 14px;">${item.name}</div>
+                            <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 4px;">
+                                ${item.spec} | ${item.unit} | ${priceDisplay}
+                                <span style="float: right; color: var(--color-accent-orange); font-size: 11px; font-weight: 700;">${CATEGORY_LABELS[catKey]}</span>
+                            </div>
+                        `;
+
+                        div.onclick = () => {
+                            switchCalcTab(catKey);
+                            dropdown.style.display = "none";
+                            searchInput.value = "";
+
+                            if (isGroupedUiActive(catKey)) {
+                                setTimeout(() => openGroupSheetForItem(catKey, item), 100);
+                                return;
+                            }
+
+                            setTimeout(() => {
+                                const row = document.getElementById("product-row-" + item.id);
+                                if (row) {
+                                    row.scrollIntoView({ behavior: "smooth", block: "center" });
+                                    row.classList.add("highlight-row");
+                                    setTimeout(() => {
+                                        row.classList.remove("highlight-row");
+                                    }, 2000);
+                                }
+                            }, 100);
+                        };
+
+                        dropdown.appendChild(div);
+                    });
+                }
+                dropdown.style.display = "block";
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", (e) => {
+                if (e.target !== searchInput && e.target !== dropdown && !dropdown.contains(e.target)) {
+                    dropdown.style.display = "none";
+                }
+            });
         });
 
         // 2. Navigation Helper
@@ -3695,7 +3599,8 @@
 
         // 3. Category Select card click handler
         function selectCategoryAndScroll(categoryKey) {
-            window.location.href = `calculator.html?cat=${categoryKey}`;
+            switchCalcTab(categoryKey);
+            scrollToElement("calculator-sec");
         }
 
         // 4. Load products into Table
@@ -4065,33 +3970,13 @@
         // 10. Copy Estimate to Consultation Form Textarea
         function copyEstimateAndScroll() {
             const listText = getSelectedItemsText();
-            const textarea = document.getElementById("inquiryText");
 
             if (listText) {
-                textarea.value = listText + "\n\n현장 상세 정보 및 배송 가능일 조율 요청합니다.";
-                const select = document.getElementById("targetCategory");
-
-                const catMap = {
-                    finishing: "마감자재",
-                    mdf: "MDF",
-                    plywood: "합판",
-                    interior_plywood: "인테리어합판",
-                    timber: "목재/구조재",
-                    plaster: "석고보드",
-                    insulation: "단열재",
-                    deck_timber: "방부목/특수목",
-                    louver_wood: "루바_집성판",
-                    hardware: "철물/부자재"
-                };
-
-                if (catMap[currentActiveTab]) {
-                    select.value = catMap[currentActiveTab];
-                }
-
-                scrollToElement("inquiry-form-sec");
+                localStorage.setItem('pendingEstimateText', listText);
+                localStorage.setItem('pendingCategory', currentActiveTab);
+                window.location.href = "index.html#inquiry-form-sec";
             } else {
                 alert("계산기에서 수량을 1개 이상 추가하신 후 견적 문의를 눌러주시면, 문의 내용 란에 견적 리스트가 자동 입력됩니다.");
-                scrollToElement("calculator-sec");
             }
         }
 
@@ -4328,26 +4213,10 @@
 
         // 13.5 Inquire quote for individual items
         function inquireProduct(name, categoryKey) {
-            const textarea = document.getElementById("inquiryText");
-            textarea.value = `[견적문의 품목]\n품명: ${name}\n\n위 품목에 대한 견적 및 납기 문의합니다.`;
-
-            const select = document.getElementById("targetCategory");
-            const catMap = {
-                finishing: "마감자재",
-                mdf: "MDF",
-                plywood: "합판",
-                interior_plywood: "인테리어합판",
-                timber: "목재/구조재",
-                plaster: "석고보드",
-                insulation: "단열재",
-                deck_timber: "방부목/특수목",
-                louver_wood: "루바_집성판",
-                hardware: "철물/부자재"
-            };
-            if (catMap[categoryKey]) {
-                select.value = catMap[categoryKey];
-            }
-            scrollToElement("inquiry-form-sec");
+            const listText = `[견적문의 품목]\n품명: ${name}\n\n위 품목에 대한 견적 및 납기 문의합니다.`;
+            localStorage.setItem('pendingEstimateText', listText);
+            localStorage.setItem('pendingCategory', categoryKey);
+            window.location.href = "index.html#inquiry-form-sec";
         }
 
         // 14. Sub-category filters
