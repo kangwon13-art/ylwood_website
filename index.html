@@ -867,7 +867,7 @@
             position: fixed;
             inset: 0;
             background: rgba(26, 31, 43, 0.45);
-            z-index: 2400;
+            z-index: 10000;
         }
 
         .option-sheet {
@@ -881,7 +881,7 @@
             background: var(--color-bg-secondary);
             border-radius: 20px 20px 0 0;
             box-shadow: 0 -10px 30px rgba(31, 42, 68, 0.25);
-            z-index: 2401;
+            z-index: 10001;
             flex-direction: column;
             overflow: hidden;
         }
@@ -1086,7 +1086,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            z-index: 2000;
+            z-index: 9000;
             background: var(--color-bg-secondary);
             border-top: 1px solid var(--color-border);
             border-radius: 20px 20px 0 0;
@@ -1104,6 +1104,7 @@
         .calc-sidebar.expanded {
             height: 80vh;
             height: 80svh;
+            z-index: 10002;
         }
 
         /* 견적 바텀시트 펼침 중 배경 스크롤 잠금 (option-sheet-open과 동일한 방식) */
@@ -1113,9 +1114,15 @@
             overflow: hidden;
         }
 
+        /* 바텀시트 열림 시 상단 헤더가 시트 위로 노출되는 Stacking Context 버그 방지 */
+        body.option-sheet-open #header,
+        body.sidebar-expanded #header {
+            z-index: 10 !important;
+        }
+
         .calc-sidebar .sidebar-inner-content {
             overflow-y: auto;
-            padding-bottom: 20px;
+            padding: 0 20px 20px;
             flex: 1;
         }
 
@@ -1199,7 +1206,7 @@
             color: var(--color-text-white);
             word-break: keep-all;
             overflow-wrap: break-word;
-            white-space: nowrap;
+            white-space: normal;
             flex: 1;
             min-width: 0;
         }
@@ -3357,11 +3364,25 @@
         function loadLocalData() {
             for (const cat in BASE_PRODUCTS_DATA) {
                 PRODUCTS_DATA[cat] = JSON.parse(JSON.stringify(BASE_PRODUCTS_DATA[cat]));
+                // 로컬 하드코딩 데이터에도 즉시 group 필드 주입
+                PRODUCTS_DATA[cat].forEach(item => {
+                    if (!item.group) {
+                        const fallbackedGroup = GROUP_FALLBACK[cat] ? GROUP_FALLBACK[cat](item.name, item.spec) : '';
+                        item.group = fallbackedGroup || item.name;
+                    }
+                });
             }
 
             for (const cat in SHEET_DATA) {
                 if (Array.isArray(SHEET_DATA[cat]) && SHEET_DATA[cat].length > 0) {
                     PRODUCTS_DATA[cat] = SHEET_DATA[cat];
+                    // 구글 시트 데이터 로드본 중 group이 없는 경우에도 최종 폴백 적용
+                    PRODUCTS_DATA[cat].forEach(item => {
+                        if (!item.group) {
+                            const fallbackedGroup = GROUP_FALLBACK[cat] ? GROUP_FALLBACK[cat](item.name, item.spec) : '';
+                            item.group = fallbackedGroup || item.name;
+                        }
+                    });
                 }
             }
 
@@ -3406,12 +3427,120 @@
         // 지시서#03 G1 확정 그룹 매핑표(docs/g1-group-mapping-v2.md) 기준 폴백.
         // 시트에 "그룹" 열이 아직 없는 카테고리를 위한 임시 매핑 — 열이 추가되면 시트 값이 우선함.
         const GROUP_FALLBACK = {
-            mdf: () => 'MDF 4x8'
+            finishing: (name, spec) => {
+                const n = String(name || '');
+                const s = String(spec || '');
+                if (n.includes('아쿠아보드')) return '아쿠아보드';
+                if (n.includes('원스톤 플렉시블 보드')) {
+                    if (s.includes('600x1200')) return '원스톤 플렉시블 보드 (600×1200)';
+                    if (s.includes('1200x2400')) return '원스톤 플렉시블 보드 (1200×2400)';
+                    return '원스톤 플렉시블 보드 (600×1200)';
+                }
+                if (n.includes('인피니월')) return '인피니월';
+                if (n.includes('월시스템와이드')) return '월시스템와이드';
+                return '';
+            },
+            mdf: () => 'MDF 4x8',
+            plywood: (name, spec) => {
+                const n = String(name || '');
+                const s = String(spec || '');
+                if (n.includes('콘보드') || n.includes('CRC')) return '콘보드 CRC';
+                if (n.includes('OSB')) return 'OSB';
+                if (n.includes('요꼬합판') || n.includes('오징어')) return '요꼬합판(오징어)';
+                if (s.includes('3x6') || s.includes('3*6') || n.includes('3*6') || n.includes('3x6')) return '합판 3x6';
+                return '합판 4x8 (일반)';
+            },
+            interior_plywood: (name) => {
+                const n = String(name || '');
+                if (n.includes('미송')) return '미송합판';
+                if (n.includes('낙엽송') || n.includes('라찌')) return '낙엽송합판(라찌)';
+                if (n.includes('오쿠메')) return '오쿠메합판';
+                if (n.includes('레드오크')) return '레드오크합판';
+                if (n.includes('자작')) return '자작합판';
+                if (n.includes('타공판')) return '타공판';
+                return '';
+            },
+            timber: (name) => {
+                const n = String(name || '');
+                if (n.includes('소송 각재') || n.includes('소송각재')) return '소송각재';
+                if (n.includes('뉴송')) return '뉴송각재';
+                if (n.includes('구조재')) return '구조재';
+                return '';
+            },
+            plaster: (name, spec) => {
+                const n = String(name || '');
+                if (n.includes('석고본드')) return ''; // 단독 항목 (그룹 없음)
+                if (n.includes('방균') || n.includes('차음')) return '방균/차음';
+                if (n.includes('방화')) return '방화석고보드';
+                if (n.includes('방수')) return '방수석고보드';
+                return '일반석고보드';
+            },
+            insulation: (name) => {
+                const n = String(name || '');
+                if (n.includes('스티로폼')) return '비드법 단열재 (스티로폼)';
+                if (n.includes('아이소핑크') || n.includes('토이락')) return '압출법 단열재 (아이소핑크·토이락)';
+                if (n.includes('이보드')) return '이보드';
+                if (n.includes('은박') || n.includes('양면접착')) return '은박양면접착 단열재 (롤형)';
+                if (n.includes('글라스울')) return '글라스울';
+                if (n.includes('충진재')) return '충진재';
+                return '';
+            },
+            deck_timber: (name) => {
+                const n = String(name || '');
+                if (n.includes('방부데크')) return '방부데크';
+                if (n.includes('방부목')) return '방부목(각재)';
+                if (n.includes('방킬라이')) return '방킬라이';
+                if (n.includes('합성데크')) {
+                    if (n.includes('클립') || n.includes('부속')) return '합성데크 부속(클립)';
+                    return '합성데크';
+                }
+                if (n.includes('무방부') || n.includes('콤보데크')) return '무방부 콤보데크';
+                if (n.includes('방부라틱스') || n.includes('방부 라틱스')) return '방부라틱스';
+                if (n.includes('PVC라틱스') || n.includes('PVC 라틱스')) return 'PVC라틱스';
+                if (n.includes('방부찬넬')) return '방부찬넬사이딩';
+                if (n.includes('삼목찬넬')) return '삼목찬넬사이딩';
+                return '';
+            },
+            louver_wood: (name) => {
+                const n = String(name || '');
+                if (n.includes('미송루바')) return '미송루바';
+                if (n.includes('삼목루바')) return '삼목루바';
+                if (n.includes('히노끼루바')) return '히노끼루바';
+                if (n.includes('히노끼판재')) return '히노끼판재';
+                if (n.includes('라디에타파인')) return '라디에타파인집성판';
+                if (n.includes('레드파인')) return '레드파인집성판';
+                if (n.includes('삼목집성')) return '삼목집성판';
+                if (n.includes('히노끼집성')) return '히노끼집성판';
+                if (n.includes('고무나무')) return '고무나무집성판';
+                if (n.includes('라왕집성')) return '라왕집성(각재+판)';
+                if (n.includes('멀바우')) return '멀바우집성판';
+                if (n.includes('오크')) return '오크집성판';
+                if (n.includes('애쉬')) return '애쉬집성판';
+                if (n.includes('아카시아')) return '아카시아집성판';
+                if (n.includes('대봉') || n.includes('소봉')) return '대봉/소봉';
+                return '';
+            },
+            hardware: (name) => {
+                const n = String(name || '');
+                if (n.includes('붓') || n.includes('로라') || n.includes('롤러') || n.includes('미니로라')) return '붓/로라';
+                if (n.includes('사포')) return '사포';
+                if (n.includes('장갑') || n.includes('마대') || n.includes('PP마대') || n.includes('보양지') || n.includes('테이프')) return '소모품';
+                if (n.includes('피스') || n.includes('못')) return '피스/못';
+                if (n.includes('타카')) return '타카';
+                if (n.includes('오일스텐')) return '오일스텐';
+                if (n.includes('실리콘')) return '실리콘';
+                if (n.includes('점검구') || n.includes('앵글') || n.includes('철물') || n.includes('포스트베이스') || n.includes('주춧돌') || n.includes('블랙캡') || n.includes('레일') || n.includes('SS버튼')) return '철물부속';
+                if (n.includes('본드') || n.includes('접착제') || (n.includes('폼') && !n.includes('크리너') && !n.includes('건'))) return '본드/접착제';
+                return '공구/마감소모품';
+            }
         };
 
-        // G2 시연 범위: 모바일 그룹 카드/옵션 시트 UI를 적용할 카테고리.
-        // 다른 카테고리 확산은 이 배열에 추가 + 해당 카테고리 데이터에 group 필드/시트 열 추가만으로 가능하도록 설계.
-        const GROUPED_UI_CATEGORIES = ['mdf'];
+        // G2 시연 범위를 넘어 전 카테고리(운반비 제외) 확산 적용
+        const GROUPED_UI_CATEGORIES = [
+            'finishing', 'mdf', 'plywood', 'interior_plywood', 
+            'timber', 'plaster', 'insulation', 'deck_timber', 
+            'louver_wood', 'hardware'
+        ];
 
         function isMobileViewport() {
             return window.innerWidth <= 768;
@@ -3433,6 +3562,45 @@
                 }
                 groupIndex[groupName].items.push(item);
             });
+
+            // 합판 4x8(일반) 두께 오름차순 및 구조재 규격 순서 오름차순 정렬 로직 적용
+            groups.forEach(group => {
+                if (categoryKey === 'plywood' && group.name === '합판 4x8 (일반)') {
+                    group.items.sort((a, b) => {
+                        const parseThick = (str) => {
+                            const m = str.match(/(\d+(?:\.\d+)?)\s*(?:mm|T|t)/);
+                            return m ? parseFloat(m[1]) : 0;
+                        };
+                        return parseThick(a.name) - parseThick(b.name);
+                    });
+                } else if (categoryKey === 'timber' && group.name === '구조재') {
+                    const timberOrder = ['1x4', '1x6', '1x8', '1x10', '1x12', '2x2', '2x4', '2x6', '2x8', '2x10', '2x12', '4x4', '6x6'];
+                    group.items.sort((a, b) => {
+                        const getOrderIndex = (name) => {
+                            for (let i = 0; i < timberOrder.length; i++) {
+                                if (name.includes(timberOrder[i])) return i;
+                            }
+                            return 999;
+                        };
+                        return getOrderIndex(a.name) - getOrderIndex(b.name);
+                    });
+                }
+            });
+
+            // 석고보드 노출 순서 정렬 적용 (일반 -> 방수 -> 방화 -> 방균/차음 -> 석고본드)
+            if (categoryKey === 'plaster') {
+                const plasterOrder = ['일반석고보드', '방수석고보드', '방화석고보드', '방균/차음', '석고본드'];
+                groups.sort((a, b) => {
+                    const getPlasterIndex = (name) => {
+                        for (let i = 0; i < plasterOrder.length; i++) {
+                            if (name.includes(plasterOrder[i])) return i;
+                        }
+                        return 999;
+                    };
+                    return getPlasterIndex(a.name) - getPlasterIndex(b.name);
+                });
+            }
+
             return groups;
         }
 
@@ -3448,7 +3616,7 @@
             const groupRaw = getCsvValue(row, ['group', '그룹']);
             const price = parseInt(String(priceRaw).replace(/[^0-9]/g, '')) || 0;
             const slug = String(code || no || name || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
-            const group = String(groupRaw || '').trim() || (GROUP_FALLBACK[category] ? GROUP_FALLBACK[category]() : '');
+            const group = String(groupRaw || '').trim() || (GROUP_FALLBACK[category] ? GROUP_FALLBACK[category](name, spec) : '');
 
             return {
                 id: `${category}_${slug || 'item'}`,

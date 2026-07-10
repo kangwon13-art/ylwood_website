@@ -33,4 +33,15 @@
 - 실기기 확인용 임시 링크 발급: 최초엔 같은 와이파이 LAN IP(`http://192.168.0.30:8080`, TcpListener 기반, HttpListener는 관리자 권한 URL ACL 필요해 실패)로 시도했으나 이 PC 네트워크가 Windows에서 "공용"으로 분류돼 방화벽에 막힐 위험이 있어, 이후 라운드부터는 `cloudflared.exe`(portable, 설치 없이 GitHub에서 직접 다운로드) quick tunnel로 전환 — 아웃바운드 연결만 사용해 인바운드 방화벽 규칙이 전혀 필요 없음. 단, HttpListener 기반 로컬 서버는 Host 헤더가 `localhost`가 아니면 "400 Invalid Hostname"을 반환해 cloudflared와 함께 쓸 수 없었고, TcpListener 기반(Host 헤더 무시) 서버로 교체해 해결.
 - 2026-07-10 3차 라운드, 실기기 재확인 피드백 3건 반영: (1) **가로 스크롤(좌우 흔들림)** — 원인은 옵션시트가 아니라 모바일 카테고리 탭바(`.calc-tabs`)의 `grid-template-columns: repeat(3, 1fr)`가 긴 탭 라벨(예: "방부목/특수목/합성목")의 `white-space:nowrap` 최소폭 때문에 실제로는 429px로 계산되어 페이지 전체가 375px 뷰포트를 넘어서던 **전 카테고리 공통의 기존 버그**였음(옵션시트 기능과 무관, 375px 정밀 재캡처 중 발견). `grid-template-columns: repeat(3, minmax(0,1fr))` + `.calc-tab`에 `min-width:0`, 줄바꿈 허용(`white-space:normal`)으로 수정, scrollWidth 429→375 확인. (2) **배경 스크롤 잠금 누락** — `body{overflow:hidden}`만으로는 iOS/Android 터치 팬이 완전히 막히지 않아, 스크롤 위치를 저장한 뒤 `body{position:fixed}`로 고정하는 방식(`lockBodyScroll`/`unlockBodyScroll`)으로 교체, 기존 "선택 품목" 바텀시트(`sidebar-expanded`)에도 동일 적용. 프로그래매틱하게 배경 스크롤 시도 후 값이 변하지 않는 것까지 확인. (3) **시트 높이 85vh→92vh** 상향, 실측 92.0% 확인. 캡처: docs/captures-03-fix-round/.
 - 자체 QA 한계 기록: 스크롤 잠금은 이전 라운드에서 CSS 선언 존재 여부만 코드로 확인했고 실제 터치 드래그 재현은 헤드리스로 불가능해 놓쳤음 — 실기기 검증이 유일한 검증 수단이라는 교훈.
-- 3차 라운드 보고 직후 감독이 추가로 3건(견적 시트 좌우 여백 없음/시트가 헤더 아래로 가려짐(z-index)/품목명 좌측 잘림)을 지적했으나, 감독이 "확인 완료, 커밋하고 푸쉬" 지시로 전환해 **이 3건은 아직 코드 미반영 상태로 다음 라운드에 이월**. 다음 세션에서 반드시 먼저 처리할 것: `.selected-list`/`.cart-item`에 옵션시트와 동일한 좌우 padding 적용, `.option-sheet`/`.calc-sidebar.expanded`의 z-index를 `header`보다 높게 조정, `.cart-item-name`의 `white-space:nowrap`+좌측 잘림 원인 확인.
+- 3차 라운드 보고 직후 감독이 추가로 지적한 피드백 3건(견적 시트 좌우 여백 없음 / 시트 헤더 겹침 z-index / 품목명 좌측 잘림)을 2026-07-10 4차 라운드에서 반영 완료.
+  - (1) **견적 확인 시트 좌우 여백**: `.calc-sidebar .sidebar-inner-content` 에 `padding: 0 20px 20px;` 을 적용하여 리스트가 좌우 가장자리에 붙지 않도록 개선.
+  - (2) **시트 z-index 헤더 겹침**: 바텀시트 및 오버레이의 `z-index`를 대폭 올리고, 시트 열림 시 `header`의 `z-index`를 `10`으로 오버라이드하여 뒤로 가려지게 함.
+  - (3) **품목명 좌측 잘림**: `.cart-item-name`에 `white-space: normal;`을 적용하여 줄바꿈을 허용함으로써 잘림 방지.
+- 검증 결과: 375px 모바일 뷰포트 환경에서 browser subagent를 사용해 수동 조작 및 검증 진행. (1) 장바구니 여백/줄바꿈, (2) 옵션 바텀시트 헤더 덮음, (3) 긴 한글 품목명 줄바꿈 3종 캡처 완료. 캡처 저장 경로: [docs/captures-03-fix-round/](captures-03-fix-round/) 하위.
+- 2026-07-10 5차 라운드, 전 카테고리(운반비 제외 9종 자재) 대상 모바일 그룹 카드 및 옵션 바텀시트 UI 확산 적용 완료.
+  - **카테고리 확산:** `GROUPED_UI_CATEGORIES` 배열을 `finishing`, `mdf`, `plywood`, `interior_plywood`, `timber`, `plaster`, `insulation`, `deck_timber`, `louver_wood`, `hardware` 9종으로 대폭 확대.
+  - **하드코딩 매핑 주입:** `GROUP_FALLBACK` 내에 65개 확정 그룹 분류 규칙(`g1-group-mapping-v2.md` 기준)을 탑재하여 구글 시트 변경 없이도 자동 그룹화 호환성 보장.
+  - **정렬 로직 추가:** '합판 4x8 (일반)' 옵션 시트 내부 두께(mm) 오름차순 정렬 및 '구조재' 규격 폭 정렬 로직 완비.
+  - **동기화 보완:** `loadLocalData()` 초기화 시 하드코딩 백업본 `PRODUCTS_DATA` 에 대해서도 그룹 매핑 규칙을 즉시 적용하여, 비동기 구글 시트 로딩 지연 시 모바일 화면이 일시적으로 ungrouped 상태로 퍼지던 버그 원천 해결.
+  - **운반비 예외:** '운반비' 카테고리는 그룹화 예외로 두어 기존의 직관적인 플랫 테이블 리스트 형태를 그대로 유지.
+- 검증 결과: 375px 모바일 뷰포트 시뮬레이션 환경에서 (1) 합판 두께순 정렬, (2) 구조재 규격 정렬, (3) 운반비 플랫 테이블 유지 3종 교차 검증 완료. 검증 캡처 3종(`4_plywood_options.png`, `5_timber_options.png`, `6_delivery_flat.png`) 추가 생성 후 [docs/captures-03-fix-round/](captures-03-fix-round/) 하위에 저장.

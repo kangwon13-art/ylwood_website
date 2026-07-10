@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git log *)",
+      "Bash(git ls-tree *)",
+      "Bash(git -c core.quotepath=false log --diff-filter=D --oneline -- '*/admin.html' '*/logo.png')",
+      "Bash(git -c core.quotepath=false log --name-status --oneline)",
+      "Bash(grep -noE \"#[0-9A-Fa-f]{3,8}|rgba?\\\\\\([^\\)]+\\\\\\)\" index.html)"
+    ]
+  }
+}
