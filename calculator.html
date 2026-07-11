@@ -1688,7 +1688,7 @@
 
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .hero {
                 padding: calc(90px + env(safe-area-inset-top, 20px)) 0 50px;
             }
@@ -1769,37 +1769,7 @@
                 border-color: var(--color-accent-orange);
             }
 
-            .calc-tabs-wrapper {
-                border-bottom: none;
-                padding-bottom: 0;
-            }
 
-            .tab-scroll-btn {
-                display: none !important;
-            }
-
-            .calc-tabs {
-                display: grid !important;
-                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-                gap: 8px !important;
-                white-space: normal !important;
-                overflow: visible !important;
-                padding-bottom: 8px;
-            }
-
-            .calc-tab {
-                white-space: normal;
-                min-width: 0;
-                aspect-ratio: 1 / 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                word-break: keep-all;
-                padding: 4px;
-                text-align: center;
-                font-size: 13px;
-                line-height: 1.3;
-            }
 
             .form-grid {
                 grid-template-columns: 1fr;
@@ -1987,6 +1957,106 @@
                 padding-bottom: 140px;
                 /* buffer space for bottom sidebar */
             }
+
+            /* 모바일 화면 밀도 개선 (모바일/태블릿 풀블리드 최적화) */
+            header {
+                padding: 6px 0 !important;
+            }
+
+            .calculator-section {
+                padding: 0 0 0 !important;
+            }
+
+            .section-header {
+                margin-top: 16px !important;
+                margin-bottom: 4px !important;
+            }
+
+            .section-header .global-search-container,
+            .section-header .hero-search {
+                max-width: none !important;
+                width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            .section-header .global-search-container input {
+                border-radius: 0 !important;
+                border-left: none !important;
+                border-right: none !important;
+                padding-left: 44px !important;
+                padding-right: 16px !important;
+            }
+
+            .container {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+
+            .calculator-section .container {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                max-width: none !important;
+                width: 100% !important;
+            }
+
+            .calc-main {
+                padding-top: 12px !important;
+                padding-bottom: 20px !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+            }
+
+            .calc-tabs-wrapper {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                border-bottom: none !important;
+                margin-bottom: 12px !important;
+            }
+
+            .tab-scroll-btn {
+                display: none !important;
+            }
+
+            .calc-tabs {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+                gap: 6px !important;
+            }
+
+            .calc-tab {
+                padding: 6px 12px !important;
+                font-size: 12.5px !important;
+            }
+
+            .group-card {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-radius: 0 !important;
+                margin-bottom: 8px !important;
+            }
+
+            .group-card-thumb {
+                width: 48px !important;
+                height: 48px !important;
+            }
+
+            .group-card-name {
+                font-size: 15.5px !important;
+            }
         }
 
         /* Task 5: Floating Buttons (PC & Mobile) */
@@ -2031,7 +2101,7 @@
         }
 
         /* Utility class to show only on PC */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .hide-on-mobile {
                 display: none !important;
             }
@@ -2072,7 +2142,7 @@
             }
         }
 
-        @media (min-width: 769px) {
+        @media (min-width: 1025px) {
             .hide-on-pc {
                 display: none !important;
             }
@@ -2181,7 +2251,7 @@
         }
 
         /* PC: Calculator layout restored to right-side sticky sidebar (grid, no bottom sheet) */
-        @media (min-width: 769px) {
+        @media (min-width: 1025px) {
             .calc-container {
                 display: grid;
                 grid-template-columns: 1fr 340px;
@@ -2230,9 +2300,18 @@
                 padding: 20px;
                 text-align: left;
             }
+            /* PC: 검색창 원래 너비 복원 (인라인 스타일 제거에 따른 보완) */
+            .calculator-section {
+                padding: 20px 0;
+            }
+            .section-header .global-search-container,
+            .section-header .hero-search {
+                max-width: 520px;
+                margin: 12px auto 0;
+            }
         }
 
-        /* Premium navigation tabs */
+
         .nav-tab-link {
             font-size: 14px;
             font-weight: 600;
@@ -2252,7 +2331,7 @@
             font-weight: 700;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .nav-tab-link {
                 padding: 6px 10px;
                 font-size: 13px;
@@ -2273,31 +2352,16 @@
                 </svg>
                 <div class="logo-text">영림우드<span>.</span></div>
             </a>
-            <div class="header-contact">
-                <a href="tel:02-1234-5678" class="phone-call-btn" id="headerPhoneBtn">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.502-5.114-3.792-6.616-6.616l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                    </svg>
-                    <span class="font-num phone-btn-text">02-1234-5678</span>
-                </a>
-                <a href="calculator.html" class="nav-tab-link active">최신단가표</a>
-                <a href="catalog.html" class="nav-tab-link">영림카탈로그</a>
-                <button class="quick-consult-btn" onclick="copyEstimateAndScroll()">무료 견적 문의</button>
-            </div>
         </div>
     </header>
 
-    <!-- CALCULATOR SECTION -->
-    <section class="calculator-section" id="calculator-sec" style="padding-top: 40px;">
+    <section class="calculator-section" id="calculator-sec">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">CALCULATOR</span>
-                <h2 class="section-title">실시간 자재 견적 계산기</h2>
-                <p class="section-desc">필요한 자재 품목의 수량을 설정해 보세요. 실시간 견적 총금액을 확인하고 바로 카카오톡 또는 이메일 상담 요청을 보낼 수 있습니다.</p>
+            <div class="section-header" style="margin-bottom: 16px; text-align: center;">
+                <h2 class="section-title hide-on-mobile" style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">실시간 자재 견적 계산기</h2>
+                <p class="section-desc hide-on-mobile" style="font-size: 13px; margin-top: 2px;">필요한 자재 품목의 수량을 설정해 보세요.</p>
                 <!-- 2차 검색란 이식 -->
-                <div class="global-search-container hero-search" style="position: relative; z-index: 10; margin: 24px auto 0; max-width: 520px; text-align: left;">
+                <div class="global-search-container hero-search" style="position: relative; z-index: 10; text-align: left;">
                     <input class="form-input" type="text" id="globalProductSearchInput"
                         placeholder="품목명 또는 규격 검색 (예: 석고보드, 12T)..."
                         style="width: 100%; box-sizing: border-box; padding-left: 44px; background: var(--color-bg-secondary);">
@@ -2323,7 +2387,9 @@
                             </svg>
                         </button>
                         <div class="calc-tabs" id="calcTabsScroll">
-                            <button class="calc-tab active" onclick="switchCalcTab('finishing')"
+                            <button class="calc-tab active" onclick="switchCalcTab('all_categories')"
+                                id="tab-all_categories">전체</button>
+                            <button class="calc-tab" onclick="switchCalcTab('finishing')"
                                 id="tab-finishing">마감자재</button>
                             <button class="calc-tab" onclick="switchCalcTab('mdf')" id="tab-mdf">MDF</button>
                             <button class="calc-tab" onclick="switchCalcTab('plywood')" id="tab-plywood">합판</button>
@@ -2349,22 +2415,7 @@
                         </button>
                     </div>
 
-                    <!-- Sub-category Tabs for 마감자재 -->
-                    <div id="sub-category-wrap" class="sub-category-tabs" style="display: none;">
-                        <button class="sub-calc-tab active" onclick="filterFinishingSub('all')">전체보기</button>
-                        <button class="sub-calc-tab" onclick="filterFinishingSub('temba')">템바보드</button>
-                        <button class="sub-calc-tab" onclick="filterFinishingSub('aqua')">아쿠아보드</button>
-                        <button class="sub-calc-tab" onclick="filterFinishingSub('onestone')">원스톤 플렉시블 보드</button>
-                        <button class="sub-calc-tab" onclick="filterFinishingSub('infini')">인피니월</button>
-                        <button class="sub-calc-tab" onclick="filterFinishingSub('wallsystem')">월시스템와이드</button>
-                    </div>
-                    <!-- Sub-category Tabs for 방부목/특수목 -->
-                    <div id="deck-subcategory-wrap" class="sub-category-tabs" style="display: none;">
-                        <button class="sub-calc-tab active" onclick="filterDeckSub('all')">전체보기</button>
-                        <button class="sub-calc-tab" onclick="filterDeckSub('treated')">방부목</button>
-                        <button class="sub-calc-tab" onclick="filterDeckSub('composite')">합성데크</button>
-                        <button class="sub-calc-tab" onclick="filterDeckSub('natural')">천연데크</button>
-                    </div>
+
 
                     <!-- Delivery Info Alert (Shown only when delivery tab is active) -->
                     <div id="delivery-info-alert"
@@ -2937,7 +2988,7 @@
 
         // Current user selected products and quantities
         let selectedQuantities = {};
-        let currentActiveTab = "finishing";
+        let currentActiveTab = "all_categories";
         let currentFinishingSub = "all";
         let currentDeckSub = "all";
 
@@ -3141,13 +3192,14 @@
 
         // G2 시연 범위를 넘어 전 카테고리(운반비 제외) 확산 적용
         const GROUPED_UI_CATEGORIES = [
+            'all_categories',
             'finishing', 'mdf', 'plywood', 'interior_plywood', 
             'timber', 'plaster', 'insulation', 'deck_timber', 
             'louver_wood', 'hardware'
         ];
 
         function isMobileViewport() {
-            return window.innerWidth <= 768;
+            return window.innerWidth <= 1024;
         }
 
         function isGroupedUiActive(categoryKey) {
@@ -3155,6 +3207,27 @@
         }
 
         function getGroupsForCategory(categoryKey) {
+            // "전체" 탭 선택 시 운반비 제외한 전 카테고리 합산
+            if (categoryKey === 'all_categories') {
+                const allCats = ['finishing', 'mdf', 'plywood', 'interior_plywood',
+                    'timber', 'plaster', 'insulation', 'deck_timber', 'louver_wood', 'hardware'];
+                const groups = [];
+                const groupIndex = {};
+                allCats.forEach(cat => {
+                    const items = PRODUCTS_DATA[cat] || [];
+                    items.forEach(item => {
+                        // 원래 카테고리 정보 주입
+                        item.category = item.category || cat;
+                        const groupName = item.group || item.name;
+                        if (!(groupName in groupIndex)) {
+                            groupIndex[groupName] = { name: groupName, items: [], catKey: cat };
+                            groups.push(groupIndex[groupName]);
+                        }
+                        groupIndex[groupName].items.push(item);
+                    });
+                });
+                return groups;
+            }
             const items = PRODUCTS_DATA[categoryKey] || [];
             const groups = [];
             const groupIndex = {};
@@ -3274,13 +3347,7 @@
         }
 
         function renderActiveProducts() {
-            if (currentActiveTab === "finishing") {
-                loadProducts("finishing", currentFinishingSub);
-            } else if (currentActiveTab === "deck_timber") {
-                loadProducts("deck_timber", currentDeckSub);
-            } else {
-                loadProducts(currentActiveTab);
-            }
+            loadProducts(currentActiveTab);
         }
 
         async function fetchAllSheetData() {
@@ -3614,6 +3681,17 @@
             if (tableWrap) tableWrap.style.display = groupedActive ? "none" : "";
             if (groupListWrap) groupListWrap.style.display = groupedActive ? "block" : "none";
 
+            // 전체 탭 로딩 중 처리: 하나라도 로딩 중이면 로딩 메시지 표시
+            if (categoryKey === 'all_categories' && isSheetLoading) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: var(--color-text-muted);">데이터를 불러오는 중입니다...</td>`;
+                tbody.appendChild(tr);
+                if (groupedActive) {
+                    renderMobileGroupList(categoryKey);
+                }
+                return;
+            }
+
             if (isSheetLoading && !SHEET_DATA[categoryKey]?.length) {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: var(--color-text-muted);">데이터를 불러오는 중입니다...</td>`;
@@ -3626,6 +3704,17 @@
                 return;
             }
 
+            // PC 전체 탭: 전 카테고리 품목을 순서대로 나열
+            if (categoryKey === 'all_categories') {
+                const allCats = ['finishing', 'mdf', 'plywood', 'interior_plywood',
+                    'timber', 'plaster', 'insulation', 'deck_timber', 'louver_wood', 'hardware'];
+                allCats.forEach(cat => {
+                    (PRODUCTS_DATA[cat] || []).forEach(item => { item.category = item.category || cat; });
+                    (PRODUCTS_DATA[cat] || []).forEach(item => renderProductRow(item, tbody, cat));
+                });
+                return;
+            }
+
             let items = PRODUCTS_DATA[categoryKey] || [];
 
             // Apply sub-category filtering
@@ -3635,52 +3724,55 @@
                 items = items.filter(item => item.sub === subKey);
             }
 
-            items.forEach(item => {
-                const qty = selectedQuantities[item.id] || 0;
-                const tr = document.createElement("tr");
-                tr.id = "product-row-" + item.id;
+            items.forEach(item => renderProductRow(item, tbody, categoryKey));
+        }
 
-                // Check if product has an image
-                let cameraIcon = '';
-                const currentImg = imageStore[item.id] || item.image;
-                if (currentImg) {
-                    const escapedName = item.name.replace(/'/g, "\\'");
-                    const escapedSpec = item.spec.replace(/'/g, "\\'");
-                    const escapedImg = currentImg.replace(/'/g, "\\'");
-                    cameraIcon = `<span class="camera-btn" onclick="openProductModal('${escapedName}', '${escapedSpec}', '${escapedImg}', '${item.unit}', '${item.price}')" title="이미지 보기"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline-block;"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" /></svg></span>`;
-                }
+        function renderProductRow(item, tbody, catKey) {
+            const qty = selectedQuantities[item.id] || 0;
+            const tr = document.createElement("tr");
+            tr.id = "product-row-" + item.id;
 
-                const isQuoteOnly = (item.price === 0 || item.price === null || item.price === "견적문의");
-                const priceDisplay = isQuoteOnly
-                    ? `<span class="price-col" style="color: var(--color-accent-orange); font-weight: bold;">견적문의</span>`
-                    : `<span class="price-col font-num">${formatNumber(item.price)}</span>원`;
+            // Check if product has an image
+            let cameraIcon = '';
+            const currentImg = imageStore[item.id] || item.image;
+            if (currentImg) {
+                const escapedName = item.name.replace(/'/g, "\\'");
+                const escapedSpec = item.spec.replace(/'/g, "\\'");
+                const escapedImg = currentImg.replace(/'/g, "\\'");
+                cameraIcon = `<span class="camera-btn" onclick="openProductModal('${escapedName}', '${escapedSpec}', '${escapedImg}', '${item.unit}', '${item.price}')" title="이미지 보기"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline-block;"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" /></svg></span>`;
+            }
 
-                const controlDisplay = isQuoteOnly
-                    ? `<button class="btn-inquire" type="button" onclick="inquireProduct('${item.name.replace(/'/g, "\\'")}', '${categoryKey}')">문의하기</button>`
-                    : `
-                        <div class="qty-control">
-                            <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', -1)">-</button>
-                            <input class="qty-input font-num" type="number" value="${qty}" min="0" onchange="setQty('${item.id}', this.value)" id="qty-input-${item.id}">
-                            <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', 1)">+</button>
-                        </div>
-                    `;
+            const effCat = item.category || catKey;
+            const isQuoteOnly = (item.price === 0 || item.price === null || item.price === "견적문의");
+            const priceDisplay = isQuoteOnly
+                ? `<span class="price-col" style="color: var(--color-accent-orange); font-weight: bold;">견적문의</span>`
+                : `<span class="price-col font-num">${formatNumber(item.price)}</span>원`;
 
-                tr.innerHTML = `
-                    <td data-label="품명">
-                        <span class="prod-name">${item.name}${cameraIcon}</span>
-                        <span class="mobile-spec-text hide-on-pc">${item.spec} · ${item.unit}</span>
-                    </td>
-                    <td data-label="규격">
-                        <span class="prod-spec" style="font-size:14px; color: var(--color-text-muted);">${item.spec}</span>
-                    </td>
-                    <td data-label="단위"><span class="font-num" style="font-size:13px;">${item.unit}</span></td>
-                    <td data-label="단가">${priceDisplay}</td>
-                    <td data-label="수량">
-                        ${controlDisplay}
-                    </td>
+            const controlDisplay = isQuoteOnly
+                ? `<button class="btn-inquire" type="button" onclick="inquireProduct('${item.name.replace(/'/g, "\\'")}', '${effCat}')">문의하기</button>`
+                : `
+                    <div class="qty-control">
+                        <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', -1)">-</button>
+                        <input class="qty-input font-num" type="number" value="${qty}" min="0" onchange="setQty('${item.id}', this.value)" id="qty-input-${item.id}">
+                        <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', 1)">+</button>
+                    </div>
                 `;
-                tbody.appendChild(tr);
-            });
+
+            tr.innerHTML = `
+                <td data-label="품명">
+                    <span class="prod-name">${item.name}${cameraIcon}</span>
+                    <span class="mobile-spec-text hide-on-pc">${item.spec} · ${item.unit}</span>
+                </td>
+                <td data-label="규격">
+                    <span class="prod-spec" style="font-size:14px; color: var(--color-text-muted);">${item.spec}</span>
+                </td>
+                <td data-label="단위"><span class="font-num" style="font-size:13px;">${item.unit}</span></td>
+                <td data-label="단가">${priceDisplay}</td>
+                <td data-label="수량">
+                    ${controlDisplay}
+                </td>
+            `;
+            tbody.appendChild(tr);
         }
 
         // ===== 지시서#03 G2: 모바일 그룹 카드 목록 렌더링 =====
@@ -3699,7 +3791,8 @@
 
                 const card = document.createElement("div");
                 card.className = "group-card";
-                card.onclick = () => openOptionSheet(categoryKey, group.name);
+                const effectiveCatKey = group.catKey || categoryKey;
+                card.onclick = () => openOptionSheet(effectiveCatKey, group.name);
                 card.innerHTML = `
                     <div class="group-card-thumb">${thumbContent}</div>
                     <div class="group-card-body">
@@ -3808,7 +3901,7 @@
         }
 
         function toggleMobileSidebar() {
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 1024) {
                 const sidebar = document.getElementById("calcSidebar");
                 if (sidebar) {
                     sidebar.classList.toggle("expanded");
@@ -3837,14 +3930,10 @@
             const targetTab = document.getElementById(`tab-${categoryKey}`);
             if (targetTab) {
                 targetTab.classList.add("active");
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 1024) {
                     targetTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                 }
             }
-
-            // Show/Hide sub-categories
-            const finishWrap = document.getElementById("sub-category-wrap");
-            const deckWrap = document.getElementById("deck-subcategory-wrap");
 
             // Toggle delivery warning banner
             const deliveryAlert = document.getElementById("delivery-info-alert");
@@ -3852,19 +3941,7 @@
                 deliveryAlert.style.display = (categoryKey === "delivery") ? "flex" : "none";
             }
 
-            if (categoryKey === "finishing") {
-                finishWrap.style.display = "flex";
-                deckWrap.style.display = "none";
-                filterFinishingSub("all");
-            } else if (categoryKey === "deck_timber") {
-                finishWrap.style.display = "none";
-                deckWrap.style.display = "flex";
-                filterDeckSub("all");
-            } else {
-                finishWrap.style.display = "none";
-                deckWrap.style.display = "none";
-                renderActiveProducts();
-            }
+            renderActiveProducts();
         }
 
         function adjustQty(productId, delta) {
@@ -4219,32 +4296,7 @@
             window.location.href = "index.html#inquiry-form-sec";
         }
 
-        // 14. Sub-category filters
-        function filterFinishingSub(subKey) {
-            currentFinishingSub = subKey;
-            const wrap = document.getElementById("sub-category-wrap");
-            wrap.querySelectorAll(".sub-calc-tab").forEach(btn => {
-                btn.classList.remove("active");
-            });
-            const targetBtn = Array.from(wrap.querySelectorAll(".sub-calc-tab")).find(btn => btn.getAttribute("onclick").includes("'" + subKey + "'"));
-            if (targetBtn) {
-                targetBtn.classList.add("active");
-            }
-            loadProducts("finishing", subKey);
-        }
 
-        function filterDeckSub(subKey) {
-            currentDeckSub = subKey;
-            const wrap = document.getElementById("deck-subcategory-wrap");
-            wrap.querySelectorAll(".sub-calc-tab").forEach(btn => {
-                btn.classList.remove("active");
-            });
-            const targetBtn = Array.from(wrap.querySelectorAll(".sub-calc-tab")).find(btn => btn.getAttribute("onclick").includes("'" + subKey + "'"));
-            if (targetBtn) {
-                targetBtn.classList.add("active");
-            }
-            loadProducts("deck_timber", subKey);
-        }
 
         // 15. Toggle FAQs
         function toggleFaq(headerElement) {
