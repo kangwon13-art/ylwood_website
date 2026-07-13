@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -663,714 +663,6 @@
             transform: translateX(4px);
         }
 
-        /* CALCULATOR & PRICE TABLE SECTION */
-        .calculator-section {
-            padding: 100px 0;
-            background-color: var(--color-bg-primary);
-        }
-
-        .calc-container {
-            display: block;
-            margin-bottom: 140px;
-            /* buffer for fixed bottom sheet */
-        }
-
-        .calc-main {
-            background: var(--color-bg-secondary);
-            border: 1px solid var(--color-border);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: var(--shadow-premium);
-        }
-
-        /* Calculator Navigation Tabs with Arrow Scroll */
-        .calc-tabs-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--color-border);
-            padding-bottom: 15px;
-            position: relative;
-        }
-
-        .tab-scroll-btn {
-            flex: 0 0 auto;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1px solid var(--color-border);
-            background: var(--color-bg-tertiary);
-            color: var(--color-text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            z-index: 2;
-        }
-
-        .tab-scroll-btn:hover {
-            border-color: var(--color-accent-orange);
-            color: var(--color-accent-orange);
-            background: var(--color-accent-orange-light);
-        }
-
-        .calc-tabs {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            white-space: nowrap;
-            gap: 8px;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-            flex: 1;
-            min-width: 0;
-            max-width: 780px;
-            /* Limit width to show up to '방부목/특수목' */
-            scrollbar-width: none;
-            /* Firefox */
-            -ms-overflow-style: none;
-            /* IE and Edge */
-        }
-
-        .calc-tabs::-webkit-scrollbar {
-            height: 0;
-            width: 0;
-            display: none;
-        }
-
-        .calc-tab {
-            white-space: nowrap;
-            flex: 0 0 auto;
-            min-width: auto;
-            background: transparent;
-            border: 1px solid var(--color-border);
-            border-radius: 8px;
-            color: var(--color-text-muted);
-            padding: 10px 18px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            transition: var(--transition-smooth);
-        }
-
-        .calc-tab:hover {
-            border-color: var(--color-accent-orange);
-            color: var(--color-text-white);
-        }
-
-        .calc-tab.active {
-            background: var(--color-accent-orange);
-            color: var(--color-text-white);
-            border-color: var(--color-accent-orange);
-            box-shadow: var(--shadow-glow);
-        }
-
-        /* Sub-category Tabs for 마감자재 */
-        .sub-category-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: var(--color-bg-tertiary);
-            border-radius: 10px;
-            border: 1px solid var(--color-border);
-        }
-
-        .sub-calc-tab {
-            background: transparent;
-            border: none;
-            color: var(--color-text-muted);
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .sub-calc-tab:hover {
-            color: var(--color-text-white);
-        }
-
-        .sub-calc-tab.active {
-            background: var(--color-accent-orange-light);
-            color: var(--color-accent-orange);
-            font-weight: 700;
-        }
-
-        /* Table Design */
-        .table-responsive {
-            overflow-x: auto;
-            overflow-y: auto;
-            max-height: 640px;
-            border: 1px solid var(--color-border);
-            border-radius: 10px;
-        }
-
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .price-table th {
-            position: sticky;
-            top: 0;
-            z-index: 5;
-            border-bottom: 1px solid var(--color-border);
-            padding: 12px 16px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--color-text-muted);
-            letter-spacing: 0.02em;
-            background: var(--color-bg-tertiary);
-        }
-
-        .price-table td {
-            padding: 16px;
-            border-bottom: 1px solid var(--color-border);
-            font-size: 15px;
-            color: var(--color-text-light);
-            vertical-align: middle;
-        }
-
-        .price-table tbody tr {
-            transition: var(--transition-smooth);
-        }
-
-        .price-table tbody tr:nth-child(even) {
-            background: var(--color-bg-tertiary);
-        }
-
-        .price-table tbody tr:hover {
-            background: var(--color-accent-orange-light);
-        }
-
-        /* ===== 지시서#03 G2: 모바일 그룹 카드 목록 ===== */
-        .mobile-group-list {
-            display: none;
-        }
-
-        .group-card {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 14px;
-            background: var(--color-bg-secondary);
-            border: 1px solid var(--color-border);
-            border-radius: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .group-card:active {
-            background: var(--color-accent-orange-light);
-            border-color: var(--color-accent-orange);
-        }
-
-        .group-card-thumb {
-            flex-shrink: 0;
-            width: 56px;
-            height: 56px;
-            border-radius: 10px;
-            background: var(--color-accent-orange-light);
-            border: 1px solid rgba(255, 107, 53, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .group-card-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .group-card-thumb svg {
-            width: 26px;
-            height: 26px;
-            stroke: var(--color-accent-orange);
-            fill: none;
-            stroke-width: 2;
-        }
-
-        .group-card-body {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .group-card-name {
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--color-text-white);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .group-card-count {
-            font-size: 13px;
-            color: var(--color-text-muted);
-            margin-top: 2px;
-        }
-
-        .group-card-chevron {
-            flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            stroke: var(--color-text-muted);
-        }
-
-        /* ===== 지시서#03 G2: 옵션 선택 바텀시트 ===== */
-        .option-sheet-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(26, 31, 43, 0.45);
-            z-index: 10000;
-        }
-
-        .option-sheet {
-            display: none;
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            max-height: 92vh;
-            max-height: 92svh;
-            background: var(--color-bg-secondary);
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -10px 30px rgba(31, 42, 68, 0.25);
-            z-index: 10001;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        body.option-sheet-open .option-sheet-overlay,
-        body.option-sheet-open .option-sheet {
-            display: flex;
-        }
-
-        /* 배경 스크롤 잠금: body에 overflow:hidden만 주면 iOS/Android 터치 환경에서는
-           documentElement가 여전히 팬(pan)되어 잠금이 새는 경우가 많아, 스크롤 위치를 고정한 채
-           body 자체를 position:fixed로 박아 넣는 방식으로 처리 (openOptionSheet/closeOptionSheet에서 적용). */
-        body.option-sheet-open {
-            position: fixed;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .option-sheet-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            padding: 20px 20px 16px;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .option-sheet-group-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--color-text-white);
-        }
-
-        .option-sheet-subtitle {
-            font-size: 13px;
-            color: var(--color-text-muted);
-            margin-top: 4px;
-        }
-
-        .option-sheet-close {
-            background: var(--color-bg-tertiary);
-            border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-text-muted);
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .option-sheet-body {
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
-            padding: 12px 20px 24px;
-        }
-
-        .option-card {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .option-card.highlight-row {
-            background: var(--color-accent-orange-light);
-        }
-
-        .option-card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .option-card-name {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--color-text-white);
-        }
-
-        .option-card-price {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--color-accent-orange);
-            text-align: right;
-            white-space: nowrap;
-        }
-
-        .option-card-price-vat {
-            display: block;
-            font-size: 11px;
-            font-weight: 400;
-            color: var(--color-text-muted);
-            margin-top: 2px;
-        }
-
-        .option-card-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .option-add-btn {
-            background: var(--color-accent-orange);
-            color: #FFFFFF;
-            font-weight: 700;
-            font-size: 13px;
-            padding: 8px 18px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            min-width: 64px;
-            text-align: center;
-        }
-
-        .option-add-btn.added {
-            background: var(--color-text-muted);
-        }
-
-        .prod-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .prod-name {
-            font-weight: 700;
-            color: var(--color-text-white);
-        }
-
-        .prod-spec {
-            font-size: 14px;
-            color: var(--color-text-muted);
-        }
-
-        .price-col {
-            font-weight: 700;
-            color: var(--color-text-white);
-        }
-
-        /* Quantity controls */
-        .qty-control {
-            display: flex;
-            align-items: center;
-            background: var(--color-bg-tertiary);
-            border: 1px solid var(--color-border);
-            border-radius: 6px;
-            width: 110px;
-            justify-content: space-between;
-            overflow: hidden;
-        }
-
-        .qty-btn {
-            background: transparent;
-            border: none;
-            color: var(--color-text-light);
-            width: 32px;
-            height: 32px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            transition: var(--transition-smooth);
-        }
-
-        .qty-btn:hover {
-            background: var(--color-accent-navy-light);
-            color: var(--color-text-white);
-        }
-
-        .qty-input {
-            width: 44px;
-            background: transparent;
-            border: none;
-            color: var(--color-text-white);
-            text-align: center;
-            font-size: 14px;
-            font-weight: 700;
-            outline: none;
-            -webkit-appearance: none;
-            -moz-appearance: textfield;
-            appearance: none;
-        }
-
-        .qty-input::-webkit-outer-spin-button,
-        .qty-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        /* CALCULATOR SIDEBAR (mobile-first bottom sheet; PC override in the min-width:769px block below) */
-        .calc-sidebar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9000;
-            background: var(--color-bg-secondary);
-            border-top: 1px solid var(--color-border);
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
-            transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 0;
-            height: 66px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            will-change: height;
-            transform: translateZ(0);
-        }
-
-        .calc-sidebar.expanded {
-            height: 80vh;
-            height: 80svh;
-            z-index: 10002;
-        }
-
-        /* 견적 바텀시트 펼침 중 배경 스크롤 잠금 (option-sheet-open과 동일한 방식) */
-        body.sidebar-expanded {
-            position: fixed;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        /* 바텀시트 열림 시 상단 헤더가 시트 위로 노출되는 Stacking Context 버그 방지 */
-        body.option-sheet-open #header,
-        body.sidebar-expanded #header {
-            z-index: 10 !important;
-        }
-
-        .calc-sidebar .sidebar-inner-content {
-            overflow-y: auto;
-            padding: 0 20px 20px;
-            flex: 1;
-        }
-
-        .summary-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--color-text-white);
-            margin-bottom: 0;
-            padding-top: 20px;
-            cursor: pointer;
-            position: relative;
-            text-align: center;
-            background: var(--color-bg-secondary);
-            border-radius: 20px 20px 0 0;
-            z-index: 2;
-            transition: var(--transition-smooth);
-        }
-
-        .mobile-cart-bar-label {
-            display: none;
-        }
-
-        .sidebar-toggle-arrow {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            margin-left: -12px;
-            color: var(--color-text-muted);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: block;
-        }
-
-        .calc-sidebar.expanded .sidebar-toggle-arrow {
-            transform: rotate(180deg);
-        }
-
-        .summary-badge {
-            background: var(--color-accent-orange);
-            color: var(--color-text-white);
-            font-size: 12px;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: 700;
-        }
-
-        .selected-list {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 22px;
-            border-bottom: 1px solid var(--color-border);
-            padding-bottom: 15px;
-        }
-
-        .selected-list::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .selected-list::-webkit-scrollbar-thumb {
-            background: var(--color-accent-navy-light);
-            border-radius: 10px;
-        }
-
-        .empty-cart-msg {
-            color: var(--color-text-muted);
-            text-align: center;
-            padding: 40px 0;
-            font-size: 14px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 14px;
-            font-size: 13.5px;
-            gap: 10px;
-        }
-
-        .cart-item-name {
-            font-weight: 600;
-            color: var(--color-text-white);
-            word-break: keep-all;
-            overflow-wrap: break-word;
-            white-space: normal;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .cart-item-qty {
-            color: var(--color-accent-orange);
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .cart-item-price {
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .summary-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: nowrap;
-        }
-
-        .total-label {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--color-text-white);
-            white-space: nowrap;
-        }
-
-        .total-price-wrap {
-            text-align: right;
-            white-space: nowrap;
-        }
-
-        .total-price {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--color-accent-orange);
-            letter-spacing: -0.5px;
-            white-space: nowrap;
-        }
-
-        .total-price-vat {
-            font-size: 11px;
-            color: var(--color-text-muted);
-        }
-
-        .sidebar-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn-full {
-            width: 100%;
-            padding: 14px;
-            font-size: 15px;
-        }
-
-        /* 사이드바 CTA 위계: 1순위(견적 문의하기, 52px) > 2순위(카카오/PNG 저장, 52px의 70%≈36px, 2열) */
-        .sidebar-cta-main {
-            height: 52px;
-            padding: 0 16px;
-            font-size: 15px;
-        }
-
-        .sidebar-cta-secondary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .sidebar-cta-secondary .btn {
-            height: 36px;
-            padding: 0 8px;
-            font-size: 12.5px;
-            gap: 5px;
-        }
-
-        .sidebar-cta-secondary .btn svg {
-            flex-shrink: 0;
-        }
-
-        .btn-kakao {
-            background: #FEE500;
-            color: #191919;
-            font-weight: 700;
-            border: none;
-        }
-
-        .btn-kakao:hover {
-            background: #E6CE00;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(254, 229, 0, 0.2);
-        }
-
         /* CONSULTATION INQUIRY FORM */
         .inquiry {
             padding: 100px 0;
@@ -1843,37 +1135,6 @@
                 border-color: var(--color-accent-orange);
             }
 
-            .calc-tabs-wrapper {
-                border-bottom: none;
-                padding-bottom: 0;
-            }
-
-            .tab-scroll-btn {
-                display: none !important;
-            }
-
-            .calc-tabs {
-                display: grid !important;
-                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-                gap: 8px !important;
-                white-space: normal !important;
-                overflow: visible !important;
-                padding-bottom: 8px;
-            }
-
-            .calc-tab {
-                white-space: normal;
-                min-width: 0;
-                aspect-ratio: 1 / 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                word-break: keep-all;
-                padding: 4px;
-                text-align: center;
-                font-size: 13px;
-                line-height: 1.3;
-            }
 
             .form-grid {
                 grid-template-columns: 1fr;
@@ -1934,136 +1195,9 @@
                 display: none;
             }
 
-            /* Mobile pricing table: stacked card layout */
-            .table-responsive {
-                overflow-x: hidden;
-            }
-
-            .price-table {
-                min-width: unset;
-                width: 100%;
-                display: block;
-            }
-
-            .price-table thead {
-                display: none;
-            }
-
-            .price-table tbody {
-                display: block;
-            }
-
-            /* 압축형 2행 모바일 행: 1행 [품명|단가], 2행 [규격+단위 요약|수량 컨트롤] */
-            .price-table tbody tr {
-                display: grid;
-                grid-template-columns: 1fr auto;
-                grid-template-rows: auto auto;
-                column-gap: 10px;
-                row-gap: 2px;
-                align-items: center;
-                padding: 14px 16px;
-                border-bottom: 1px solid var(--color-border);
-            }
-
-            /* 지브라 스트라이프는 보조 역할로 약화, 구분은 하단 실선이 담당 */
-            .price-table tbody tr:nth-child(even) {
-                background: var(--color-bg-primary);
-            }
-
-            .price-table tbody td {
-                display: block;
-                border: none;
-                padding: 0;
-                text-align: left;
-            }
-
-            /* 1열: 품명(1행) + 규격/단위 요약(2행) — 두 행에 걸쳐 세로 중앙 정렬 */
-            .price-table tbody td:nth-child(1) {
-                grid-column: 1;
-                grid-row: 1 / span 2;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                gap: 3px;
-                min-width: 0;
-            }
-
-            /* 2열(규격), 3열(단위): 요약 텍스트로 대체되므로 개별 노출 안 함 */
-            .price-table tbody td:nth-child(2),
-            .price-table tbody td:nth-child(3) {
-                display: none;
-            }
-
-            /* 4열: 단가 — 1행 우측 */
-            .price-table tbody td:nth-child(4) {
-                grid-column: 2;
-                grid-row: 1;
-                text-align: right;
-                font-weight: 700;
-                font-size: 15px;
-            }
-
-            /* 5열: 수량 컨트롤/문의하기 — 2행 우측 */
-            .price-table tbody td:nth-child(5) {
-                grid-column: 2;
-                grid-row: 2;
-                text-align: right;
-            }
-
-            .prod-name {
-                font-size: 16px;
-                font-weight: 700;
-                display: block;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            /* 규격+단위 요약 (한 줄) */
-            .mobile-spec-text {
-                display: block;
-                font-size: 12px;
-                color: var(--color-text-muted);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            /* Qty Control — 압축형(2행 우측에 맞춘 소형 스테퍼) */
-            .qty-control {
-                width: auto;
-                justify-content: flex-end;
-            }
-
-            .qty-btn {
-                flex: none;
-                width: 28px;
-                height: 28px;
-                min-height: 28px;
-            }
-
-            .qty-input {
-                flex: none;
-                width: 32px;
-                text-align: center;
-                padding: 0;
-                min-height: 28px;
-                margin: 0 4px;
-            }
-
-            .btn-inquire {
-                width: auto;
-                padding: 6px 14px;
-                font-size: 13px;
-            }
-
-            footer {
-                padding-bottom: 140px;
-                /* buffer space for bottom sidebar */
-            }
         }
 
-        /* Task 5: Floating Buttons (PC & Mobile) */
+        /* 하단 견적 바로가기 플로팅 버튼 (PC & 모바일) */
         .floating-buttons {
             position: fixed;
             bottom: 20px;
@@ -2110,40 +1244,6 @@
                 display: none !important;
             }
 
-            /* 사이드바(견적 바텀시트)가 펼쳐진 동안은 플로팅 전화/카카오 버튼과 겹치므로 숨김 */
-            body.sidebar-expanded .floating-buttons {
-                display: none;
-            }
-
-            /* 지시서#03 G2: 하단 고정 바 = 장바구니 진입점 재정의 (품목 0개/1개 이상 상태 전환) */
-            .summary-title-default,
-            .summary-title #selected-count {
-                display: none;
-            }
-
-            .mobile-cart-bar-label {
-                display: block;
-                font-size: 15px;
-                color: var(--color-text-muted);
-            }
-
-            .summary-title.has-items {
-                background: var(--color-accent-orange);
-            }
-
-            .summary-title.has-items .mobile-cart-bar-label {
-                color: #FFFFFF;
-            }
-
-            .summary-title.has-items .sidebar-toggle-arrow {
-                color: rgba(255, 255, 255, 0.85);
-            }
-
-            /* 옵션 시트가 열려 있는 동안은 장바구니 바/플로팅 버튼과 겹치므로 숨김 */
-            body.option-sheet-open .calc-sidebar,
-            body.option-sheet-open .floating-buttons {
-                display: none;
-            }
         }
 
         @media (min-width: 769px) {
@@ -2254,57 +1354,6 @@
             border-radius: 3px;
         }
 
-        /* PC: Calculator layout restored to right-side sticky sidebar (grid, no bottom sheet) */
-        @media (min-width: 769px) {
-            .calc-container {
-                display: grid;
-                grid-template-columns: 1fr 340px;
-                gap: 30px;
-                align-items: start;
-                margin-bottom: 0;
-            }
-
-            .calc-sidebar {
-                position: sticky;
-                top: 100px;
-                bottom: auto;
-                left: auto;
-                right: auto;
-                width: 100%;
-                height: auto;
-                max-height: calc(100vh - 140px);
-                border-radius: 20px;
-                border: 1px solid var(--color-border);
-                box-shadow: var(--shadow-premium);
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                z-index: 10;
-                transform: none;
-            }
-
-            .calc-sidebar.expanded {
-                height: auto;
-            }
-
-            .calc-sidebar .sidebar-inner-content {
-                overflow-y: auto;
-                max-height: calc(100vh - 240px);
-                padding: 24px;
-                display: block;
-            }
-
-            .sidebar-toggle-arrow {
-                display: none;
-            }
-
-            .summary-title {
-                border-radius: 20px 20px 0 0;
-                cursor: default;
-                padding: 20px;
-                text-align: left;
-            }
-        }
 
         /* Premium navigation tabs */
         .nav-tab-link {
@@ -3245,6 +2294,14 @@
 
         // Current user selected products and quantities
         let selectedQuantities = {};
+        try {
+            const savedCart = sessionStorage.getItem('yw_cart');
+            if (savedCart) {
+                selectedQuantities = JSON.parse(savedCart);
+            }
+        } catch (e) {
+            console.warn("Failed to load cart from localStorage:", e);
+        }
         let currentActiveTab = "finishing";
         let currentFinishingSub = "all";
         let currentDeckSub = "all";
@@ -3591,29 +2648,6 @@
             }
         }
 
-        async function fetchAllSheetData() {
-            isSheetLoading = true;
-            renderActiveProducts();
-            try {
-                const categories = Object.keys(SHEET_CONFIG);
-                await Promise.allSettled(categories.map(category => fetchSheetData(category)));
-                loadLocalData();
-            } catch (error) {
-                console.warn("Failed to load all sheet data:", error);
-            } finally {
-                isSheetLoading = false;
-                if (pendingTabCategory) {
-                    currentActiveTab = pendingTabCategory;
-                    pendingTabCategory = null;
-                }
-                renderActiveProducts();
-                updateEstimateSummary();
-            }
-        }
-
-        async function fetchMdfData() {
-            return fetchSheetData('mdf');
-        }
 
         function renderReferences() {
             const container = document.getElementById("referenceContainer");
@@ -3719,8 +2753,8 @@
             }
 
             // Check for pending estimate from calculator page
-            const pendingText = localStorage.getItem('pendingEstimateText');
-            const pendingCat = localStorage.getItem('pendingCategory');
+            const pendingText = sessionStorage.getItem('pendingEstimateText');
+            const pendingCat = sessionStorage.getItem('pendingCategory');
             if (pendingText) {
                 const textarea = document.getElementById("inquiryText");
                 if (textarea) {
@@ -3743,8 +2777,8 @@
                     select.value = catMap[pendingCat];
                 }
                 // Clear from storage
-                localStorage.removeItem('pendingEstimateText');
-                localStorage.removeItem('pendingCategory');
+                sessionStorage.removeItem('pendingEstimateText');
+                sessionStorage.removeItem('pendingCategory');
 
                 // Scroll to inquiry section
                 setTimeout(() => {
@@ -3753,13 +2787,7 @@
             }
         });
 
-        // 2. Navigation Helper
-        // Tab Arrow Scroll Function
-        function scrollTabs(direction) {
-            const tabsContainer = document.getElementById("calcTabsScroll");
-            const scrollAmount = 200;
-            tabsContainer.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
-        }
+
 
         function scrollToElement(id) {
             const target = document.getElementById(id);
@@ -3964,78 +2992,7 @@
             }
         }
 
-        // 검색 결과에서 그룹형 카테고리의 특정 옵션으로 바로 이동 (목록→시트 오픈→해당 옵션 하이라이트)
-        function openGroupSheetForItem(categoryKey, item) {
-            openOptionSheet(categoryKey, item.group || item.name);
-            setTimeout(() => {
-                const card = document.getElementById("option-card-" + item.id);
-                if (card) {
-                    card.scrollIntoView({ behavior: "smooth", block: "center" });
-                    card.classList.add("highlight-row");
-                    setTimeout(() => card.classList.remove("highlight-row"), 2000);
-                }
-            }, 150);
-        }
 
-        function toggleMobileSidebar() {
-            if (window.innerWidth <= 768) {
-                const sidebar = document.getElementById("calcSidebar");
-                if (sidebar) {
-                    sidebar.classList.toggle("expanded");
-                    const isExpanded = sidebar.classList.contains("expanded");
-                    document.body.classList.toggle("sidebar-expanded", isExpanded);
-                    if (isExpanded) {
-                        lockBodyScroll();
-                    } else {
-                        unlockBodyScroll();
-                    }
-                }
-            }
-        }
-
-        // 13. Category switching logic
-        function switchCalcTab(categoryKey) {
-            currentActiveTab = categoryKey;
-            pendingTabCategory = categoryKey;
-
-            // Remove active classes
-            document.querySelectorAll(".calc-tab").forEach(tab => {
-                tab.classList.remove("active");
-            });
-
-            // Set active class
-            const targetTab = document.getElementById(`tab-${categoryKey}`);
-            if (targetTab) {
-                targetTab.classList.add("active");
-                if (window.innerWidth <= 768) {
-                    targetTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                }
-            }
-
-            // Show/Hide sub-categories
-            const finishWrap = document.getElementById("sub-category-wrap");
-            const deckWrap = document.getElementById("deck-subcategory-wrap");
-
-            // Toggle delivery warning banner
-            const deliveryAlert = document.getElementById("delivery-info-alert");
-            if (deliveryAlert) {
-                deliveryAlert.style.display = (categoryKey === "delivery") ? "flex" : "none";
-            }
-
-            if (categoryKey === "finishing") {
-                finishWrap.style.display = "flex";
-                deckWrap.style.display = "none";
-                filterFinishingSub("all");
-            } else if (categoryKey === "deck_timber") {
-                finishWrap.style.display = "none";
-                deckWrap.style.display = "flex";
-                filterDeckSub("all");
-            } else {
-                finishWrap.style.display = "none";
-                deckWrap.style.display = "none";
-                renderActiveProducts();
-            }
-        }
 
         function adjustQty(productId, delta) {
             const input = document.getElementById(`qty-input-${productId}`);
@@ -4054,12 +3011,19 @@
             } else {
                 selectedQuantities[productId] = qty;
             }
+            try {
+                sessionStorage.setItem('yw_cart', JSON.stringify(selectedQuantities));
+            } catch (e) {
+                console.warn("Failed to save cart:", e);
+            }
             updateEstimateSummary();
         }
 
-        // 7. Calculate and update estimate summary card
+        // 7. Calculate and update estimate summary card (null-safe: index.html may not have calculator UI)
         function updateEstimateSummary() {
             const listContainer = document.getElementById("selected-items-list");
+            if (!listContainer) return; // index.html has no calculator panel — bail early
+
             listContainer.innerHTML = "";
 
             let total = 0;
@@ -4091,8 +3055,10 @@
                 listContainer.innerHTML = '<div class="empty-cart-msg">선택된 자재가 없습니다.<br>수량을 추가해 주세요.</div>';
             }
 
-            document.getElementById("selected-count").innerText = `${count}개 선택됨`;
-            document.getElementById("total-val").innerText = formatNumber(total);
+            const selectedCountEl = document.getElementById("selected-count");
+            const totalValEl = document.getElementById("total-val");
+            if (selectedCountEl) selectedCountEl.innerText = `${count}개 선택됨`;
+            if (totalValEl) totalValEl.innerText = formatNumber(total);
 
             // 지시서#03 G2: 모바일 하단 고정 바 라벨 갱신
             const cartBarLabel = document.getElementById("mobileCartBarLabel");
@@ -4113,159 +3079,6 @@
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        // 9. Generate prefilled message of selected items
-        function getSelectedItemsText() {
-            let text = "[실시간 단가표 자재 견적 리스트]\n";
-            let total = 0;
-            let hasItems = false;
-
-            for (const cat in PRODUCTS_DATA) {
-                PRODUCTS_DATA[cat].forEach(prod => {
-                    const qty = selectedQuantities[prod.id];
-                    if (qty && qty > 0) {
-                        hasItems = true;
-                        const subtotal = prod.price * qty;
-                        total += subtotal;
-                        text += `- ${prod.name} (${prod.spec}): ${qty}${prod.unit} (단가: ${formatNumber(prod.price)}원 / 소계: ${formatNumber(subtotal)}원)\n`;
-                    }
-                });
-            }
-
-            if (!hasItems) return "";
-
-            text += `\n총 견적 합계 금액: ${formatNumber(total)}원 (부가세/운반비 별도)\n*영림우드 온라인 빠른 상담 견적`;
-            return text;
-        }
-
-        // 10. Copy Estimate to Consultation Form Textarea
-        function copyEstimateAndScroll() {
-            const listText = getSelectedItemsText();
-            const textarea = document.getElementById("inquiryText");
-
-            if (listText) {
-                textarea.value = listText + "\n\n현장 상세 정보 및 배송 가능일 조율 요청합니다.";
-                const select = document.getElementById("targetCategory");
-
-                const catMap = {
-                    finishing: "마감자재",
-                    mdf: "MDF",
-                    plywood: "합판",
-                    interior_plywood: "인테리어합판",
-                    timber: "목재/구조재",
-                    plaster: "석고보드",
-                    insulation: "단열재",
-                    deck_timber: "방부목/특수목",
-                    louver_wood: "루바_집성판",
-                    hardware: "철물/부자재"
-                };
-
-                if (catMap[currentActiveTab]) {
-                    select.value = catMap[currentActiveTab];
-                }
-
-                scrollToElement("inquiry-form-sec");
-            } else {
-                alert("계산기에서 수량을 1개 이상 추가하신 후 견적 문의를 눌러주시면, 문의 내용 란에 견적 리스트가 자동 입력됩니다.");
-                scrollToElement("calculator-sec");
-            }
-        }
-
-        // 11. Send Kakao Estimate (Prefilled message)
-        function sendKakaoEstimate(event) {
-            const listText = getSelectedItemsText();
-            if (listText) {
-                navigator.clipboard.writeText(listText).then(() => {
-                    alert("선택하신 견적 내역이 클립보드에 자동으로 복사되었습니다!\n오픈채팅방 연결 후 붙여넣기(Ctrl+V)하시면 빠른 상담을 받아보실 수 있습니다.");
-                }).catch(err => {
-                    // Fallback
-                });
-            }
-        }
-
-        // 11-1. Build selected-items array (name/spec/unit/qty/price/subtotal) for receipt rendering
-        function getSelectedItemsArray() {
-            const items = [];
-            let total = 0;
-            for (const cat in PRODUCTS_DATA) {
-                PRODUCTS_DATA[cat].forEach(prod => {
-                    const qty = selectedQuantities[prod.id];
-                    if (qty && qty > 0) {
-                        const subtotal = prod.price * qty;
-                        total += subtotal;
-                        items.push({ name: prod.name, spec: prod.spec, unit: prod.unit, qty, price: prod.price, subtotal });
-                    }
-                });
-            }
-            return { items, total };
-        }
-
-        // 11-2. Render selected items as a receipt-style PNG (html2canvas) and download it
-        function downloadEstimateImage() {
-            const { items, total } = getSelectedItemsArray();
-            if (items.length === 0) {
-                alert("계산기에서 수량을 1개 이상 추가하신 후 이미지 저장을 눌러주세요.");
-                scrollToElement("calculator-sec");
-                return;
-            }
-
-            const today = new Date();
-            const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, "0")}.${String(today.getDate()).padStart(2, "0")}`;
-
-            const rowsHtml = items.map((it, i) => `
-                <tr style="background:${i % 2 === 1 ? "#F7F8FA" : "#FFFFFF"};">
-                    <td style="padding:10px 12px; border-bottom:1px solid #EAEDF2; text-align:left;">
-                        <div style="font-weight:700; color:#1A1F2B;">${it.name}</div>
-                        <div style="font-size:12px; color:#5F6875; margin-top:2px;">${it.spec || ""}</div>
-                    </td>
-                    <td style="padding:10px 12px; border-bottom:1px solid #EAEDF2; text-align:right; color:#333A47;">${formatNumber(it.price)}원</td>
-                    <td style="padding:10px 12px; border-bottom:1px solid #EAEDF2; text-align:center; color:#333A47;">${it.qty}${it.unit}</td>
-                    <td style="padding:10px 12px; border-bottom:1px solid #EAEDF2; text-align:right; font-weight:700; color:#1A1F2B;">${formatNumber(it.subtotal)}원</td>
-                </tr>
-            `).join("");
-
-            const receipt = document.createElement("div");
-            receipt.style.cssText = "position:fixed; left:-9999px; top:0; width:520px; background:#FFFFFF; font-family:'Pretendard',-apple-system,sans-serif; padding:32px; box-sizing:border-box; color:#1A1F2B;";
-            receipt.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #1A1F2B; padding-bottom:16px; margin-bottom:16px;">
-                    <div>
-                        <div style="font-size:20px; font-weight:800;">영림우드<span style="color:#FF6B35;">.</span></div>
-                        <div style="font-size:12px; color:#5F6875; margin-top:4px;">건축자재 실시간 단가 견적서</div>
-                    </div>
-                    <div style="font-size:12px; color:#5F6875; text-align:right;">
-                        발행일 ${dateStr}<br>02-1234-5678
-                    </div>
-                </div>
-                <table style="width:100%; border-collapse:collapse; font-size:13px;">
-                    <thead>
-                        <tr style="background:#EEF0F4;">
-                            <th style="padding:10px 12px; text-align:left; font-size:12px; color:#5F6875;">품목</th>
-                            <th style="padding:10px 12px; text-align:right; font-size:12px; color:#5F6875;">단가</th>
-                            <th style="padding:10px 12px; text-align:center; font-size:12px; color:#5F6875;">수량</th>
-                            <th style="padding:10px 12px; text-align:right; font-size:12px; color:#5F6875;">금액</th>
-                        </tr>
-                    </thead>
-                    <tbody>${rowsHtml}</tbody>
-                </table>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; padding-top:16px; border-top:2px solid #1A1F2B;">
-                    <span style="font-size:14px; font-weight:700;">총 견적 합계</span>
-                    <span style="font-size:20px; font-weight:800; color:#FF6B35;">${formatNumber(total)}원</span>
-                </div>
-                <div style="font-size:11px; color:#5F6875; margin-top:8px; text-align:right;">부가세 및 배송비 별도 · 본 견적서는 참고용이며 최종 단가는 상담 시 확정됩니다.</div>
-            `;
-
-            document.body.appendChild(receipt);
-
-            html2canvas(receipt, { scale: 2, backgroundColor: "#FFFFFF" }).then(canvas => {
-                document.body.removeChild(receipt);
-                const link = document.createElement("a");
-                link.download = `영림우드_견적서_${dateStr.replace(/\./g, "")}.png`;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-            }).catch(err => {
-                document.body.removeChild(receipt);
-                alert("이미지 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-            });
-        }
 
         // 12. Handle Inquiry Form Submit (EmailJS with attachment generation)
         function handleFormSubmit(event) {
@@ -4359,6 +3172,12 @@
                     // Reset Form and Cart
                     document.getElementById("inquiryForm").reset();
                     selectedQuantities = {};
+                    try {
+                        sessionStorage.removeItem('yw_cart');
+                        sessionStorage.removeItem('pendingEstimateText');
+                    } catch (e) {
+                        console.warn("Failed to clear cart storage:", e);
+                    }
                     document.querySelectorAll(".qty-input").forEach(input => {
                         input.value = 0;
                     });
@@ -4377,29 +3196,6 @@
             modal.classList.remove("active");
         }
 
-        // 13. Open/Close Product Spec Modal
-        function openProductModal(name, spec, image, unit, price) {
-            document.getElementById("prodModalTitle").innerText = name;
-            document.getElementById("prodModalSpec").innerText = spec;
-            document.getElementById("prodModalImg").src = image;
-            document.getElementById("prodModalUnit").innerText = unit;
-
-            if (price === 0 || price === null || price === "0" || price === "null" || price === "견적문의") {
-                document.getElementById("prodModalPrice").innerText = "견적문의";
-                document.getElementById("prodModalPrice").style.color = "var(--color-accent-orange)";
-            } else {
-                document.getElementById("prodModalPrice").innerText = formatNumber(price) + "원";
-                document.getElementById("prodModalPrice").style.color = "";
-            }
-
-            const modal = document.getElementById("productImageModal");
-            modal.classList.add("active");
-        }
-
-        function closeProductModal() {
-            const modal = document.getElementById("productImageModal");
-            modal.classList.remove("active");
-        }
 
         // 13.5 Inquire quote for individual items
         function inquireProduct(name, categoryKey) {
