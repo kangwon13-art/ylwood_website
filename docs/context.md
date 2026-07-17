@@ -51,3 +51,7 @@
   - **COLORS 배열 순서/명칭 확정**: 중백색→도장백색→주백색→회벽벽색(PS170, "회벽색"에서 "회벽벽색"으로 오타性 수정 지시 반영)→엠보스 3종→진회색→나머지(인디언오크~영림182)는 기존 순서 유지.
   - 검증 방법: 이 환경에 GUI 브라우저가 없어, 로컬 `serve.py` + `cloudflared.exe` quick tunnel로 실제 URL을 발급하고 그 URL을 헤드리스 Chrome(`--remote-debugging-port` + CDP 프로토콜, Python `websocket-client`로 직접 통신)에 로드시켜 클릭·입력 이벤트를 실제로 실행하고 스크린샷/computed style/JSON 상태로 검증하는 방식을 새로 확립. `chromium-cli`, node, 정상 동작하는 python 등이 이 환경에 없어 `uv run --with websocket-client --with requests python ...` 조합으로 대체.
   - 실기기 링크는 세션마다 재발급 필요(cloudflared quick tunnel은 PC·서버가 켜져 있는 동안만 유효, 고정 URL 아님).
+- 2026-07-17 후속, door_order.html 색상명 줄바꿈 + 카카오 메시지 포맷 수정(`4ec5e09`). 색상명 6종(중백색/도장백색/주백색/회벽벽색/인디언오크/소프트오크)에 `\n` 추가해 썸네일 아래 2줄 표시(`white-space: pre-line`, 라벨 높이 2.6em 고정+세로 중앙 정렬), 도장백색 PS120 오타 수정.
+  - **실제로 발견한 버그**: `onclick="selectColor('...')"` 속성에 실제 개행 문자가 그대로 들어가면 단일따옴표 JS 문자열 리터럴이 줄바꿈에서 깨져 SyntaxError 발생 — `escForJsString()`으로 `\n`→`\\n` 이스케이프해 해결. 요약/카톡 텍스트에서는 반대로 `buildSummaryLine()`에서 색상명의 개행을 제거해 "중백색(PS010)"처럼 한 줄로 표시되도록 처리(썸네일 라벨용 개행과 텍스트 문의용 표기를 분리).
+  - 카카오 메시지 포맷 변경: 세트 사이 빈 줄 추가, "(N조)"를 별도 줄로 분리.
+  - 검증: 실제 DOM 클릭 이벤트(`.click()`)로 재현해 JS 에러 없음, `state.color`에 개행이 정상 보존됨, `buildSummaryLine`/`buildKakaoMessage` 출력에는 개행이 빠져 한 줄로 나오는 것까지 확인. 이전에 `Runtime.evaluate`로 개행을 직접 소스에 넣어 테스트했을 때는 SyntaxError가 났는데, 이는 실제 프로덕션 코드 경로(이스케이프된 onclick)와 다른 잘못된 테스트 방식이었음 — 실제 버튼 클릭으로 재검증해 오탐임을 확인.
