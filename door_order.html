@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영림우드 | 문짝·문틀 주문 사양 정리</title>
+    <meta name="description" content="문짝·문틀 주문제작에 필요한 사양을 직접 골라 정리하고, 카카오톡으로 바로 견적 문의하세요.">
+    <meta property="og:title" content="영림우드 - 문짝·문틀 주문 사양 정리">
+    <meta property="og:description" content="문 종류, 문틀 종류, 바수, 사이즈, 색상, 문지방·방향까지 정리해서 카카오톡으로 문의하세요.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts: Pretendard for Korean, Montserrat for English Numbers/Headers -->
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS RESET & VARIABLES (기존 calculator.html/index.html과 동일 토큰) */
+        :root {
+            --color-bg-primary: #F5F6F8;
+            --color-bg-secondary: #FFFFFF;
+            --color-bg-tertiary: #EEF0F4;
+            --color-accent-orange: #FF6B35;
+            --color-accent-orange-hover: #E8551E;
+            --color-accent-orange-light: rgba(255, 107, 53, 0.08);
+            --color-accent-navy-light: #1F2A44;
+            --color-text-white: #1A1F2B;
+            --color-text-muted: #5F6875;
+            --color-text-light: #333A47;
+            --color-border: #DDE1E8;
+            --font-family-base: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            --font-family-alt: 'Montserrat', sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-premium: 0 10px 30px -10px rgba(31, 42, 68, 0.12);
+            --shadow-glow: 0 4px 12px rgba(255, 107, 53, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-light);
+            font-family: var(--font-family-base);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            font-family: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid var(--color-border);
+            padding: 15px 0;
+            transition: var(--transition-smooth);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-area svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--color-accent-orange);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--color-text-white);
+        }
+
+        .logo-text span {
+            color: var(--color-accent-orange);
+        }
+
+        .catalog-link {
+            color: var(--color-text-muted);
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: var(--transition-smooth);
+        }
+
+        .catalog-link:hover {
+            color: var(--color-text-light);
+        }
+
+        @media (max-width: 768px) {
+            header .catalog-link {
+                display: none;
+            }
+        }
+
+        /* PAGE TITLE */
+        .page-title-sec {
+            padding: 44px 0 8px;
+            text-align: center;
+        }
+
+        .page-tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-accent-orange);
+            background: var(--color-accent-orange-light);
+            padding: 6px 12px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--color-text-white);
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        .page-desc {
+            font-size: 15px;
+            color: var(--color-text-muted);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* CONTENT */
+        .content-sec {
+            padding: 24px 0 90px;
+        }
+
+        .door-card {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-premium);
+            padding: 22px 20px;
+            margin-bottom: 16px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--color-text-white);
+        }
+
+        .card-title-hint {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            margin-left: 6px;
+        }
+
+        .card-subtext {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-top: 10px;
+        }
+
+        .frame-info-btn {
+            background: none;
+            border: none;
+            color: var(--color-accent-orange);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            padding: 4px;
+        }
+
+        /* CHIP BUTTONS (문 종류 / 바수 chips / 문지방) */
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip-btn {
+            min-height: 40px;
+            padding: 0 16px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-light);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chip-btn:hover {
+            border-color: var(--color-accent-orange);
+        }
+
+        .chip-btn.on {
+            background: var(--color-accent-orange);
+            color: #FFFFFF;
+            border-color: var(--color-accent-orange);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .chip-tag {
+            font-size: 10.5px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 2px 6px;
+            border-radius: 20px;
+        }
+
+        .chip-btn:not(.on) .chip-tag {
+            background: var(--color-accent-orange-light);
+            color: var(--color-accent-orange);
+        }
+
+        /* 문틀 종류: 세로 나열 버튼 */
+        .frame-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .frame-btn {
+            min-height: 44px;
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            color: var(--color-text-light);
+            font-size: 14.5px;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .frame-btn:hover {
+            border-color: var(--color-accent-orange);
+        }
+
+        .frame-btn.on {
+            background: var(--color-accent-orange-light);
+            border-color: var(--color-accent-orange);
+            color: var(--color-accent-orange);
+        }
+
+        /* 바수 영역 */
+        .basu-empty-hint {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            background: var(--color-bg-tertiary);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .basu-custom-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .basu-custom-input {
+            min-height: 40px;
+            flex: 1;
+            min-width: 120px;
+            padding: 0 14px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--color-text-white);
+            background: var(--color-bg-tertiary);
+        }
+
+        .basu-custom-input:focus {
+            outline: none;
+            border-color: var(--color-accent-orange);
+            background: var(--color-bg-secondary);
+        }
+
+        /* 사이즈 */
+        .size-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .size-input {
+            flex: 1 1 0;
+            min-width: 0;
+            width: 100%;
+            min-height: 44px;
+            padding: 0 10px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 15px;
+            color: var(--color-text-white);
+            background: var(--color-bg-tertiary);
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .size-input:focus {
+            outline: none;
+            border-color: var(--color-accent-orange);
+            background: var(--color-bg-secondary);
+        }
+
+        .size-x {
+            font-weight: 700;
+            color: var(--color-text-muted);
+            flex-shrink: 0;
+        }
+
+        .size-unit {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            flex-shrink: 0;
+        }
+
+        /* 색상 그리드 */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px 10px;
+        }
+
+        .color-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .color-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            border: 2px solid var(--color-border);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-tertiary);
+            transition: var(--transition-smooth);
+        }
+
+        .color-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .color-thumb-question {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--color-text-muted);
+        }
+
+        .color-item.on .color-thumb {
+            border-color: var(--color-accent-orange);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .color-name {
+            font-size: 11.5px;
+            color: var(--color-text-light);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .color-item.on .color-name {
+            color: var(--color-accent-orange);
+            font-weight: 700;
+        }
+
+        /* 문지방 / 방향 */
+        .direction-caption {
+            font-size: 12.5px;
+            color: var(--color-text-muted);
+            margin: 14px 0 10px;
+        }
+
+        .direction-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .dir-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 8px;
+            min-height: 40px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--color-text-light);
+        }
+
+        .dir-btn svg {
+            color: var(--color-text-muted);
+        }
+
+        .dir-btn:hover {
+            border-color: var(--color-accent-orange);
+        }
+
+        .dir-btn.on {
+            background: var(--color-accent-orange-light);
+            border-color: var(--color-accent-orange);
+        }
+
+        .dir-btn.on svg {
+            color: var(--color-accent-orange);
+        }
+
+        .dir-btn-label {
+            font-size: 12.5px;
+            font-weight: 700;
+        }
+
+        /* 수량 + 세트 담기 */
+        .qty-addset-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-stepper {
+            display: flex;
+            align-items: center;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .qty-stepper button {
+            width: 40px;
+            height: 44px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-text-light);
+            cursor: pointer;
+        }
+
+        .qty-stepper button:hover {
+            color: var(--color-accent-orange);
+        }
+
+        .qty-val {
+            width: 40px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .add-set-btn {
+            flex: 1;
+            min-height: 44px;
+            background: var(--color-accent-orange);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .add-set-btn:hover {
+            background: var(--color-accent-orange-hover);
+        }
+
+        /* 담긴 세트 목록 */
+        .set-count-badge {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-accent-orange);
+        }
+
+        .set-empty {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .set-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .set-row:last-child {
+            border-bottom: none;
+        }
+
+        .set-index {
+            flex-shrink: 0;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            width: 40px;
+        }
+
+        .set-summary {
+            flex: 1;
+            font-size: 13.5px;
+            color: var(--color-text-light);
+            line-height: 1.5;
+        }
+
+        .set-summary .set-qty {
+            color: var(--color-accent-orange);
+            font-weight: 700;
+        }
+
+        .set-delete-btn {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-muted);
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .set-delete-btn:hover {
+            background: var(--color-accent-orange-light);
+            color: var(--color-accent-orange);
+        }
+
+        .set-list-footer {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--color-border);
+            font-size: 12px;
+            color: var(--color-text-muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* 카카오 버튼 */
+        .kakao-send-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+            min-height: 52px;
+            background: #FEE500;
+            color: #191919;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .kakao-send-btn:hover {
+            background: #E6CE00;
+            transform: translateY(-2px);
+        }
+
+        /* 토스트 메시지 */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 90px;
+            transform: translateX(-50%) translateY(8px);
+            max-width: 88%;
+            background: var(--color-text-white);
+            color: #FFFFFF;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: var(--shadow-premium);
+            z-index: 10002;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* 문틀 안내 모달 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 31, 43, 0.55);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--color-bg-secondary);
+            border-radius: 18px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 84vh;
+            overflow-y: auto;
+            padding: 22px 20px;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .modal-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--color-text-white);
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-muted);
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .modal-frame-item {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .modal-frame-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .frame-thumb {
+            position: relative;
+            width: 64px;
+            height: 64px;
+            flex-shrink: 0;
+            border: 1px dashed var(--color-border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--color-bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .frame-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .frame-thumb-placeholder {
+            display: none;
+            font-size: 10px;
+            color: var(--color-text-muted);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .frame-thumb.thumb-fallback img {
+            display: none;
+        }
+
+        .frame-thumb.thumb-fallback .frame-thumb-placeholder {
+            display: block;
+        }
+
+        .modal-frame-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .modal-frame-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text-white);
+        }
+
+        .modal-frame-desc {
+            font-size: 12.5px;
+            color: var(--color-text-muted);
+            margin-top: 3px;
+            line-height: 1.5;
+        }
+
+        .modal-footer-text {
+            margin-top: 16px;
+            font-size: 12.5px;
+            color: var(--color-text-muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--color-bg-secondary);
+            border-top: 1px solid var(--color-border);
+            padding: 50px 0;
+            color: var(--color-text-muted);
+        }
+
+        .footer-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--color-text-white);
+            margin-bottom: 14px;
+        }
+
+        .footer-logo span {
+            color: var(--color-accent-orange);
+        }
+
+        .footer-details {
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+        }
+
+        .footer-links {
+            text-align: right;
+        }
+
+        .footer-tel {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--color-text-white);
+            margin-bottom: 10px;
+        }
+
+        .footer-tel span {
+            color: var(--color-accent-orange);
+        }
+
+        .footer-bottom-nav {
+            display: flex;
+            gap: 14px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            font-size: 12.5px;
+        }
+
+        .footer-bottom-nav a:hover {
+            color: var(--color-accent-orange);
+        }
+
+        /* FLOATING BUTTONS */
+        .floating-buttons {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 99;
+        }
+
+        .floating-btn-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .floating-btn-circle:hover {
+            transform: translateY(-4px);
+        }
+
+        .floating-btn-circle.phone {
+            background: #2B8BE3;
+        }
+
+        .floating-btn-circle.kakao {
+            background: #FEE500;
+            color: #181600;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 24px;
+            }
+
+            .page-desc {
+                font-size: 13.5px;
+                padding: 0 8px;
+            }
+
+            .door-card {
+                padding: 18px 16px;
+                border-radius: 14px;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px 6px;
+            }
+
+            .color-thumb {
+                width: 48px;
+                height: 48px;
+                border-radius: 10px;
+            }
+
+            .footer-wrap {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-links {
+                text-align: center;
+            }
+
+            .footer-bottom-nav {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container header-wrap">
+            <a href="index.html" class="logo-area">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 12h-2v3h-2v-3h-2v6h6v-6zm-8 6V6l-7 6 7 6zm3-8V6h6v4h-6z" />
+                </svg>
+                <div class="logo-text">영림우드<span>.</span></div>
+            </a>
+            <a href="calculator.html" class="catalog-link">실시간 단가 계산기</a>
+        </div>
+    </header>
+
+    <!-- PAGE TITLE -->
+    <section class="page-title-sec">
+        <div class="container">
+            <span class="page-tag">Door Order</span>
+            <h1 class="page-title">문짝·문틀 주문 사양 정리</h1>
+            <p class="page-desc">
+                사양을 고르고 '세트 담기'를 누르세요. 여러 세트를 담아 한 번에 문의할 수 있습니다.<br>
+                모르는 항목은 '모름'을 선택하세요.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="content-sec">
+        <div class="container">
+
+            <!-- 카드 1: 문 종류 -->
+            <div class="door-card">
+                <div class="card-title-row">
+                    <div class="card-title">1. 문 종류</div>
+                </div>
+                <div class="chip-row" id="doorTypeChips"></div>
+            </div>
+
+            <!-- 카드 2: 문틀 종류 -->
+            <div class="door-card">
+                <div class="card-title-row">
+                    <div class="card-title">2. 문틀 종류</div>
+                    <button class="frame-info-btn" onclick="openFrameModal()">ⓘ 어떤 차이가 있나요?</button>
+                </div>
+                <div class="frame-list" id="frameList"></div>
+            </div>
+
+            <!-- 카드 3: 문틀 바수 -->
+            <div class="door-card">
+                <div class="card-title-row">
+                    <div class="card-title">3. 문틀 바수<span class="card-title-hint">(벽 두께, 마감 포함)</span></div>
+                </div>
+                <div id="basuArea"></div>
+            </div>
+
+            <!-- 카드 4: 사이즈 -->
+            <div class="door-card">
+                <div class="card-title-row">
+                    <div class="card-title">4. 사이즈 <span class="card-title-hint">외경 기준</span></div>
+                </div>
+                <div class="size-input-row">
+                    <input type="text" inputmode="numeric" class="size-input" id="sizeWInput" placeholder="가로(mm)"
+                        oninput="onSizeInput()">
+                    <span class="size-x">×</span>
+                    <input type="text" inputmode="numeric" class="size-input" id="sizeHInput" placeholder="세로(mm)"
+                        oninput="onSizeInput()">
+                    <span class="size-unit">mm</span>
+                </div>
+                <div class="card-subtext">문틀 외경 사이즈 기준으로 입력해주세요.</div>
+            </div>
+
+            <!-- 카드 5: 색상 -->
+            <div class="door-card">
+                <div class="card-title-row">
+                    <div class="card-title">5. 색상</div>
+                </div>
+                <div class="color-grid" id="colorGrid"></div>
+                <div class="card-subtext">실물과 화면 색상은 차이가 있을 수 있습니다.</div>
+            </div>
+
+            <!-- 카드 6: 문지방 + 열리는 방향 -->
+            <div class="door-card">
+                <div class="card-title-row">
+                    <div class="card-title">6. 문지방 · 열리는 방향</div>
+                </div>
+                <div class="chip-row" id="sillChips"></div>
+                <div id="directionArea" style="display:none;">
+                    <div class="direction-caption">방 안에서 본 기준입니다.</div>
+                    <div class="direction-grid" id="directionGrid"></div>
+                </div>
+            </div>
+
+            <!-- 수량 + 세트 담기 -->
+            <div class="door-card">
+                <div class="qty-addset-row">
+                    <div class="qty-stepper">
+                        <button type="button" onclick="changeQty(-1)" aria-label="수량 감소">−</button>
+                        <span class="qty-val" id="qtyVal">1</span>
+                        <button type="button" onclick="changeQty(1)" aria-label="수량 증가">＋</button>
+                    </div>
+                    <button type="button" class="add-set-btn" onclick="addSet()">＋ 이 사양 세트 담기</button>
+                </div>
+            </div>
+
+            <!-- 담긴 세트 목록 -->
+            <div class="door-card">
+                <div class="card-title-row">
+                    <div class="card-title">담긴 세트 <span class="set-count-badge" id="setCountBadge">0</span></div>
+                </div>
+                <div id="setListArea">
+                    <div class="set-empty">아직 담긴 세트가 없습니다.</div>
+                </div>
+                <div class="set-list-footer">주문제작 상품 · 발주 후 약 5~7일 소요 · 사양 확인 후 제작 진행</div>
+            </div>
+
+            <!-- 카카오 문의 버튼 -->
+            <button type="button" class="kakao-send-btn" onclick="sendDoorOrderKakao()">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
+                </svg>
+                담긴 세트 전체 카톡 견적 문의
+            </button>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-wrap">
+                <div class="footer-info">
+                    <div class="footer-logo">영림우드<span>.</span></div>
+                    <div class="footer-details">
+                        (주)영림우드종합자재 | 대표이사: 홍길동 | 사업자등록번호: 123-45-67890<br>
+                        본사/물류창고: 경기도 하남시 자재단지로 123번길 45<br>
+                        이메일: contact@younglimwood.co.kr | 팩스: 02-1234-5679
+                    </div>
+                    <div class="footer-copyright">
+                        &copy; 2026 Younglim Wood Corporation. All Rights Reserved.
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-tel">고객센터 <span>02-1234-5678</span></div>
+                    <div class="footer-bottom-nav">
+                        <a href="index.html">홈으로</a>
+                        <a href="calculator.html">실시간 단가 계산기</a>
+                        <a href="catalog.html">영림카탈로그</a>
+                        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">맨위로</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING BUTTONS -->
+    <div class="floating-buttons">
+        <a href="tel:02-1234-5678" class="floating-btn-circle phone" title="전화 연결">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.502-5.114-3.792-6.616-6.616l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+            </svg>
+        </a>
+        <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="floating-btn-circle kakao" title="카카오톡 문의">
+            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- 문틀 안내 모달 -->
+    <div class="modal-overlay" id="frameModalOverlay" onclick="closeFrameModalOnOverlay(event)">
+        <div class="modal-box">
+            <div class="modal-header-row">
+                <div class="modal-title">문틀 종류 안내</div>
+                <button class="modal-close" onclick="closeFrameModal()" aria-label="닫기">✕</button>
+            </div>
+            <div id="frameModalList"></div>
+            <div class="modal-footer-text">
+                어떤 문틀이 맞는지 모르겠다면 그대로 문의 주세요. 현장 조건 확인 후 추천해드립니다.
+            </div>
+        </div>
+    </div>
+
+    <!-- 토스트 메시지 -->
+    <div class="toast" id="toast"></div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ===================== 0. 데이터 (전부 하드코딩, 구글시트 연동 없음) =====================
+
+        const DOOR_TYPES = [
+            { name: "민자문", tag: "인기", default: true },
+            { name: "다른 디자인", tag: null, default: false }
+        ];
+
+        const FRAMES = [
+            {
+                name: "일반 목재 분리형", basuMode: "custom",
+                desc: "문선이 분리되는 목재 문틀. 벽 두께에 맞춰 바수 제작 가능" // 임시 문구, 사장님 확정 문구로 교체 예정
+            },
+            {
+                name: "일반 발포 일체형", basuMode: "chips",
+                basuList: [110, 130, 140, 155, 175, 195, 210, 230, 245],
+                desc: "문선 일체형 발포 문틀. 습기에 강해 욕실 등에 적합" // 임시 문구
+            },
+            {
+                name: "9mm문선 목재형(MDF)", basuMode: "custom",
+                desc: "문선 폭 9mm의 슬림한 목재(MDF) 문틀. 미니멀한 마감" // 임시 문구
+            },
+            {
+                name: "9mm문선 발포 슬림와이드형(PVC)", basuMode: "chips",
+                basuList: [110, 140, 155, 175, 195, 210, 230, 245],
+                desc: "9mm 문선 + 발포(PVC) 소재. 슬림하면서 습기에 강함" // 임시 문구
+            },
+            {
+                name: "9mm문선 슬림 분리형(MDF)", basuMode: "chips",
+                basuList: [110, 135, 145, 155, 175, 195, 210, 225, 242],
+                desc: "9mm 문선 분리형 MDF 문틀. 다양한 바수 대응" // 임시 문구
+            }
+        ];
+
+        // 문틀 모달용 썸네일 경로 (images/frames/ 폴더 예정 - 아직 없으므로 placeholder로 표시됨)
+        const FRAME_THUMBS = [
+            "images/frames/frame1.png",
+            "images/frames/frame2.png",
+            "images/frames/frame3.png",
+            "images/frames/frame4.png",
+            "images/frames/frame5.png"
+        ];
+
+        const COLORS = [
+            { name: "중백색(PS010)", img: "colors/ps010_yl116.PNG" },
+            { name: "도장백색(영168)", img: "colors/ps120_yl168.PNG" },
+            { name: "주백색(PS160)", img: "colors/ps160_yl194.PNG" },
+            { name: "회벽벽색(PS170)", img: "colors/ps170_yl195.PNG" },
+            { name: "PS100엠보스", img: "colors/ps100_E.PNG" },
+            { name: "PS101엠보스", img: "colors/ps101_E.PNG" },
+            { name: "PS102엠보스", img: "colors/ps102_E.PNG" },
+            { name: "진회색(PS027)", img: "colors/ps027.PNG" },
+            { name: "인디언오크(영40)", img: "colors/yl40.PNG" },
+            { name: "펄백색(영50)", img: "colors/yl50.PNG" },
+            { name: "소프트오크(영53-1)", img: "colors/yl53-1.PNG" },
+            { name: "영림181", img: "colors/yl181.PNG" },
+            { name: "영림182", img: "colors/yl182.PNG" },
+            { name: "색상 미정", img: null }
+        ];
+
+        // 방향: 방 안에서 본 기준. hinge(경첩) 좌/우 + 안열림/밖열림
+        const DIRECTIONS = [
+            { key: "좌수·안열림", hinge: "left", swing: "in" },
+            { key: "우수·안열림", hinge: "right", swing: "in" },
+            { key: "좌수·밖열림", hinge: "left", swing: "out" },
+            { key: "우수·밖열림", hinge: "right", swing: "out" }
+        ];
+
+        // ===================== 1. 상태 =====================
+
+        const state = {
+            doorType: DOOR_TYPES.find(d => d.default).name,
+            frameName: null,
+            basu: null,
+            sizeW: "",
+            sizeH: "",
+            color: null,
+            sill: null,
+            direction: null,
+            qty: 1
+        };
+
+        let doorSets = [];
+
+        // ===================== 2. 렌더: 문 종류 =====================
+
+        function renderDoorTypes() {
+            const wrap = document.getElementById("doorTypeChips");
+            wrap.innerHTML = DOOR_TYPES.map(d => `
+                <button type="button" class="chip-btn ${state.doorType === d.name ? "on" : ""}"
+                    onclick="selectDoorType('${d.name.replace(/'/g, "\\'")}')">
+                    ${d.name}${d.tag ? `<span class="chip-tag">${d.tag}</span>` : ""}
+                </button>
+            `).join("");
+        }
+
+        function selectDoorType(name) {
+            state.doorType = name;
+            renderDoorTypes();
+        }
+
+        // ===================== 3. 렌더: 문틀 종류 + 바수 =====================
+
+        function renderFrames() {
+            const wrap = document.getElementById("frameList");
+            wrap.innerHTML = FRAMES.map(f => `
+                <button type="button" class="frame-btn ${state.frameName === f.name ? "on" : ""}"
+                    onclick="selectFrame('${f.name.replace(/'/g, "\\'")}')">
+                    ${f.name}
+                </button>
+            `).join("");
+        }
+
+        function selectFrame(name) {
+            state.frameName = name;
+            state.basu = null; // 문틀 변경 시 바수 초기화
+            renderFrames();
+            renderBasuArea();
+        }
+
+        function getSelectedFrame() {
+            return FRAMES.find(f => f.name === state.frameName) || null;
+        }
+
+        function renderBasuArea() {
+            const area = document.getElementById("basuArea");
+            const frame = getSelectedFrame();
+
+            if (!frame) {
+                area.innerHTML = `<div class="basu-empty-hint">문틀 종류를 먼저 선택해주세요</div>`;
+                return;
+            }
+
+            if (frame.basuMode === "chips") {
+                const chipsHtml = frame.basuList.map(n => `
+                    <button type="button" class="chip-btn ${state.basu === String(n) ? "on" : ""}"
+                        onclick="selectBasuChip(${n})">${n}</button>
+                `).join("");
+                const unknownHtml = `
+                    <button type="button" class="chip-btn ${state.basu === "모름(벽두께 문의)" ? "on" : ""}"
+                        onclick="selectBasuUnknown()">모름</button>
+                `;
+                area.innerHTML = `<div class="chip-row">${chipsHtml}${unknownHtml}</div>`;
+            } else {
+                const isUnknown = state.basu === "모름(벽두께 문의)";
+                const customVal = (!isUnknown && state.basu) ? state.basu.replace("(직접입력)", "") : "";
+                area.innerHTML = `
+                    <div class="basu-custom-row">
+                        <input type="text" inputmode="numeric" class="basu-custom-input" id="basuCustomInput"
+                            placeholder="바수 직접 입력 (mm)" value="${customVal}" oninput="onBasuCustomInput()">
+                        <button type="button" class="chip-btn ${isUnknown ? "on" : ""}"
+                            onclick="selectBasuUnknown()">모름</button>
+                    </div>
+                `;
+            }
+        }
+
+        function selectBasuChip(n) {
+            state.basu = String(n);
+            renderBasuArea();
+        }
+
+        function selectBasuUnknown() {
+            state.basu = "모름(벽두께 문의)";
+            renderBasuArea();
+        }
+
+        function onBasuCustomInput() {
+            const val = document.getElementById("basuCustomInput").value.trim();
+            state.basu = val ? `${val}(직접입력)` : null;
+        }
+
+        // ===================== 4. 사이즈 =====================
+
+        function onSizeInput() {
+            state.sizeW = document.getElementById("sizeWInput").value.trim();
+            state.sizeH = document.getElementById("sizeHInput").value.trim();
+        }
+
+        // ===================== 5. 색상 =====================
+
+        function renderColors() {
+            const wrap = document.getElementById("colorGrid");
+            wrap.innerHTML = COLORS.map(c => `
+                <button type="button" class="color-item ${state.color === c.name ? "on" : ""}"
+                    onclick="selectColor('${c.name.replace(/'/g, "\\'")}')">
+                    <div class="color-thumb">
+                        ${c.img
+                    ? `<img src="${c.img}" alt="${c.name}" loading="lazy">`
+                    : `<span class="color-thumb-question">?</span>`}
+                    </div>
+                    <div class="color-name">${c.name}</div>
+                </button>
+            `).join("");
+        }
+
+        function selectColor(name) {
+            state.color = name;
+            renderColors();
+        }
+
+        // ===================== 6. 문지방 + 방향 =====================
+
+        function renderSillChips() {
+            const wrap = document.getElementById("sillChips");
+            wrap.innerHTML = ["있음", "없음"].map(v => `
+                <button type="button" class="chip-btn ${state.sill === v ? "on" : ""}"
+                    onclick="selectSill('${v}')">${v}</button>
+            `).join("");
+        }
+
+        function selectSill(v) {
+            state.sill = v;
+            if (v === "있음") {
+                state.direction = null;
+                document.getElementById("directionArea").style.display = "none";
+            } else {
+                document.getElementById("directionArea").style.display = "block";
+            }
+            renderSillChips();
+            renderDirectionGrid();
+        }
+
+        function directionIconSvg(hinge, swing) {
+            const hingeX = hinge === "left" ? 22 : 58;
+            const closedX = hinge === "left" ? 52 : 28;
+            const openDx = hinge === "left" ? 12.7 : -12.7;
+            const openY = swing === "in" ? 79.2 : 24.8;
+            const openX = hingeX + openDx;
+            const sweep = (hinge === "left" && swing === "in") || (hinge === "right" && swing === "out") ? 1 : 0;
+            return `
+                <svg width="40" height="40" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                    <line x1="8" y1="52" x2="72" y2="52"></line>
+                    <circle cx="${hingeX}" cy="52" r="3" fill="currentColor" stroke="none"></circle>
+                    <line x1="${hingeX}" y1="52" x2="${openX.toFixed(1)}" y2="${openY}" stroke-width="4"></line>
+                    <path d="M ${closedX} 52 A 30 30 0 0 ${sweep} ${openX.toFixed(1)} ${openY}"
+                        stroke-dasharray="4 3" stroke-width="1.5"></path>
+                </svg>
+            `;
+        }
+
+        function renderDirectionGrid() {
+            const wrap = document.getElementById("directionGrid");
+            wrap.innerHTML = DIRECTIONS.map(d => `
+                <button type="button" class="dir-btn ${state.direction === d.key ? "on" : ""}"
+                    onclick="selectDirection('${d.key}')">
+                    ${directionIconSvg(d.hinge, d.swing)}
+                    <span class="dir-btn-label">${d.key}</span>
+                </button>
+            `).join("");
+        }
+
+        function selectDirection(key) {
+            state.direction = key;
+            renderDirectionGrid();
+        }
+
+        // ===================== 7. 수량 =====================
+
+        function changeQty(delta) {
+            state.qty = Math.max(1, state.qty + delta);
+            document.getElementById("qtyVal").textContent = state.qty;
+        }
+
+        // ===================== 8. 사양 요약 =====================
+
+        function buildBasuText() {
+            if (!state.basu) return "바수 미정";
+            return `바수 ${state.basu}`;
+        }
+
+        function buildSizeText() {
+            if (state.sizeW && state.sizeH) return `외경 ${state.sizeW}×${state.sizeH}`;
+            return "사이즈 미정";
+        }
+
+        function buildSillDirectionText() {
+            if (!state.sill) return "문지방 미정";
+            if (state.sill === "있음") return "문지방 있음";
+            return state.direction ? `문지방 없음·${state.direction}` : "문지방 없음";
+        }
+
+        function buildSummaryLine(snap) {
+            const doorType = snap.doorType || "미정";
+            const frameName = snap.frameName || "문틀 미정";
+            const basuText = snap.basu ? `바수 ${snap.basu}` : "바수 미정";
+            const sizeText = (snap.sizeW && snap.sizeH) ? `외경 ${snap.sizeW}×${snap.sizeH}` : "사이즈 미정";
+            const colorText = snap.color || "색상 미정";
+            let sillText = "문지방 미정";
+            if (snap.sill === "있음") sillText = "문지방 있음";
+            else if (snap.sill === "없음") sillText = snap.direction ? `문지방 없음·${snap.direction}` : "문지방 없음";
+
+            return `${doorType} / ${frameName} / ${basuText} / ${sizeText} / ${colorText} / ${sillText}`;
+        }
+
+        // ===================== 9. 세트 담기 / 삭제 / 저장 =====================
+
+        function addSet() {
+            const snap = {
+                doorType: state.doorType,
+                frameName: state.frameName,
+                basu: state.basu,
+                sizeW: state.sizeW,
+                sizeH: state.sizeH,
+                color: state.color,
+                sill: state.sill,
+                direction: state.direction,
+                qty: state.qty
+            };
+            doorSets.push(snap);
+            state.qty = 1;
+            document.getElementById("qtyVal").textContent = 1;
+            saveSets();
+            renderSetList();
+        }
+
+        function removeSet(index) {
+            doorSets.splice(index, 1);
+            saveSets();
+            renderSetList();
+        }
+
+        function renderSetList() {
+            const area = document.getElementById("setListArea");
+            document.getElementById("setCountBadge").textContent = doorSets.length;
+
+            if (doorSets.length === 0) {
+                area.innerHTML = `<div class="set-empty">아직 담긴 세트가 없습니다.</div>`;
+                return;
+            }
+
+            area.innerHTML = doorSets.map((s, i) => `
+                <div class="set-row">
+                    <div class="set-index">세트${i + 1}</div>
+                    <div class="set-summary">${buildSummaryLine(s)} <span class="set-qty">(${s.qty}조)</span></div>
+                    <button type="button" class="set-delete-btn" onclick="removeSet(${i})" aria-label="세트 삭제">✕</button>
+                </div>
+            `).join("");
+        }
+
+        function saveSets() {
+            sessionStorage.setItem("doorOrderSets", JSON.stringify(doorSets));
+        }
+
+        function loadSets() {
+            try {
+                const raw = sessionStorage.getItem("doorOrderSets");
+                doorSets = raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                doorSets = [];
+            }
+        }
+
+        // ===================== 10. 카카오톡 전송 =====================
+
+        function buildKakaoMessage() {
+            const lines = ["[문짝·문틀 견적 문의]"];
+            let totalQty = 0;
+            doorSets.forEach((s, i) => {
+                lines.push(`세트${i + 1}: ${buildSummaryLine(s)} (${s.qty}조)`);
+                totalQty += s.qty;
+            });
+            lines.push(`합계: ${doorSets.length}세트 ${totalQty}조`);
+            return lines.join("\n");
+        }
+
+        function sendDoorOrderKakao() {
+            if (doorSets.length === 0) {
+                alert("담긴 세트가 없습니다. 사양을 골라 세트를 먼저 담아주세요.");
+                return;
+            }
+            const text = buildKakaoMessage();
+            navigator.clipboard.writeText(text).catch(err => {
+                // Fallback: 클립보드 복사 실패해도 채팅방 이동은 정상 진행
+            });
+            window.open("https://pf.kakao.com/_LixnwX/chat", "_blank");
+            showToast("사양이 복사되었습니다. 채팅창에 붙여넣기해서 전송해주세요.");
+        }
+
+        let toastTimer = null;
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+        }
+
+        // ===================== 11. 문틀 안내 모달 =====================
+
+        function renderFrameModalList() {
+            const wrap = document.getElementById("frameModalList");
+            wrap.innerHTML = FRAMES.map((f, i) => `
+                <div class="modal-frame-item">
+                    <div class="frame-thumb">
+                        <img src="${FRAME_THUMBS[i]}" alt="${f.name}" loading="lazy"
+                            onerror="this.parentElement.classList.add('thumb-fallback')">
+                        <div class="frame-thumb-placeholder">이미지<br>준비중</div>
+                    </div>
+                    <div class="modal-frame-body">
+                        <div class="modal-frame-name">${f.name}</div>
+                        <div class="modal-frame-desc">${f.desc}</div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function openFrameModal() {
+            document.getElementById("frameModalOverlay").classList.add("open");
+        }
+
+        function closeFrameModal() {
+            document.getElementById("frameModalOverlay").classList.remove("open");
+        }
+
+        function closeFrameModalOnOverlay(event) {
+            if (event.target.id === "frameModalOverlay") closeFrameModal();
+        }
+
+        // ===================== 12. 초기화 =====================
+
+        window.addEventListener("DOMContentLoaded", () => {
+            loadSets();
+            renderDoorTypes();
+            renderFrames();
+            renderBasuArea();
+            renderColors();
+            renderSillChips();
+            renderDirectionGrid();
+            renderFrameModalList();
+            renderSetList();
+
+            window.addEventListener("scroll", () => {
+                const header = document.getElementById("header");
+                if (window.scrollY > 50) header.classList.add("scrolled");
+                else header.classList.remove("scrolled");
+            });
+        });
+    </script>
+</body>
+
+</html>
