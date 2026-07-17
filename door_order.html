@@ -435,6 +435,11 @@
             color: var(--color-text-light);
             text-align: center;
             line-height: 1.3;
+            white-space: pre-line;
+            height: 2.6em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .color-item.on .color-name {
@@ -1178,17 +1183,17 @@
         ];
 
         const COLORS = [
-            { name: "중백색(PS010)", img: "colors/ps010_yl116.PNG" },
-            { name: "도장백색(영168)", img: "colors/ps120_yl168.PNG" },
-            { name: "주백색(PS160)", img: "colors/ps160_yl194.PNG" },
-            { name: "회벽벽색(PS170)", img: "colors/ps170_yl195.PNG" },
+            { name: "중백색\n(PS010)", img: "colors/ps010_yl116.PNG" },
+            { name: "도장백색\n(PS120)", img: "colors/ps120_yl168.PNG" },
+            { name: "주백색\n(PS160)", img: "colors/ps160_yl194.PNG" },
+            { name: "회벽벽색\n(PS170)", img: "colors/ps170_yl195.PNG" },
             { name: "PS100엠보스", img: "colors/ps100_E.PNG" },
             { name: "PS101엠보스", img: "colors/ps101_E.PNG" },
             { name: "PS102엠보스", img: "colors/ps102_E.PNG" },
             { name: "진회색(PS027)", img: "colors/ps027.PNG" },
-            { name: "인디언오크(영40)", img: "colors/yl40.PNG" },
+            { name: "인디언오크\n(영40)", img: "colors/yl40.PNG" },
             { name: "펄백색(영50)", img: "colors/yl50.PNG" },
-            { name: "소프트오크(영53-1)", img: "colors/yl53-1.PNG" },
+            { name: "소프트오크\n(영53-1)", img: "colors/yl53-1.PNG" },
             { name: "영림181", img: "colors/yl181.PNG" },
             { name: "영림182", img: "colors/yl182.PNG" },
             { name: "색상 미정", img: null }
@@ -1315,14 +1320,18 @@
 
         // ===================== 5. 색상 =====================
 
+        function escForJsString(str) {
+            return str.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n");
+        }
+
         function renderColors() {
             const wrap = document.getElementById("colorGrid");
             wrap.innerHTML = COLORS.map(c => `
                 <button type="button" class="color-item ${state.color === c.name ? "on" : ""}"
-                    onclick="selectColor('${c.name.replace(/'/g, "\\'")}')">
+                    onclick="selectColor('${escForJsString(c.name)}')">
                     <div class="color-thumb">
                         ${c.img
-                    ? `<img src="${c.img}" alt="${c.name}" loading="lazy">`
+                    ? `<img src="${c.img}" alt="${c.name.replace(/\n/g, " ")}" loading="lazy">`
                     : `<span class="color-thumb-question">?</span>`}
                     </div>
                     <div class="color-name">${c.name}</div>
@@ -1421,7 +1430,7 @@
             const frameName = snap.frameName || "문틀 미정";
             const basuText = snap.basu ? `바수 ${snap.basu}` : "바수 미정";
             const sizeText = (snap.sizeW && snap.sizeH) ? `외경 ${snap.sizeW}×${snap.sizeH}` : "사이즈 미정";
-            const colorText = snap.color || "색상 미정";
+            const colorText = (snap.color || "색상 미정").replace(/\n/g, "");
             let sillText = "문지방 미정";
             if (snap.sill === "있음") sillText = "문지방 있음";
             else if (snap.sill === "없음") sillText = snap.direction ? `문지방 없음·${snap.direction}` : "문지방 없음";
@@ -1490,10 +1499,12 @@
         // ===================== 10. 카카오톡 전송 =====================
 
         function buildKakaoMessage() {
-            const lines = ["[문짝·문틀 견적 문의]"];
+            const lines = ["[문짝·문틀 견적 문의]", ""];
             let totalQty = 0;
             doorSets.forEach((s, i) => {
-                lines.push(`세트${i + 1}: ${buildSummaryLine(s)} (${s.qty}조)`);
+                lines.push(`세트${i + 1}: ${buildSummaryLine(s)}`);
+                lines.push(`(${s.qty}조)`);
+                lines.push("");
                 totalQty += s.qty;
             });
             lines.push(`합계: ${doorSets.length}세트 ${totalQty}조`);
