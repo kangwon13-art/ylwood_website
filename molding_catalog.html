@@ -252,6 +252,11 @@
             color: var(--color-text-light);
             text-align: center;
             line-height: 1.3;
+            white-space: pre-line;
+            min-height: 2.6em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .swatch-item.on .swatch-name {
@@ -303,8 +308,9 @@
 
         .molding-row {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 8px;
+            gap: 8px 10px;
             padding: 12px 0;
             border-bottom: 1px solid var(--color-border);
         }
@@ -314,24 +320,33 @@
         }
 
         .molding-row-main {
-            flex: 1;
+            flex: 1 1 160px;
             min-width: 0;
         }
 
         .molding-row-name {
-            font-size: 14.5px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--color-text-white);
             display: flex;
             align-items: center;
             gap: 6px;
             flex-wrap: wrap;
+            word-break: keep-all;
         }
 
         .molding-row-spec {
             font-size: 12.5px;
             color: var(--color-text-muted);
             margin-top: 2px;
+        }
+
+        .molding-row-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            flex-shrink: 0;
         }
 
         .stock-badge {
@@ -733,13 +748,17 @@
             }
 
             .swatch-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(5, 1fr);
                 gap: 12px 6px;
             }
 
             .swatch-thumb {
-                width: 44px;
-                height: 44px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .swatch-name {
+                font-size: 10px;
             }
 
             /* 우측 하단 플로팅 전화/카카오 버튼과 담기·삭제 버튼이 겹쳐 탭이 막히는 문제 방지 */
@@ -920,15 +939,17 @@
     <script>
         // ===================== 0. 데이터 (색상 8종, 구글시트 연동) =====================
 
+        // name: 상태값·시트 gid·폴백 데이터의 키로 쓰이는 정식 색상명(개행 없음)
+        // label: 스와치에 표시되는 라벨(끊기는 항목만 개행 포함) — 표시 전용, 키로 사용 금지
         const MOLDING_COLORS = [
-            { name: "중백색", img: "colors/ps010_yl116.PNG" },
-            { name: "펄백색", img: "colors/yl50.PNG" },
-            { name: "크림백색", img: "colors/ps130_yl169.PNG" },
-            { name: "주백색", img: "colors/ps160_yl194.PNG" },
-            { name: "회벽벽색", img: "colors/ps170_yl195.PNG" },
-            { name: "인디언오크(영40)", img: "colors/yl40.PNG" },
-            { name: "소프트오크(영53-1)", img: "colors/yl53-1.PNG" },
-            { name: "그레이느름(영34)", img: "colors/yl34.PNG" }
+            { name: "중백색", label: "중백색", img: "colors/ps010_yl116.PNG" },
+            { name: "펄백색", label: "펄백색", img: "colors/yl50.PNG" },
+            { name: "크림백색", label: "크림백색", img: "colors/ps130_yl169.PNG" },
+            { name: "주백색", label: "주백색", img: "colors/ps160_yl194.PNG" },
+            { name: "회벽벽색", label: "회벽벽색", img: "colors/ps170_yl195.PNG" },
+            { name: "인디언오크(영40)", label: "인디언오크\n(영40)", img: "colors/yl40.PNG" },
+            { name: "소프트오크(영53-1)", label: "소프트오크\n(영53-1)", img: "colors/yl53-1.PNG" },
+            { name: "그레이느름(영34)", label: "그레이느름\n(영34)", img: "colors/yl34.PNG" }
         ];
 
         // 구글시트: 몰딩재고_색상별 (색상 8종 = 탭 8개). calculator.html과 동일한 export CSV 방식.
@@ -1144,9 +1165,9 @@
                 <button type="button" class="swatch-item ${currentColor === c.name ? "on" : ""}"
                     onclick="selectMoldingColor('${c.name.replace(/'/g, "\\'")}')">
                     <div class="swatch-thumb">
-                        <img src="${c.img}" alt="${c.name}" loading="lazy">
+                        <img src="${c.img}" alt="${c.name.replace(/\n/g, " ")}" loading="lazy">
                     </div>
-                    <div class="swatch-name">${c.name}</div>
+                    <div class="swatch-name">${c.label}</div>
                 </button>
             `).join("");
             const otherTile = `
@@ -1195,13 +1216,15 @@
                             <div class="molding-row-name">${item.name}${badge}</div>
                             <div class="molding-row-spec">${specText}</div>
                         </div>
-                        <div class="molding-qty-stepper">
-                            <button type="button" onclick="changeMoldingQty('${key.replace(/'/g, "\\'")}', -1)" aria-label="수량 감소">−</button>
-                            <span class="molding-qty-val" id="qty-${cssEscapeKey(key)}">${qtyState[key]}</span>
-                            <button type="button" onclick="changeMoldingQty('${key.replace(/'/g, "\\'")}', 1)" aria-label="수량 증가">＋</button>
+                        <div class="molding-row-controls">
+                            <div class="molding-qty-stepper">
+                                <button type="button" onclick="changeMoldingQty('${key.replace(/'/g, "\\'")}', -1)" aria-label="수량 감소">−</button>
+                                <span class="molding-qty-val" id="qty-${cssEscapeKey(key)}">${qtyState[key]}</span>
+                                <button type="button" onclick="changeMoldingQty('${key.replace(/'/g, "\\'")}', 1)" aria-label="수량 증가">＋</button>
+                            </div>
+                            <button type="button" class="molding-add-btn"
+                                onclick="addMoldingItem('${key.replace(/'/g, "\\'")}')">＋ 담기</button>
                         </div>
-                        <button type="button" class="molding-add-btn"
-                            onclick="addMoldingItem('${key.replace(/'/g, "\\'")}')">＋ 담기</button>
                     </div>
                 `;
             }).join("");
