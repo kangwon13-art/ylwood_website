@@ -116,6 +116,12 @@
             color: var(--color-accent-orange);
         }
 
+        .header-nav-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
         .catalog-link {
             color: var(--color-text-muted);
             font-weight: 500;
@@ -960,7 +966,10 @@
                 </svg>
                 <div class="logo-text">영림우드<span>.</span></div>
             </a>
-            <a href="calculator.html" class="catalog-link">실시간 단가 계산기</a>
+            <div class="header-nav-group">
+                <a href="calculator.html" class="catalog-link">실시간 단가 계산기</a>
+                <a href="molding_catalog.html" class="catalog-link">몰딩 재고 확인</a>
+            </div>
         </div>
     </header>
 
@@ -1098,6 +1107,7 @@
                         <a href="index.html">홈으로</a>
                         <a href="calculator.html">실시간 단가 계산기</a>
                         <a href="catalog.html">영림카탈로그</a>
+                        <a href="molding_catalog.html">몰딩 재고 확인</a>
                         <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">맨위로</a>
                     </div>
                 </div>
