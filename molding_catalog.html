@@ -135,6 +135,14 @@
             header .catalog-link {
                 display: none;
             }
+
+            /* 목록 행이 화면 우측 끝에 최대한 밀착되도록 컨테이너 좌우 여백 제거.
+               기존 20px 컨테이너 padding + 카드 자체 padding이 이중으로 겹쳐
+               담기 버튼이 화면 끝에서 크게 떨어지는 원인이었음 — 컨테이너는 0으로,
+               좌우 여백은 .molding-card의 padding(8px)만으로 확보 → 합계 8px 목표. */
+            .container {
+                padding: 0;
+            }
         }
 
         /* PAGE TITLE */
@@ -399,25 +407,44 @@
         }
 
         .molding-qty-val {
-            width: 20px;
+            width: 26px;
+            min-width: 0;
             text-align: center;
             font-size: 12.5px;
             font-weight: 700;
             color: var(--color-text-white);
             font-variant-numeric: tabular-nums;
+            background: none;
+            border: none;
+            padding: 0;
+            -moz-appearance: textfield;
+        }
+
+        .molding-qty-val::-webkit-outer-spin-button,
+        .molding-qty-val::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .molding-qty-val:focus {
+            outline: none;
+            color: var(--color-accent-orange);
         }
 
         .molding-add-btn {
             flex-shrink: 0;
+            width: 36px;
             height: 36px;
-            padding: 0 14px;
-            white-space: nowrap;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: var(--color-accent-orange);
             color: #FFFFFF;
             border: none;
             border-radius: 8px;
-            font-size: 12.5px;
-            font-weight: 700;
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition-smooth);
         }
@@ -754,7 +781,7 @@
             }
 
             .molding-card {
-                padding: 18px 16px;
+                padding: 18px 7px;
                 border-radius: 14px;
             }
 
@@ -770,17 +797,6 @@
 
             .swatch-name {
                 font-size: 10px;
-            }
-
-            /* 우측 하단 플로팅 전화/카카오 버튼과 담기·삭제 버튼이 겹쳐 탭이 막히는 문제 방지
-               (실측: 여백 없이는 행이 플로팅 버튼 영역과 35px 겹침 → 40px면 여유 있게 해소되면서
-               이름 표시 폭을 불필요하게 깎아먹지 않음) */
-            .molding-list {
-                padding-right: 40px;
-            }
-
-            #cartListArea {
-                padding-right: 40px;
             }
 
             .footer-wrap {
@@ -1235,11 +1251,14 @@
                         <div class="molding-row-controls">
                             <div class="molding-qty-stepper">
                                 <button type="button" class="molding-qty-btn" onclick="changeMoldingQty('${key.replace(/'/g, "\\'")}', -1)" aria-label="수량 감소">−</button>
-                                <span class="molding-qty-val" id="qty-${cssEscapeKey(key)}">${qtyState[key]}</span>
+                                <input type="text" inputmode="numeric" class="molding-qty-val" id="qty-${cssEscapeKey(key)}"
+                                    value="${qtyState[key]}" aria-label="수량 직접 입력"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                    onchange="setMoldingQty('${key.replace(/'/g, "\\'")}', this.value)">
                                 <button type="button" class="molding-qty-btn" onclick="changeMoldingQty('${key.replace(/'/g, "\\'")}', 1)" aria-label="수량 증가">＋</button>
                             </div>
-                            <button type="button" class="molding-add-btn"
-                                onclick="addMoldingItem('${key.replace(/'/g, "\\'")}')">＋ 담기</button>
+                            <button type="button" class="molding-add-btn" aria-label="담기"
+                                onclick="addMoldingItem('${key.replace(/'/g, "\\'")}')">＋</button>
                         </div>
                     </div>
                 `;
@@ -1255,7 +1274,15 @@
         function changeMoldingQty(key, delta) {
             qtyState[key] = Math.max(1, (qtyState[key] || 1) + delta);
             const el = document.getElementById(`qty-${cssEscapeKey(key)}`);
-            if (el) el.textContent = qtyState[key];
+            if (el) el.value = qtyState[key];
+        }
+
+        function setMoldingQty(key, rawValue) {
+            let val = parseInt(rawValue, 10);
+            if (isNaN(val) || val < 1) val = 1;
+            qtyState[key] = val;
+            const el = document.getElementById(`qty-${cssEscapeKey(key)}`);
+            if (el) el.value = val;
         }
 
         function addMoldingItem(key) {
