@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영림우드 | 월판넬 디자인 둘러보기</title>
+    <meta name="description" content="템바보드, 인피니월 등 월판넬 라인의 디자인·색상을 둘러보고 카카오톡으로 바로 문의하세요.">
+    <meta property="og:title" content="영림우드 - 월판넬 디자인 둘러보기">
+    <meta property="og:description" content="라인을 고르면 단계별로 디자인을 선택할 수 있습니다.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts: Pretendard for Korean, Montserrat for English Numbers/Headers -->
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS RESET & VARIABLES (기존 door_order.html/molding_catalog.html과 동일 토큰) */
+        :root {
+            --color-bg-primary: #F5F6F8;
+            --color-bg-secondary: #FFFFFF;
+            --color-bg-tertiary: #EEF0F4;
+            --color-accent-orange: #FF6B35;
+            --color-accent-orange-hover: #E8551E;
+            --color-accent-orange-light: rgba(255, 107, 53, 0.08);
+            --color-accent-navy-light: #1F2A44;
+            --color-text-white: #1A1F2B;
+            --color-text-muted: #5F6875;
+            --color-text-light: #333A47;
+            --color-border: #DDE1E8;
+            --font-family-base: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            --font-family-alt: 'Montserrat', sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-premium: 0 10px 30px -10px rgba(31, 42, 68, 0.12);
+            --shadow-glow: 0 4px 12px rgba(255, 107, 53, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-light);
+            font-family: var(--font-family-base);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            font-family: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER (backdrop-filter 사용 금지 — 스크롤 블러 잔상 이슈 재발 방지) */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid var(--color-border);
+            padding: 15px 0;
+            transition: var(--transition-smooth);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-area svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--color-accent-orange);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--color-text-white);
+        }
+
+        .logo-text span {
+            color: var(--color-accent-orange);
+        }
+
+        .header-nav-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .catalog-link {
+            color: var(--color-text-muted);
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: var(--transition-smooth);
+        }
+
+        .catalog-link:hover {
+            color: var(--color-text-light);
+        }
+
+        @media (max-width: 768px) {
+            header .catalog-link {
+                display: none;
+            }
+        }
+
+        /* PAGE TITLE */
+        .page-title-sec {
+            padding: 44px 0 8px;
+            text-align: center;
+        }
+
+        .page-tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-accent-orange);
+            background: var(--color-accent-orange-light);
+            padding: 6px 12px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--color-text-white);
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        .page-desc {
+            font-size: 15px;
+            color: var(--color-text-muted);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* CONTENT */
+        .content-sec {
+            padding: 24px 0 90px;
+        }
+
+        .wp-card {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-premium);
+            padding: 20px;
+            margin-bottom: 16px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--color-text-white);
+        }
+
+        .card-title-hint {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            margin-left: 6px;
+        }
+
+        .notice-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-accent-orange);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .card-subtext {
+            font-size: 12.5px;
+            color: var(--color-text-muted);
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        /* 라인 선택: 가로 스크롤 칩 */
+        .line-chip-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 2px;
+        }
+
+        .line-chip-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .line-chip {
+            flex: 0 0 auto;
+            min-height: 40px;
+            padding: 0 18px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-light);
+            font-size: 14.5px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-smooth);
+        }
+
+        .line-chip.on {
+            background: var(--color-accent-orange);
+            color: #FFFFFF;
+            border-color: var(--color-accent-orange);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* 방염 안내 뱃지 */
+        .fire-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #B8480C;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.25);
+            padding: 6px 14px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        /* 형태 세그먼트 버튼 */
+        .segment-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .segment-btn {
+            flex: 1;
+            min-height: 44px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            color: var(--color-text-light);
+            font-size: 14.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .segment-btn.on {
+            background: var(--color-accent-orange-light);
+            border-color: var(--color-accent-orange);
+            color: var(--color-accent-orange);
+        }
+
+        /* 이미지 placeholder (onerror 전환 패턴 재사용) */
+        .wp-thumb {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border: 1px dashed var(--color-border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--color-bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wp-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .wp-thumb-placeholder {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 10.5px;
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+
+        .wp-thumb-placeholder svg {
+            width: 26px;
+            height: 26px;
+            color: var(--color-border);
+        }
+
+        .wp-thumb.thumb-fallback img {
+            display: none;
+        }
+
+        .wp-thumb.thumb-fallback .wp-thumb-placeholder {
+            display: flex;
+        }
+
+        .card-badge-overlay {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 2;
+            font-size: 10px;
+            font-weight: 800;
+            color: #FFFFFF;
+            background: var(--color-accent-orange);
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+
+        /* 타입 그리드 (템바보드/루바) */
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .type-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+            /* 필수: grid item 기본 min-width:auto가 nowrap 텍스트 때문에
+               트랙을 밀어내며 가로 오버플로우를 유발하는 것 방지 */
+            background: none;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            padding: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: var(--transition-smooth);
+        }
+
+        .type-card.on {
+            border-color: var(--color-accent-orange);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .type-name {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            word-break: keep-all;
+        }
+
+        .type-badge {
+            flex-shrink: 0;
+            font-size: 10px;
+            font-weight: 800;
+            color: #FFFFFF;
+            background: var(--color-accent-orange);
+            padding: 2px 6px;
+            border-radius: 20px;
+        }
+
+        .type-spec {
+            font-size: 11.5px;
+            color: var(--color-text-muted);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* 색상 스와치 그리드 */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px 8px;
+        }
+
+        .color-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            min-height: 40px;
+        }
+
+        .color-swatch-thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            border: 2px solid var(--color-border);
+            overflow: hidden;
+            background: var(--color-bg-tertiary);
+            transition: var(--transition-smooth);
+        }
+
+        .color-item.on .color-swatch-thumb {
+            border-color: var(--color-accent-orange);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .color-namebadge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: nowrap;
+            min-width: 0;
+        }
+
+        .color-item-name {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--color-text-light);
+            white-space: nowrap;
+        }
+
+        .color-item.on .color-item-name {
+            color: var(--color-accent-orange);
+        }
+
+        .color-item-code {
+            font-size: 10px;
+            color: var(--color-text-muted);
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 68px;
+        }
+
+        /* 인피니월 패턴 갤러리 */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .pattern-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+            /* 필수: grid item 기본 min-width:auto가 nowrap 텍스트 때문에
+               트랙을 밀어내며 가로 오버플로우를 유발하는 것 방지 */
+            background: none;
+            border: 2px solid var(--color-border);
+            border-radius: 14px;
+            padding: 10px;
+            cursor: pointer;
+            text-align: left;
+            transition: var(--transition-smooth);
+        }
+
+        .pattern-card.on {
+            border-color: var(--color-accent-orange);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .pattern-name {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            word-break: keep-all;
+        }
+
+        .pattern-match {
+            font-size: 11px;
+            color: var(--color-text-muted);
+        }
+
+        /* 수량 + 담기 */
+        .unit-hint {
+            font-size: 12.5px;
+            color: var(--color-text-muted);
+            margin-bottom: 10px;
+        }
+
+        .qty-addbtn-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-stepper {
+            display: flex;
+            align-items: center;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .qty-stepper button {
+            width: 40px;
+            height: 44px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-text-light);
+            cursor: pointer;
+        }
+
+        .qty-stepper button:hover {
+            color: var(--color-accent-orange);
+        }
+
+        .qty-val {
+            width: 40px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* 담기 버튼 */
+        .add-line-btn {
+            flex: 1;
+            min-height: 50px;
+            background: var(--color-accent-orange);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .add-line-btn:hover {
+            background: var(--color-accent-orange-hover);
+        }
+
+        .add-line-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* 담긴 조합 카트 */
+        .cart-count-badge {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-accent-orange);
+        }
+
+        .cart-empty {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .cart-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .cart-row:last-child {
+            border-bottom: none;
+        }
+
+        .cart-row-label {
+            flex: 1;
+            min-width: 0;
+            font-size: 13.5px;
+            color: var(--color-text-light);
+            line-height: 1.5;
+        }
+
+        .cart-delete-btn {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-muted);
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .cart-delete-btn:hover {
+            background: var(--color-accent-orange-light);
+            color: var(--color-accent-orange);
+        }
+
+        /* 플로팅 전화/카카오 버튼과 카트 삭제 버튼 겹침 방지 여백 */
+        @media (max-width: 768px) {
+            #cartListArea {
+                padding-right: 44px;
+            }
+        }
+
+        /* 카카오 버튼 */
+        .kakao-send-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+            min-height: 52px;
+            background: #FEE500;
+            color: #191919;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .kakao-send-btn:hover {
+            background: #E6CE00;
+            transform: translateY(-2px);
+        }
+
+        /* 토스트 메시지 */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 90px;
+            transform: translateX(-50%) translateY(8px);
+            max-width: 88%;
+            background: var(--color-text-white);
+            color: #FFFFFF;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: var(--shadow-premium);
+            z-index: 10002;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--color-bg-secondary);
+            border-top: 1px solid var(--color-border);
+            padding: 50px 0;
+            color: var(--color-text-muted);
+        }
+
+        .footer-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--color-text-white);
+            margin-bottom: 14px;
+        }
+
+        .footer-logo span {
+            color: var(--color-accent-orange);
+        }
+
+        .footer-details {
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+        }
+
+        .footer-links {
+            text-align: right;
+        }
+
+        .footer-tel {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--color-text-white);
+            margin-bottom: 10px;
+        }
+
+        .footer-tel span {
+            color: var(--color-accent-orange);
+        }
+
+        .footer-bottom-nav {
+            display: flex;
+            gap: 14px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            font-size: 12.5px;
+        }
+
+        .footer-bottom-nav a:hover {
+            color: var(--color-accent-orange);
+        }
+
+        /* FLOATING BUTTONS */
+        .floating-buttons {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 99;
+        }
+
+        .floating-btn-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .floating-btn-circle:hover {
+            transform: translateY(-4px);
+        }
+
+        .floating-btn-circle.phone {
+            background: #2B8BE3;
+        }
+
+        .floating-btn-circle.kakao {
+            background: #FEE500;
+            color: #181600;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 24px;
+            }
+
+            .page-desc {
+                font-size: 13.5px;
+                padding: 0 8px;
+            }
+
+            .wp-card {
+                padding: 16px 14px;
+                border-radius: 14px;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .footer-wrap {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-links {
+                text-align: center;
+            }
+
+            .footer-bottom-nav {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container header-wrap">
+            <a href="index.html" class="logo-area">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 12h-2v3h-2v-3h-2v6h6v-6zm-8 6V6l-7 6 7 6zm3-8V6h6v4h-6z" />
+                </svg>
+                <div class="logo-text">영림우드<span>.</span></div>
+            </a>
+            <div class="header-nav-group">
+                <a href="calculator.html" class="catalog-link">실시간 단가 계산기</a>
+                <a href="molding_catalog.html" class="catalog-link">몰딩 재고 확인</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE TITLE -->
+    <section class="page-title-sec">
+        <div class="container">
+            <span class="page-tag">Wall Panel</span>
+            <h1 class="page-title">월판넬 디자인 둘러보기</h1>
+            <p class="page-desc">
+                라인을 고르면 단계별로 디자인을 선택할 수 있습니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="content-sec">
+        <div class="container">
+
+            <!-- 카드 1: 라인 선택 -->
+            <div class="wp-card">
+                <div class="card-title-row">
+                    <div class="card-title">1. 라인 선택</div>
+                </div>
+                <div class="line-chip-row" id="lineChipRow"></div>
+            </div>
+
+            <!-- 라인별 단계 UI가 이 안에 동적으로 렌더링됨 -->
+            <div id="stepArea"></div>
+
+            <!-- 수량 + 담기 버튼 -->
+            <div class="wp-card">
+                <p class="unit-hint">수량을 선택해 담아주세요</p>
+                <div class="qty-addbtn-row">
+                    <div class="qty-stepper">
+                        <button type="button" onclick="changeWallpanelQty(-1)" aria-label="수량 감소">−</button>
+                        <span class="qty-val" id="wallpanelQtyVal">1</span>
+                        <button type="button" onclick="changeWallpanelQty(1)" aria-label="수량 증가">＋</button>
+                    </div>
+                    <button type="button" class="add-line-btn" id="addLineBtn" onclick="addWallpanelItem()">＋ 이 조합 담기</button>
+                </div>
+            </div>
+
+            <!-- 담긴 조합 카트 -->
+            <div class="wp-card">
+                <div class="card-title-row">
+                    <div class="card-title">담긴 조합 <span class="cart-count-badge" id="cartCountBadge">0</span></div>
+                </div>
+                <div id="cartListArea">
+                    <div class="cart-empty">아직 담긴 조합이 없습니다.</div>
+                </div>
+            </div>
+
+            <!-- 카카오 문의 버튼 -->
+            <button type="button" class="kakao-send-btn" onclick="sendWallpanelKakao()">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
+                </svg>
+                담긴 조합 문의
+            </button>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-wrap">
+                <div class="footer-info">
+                    <div class="footer-logo">영림우드<span>.</span></div>
+                    <div class="footer-details">
+                        (주)영림우드종합자재 | 대표이사: 홍길동 | 사업자등록번호: 123-45-67890<br>
+                        본사/물류창고: 경기도 하남시 자재단지로 123번길 45<br>
+                        이메일: contact@younglimwood.co.kr | 팩스: 02-1234-5679
+                    </div>
+                    <div class="footer-copyright">
+                        &copy; 2026 Younglim Wood Corporation. All Rights Reserved.
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-tel">고객센터 <span>02-1234-5678</span></div>
+                    <div class="footer-bottom-nav">
+                        <a href="index.html">홈으로</a>
+                        <a href="calculator.html">실시간 단가 계산기</a>
+                        <a href="door_order.html">문짝·문틀 주문</a>
+                        <a href="molding_catalog.html">몰딩 재고 확인</a>
+                        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">맨위로</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING BUTTONS -->
+    <div class="floating-buttons">
+        <a href="tel:02-1234-5678" class="floating-btn-circle phone" title="전화 연결">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.502-5.114-3.792-6.616-6.616l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+            </svg>
+        </a>
+        <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="floating-btn-circle kakao" title="카카오톡 문의">
+            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- 토스트 메시지 -->
+    <div class="toast" id="toast"></div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ===================== 0. 데이터 =====================
+
+        // 라인 설정: steps 배열에 따라 stepArea가 동적으로 렌더링됨.
+        // 향후 아쿠아보드/플렉시블보드/스톤보드는 steps:["color"] 한 줄만 추가하면 되고,
+        // 템바보드(방염)/템바루바(방염)는 steps:["form","type","color"] + 별도 색상셋으로 추가 가능.
+        const WALLPANEL_LINES = [
+            { id: "temba", name: "템바보드", steps: ["form", "type", "color"] },
+            { id: "infiniwall", name: "인피니월", steps: ["pattern"] }
+            // { id: "aquaboard", name: "아쿠아보드", steps: ["color"] },       // 추후 데이터 준비 후 추가
+            // { id: "flexboard", name: "플렉시블보드", steps: ["color"] },      // 추후 데이터 준비 후 추가
+            // { id: "stoneboard", name: "스톤보드", steps: ["color"] },        // 추후 데이터 준비 후 추가
+            // { id: "temba_fr", name: "템바보드(방염)", steps: ["form", "type", "color"] },   // 추후 방염 색상셋 준비 후 추가
+        ];
+
+        const TEMBA_FORMS = ["템바보드", "템바루바"];
+
+        const TEMBA_TYPES = {
+            "템바보드": [
+                { name: "직각 대형", spec: "1200×2400×15mm", img: "wallpanel/temba/템바보드_직각대형.jpg" },
+                { name: "반달 대형", spec: "1200×2400×15mm", img: "wallpanel/temba/템바보드_반달대형.jpg" },
+                { name: "빗각", spec: "1200×2400×9mm", img: "wallpanel/temba/템바보드_빗각.jpg" },
+                { name: "직각 소형", spec: "1200×2400×12mm", img: "wallpanel/temba/템바보드_직각소형.jpg" },
+                { name: "반달 소형", spec: "1200×2400×9mm", img: "wallpanel/temba/템바보드_반달소형.jpg" },
+                { name: "삼각", spec: "1200×2400×9mm", img: "wallpanel/temba/템바보드_삼각.jpg" },
+                { name: "역반달", spec: "1200×2400×12mm", badge: "NEW", img: "wallpanel/temba/템바보드_역반달.jpg" }
+            ],
+            "템바루바": [
+                { name: "직각 대형", spec: "126×2400×12mm", img: "wallpanel/temba/템바루바_직각대형.jpg" },
+                { name: "클릭형 직각 대형", spec: "126×2400×18mm", img: "wallpanel/temba/템바루바_클릭형직각대형.jpg" },
+                { name: "반달", spec: "126×2400×12mm", img: "wallpanel/temba/템바루바_반달.jpg" },
+                { name: "직각 소형", spec: "106×2400×12mm", img: "wallpanel/temba/템바루바_직각소형.jpg" },
+                { name: "클릭형 직각 소형", spec: "106×2400×15mm", img: "wallpanel/temba/템바루바_클릭형직각소형.jpg" }
+            ]
+        };
+
+        const TEMBA_COLORS = [
+            { name: "영림116", code: "PS010, 중백색", img: "wallpanel/temba/color_영림116.jpg" },
+            { name: "영림168", code: "PS120, 도장백색", img: "wallpanel/temba/color_영림168.jpg" },
+            { name: "영림196", code: "PS035, 오트베이지", img: "wallpanel/temba/color_영림196.jpg" },
+            { name: "영림74", code: "PWR1003", img: "wallpanel/temba/color_영림74.jpg" },
+            { name: "영림40", code: "PW814, 인디언오크", img: "wallpanel/temba/color_영림40.jpg" },
+            { name: "영림132", code: "PW845", img: "wallpanel/temba/color_영림132.jpg" },
+            { name: "영림73", code: "PWR1000", img: "wallpanel/temba/color_영림73.jpg" },
+            { name: "영림109", code: "PW835", img: "wallpanel/temba/color_영림109.jpg" },
+            { name: "영림193", code: "PW969-1", badge: "NEW", img: "wallpanel/temba/color_영림193.jpg" },
+            { name: "PS122", code: "", img: "wallpanel/temba/color_PS122.jpg" }
+        ];
+
+        const INFINIWALL_PATTERNS = [
+            { code: "IW-280", name: "드라이필드", badge: "NEW", match: "필름 매칭", img: "wallpanel/infiniwall/IW-280.jpg" },
+            { code: "IW-270", name: "트라버틴 라이트", badge: "NEW", match: "마루 매칭", img: "wallpanel/infiniwall/IW-270.jpg" },
+            { code: "IW-260", name: "샌디힐", badge: null, match: "마루 매칭", img: "wallpanel/infiniwall/IW-260.jpg" },
+            { code: "IW-250", name: "루나라이트스톤", badge: null, match: "마루/필름/키친/수납 매칭", img: "wallpanel/infiniwall/IW-250.jpg" },
+            { code: "IW-240", name: "세도나", badge: null, match: "아펠도어/마루 매칭", img: "wallpanel/infiniwall/IW-240.jpg" },
+            { code: "IW-200", name: "데이브레이크", badge: null, match: "마루/필름/키친/수납 매칭", img: "wallpanel/infiniwall/IW-200.jpg" }
+        ];
+
+        // ===================== 1. 상태 =====================
+
+        let currentLineId = WALLPANEL_LINES[0].id;
+
+        const tembaState = { form: TEMBA_FORMS[0], type: null, color: null };
+        const infiniwallState = { pattern: null };
+
+        let currentQty = 1;
+
+        let cart = [];
+
+        // ===================== 2. 유틸 =====================
+
+        function esc(str) {
+            return String(str).replace(/'/g, "\\'");
+        }
+
+        function thumbHtml(img, alt, badge) {
+            return `
+                <div class="wp-thumb">
+                    <img src="${img}" alt="${alt}" loading="lazy" onerror="this.parentElement.classList.add('thumb-fallback')">
+                    <div class="wp-thumb-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                            <circle cx="9" cy="10" r="1.5"></circle>
+                            <path d="M21 16l-5.5-5.5a2 2 0 00-2.8 0L4 19"></path>
+                        </svg>
+                        <span>사진 준비중</span>
+                    </div>
+                    ${badge ? `<span class="card-badge-overlay">${badge}</span>` : ""}
+                </div>
+            `;
+        }
+
+        // ===================== 3. 라인 선택 =====================
+
+        function renderLineChips() {
+            const wrap = document.getElementById("lineChipRow");
+            wrap.innerHTML = WALLPANEL_LINES.map(line => `
+                <button type="button" class="line-chip ${currentLineId === line.id ? "on" : ""}"
+                    onclick="selectLine('${line.id}')">${line.name}</button>
+            `).join("");
+        }
+
+        function selectLine(id) {
+            currentLineId = id;
+            renderLineChips();
+            renderStepArea();
+            resetWallpanelQty();
+        }
+
+        // ===================== 4. 단계 영역 렌더링 (라인 설정 기반 동적 디스패치) =====================
+
+        function renderStepArea() {
+            const area = document.getElementById("stepArea");
+            const line = WALLPANEL_LINES.find(l => l.id === currentLineId);
+            if (!line) {
+                area.innerHTML = "";
+                return;
+            }
+
+            if (line.id === "temba") {
+                area.innerHTML = `
+                    <div class="wp-card">
+                        <div class="card-title-row">
+                            <div class="card-title">2. 형태</div>
+                        </div>
+                        <div class="segment-row" id="tembaFormRow"></div>
+                    </div>
+                    <div class="wp-card">
+                        <div class="card-title-row">
+                            <div class="card-title">3. 타입</div>
+                        </div>
+                        <div class="type-grid" id="tembaTypeGrid"></div>
+                        <div class="card-subtext" id="tembaClickNotice" style="display:none;">
+                            클릭시공 방식으로 더욱 견고하고 깔끔하게 시공 가능합니다.
+                        </div>
+                    </div>
+                    <div class="wp-card">
+                        <div class="card-title-row">
+                            <div class="card-title">4. 색상</div>
+                        </div>
+                        <div class="color-grid" id="tembaColorGrid"></div>
+                        <div class="card-subtext">재고 색상 10종 외에도 다양한 컬러로 주문 가능합니다.</div>
+                    </div>
+                `;
+                renderTembaForm();
+                renderTembaTypeGrid();
+                renderTembaColorGrid();
+            } else if (line.id === "infiniwall") {
+                area.innerHTML = `
+                    <div class="wp-card">
+                        <div class="card-title-row">
+                            <div class="card-title">2. 패턴 선택</div>
+                        </div>
+                        <span class="fire-badge">🔥 전 제품 방염 소재</span>
+                        <div class="pattern-grid" id="infiniwallPatternGrid"></div>
+                    </div>
+                `;
+                renderInfiniwallPatternGrid();
+            }
+
+            updateAddButtonState();
+        }
+
+        // 담기 버튼 활성화 조건: 템바보드는 형태+타입 필수(색상은 기존 정책대로 미선택 허용),
+        // 인피니월은 패턴 필수.
+        function isReadyToAdd() {
+            if (currentLineId === "temba") {
+                return tembaState.form !== null && tembaState.type !== null;
+            }
+            if (currentLineId === "infiniwall") {
+                return infiniwallState.pattern !== null;
+            }
+            return false;
+        }
+
+        function updateAddButtonState() {
+            const btn = document.getElementById("addLineBtn");
+            if (!btn) return;
+            btn.disabled = !isReadyToAdd();
+        }
+
+        function changeWallpanelQty(delta) {
+            currentQty = Math.max(1, currentQty + delta);
+            const el = document.getElementById("wallpanelQtyVal");
+            if (el) el.textContent = currentQty;
+        }
+
+        // 라인/형태/타입/색상/패턴 전환 시 수량을 1로 초기화
+        function resetWallpanelQty() {
+            currentQty = 1;
+            const el = document.getElementById("wallpanelQtyVal");
+            if (el) el.textContent = currentQty;
+        }
+
+        // ===================== 5. 템바보드 라인 =====================
+
+        function renderTembaForm() {
+            const wrap = document.getElementById("tembaFormRow");
+            wrap.innerHTML = TEMBA_FORMS.map(f => `
+                <button type="button" class="segment-btn ${tembaState.form === f ? "on" : ""}"
+                    onclick="selectTembaForm('${esc(f)}')">${f}</button>
+            `).join("");
+        }
+
+        function selectTembaForm(form) {
+            tembaState.form = form;
+            tembaState.type = null; // 형태 변경 시 타입 초기화
+            renderTembaForm();
+            renderTembaTypeGrid();
+            updateAddButtonState();
+            resetWallpanelQty();
+        }
+
+        function renderTembaTypeGrid() {
+            const wrap = document.getElementById("tembaTypeGrid");
+            const types = TEMBA_TYPES[tembaState.form] || [];
+            wrap.innerHTML = types.map(t => `
+                <button type="button" class="type-card ${tembaState.type === t.name ? "on" : ""}"
+                    onclick="selectTembaType('${esc(t.name)}')">
+                    ${thumbHtml(t.img, t.name, t.badge)}
+                    <div class="type-name">${t.name}</div>
+                    <div class="type-spec">${t.spec}</div>
+                </button>
+            `).join("");
+
+            const hasClickType = types.some(t => t.name.includes("클릭형"));
+            document.getElementById("tembaClickNotice").style.display = hasClickType ? "block" : "none";
+        }
+
+        function selectTembaType(name) {
+            tembaState.type = name;
+            renderTembaTypeGrid();
+            updateAddButtonState();
+            resetWallpanelQty();
+        }
+
+        function renderTembaColorGrid() {
+            const wrap = document.getElementById("tembaColorGrid");
+            wrap.innerHTML = TEMBA_COLORS.map(c => `
+                <button type="button" class="color-item ${tembaState.color === c.name ? "on" : ""}"
+                    onclick="selectTembaColor('${esc(c.name)}')">
+                    <div class="color-swatch-thumb">
+                        <img src="${c.img}" alt="${c.name}" loading="lazy"
+                            onerror="this.style.display='none'; this.parentElement.style.background='var(--color-bg-tertiary)';">
+                    </div>
+                    <div class="color-namebadge">
+                        <span class="color-item-name">${c.name}</span>
+                        ${c.badge ? `<span class="type-badge">${c.badge}</span>` : ""}
+                    </div>
+                    ${c.code ? `<span class="color-item-code" title="${c.code}">${c.code}</span>` : ""}
+                </button>
+            `).join("");
+        }
+
+        function selectTembaColor(name) {
+            tembaState.color = name;
+            renderTembaColorGrid();
+            resetWallpanelQty();
+        }
+
+        function tembaColorLabel(colorName) {
+            const c = TEMBA_COLORS.find(x => x.name === colorName);
+            if (!c) return "색상 미정";
+            if (!c.code) return c.name;
+            const parts = c.code.split(",").map(s => s.trim());
+            const label = parts.length > 1 ? parts[parts.length - 1] : parts[0];
+            return `${c.name}(${label})`;
+        }
+
+        // ===================== 6. 인피니월 라인 =====================
+
+        function renderInfiniwallPatternGrid() {
+            const wrap = document.getElementById("infiniwallPatternGrid");
+            wrap.innerHTML = INFINIWALL_PATTERNS.map(p => `
+                <button type="button" class="pattern-card ${infiniwallState.pattern === p.code ? "on" : ""}"
+                    onclick="selectInfiniwallPattern('${esc(p.code)}')">
+                    ${thumbHtml(p.img, `${p.code} ${p.name}`, p.badge)}
+                    <div class="pattern-name">${p.code} ${p.name}</div>
+                    <div class="pattern-match">${p.match}</div>
+                </button>
+            `).join("");
+        }
+
+        function selectInfiniwallPattern(code) {
+            infiniwallState.pattern = code;
+            renderInfiniwallPatternGrid();
+            updateAddButtonState();
+            resetWallpanelQty();
+        }
+
+        // ===================== 7. 담기 / 요약 / 카트 =====================
+
+        function buildTembaSummary(item) {
+            const formText = item.form || "형태 미정";
+            const typeText = item.type || "타입 미정";
+            const colorText = item.color ? tembaColorLabel(item.color) : "색상 미정";
+            return `${formText} · ${typeText} · ${colorText}`;
+        }
+
+        function buildInfiniwallSummary(item) {
+            if (!item.pattern) return "인피니월 · 패턴 미정";
+            const p = INFINIWALL_PATTERNS.find(x => x.code === item.pattern);
+            return `인피니월 · ${p ? `${p.code} ${p.name}` : item.pattern}`;
+        }
+
+        function buildItemSummary(item) {
+            let base = "";
+            if (item.lineId === "temba") base = buildTembaSummary(item);
+            else if (item.lineId === "infiniwall") base = buildInfiniwallSummary(item);
+            const qty = item.qty || 1;
+            return `${base} — ${qty}개`;
+        }
+
+        function addWallpanelItem() {
+            if (!isReadyToAdd()) return; // 방어적 가드: 비활성화 상태에서 호출돼도 담기지 않도록
+            let item;
+            if (currentLineId === "temba") {
+                item = {
+                    lineId: "temba",
+                    form: tembaState.form,
+                    type: tembaState.type,
+                    color: tembaState.color,
+                    qty: currentQty
+                };
+            } else if (currentLineId === "infiniwall") {
+                item = {
+                    lineId: "infiniwall",
+                    pattern: infiniwallState.pattern,
+                    qty: currentQty
+                };
+            } else {
+                return;
+            }
+            cart.push(item);
+            resetWallpanelQty();
+            saveCart();
+            renderCart();
+        }
+
+        function removeCartItem(index) {
+            cart.splice(index, 1);
+            saveCart();
+            renderCart();
+        }
+
+        function renderCart() {
+            document.getElementById("cartCountBadge").textContent = cart.length;
+            const area = document.getElementById("cartListArea");
+
+            if (cart.length === 0) {
+                area.innerHTML = `<div class="cart-empty">아직 담긴 조합이 없습니다.</div>`;
+                return;
+            }
+
+            area.innerHTML = cart.map((item, i) => `
+                <div class="cart-row">
+                    <div class="cart-row-label">${buildItemSummary(item)}</div>
+                    <button type="button" class="cart-delete-btn" onclick="removeCartItem(${i})" aria-label="삭제">✕</button>
+                </div>
+            `).join("");
+        }
+
+        function saveCart() {
+            sessionStorage.setItem("wallpanelCartItems", JSON.stringify(cart));
+        }
+
+        function loadCart() {
+            try {
+                const raw = sessionStorage.getItem("wallpanelCartItems");
+                cart = raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                cart = [];
+            }
+        }
+
+        // ===================== 8. 카카오톡 전송 =====================
+
+        function buildWallpanelKakaoMessage() {
+            const lines = ["[월판넬 디자인 문의]", ""];
+            cart.forEach((item, i) => {
+                lines.push(`${i + 1}. ${buildItemSummary(item)}`);
+                lines.push("");
+            });
+            lines.push("※ 전량 주문제작 상품입니다. 사양 확인 후 안내드립니다.");
+            return lines.join("\n");
+        }
+
+        let toastTimer = null;
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+        }
+
+        function sendWallpanelKakao() {
+            if (cart.length === 0) {
+                alert("담긴 조합이 없습니다. 필요한 디자인을 먼저 담아주세요.");
+                return;
+            }
+            const text = buildWallpanelKakaoMessage();
+            navigator.clipboard.writeText(text).catch(err => {
+                // Fallback: 클립보드 복사 실패해도 채팅방 이동은 정상 진행
+            });
+            window.open("https://pf.kakao.com/_LixnwX/chat", "_blank");
+            showToast("사양이 복사되었습니다. 채팅창에 붙여넣기해서 전송해주세요.");
+        }
+
+        // ===================== 9. 초기화 =====================
+
+        window.addEventListener("DOMContentLoaded", () => {
+            loadCart();
+            renderLineChips();
+            renderStepArea();
+            renderCart();
+
+            window.addEventListener("scroll", () => {
+                const header = document.getElementById("header");
+                if (window.scrollY > 50) header.classList.add("scrolled");
+                else header.classList.remove("scrolled");
+            });
+        });
+    </script>
+</body>
+
+</html>

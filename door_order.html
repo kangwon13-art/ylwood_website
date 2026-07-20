@@ -232,6 +232,14 @@
             padding: 4px;
         }
 
+        .notice-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-accent-orange);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
         /* CHIP BUTTONS (문 종류 / 바수 chips / 문지방) */
         .chip-row {
             display: flex;
@@ -969,6 +977,7 @@
             <div class="header-nav-group">
                 <a href="calculator.html" class="catalog-link">실시간 단가 계산기</a>
                 <a href="molding_catalog.html" class="catalog-link">몰딩 재고 확인</a>
+                <a href="wallpanel.html" class="catalog-link">월판넬</a>
             </div>
         </div>
     </header>
@@ -1034,9 +1043,9 @@
             <div class="door-card">
                 <div class="card-title-row">
                     <div class="card-title">5. 색상</div>
+                    <span class="notice-link">ⓘ 실물과 다를 수 있어요</span>
                 </div>
                 <div class="color-grid" id="colorGrid"></div>
-                <div class="card-subtext">실물과 화면 색상은 차이가 있을 수 있습니다.</div>
             </div>
 
             <!-- 카드 6: 문지방 + 열리는 방향 -->
@@ -1108,6 +1117,7 @@
                         <a href="calculator.html">실시간 단가 계산기</a>
                         <a href="catalog.html">영림카탈로그</a>
                         <a href="molding_catalog.html">몰딩 재고 확인</a>
+                        <a href="wallpanel.html">월판넬</a>
                         <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">맨위로</a>
                     </div>
                 </div>
