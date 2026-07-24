@@ -77,6 +77,7 @@
         /* Typography Helper Classes */
         .font-num {
             font-family: var(--font-family-alt);
+            font-variant-numeric: tabular-nums;
         }
 
         /* CONTAINER */
@@ -165,7 +166,9 @@
         .header-nav-group {
             display: flex;
             align-items: center;
-            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 4px;
         }
 
         .catalog-link {
@@ -707,6 +710,52 @@
             box-shadow: var(--shadow-glow);
         }
 
+        .calc-content-area {
+            min-width: 0;
+        }
+
+        /* 통합 지시서(최종본) 항목7: 단가 컬럼 헤더의 위/아래 화살표 정렬(PC 전용) */
+        .price-th-sortable {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .sort-arrows {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sort-arrow-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 11px;
+            padding: 0;
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .sort-arrow-btn svg {
+            width: 9px;
+            height: 9px;
+        }
+
+        .sort-arrow-btn:hover {
+            color: var(--color-text-light);
+        }
+
+        .sort-arrow-btn.active {
+            color: var(--color-accent-orange);
+        }
+
         /* Sub-category Tabs for 마감자재 */
         .sub-category-tabs {
             display: flex;
@@ -750,8 +799,11 @@
             border-radius: 10px;
         }
 
+        /* 통합 지시서(최종본) 항목9: table-layout:fixed로 컬럼 폭을 데이터 길이와 무관하게
+           헤더의 지정 폭(%)으로 고정 — 카테고리 탭을 바꿔도 컬럼 폭/정렬이 항상 동일하게 유지됨 */
         .price-table {
             width: 100%;
+            table-layout: fixed;
             border-collapse: collapse;
             text-align: left;
             font-variant-numeric: tabular-nums;
@@ -776,6 +828,12 @@
             font-size: 15px;
             color: var(--color-text-light);
             vertical-align: middle;
+        }
+
+        /* 단가 열: 자릿수 달라도 오른쪽 기준 정렬(작업지시서#07-3) */
+        .price-table td:nth-child(4) {
+            text-align: right;
+            white-space: nowrap;
         }
 
         .price-table tbody tr {
@@ -995,22 +1053,29 @@
             gap: 10px;
         }
 
+        /* 버그수정 지시서(2차): 테이블 쪽과 동일하게 "담기"/"담김" 두 상태 모두 동일한 고정 width로 통일 */
         .option-add-btn {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
             background: var(--color-accent-orange);
             color: #FFFFFF;
             font-weight: 700;
             font-size: 13px;
-            padding: 8px 18px;
+            padding: 8px 8px;
+            width: 72px;
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            transition: var(--transition-smooth);
-            min-width: 64px;
+            white-space: nowrap;
+            transition: var(--transition-smooth), width 0.15s ease;
             text-align: center;
         }
 
         .option-add-btn.added {
-            background: var(--color-text-muted);
+            background: var(--color-accent-orange-hover);
         }
 
         .prod-info {
@@ -1022,26 +1087,35 @@
         .prod-name {
             font-weight: 700;
             color: var(--color-text-white);
+            word-break: keep-all;
         }
 
+        /* 통합 지시서(최종본) 항목8: 카트 오버레이 전환으로 표 폭이 넉넉해졌으므로,
+           규격 텍스트는 기본 한 줄(짧은 규격)이되 길어지면 단어 단위로만 규칙적으로 줄바꿈 */
         .prod-spec {
             font-size: 14px;
             color: var(--color-text-muted);
+            white-space: normal;
+            word-break: keep-all;
         }
 
         .price-col {
             font-weight: 700;
             color: var(--color-text-white);
+            white-space: nowrap;
         }
 
         /* Quantity controls */
+        /* 버그수정 지시서(2차): 100px→96px로 축소해 "담기 전용 min-width"였던 버튼과
+           나란히 한 줄에 들어갈 여유폭을 확보(하단 .btn-add-to-cart 참고) */
         .qty-control {
             display: flex;
             align-items: center;
             background: var(--color-bg-tertiary);
             border: 1px solid var(--color-border);
             border-radius: 6px;
-            width: 110px;
+            width: 96px;
+            flex-shrink: 0;
             justify-content: space-between;
             overflow: hidden;
         }
@@ -1050,8 +1124,9 @@
             background: transparent;
             border: none;
             color: var(--color-text-light);
-            width: 32px;
+            width: 28px;
             height: 32px;
+            flex-shrink: 0;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1067,7 +1142,8 @@
         }
 
         .qty-input {
-            width: 44px;
+            width: 40px;
+            flex-shrink: 0;
             background: transparent;
             border: none;
             color: var(--color-text-white);
@@ -1084,6 +1160,58 @@
         .qty-input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
+        }
+
+        /* 버그수정 지시서(2차): "담기"→"담김" 전환 시 버튼 폭이 늘어나며 줄바꿈이 발생하던 문제 —
+           행 자체는 반드시 nowrap으로 한 줄을 유지하고(버튼 쪽에서 두 상태 모두 동일 폭을 확보),
+           컬럼 폭이 극단적으로 좁은 경우를 대비해 스테퍼 폭도 함께 줄여 여유를 만들었다. */
+        .qty-addcart-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 6px;
+        }
+
+        /* 버그수정 지시서#1: 이전엔 클릭 시 textContent만 "담김 ✓"(유니코드 체크 문자)로 바꾸고
+           배경을 진한 남색(--color-accent-navy-light)으로 바꿨는데, 버튼 폭이 min-width 없이
+           내용 길이에 따라 그대로 줄어들면서 좁고 어두운 상자 안에 체크 문자가 작게 눌려 보여
+           "드롭다운" 화살표처럼 오인되는 문제가 있었음. min-width 고정 + 유니코드 문자 대신
+           크기가 안정적인 SVG 체크 아이콘 + 브랜드 오렌지 계열 유지로 교체. */
+        /* 버그수정 지시서(2차): min-width(58px)가 "담기" 상태 기준이라 "담김"(아이콘+더 긴 텍스트,
+           실측 약 67.5px)로 바뀔 때 버튼이 넓어지면서 행이 줄바꿈됐음. 두 상태 중 더 넓은 쪽을
+           기준으로 폭 자체를 고정값(width, min-width 아님)으로 못박아 상태와 무관하게 항상 동일한
+           폭을 차지하도록 수정 — 이러면 폭이 아예 바뀌지 않으므로 줄바꿈도, 리플로우 끊김도 없음.
+           혹시 모를 서브픽셀 변화에 대비해 width 트랜지션도 명시적으로 추가. */
+        .btn-add-to-cart {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            width: 70px;
+            background: var(--color-accent-orange);
+            color: var(--color-text-white);
+            border: none;
+            border-radius: 6px;
+            padding: 0 8px;
+            height: 32px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-smooth), width 0.15s ease;
+        }
+
+        .btn-add-to-cart:hover {
+            background: var(--color-accent-orange-hover);
+        }
+
+        .btn-add-to-cart.added {
+            background: var(--color-accent-orange-hover);
+        }
+
+        .btn-add-to-cart.added svg {
+            flex-shrink: 0;
         }
 
         /* CALCULATOR SIDEBAR (mobile-first bottom sheet; PC override in the min-width:769px block below) */
@@ -1126,8 +1254,16 @@
             z-index: 10 !important;
         }
 
+        /* 통합 지시서(최종본) 항목8-2: 예전엔 이 컨테이너와 .selected-list가 각자 overflow-y:auto를
+           가진 이중 스크롤 구조라, 목록이 길어지면 일부 품목이 .selected-list의 고정 높이(400px) 박스
+           안에 갇히고 나머지가 바깥 컨테이너 스크롤에서만 보이는 등 스크롤 영역이 갈라지는 버그가 있었음.
+           이 컨테이너 자체는 더 이상 스크롤하지 않고(overflow:hidden), 아래 .selected-list 단 하나만
+           스크롤 컨테이너 역할을 하도록 통일 — 상단바/총액/CTA 버튼은 항상 고정 노출된다. */
         .calc-sidebar .sidebar-inner-content {
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0;
             padding: 0 20px 20px;
             flex: 1;
         }
@@ -1144,6 +1280,7 @@
             background: var(--color-bg-secondary);
             border-radius: 20px 20px 0 0;
             z-index: 2;
+            flex-shrink: 0;
             transition: var(--transition-smooth);
         }
 
@@ -1174,10 +1311,14 @@
             font-weight: 700;
         }
 
+        /* 항목8-2: 유일한 스크롤 컨테이너 — 품목이 몇 개든 이 안에서만 스크롤됨.
+           항목8-1: 스크롤바가 금액 텍스트에 바로 붙지 않도록 padding-right 확보. */
         .selected-list {
-            max-height: 400px;
+            flex: 1;
+            min-height: 0;
             overflow-y: auto;
             margin-bottom: 22px;
+            padding-right: 10px;
             border-bottom: 1px solid var(--color-border);
             padding-bottom: 15px;
         }
@@ -1198,12 +1339,22 @@
             font-size: 14px;
         }
 
+        /* 통합 지시서(최종본) 항목8: 첫 행부터 마지막 행까지 상단 구분선을 동일하게 적용(모바일 포함) —
+           이전엔 하단 구분선 + 첫 행 예외 방식이라 첫 품목만 다르게 보이던 문제가 있었음 */
         .cart-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 18px;
+            padding-bottom: 18px;
+            border-top: 1px solid var(--color-border);
+            font-size: 13.5px;
+        }
+
+        .cart-item-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 14px;
-            font-size: 13.5px;
             gap: 10px;
         }
 
@@ -1217,15 +1368,79 @@
             min-width: 0;
         }
 
-        .cart-item-qty {
+        .cart-item-remove {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: var(--color-text-muted);
+            font-size: 13px;
+            line-height: 1;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .cart-item-remove:hover {
             color: var(--color-accent-orange);
+        }
+
+        .cart-item-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .cart-item-qty-stepper {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .cart-item-qty-btn {
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            background: none;
+            border: none;
+            font-size: 13px;
             font-weight: 700;
-            white-space: nowrap;
+            color: var(--color-text-light);
+            cursor: pointer;
+        }
+
+        .cart-item-qty-btn:hover {
+            color: var(--color-accent-orange);
+        }
+
+        .cart-item-qty-input {
+            width: 26px;
+            min-width: 0;
+            text-align: center;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .cart-item-qty-input:focus {
+            outline: none;
+            color: var(--color-accent-orange);
         }
 
         .cart-item-price {
             font-weight: 700;
             white-space: nowrap;
+            text-align: right;
+            margin-left: auto;
         }
 
         .summary-total {
@@ -1234,6 +1449,7 @@
             align-items: center;
             margin-bottom: 25px;
             flex-wrap: nowrap;
+            flex-shrink: 0;
         }
 
         .total-label {
@@ -1265,6 +1481,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            flex-shrink: 0;
         }
 
         .btn-full {
@@ -1629,7 +1846,8 @@
                 font-size: 16px;
             }
 
-            header .catalog-link {
+            header .catalog-link,
+            header .nav-tab-link {
                 display: none;
             }
 
@@ -1757,6 +1975,19 @@
                 padding: 0;
                 min-height: 28px;
                 margin: 0 4px;
+            }
+
+            .qty-addcart-row {
+                justify-content: flex-end;
+                flex-wrap: nowrap;
+                gap: 6px;
+            }
+
+            .btn-add-to-cart {
+                width: 62px;
+                height: 28px;
+                padding: 0 6px;
+                font-size: 12px;
             }
 
             .btn-inquire {
@@ -2129,42 +2360,50 @@
 
         /* PC: Calculator layout restored to right-side sticky sidebar (grid, no bottom sheet) */
         @media (min-width: 1025px) {
+            /* 통합 지시서(최종본) 항목8: PC에서는 우측 고정 패널을 없애고, 표 영역이 전체 폭을 쓴다.
+               "선택 품목 내역"은 평소엔 플로팅 버튼만 보이다가, 클릭 시 우측에서 슬라이드로 나타나
+               테이블 위를 덮는 오버레이로 전환(그리드 분할 없음 → 표 폭이 줄지 않음). */
             .calc-container {
-                display: grid;
-                grid-template-columns: 1fr 340px;
-                gap: 30px;
-                align-items: start;
+                display: block;
                 margin-bottom: 0;
             }
 
+            /* 통합 지시서(최종본) 항목8: 고정 100vh 대신 콘텐츠에 맞는 auto 높이(최대 100vh로 제한).
+               품목이 적으면 패널이 콘텐츠 높이만큼만 차지해 하단에 큰 여백이 남지 않고,
+               100vh를 넘어서면 그때부터 .selected-list 하나만 내부 스크롤된다(상단바/총액/CTA는 항상 고정 노출). */
             .calc-sidebar {
-                position: sticky;
-                top: 100px;
+                position: fixed;
+                top: 0;
+                right: 0;
                 bottom: auto;
                 left: auto;
-                right: auto;
-                width: 100%;
+                width: 440px;
+                max-width: 92vw;
                 height: auto;
-                max-height: calc(100vh - 140px);
-                border-radius: 20px;
-                border: 1px solid var(--color-border);
-                box-shadow: var(--shadow-premium);
+                max-height: 100vh;
+                border-radius: 0;
+                border: none;
+                border-left: 1px solid var(--color-border);
+                box-shadow: -12px 0 40px rgba(31, 42, 68, 0.18);
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
-                z-index: 10;
-                transform: none;
+                z-index: 10050;
+                transform: translateX(100%);
+                transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
-            .calc-sidebar.expanded {
-                height: auto;
+            .calc-sidebar.pc-open {
+                transform: translateX(0);
             }
 
             .calc-sidebar .sidebar-inner-content {
-                overflow-y: auto;
-                max-height: calc(100vh - 240px);
-                padding: 24px;
-                display: block;
+                overflow: hidden;
+                min-height: 0;
+                flex: 1;
+                padding: 32px;
+                display: flex;
+                flex-direction: column;
             }
 
             .sidebar-toggle-arrow {
@@ -2172,11 +2411,96 @@
             }
 
             .summary-title {
-                border-radius: 20px 20px 0 0;
+                border-radius: 0;
                 cursor: default;
-                padding: 20px;
+                padding: 24px 32px;
                 text-align: left;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border-bottom: 1px solid var(--color-border);
             }
+
+            .cart-panel-close {
+                margin-left: auto;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                border: none;
+                background: var(--color-bg-tertiary);
+                color: var(--color-text-muted);
+                font-size: 15px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition-smooth);
+            }
+
+            .cart-panel-close:hover {
+                background: var(--color-accent-orange-light);
+                color: var(--color-accent-orange);
+            }
+
+            .cart-overlay-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(26, 31, 43, 0.4);
+                z-index: 10040;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.32s ease;
+            }
+
+            .cart-overlay-backdrop.pc-open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .cart-fab {
+                position: fixed;
+                top: 50%;
+                right: 24px;
+                transform: translateY(-50%);
+                z-index: 9500;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: var(--color-accent-orange);
+                color: var(--color-text-white);
+                border: none;
+                border-radius: 50px;
+                padding: 14px 22px;
+                font-size: 14.5px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: var(--shadow-glow);
+                transition: var(--transition-smooth);
+            }
+
+            .cart-fab:hover {
+                background: var(--color-accent-orange-hover);
+                transform: translateY(-50%) translateX(-3px);
+            }
+
+            .cart-fab.has-items .cart-fab-badge {
+                display: inline-flex;
+            }
+
+            .cart-fab-badge {
+                display: none;
+                align-items: center;
+                justify-content: center;
+                min-width: 20px;
+                height: 20px;
+                padding: 0 5px;
+                border-radius: 10px;
+                background: var(--color-text-white);
+                color: var(--color-accent-orange);
+                font-size: 12px;
+                font-weight: 800;
+            }
+
             /* PC: 검색창 원래 너비 복원 (인라인 스타일 제거에 따른 보완) */
             .calculator-section {
                 padding: 20px 0;
@@ -2186,15 +2510,54 @@
                 max-width: 520px;
                 margin: 12px auto 0;
             }
+
+            /* 작업지시서#07-5: 품목 카테고리 필터를 PC에서 좌측 세로 사이드바로 전환(모바일은 기존 가로 탭 유지) */
+            .calc-main {
+                display: grid;
+                grid-template-columns: 210px 1fr;
+                gap: 16px;
+                align-items: start;
+            }
+
+            .calc-tabs-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+                border-bottom: none;
+                border-right: 1px solid var(--color-border);
+                padding-bottom: 0;
+                padding-right: 18px;
+                margin-bottom: 0;
+            }
+
+            .calc-tabs {
+                flex-direction: column;
+                overflow: visible;
+                white-space: normal;
+                max-width: none;
+                gap: 6px;
+            }
+
+            /* 통합 지시서(최종본) 항목5: 사이드바 탭 텍스트 가운데 정렬 */
+            .calc-tab {
+                width: 100%;
+                text-align: center;
+                white-space: normal;
+            }
+
+            .calc-tab.active {
+                border-left: 3px solid var(--color-accent-orange-hover);
+            }
         }
 
 
         .nav-tab-link {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 600;
             color: var(--color-text-muted);
             text-decoration: none;
-            padding: 8px 16px;
+            white-space: nowrap;
+            padding: 8px 12px;
             border-radius: 8px;
             transition: var(--transition-smooth);
         }
@@ -2230,9 +2593,12 @@
                 <div class="logo-text">영림우드<span>.</span></div>
             </a>
             <div class="header-nav-group">
-                <a href="door_order.html" class="catalog-link">문짝·문틀 주문</a>
-                <a href="molding_catalog.html" class="catalog-link">몰딩 재고 확인</a>
-                <a href="wallpanel.html" class="catalog-link">월판넬</a>
+                <a href="calculator.html" class="nav-tab-link active">최신단가표</a>
+                <a href="catalog.html" class="nav-tab-link">영림카탈로그</a>
+                <a href="door_order.html" class="nav-tab-link">문짝·문틀 주문</a>
+                <a href="molding_catalog.html" class="nav-tab-link">몰딩 재고 확인</a>
+                <a href="wallpanel.html" class="nav-tab-link">월판넬</a>
+                <a href="index.html#inquiry-form-sec" class="nav-tab-link">간편 유선 상담 신청</a>
             </div>
         </div>
     </header>
@@ -2258,8 +2624,9 @@
             <div class="calc-container">
                 <!-- Left Main Section (Tabs + Price list Table) -->
                 <div class="calc-main">
+                    <!-- 작업지시서#07-5: PC(min-width:1025px)에서는 이 블록이 좌측 세로 사이드바로 전환(CSS만 변경, 모바일은 기존 가로 탭 유지) -->
                     <div class="calc-tabs-wrapper">
-                        <button class="tab-scroll-btn" onclick="scrollTabs(-1)" aria-label="이전 탭">
+                        <button class="tab-scroll-btn hide-on-pc" onclick="scrollTabs(-1)" aria-label="이전 탭">
                             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -2286,7 +2653,7 @@
                                 id="tab-hardware">철물/부자재</button>
                             <button class="calc-tab" onclick="switchCalcTab('delivery')" id="tab-delivery">운반비</button>
                         </div>
-                        <button class="tab-scroll-btn" onclick="scrollTabs(1)" aria-label="다음 탭">
+                        <button class="tab-scroll-btn hide-on-pc" onclick="scrollTabs(1)" aria-label="다음 탭">
                             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -2294,37 +2661,67 @@
                         </button>
                     </div>
 
+                    <!-- 작업지시서#07-5: 위 사이드바 옆 실제 콘텐츠 영역(표+안내문). PC 그리드의 2번째 컬럼 역할 -->
+                    <div class="calc-content-area">
+                        <!-- Delivery Info Alert (Shown only when delivery tab is active) -->
+                        <div id="delivery-info-alert"
+                            style="display: none; background: rgba(255, 107, 53, 0.12); border: 1px solid var(--color-accent-orange); border-radius: 12px; padding: 18px; margin-bottom: 22px; color: var(--color-text-white); font-weight: 600; align-items: center; gap: 12px; font-size: 14.5px; line-height: 1.5; box-shadow: var(--shadow-premium);">
+                            <span style="font-size: 18px;">⚠️</span>
+                            <span>운반비는 거리 및 상차 품목에 따라 상이합니다. 반드시 전화 문의 후 결제해 주세요.</span>
+                        </div>
 
+                        <div class="table-responsive">
+                            <table class="price-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 29%;">자재 품목</th>
+                                        <th style="width: 20%;">규격</th>
+                                        <th style="width: 11%;">단위</th>
+                                        <th style="width: 15%; white-space: nowrap;">
+                                            <span class="price-th-sortable">
+                                                단가 (원)
+                                                <span class="sort-arrows hide-on-mobile">
+                                                    <button type="button" class="sort-arrow-btn" id="sortAscBtn"
+                                                        onclick="setPriceSort('asc')" aria-label="단가 오름차순 정렬">
+                                                        <svg viewBox="0 0 10 10" fill="currentColor">
+                                                            <path d="M5 1l4 4H1z" />
+                                                        </svg>
+                                                    </button>
+                                                    <button type="button" class="sort-arrow-btn" id="sortDescBtn"
+                                                        onclick="setPriceSort('desc')" aria-label="단가 내림차순 정렬">
+                                                        <svg viewBox="0 0 10 10" fill="currentColor">
+                                                            <path d="M5 9l4-4H1z" />
+                                                        </svg>
+                                                    </button>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th style="width: 25%; text-align: center;">수량 선택</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="price-table-body">
+                                    <!-- Loaded dynamically via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <!-- Delivery Info Alert (Shown only when delivery tab is active) -->
-                    <div id="delivery-info-alert"
-                        style="display: none; background: rgba(255, 107, 53, 0.12); border: 1px solid var(--color-accent-orange); border-radius: 12px; padding: 18px; margin-bottom: 22px; color: var(--color-text-white); font-weight: 600; align-items: center; gap: 12px; font-size: 14.5px; line-height: 1.5; box-shadow: var(--shadow-premium);">
-                        <span style="font-size: 18px;">⚠️</span>
-                        <span>운반비는 거리 및 상차 품목에 따라 상이합니다. 반드시 전화 문의 후 결제해 주세요.</span>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="price-table">
-                            <thead>
-                                <tr>
-                                    <th style="min-width: 160px;">자재 품목</th>
-                                    <th style="min-width: 140px;">규격</th>
-                                    <th style="width: 60px;">단위</th>
-                                    <th style="width: 110px;">단가 (원)</th>
-                                    <th style="width: 120px; text-align: center;">수량 선택</th>
-                                </tr>
-                            </thead>
-                            <tbody id="price-table-body">
-                                <!-- Loaded dynamically via JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- 지시서#03 G2: 모바일 그룹 카드 목록 (현재 MDF 카테고리만 표시, GROUPED_UI_CATEGORIES 참고) -->
-                    <div class="mobile-group-list" id="mobileGroupList">
-                        <!-- Loaded dynamically via JavaScript (renderMobileGroupList) -->
+                        <!-- 지시서#03 G2: 모바일 그룹 카드 목록 (현재 MDF 카테고리만 표시, GROUPED_UI_CATEGORIES 참고) -->
+                        <div class="mobile-group-list" id="mobileGroupList">
+                            <!-- Loaded dynamically via JavaScript (renderMobileGroupList) -->
+                        </div>
                     </div>
                 </div>
+
+                <!-- 통합 지시서(최종본) 항목8: PC 전용 플로팅 트리거 버튼 + 배경 오버레이 -->
+                <button type="button" class="cart-fab hide-on-mobile" id="cartFabBtn" onclick="toggleCartPanel()">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.921-4.804 2.298-7.454a1.125 1.125 0 00-1.11-1.296H5.25m1.639 8.75l-1.639-8.75m0 0L3.636 3.55M9.75 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm9 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                    </svg>
+                    <span>선택 품목</span>
+                    <span class="cart-fab-badge font-num" id="cartFabBadge">0</span>
+                </button>
+                <div class="cart-overlay-backdrop hide-on-mobile" id="cartOverlayBackdrop" onclick="closeCartPanel()"></div>
 
                 <!-- Right Sidebar Section (Total & Inquiry Shortcut) -->
                 <div class="calc-sidebar" id="calcSidebar">
@@ -2336,6 +2733,8 @@
                         <span class="summary-title-default">선택 품목 내역</span>
                         <span class="summary-badge font-num" id="selected-count">0개 선택됨</span>
                         <span class="mobile-cart-bar-label" id="mobileCartBarLabel">품목을 담아 주세요</span>
+                        <button type="button" class="cart-panel-close hide-on-mobile" aria-label="닫기"
+                            onclick="event.stopPropagation(); closeCartPanel();">✕</button>
                     </div>
                     <div class="sidebar-inner-content">
                         <div class="selected-list" id="selected-items-list">
@@ -2856,6 +3255,7 @@
         let currentActiveTab = "all_categories";
         let currentFinishingSub = "all";
         let currentDeckSub = "all";
+        let priceSortDir = null; // 통합 지시서(최종본) 항목7: null | 'asc' | 'desc' — PC 전용 헤더 화살표 정렬
 
         let imageStore = {};
 
@@ -3562,10 +3962,13 @@
             if (categoryKey === 'all_categories') {
                 const allCats = ['finishing', 'mdf', 'plywood', 'interior_plywood',
                     'timber', 'plaster', 'insulation', 'deck_timber', 'louver_wood', 'hardware'];
+                let items = [];
                 allCats.forEach(cat => {
                     (PRODUCTS_DATA[cat] || []).forEach(item => { item.category = item.category || cat; });
-                    (PRODUCTS_DATA[cat] || []).forEach(item => renderProductRow(item, tbody, cat));
+                    items = items.concat(PRODUCTS_DATA[cat] || []);
                 });
+                items = sortByPrice(items, priceSortDir);
+                items.forEach(item => renderProductRow(item, tbody, item.category));
                 return;
             }
 
@@ -3578,11 +3981,32 @@
                 items = items.filter(item => item.sub === subKey);
             }
 
+            items = sortByPrice(items, priceSortDir);
+
             items.forEach(item => renderProductRow(item, tbody, categoryKey));
         }
 
+        // 통합 지시서(최종본) 항목7: 견적문의(가격 미확정) 품목은 정렬 방향과 무관하게 항상 뒤로 보냄
+        function sortByPrice(list, dir) {
+            if (!dir) return list;
+            return [...list].sort((a, b) => {
+                const pa = (typeof a.price === 'number' && a.price > 0) ? a.price : Infinity;
+                const pb = (typeof b.price === 'number' && b.price > 0) ? b.price : Infinity;
+                return dir === 'asc' ? pa - pb : pb - pa;
+            });
+        }
+
+        // 헤더의 위/아래 화살표 클릭 — 같은 방향을 다시 누르면 정렬 해제(원래 순서로 복귀)
+        function setPriceSort(dir) {
+            priceSortDir = (priceSortDir === dir) ? null : dir;
+            const ascBtn = document.getElementById('sortAscBtn');
+            const descBtn = document.getElementById('sortDescBtn');
+            if (ascBtn) ascBtn.classList.toggle('active', priceSortDir === 'asc');
+            if (descBtn) descBtn.classList.toggle('active', priceSortDir === 'desc');
+            renderActiveProducts();
+        }
+
         function renderProductRow(item, tbody, catKey) {
-            const qty = selectedQuantities[item.id] || 0;
             const tr = document.createElement("tr");
             tr.id = "product-row-" + item.id;
 
@@ -3602,13 +4026,21 @@
                 ? `<span class="price-col" style="color: var(--color-accent-orange); font-weight: bold;">견적문의</span>`
                 : `<span class="price-col font-num">${formatNumber(item.price)}</span>원`;
 
+            // 통합 지시서#08 항목9: 테이블의 수량은 "담기 전 임시 수량"일 뿐, 실제 장바구니(selectedQuantities)는
+            // "담기" 버튼을 눌러야만 반영된다. 그래서 여기서는 항상 기본값 1에서 시작하고 selectedQuantities를 읽지 않는다.
             const controlDisplay = isQuoteOnly
                 ? `<button class="btn-inquire" type="button" onclick="inquireProduct('${item.name.replace(/'/g, "\\'")}', '${effCat}')">문의하기</button>`
                 : `
-                    <div class="qty-control">
-                        <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', -1)">-</button>
-                        <input class="qty-input font-num" type="number" value="${qty}" min="0" onchange="setQty('${item.id}', this.value)" id="qty-input-${item.id}">
-                        <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', 1)">+</button>
+                    <div class="qty-addcart-row">
+                        <div class="qty-control">
+                            <button class="qty-btn" type="button" onclick="changeStagedQty('${item.id}', -1)">-</button>
+                            <input class="qty-input font-num" type="text" inputmode="numeric" value="1"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                onchange="setStagedQty('${item.id}', this.value)" id="qty-input-${item.id}">
+                            <button class="qty-btn" type="button" onclick="changeStagedQty('${item.id}', 1)">+</button>
+                        </div>
+                        <button class="btn-add-to-cart" type="button" id="add-to-cart-btn-${item.id}"
+                            onclick="addToCart('${item.id}')">담기</button>
                     </div>
                 `;
 
@@ -3620,7 +4052,7 @@
                 <td data-label="규격">
                     <span class="prod-spec" style="font-size:14px; color: var(--color-text-muted);">${item.spec}</span>
                 </td>
-                <td data-label="단위"><span class="font-num" style="font-size:13px;">${item.unit}</span></td>
+                <td data-label="단위"><span class="font-num" style="font-size:13px; white-space: nowrap;">${item.unit}</span></td>
                 <td data-label="단가">${priceDisplay}</td>
                 <td data-label="수량">
                     ${controlDisplay}
@@ -3662,19 +4094,21 @@
         }
 
         function buildOptionCard(item, categoryKey) {
-            const qty = selectedQuantities[item.id] || 0;
             const isQuoteOnly = (item.price === 0 || item.price === null || item.price === "견적문의");
             const priceDisplay = isQuoteOnly
                 ? `<span style="color: var(--color-accent-orange); font-weight: bold;">견적문의</span>`
                 : `<span class="font-num">${formatNumber(item.price)}</span>원<span class="option-card-price-vat">(VAT 별도)</span>`;
 
+            // 통합 지시서#08 항목9: 여기서도 수량은 "담기 전 임시 수량"이며 항상 1에서 시작한다.
             const controlDisplay = isQuoteOnly
                 ? `<button class="btn-inquire" type="button" onclick="closeOptionSheet(); inquireProduct('${item.name.replace(/'/g, "\\'")}', '${categoryKey}')">문의하기</button>`
                 : `
                     <div class="qty-control">
-                        <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', -1)">-</button>
-                        <input class="qty-input font-num" type="number" value="${qty}" min="0" onchange="setQty('${item.id}', this.value)" id="qty-input-${item.id}">
-                        <button class="qty-btn" type="button" onclick="adjustQty('${item.id}', 1)">+</button>
+                        <button class="qty-btn" type="button" onclick="changeStagedQty('${item.id}', -1)">-</button>
+                        <input class="qty-input font-num" type="text" inputmode="numeric" value="1"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            onchange="setStagedQty('${item.id}', this.value)" id="qty-input-${item.id}">
+                        <button class="qty-btn" type="button" onclick="changeStagedQty('${item.id}', 1)">+</button>
                     </div>
                     <button class="option-add-btn" type="button" id="add-btn-${item.id}" onclick="handleOptionAdd('${item.id}')">담기</button>
                 `;
@@ -3724,21 +4158,22 @@
             window.scrollTo(0, lockedScrollY);
         }
 
+        // 통합 지시서#08 항목9: 모바일 옵션시트의 "담기"도 테이블과 동일하게
+        // 임시 수량(스테퍼)을 실제 장바구니(selectedQuantities)에 가산하는 방식으로 동작.
         function handleOptionAdd(productId) {
-            const currentQty = selectedQuantities[productId] || 0;
-            if (currentQty <= 0) {
-                adjustQty(productId, 1);
+            const input = document.getElementById(`qty-input-${productId}`);
+            const staged = input ? (parseInt(input.value, 10) || 1) : 1;
+            const current = selectedQuantities[productId] || 0;
+            selectedQuantities[productId] = current + staged;
+            try {
+                sessionStorage.setItem('yw_cart', JSON.stringify(selectedQuantities));
+            } catch (e) {
+                console.warn("Failed to save cart:", e);
             }
-            const btn = document.getElementById("add-btn-" + productId);
-            if (btn) {
-                const original = btn.textContent;
-                btn.textContent = "담김 ✓";
-                btn.classList.add("added");
-                setTimeout(() => {
-                    btn.textContent = original;
-                    btn.classList.remove("added");
-                }, 1000);
-            }
+            updateEstimateSummary();
+            if (input) input.value = 1;
+
+            flashAddedBtn(document.getElementById("add-btn-" + productId));
         }
 
         // 검색 결과에서 그룹형 카테고리의 특정 옵션으로 바로 이동 (목록→시트 오픈→해당 옵션 하이라이트)
@@ -3770,6 +4205,28 @@
             }
         }
 
+        // 통합 지시서(최종본) 항목8: PC 전용 플로팅 트리거 → 슬라이드 오버레이 열기/닫기
+        // (모바일은 위 toggleMobileSidebar()의 바텀시트 방식 그대로, 서로 다른 클래스로 동작해 충돌 없음)
+        function openCartPanel() {
+            if (window.innerWidth <= 1024) return;
+            document.getElementById("calcSidebar")?.classList.add("pc-open");
+            document.getElementById("cartOverlayBackdrop")?.classList.add("pc-open");
+        }
+
+        function closeCartPanel() {
+            document.getElementById("calcSidebar")?.classList.remove("pc-open");
+            document.getElementById("cartOverlayBackdrop")?.classList.remove("pc-open");
+        }
+
+        function toggleCartPanel() {
+            const sidebar = document.getElementById("calcSidebar");
+            if (sidebar && sidebar.classList.contains("pc-open")) {
+                closeCartPanel();
+            } else {
+                openCartPanel();
+            }
+        }
+
         // 13. Category switching logic
         function switchCalcTab(categoryKey) {
             currentActiveTab = categoryKey;
@@ -3798,23 +4255,26 @@
             renderActiveProducts();
         }
 
+        // 통합 지시서#08 항목9: 테이블/옵션시트의 수량칸(qty-input-*)은 "담기 전 임시 수량"이라
+        // 실제 장바구니 조작(adjustQty/setQty/removeCartItem)이 더 이상 그 값을 건드리지 않는다.
+        // 장바구니 자체 수량은 오직 "선택 품목 내역" 패널의 미니 스테퍼/입력(cart-qty-*)만 반영한다.
         function adjustQty(productId, delta) {
-            const input = document.getElementById(`qty-input-${productId}`);
-            let currentVal = parseInt(input.value) || 0;
+            const currentVal = selectedQuantities[productId] || 0;
             let newVal = currentVal + delta;
             if (newVal < 0) newVal = 0;
-
-            input.value = newVal;
             setQty(productId, newVal);
         }
 
         function setQty(productId, value) {
-            const qty = parseInt(value) || 0;
+            let qty = parseInt(value, 10);
+            if (isNaN(qty) || qty < 0) qty = 0;
             if (qty <= 0) {
                 delete selectedQuantities[productId];
             } else {
                 selectedQuantities[productId] = qty;
             }
+            const cartInput = document.getElementById(`cart-qty-${productId}`);
+            if (cartInput) cartInput.value = qty;
             try {
                 sessionStorage.setItem('yw_cart', JSON.stringify(selectedQuantities));
             } catch (e) {
@@ -3823,14 +4283,77 @@
             updateEstimateSummary();
         }
 
+        function removeCartItem(productId) {
+            delete selectedQuantities[productId];
+            try {
+                sessionStorage.setItem('yw_cart', JSON.stringify(selectedQuantities));
+            } catch (e) {
+                console.warn("Failed to save cart:", e);
+            }
+            updateEstimateSummary();
+        }
+
+        // 테이블/옵션시트의 "담기 전 임시 수량" 전용 — 장바구니(selectedQuantities)는 건드리지 않음
+        function changeStagedQty(productId, delta) {
+            const input = document.getElementById(`qty-input-${productId}`);
+            if (!input) return;
+            let val = parseInt(input.value, 10);
+            if (isNaN(val)) val = 1;
+            val = Math.max(1, val + delta);
+            input.value = val;
+        }
+
+        function setStagedQty(productId, rawValue) {
+            const input = document.getElementById(`qty-input-${productId}`);
+            let val = parseInt(rawValue, 10);
+            if (isNaN(val) || val < 1) val = 1;
+            if (input) input.value = val;
+        }
+
+        // "담기" 버튼 — 이 시점에만 임시 수량이 실제 장바구니에 가산 반영된다.
+        function addToCart(productId) {
+            const input = document.getElementById(`qty-input-${productId}`);
+            const staged = input ? (parseInt(input.value, 10) || 1) : 1;
+            const current = selectedQuantities[productId] || 0;
+            selectedQuantities[productId] = current + staged;
+            try {
+                sessionStorage.setItem('yw_cart', JSON.stringify(selectedQuantities));
+            } catch (e) {
+                console.warn("Failed to save cart:", e);
+            }
+            updateEstimateSummary();
+            if (input) input.value = 1;
+
+            flashAddedBtn(document.getElementById(`add-to-cart-btn-${productId}`));
+        }
+
+        // 버그수정 지시서#1: 유니코드 체크 문자 대신 크기가 안정적인 인라인 SVG로 "담김" 피드백 표시.
+        // 버튼 폭이 min-width로 고정돼 있어 텍스트 길이 변화로 인한 찌그러짐도 없다.
+        function flashAddedBtn(btn) {
+            if (!btn) return;
+            const original = btn.innerHTML;
+            btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>담김`;
+            btn.classList.add("added");
+            setTimeout(() => {
+                btn.innerHTML = original;
+                btn.classList.remove("added");
+            }, 900);
+        }
+
         // 7. Calculate and update estimate summary card
+        // 작업지시서#07-4: 매번 innerHTML을 통째로 비우고 재생성하면, 다른 입력 필드의 blur로
+        // 이 함수가 재호출되는 순간 카트 안의 버튼/입력을 클릭·포커스하던 이벤트가 통째로 씹히는
+        // 레이스가 발생함(교체된 새 DOM 노드는 원래 mousedown이 겨냥한 노드가 아니므로 click이 무시됨).
+        // 이미 존재하는 품목의 행은 재사용하고, 실제로 추가/삭제된 품목만 DOM에 반영한다.
         function updateEstimateSummary() {
             const listContainer = document.getElementById("selected-items-list");
-            listContainer.innerHTML = "";
+            const emptyMsg = listContainer.querySelector(".empty-cart-msg");
+            if (emptyMsg) emptyMsg.remove();
 
             let total = 0;
             let count = 0;
             let hasItems = false;
+            const seenIds = new Set();
 
             for (const cat in PRODUCTS_DATA) {
                 PRODUCTS_DATA[cat].forEach(prod => {
@@ -3840,18 +4363,53 @@
                         count += 1;
                         const subtotal = prod.price * qty;
                         total += subtotal;
+                        seenIds.add(String(prod.id));
 
-                        const itemDiv = document.createElement("div");
-                        itemDiv.className = "cart-item";
-                        itemDiv.innerHTML = `
-                            <span class="cart-item-name">${prod.name}</span>
-                            <span class="cart-item-qty font-num">${qty}${prod.unit}</span>
-                            <span class="cart-item-price font-num">${formatNumber(subtotal)}원</span>
-                        `;
-                        listContainer.appendChild(itemDiv);
+                        let itemDiv = listContainer.querySelector(`.cart-item[data-id="${prod.id}"]`);
+                        if (!itemDiv) {
+                            itemDiv = document.createElement("div");
+                            itemDiv.className = "cart-item";
+                            itemDiv.dataset.id = prod.id;
+                            itemDiv.innerHTML = `
+                                <div class="cart-item-top">
+                                    <span class="cart-item-name">${prod.name}</span>
+                                    <button type="button" class="cart-item-remove" aria-label="삭제"
+                                        onmousedown="event.preventDefault()"
+                                        onclick="removeCartItem('${prod.id}')">✕</button>
+                                </div>
+                                <div class="cart-item-bottom">
+                                    <div class="cart-item-qty-stepper">
+                                        <button type="button" class="cart-item-qty-btn" aria-label="수량 감소"
+                                            onmousedown="event.preventDefault()"
+                                            onclick="adjustQty('${prod.id}', -1)">−</button>
+                                        <input type="text" inputmode="numeric" class="cart-item-qty-input font-num"
+                                            id="cart-qty-${prod.id}" value="${qty}" aria-label="수량 직접 입력"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            onchange="setQty('${prod.id}', this.value)">
+                                        <button type="button" class="cart-item-qty-btn" aria-label="수량 증가"
+                                            onmousedown="event.preventDefault()"
+                                            onclick="adjustQty('${prod.id}', 1)">＋</button>
+                                    </div>
+                                    <span class="cart-item-price font-num"></span>
+                                </div>
+                            `;
+                            listContainer.appendChild(itemDiv);
+                        }
+
+                        // 값만 갱신 — 현재 포커스 중인 입력은 사용자가 입력 중인 값을 덮어쓰지 않음
+                        const qtyInput = itemDiv.querySelector(".cart-item-qty-input");
+                        if (qtyInput && document.activeElement !== qtyInput) {
+                            qtyInput.value = qty;
+                        }
+                        itemDiv.querySelector(".cart-item-price").textContent = `${formatNumber(subtotal)}원`;
                     }
                 });
             }
+
+            // 더 이상 선택되지 않은 품목의 행만 제거
+            listContainer.querySelectorAll(".cart-item").forEach(el => {
+                if (!seenIds.has(el.dataset.id)) el.remove();
+            });
 
             if (!hasItems) {
                 listContainer.innerHTML = '<div class="empty-cart-msg">선택된 자재가 없습니다.<br>수량을 추가해 주세요.</div>';
@@ -3871,6 +4429,14 @@
                     cartBarLabel.textContent = "품목을 담아 주세요";
                     summaryBar.classList.remove("has-items");
                 }
+            }
+
+            // 통합 지시서(최종본) 항목8: PC 플로팅 트리거의 뱃지 카운트 갱신
+            const fabBtn = document.getElementById("cartFabBtn");
+            const fabBadge = document.getElementById("cartFabBadge");
+            if (fabBtn && fabBadge) {
+                fabBadge.textContent = count;
+                fabBtn.classList.toggle("has-items", hasItems);
             }
         }
 

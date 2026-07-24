@@ -121,7 +121,9 @@
         .header-nav-group {
             display: flex;
             align-items: center;
-            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 4px;
         }
 
         .catalog-link {
@@ -137,8 +139,33 @@
             color: var(--color-text-light);
         }
 
+        /* 작업지시서#07-6: PC 상단 내비게이션 6개 메뉴 전체 노출 + 현재 페이지 강조 */
+        .nav-tab-link {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            white-space: nowrap;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-tab-link:hover {
+            color: var(--color-text-light);
+            background: var(--color-bg-tertiary);
+        }
+
+        .nav-tab-link.active {
+            color: var(--color-accent-orange);
+            background: var(--color-accent-orange-light);
+            font-weight: 700;
+        }
+
         @media (max-width: 768px) {
-            header .catalog-link {
+
+            header .catalog-link,
+            header .nav-tab-link {
                 display: none;
             }
 
@@ -834,8 +861,12 @@
                 <div class="logo-text">영림우드<span>.</span></div>
             </a>
             <div class="header-nav-group">
-                <a href="calculator.html" class="catalog-link">실시간 단가 계산기</a>
-                <a href="wallpanel.html" class="catalog-link">월판넬</a>
+                <a href="calculator.html" class="nav-tab-link">최신단가표</a>
+                <a href="catalog.html" class="nav-tab-link">영림카탈로그</a>
+                <a href="door_order.html" class="nav-tab-link">문짝·문틀 주문</a>
+                <a href="molding_catalog.html" class="nav-tab-link active">몰딩 재고 확인</a>
+                <a href="wallpanel.html" class="nav-tab-link">월판넬</a>
+                <a href="index.html#inquiry-form-sec" class="nav-tab-link">간편 유선 상담 신청</a>
             </div>
         </div>
     </header>

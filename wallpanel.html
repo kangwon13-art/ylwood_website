@@ -119,7 +119,9 @@
         .header-nav-group {
             display: flex;
             align-items: center;
-            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 4px;
         }
 
         .catalog-link {
@@ -135,8 +137,33 @@
             color: var(--color-text-light);
         }
 
+        /* 작업지시서#07-6: PC 상단 내비게이션 6개 메뉴 전체 노출 + 현재 페이지 강조 */
+        .nav-tab-link {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            white-space: nowrap;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-tab-link:hover {
+            color: var(--color-text-light);
+            background: var(--color-bg-tertiary);
+        }
+
+        .nav-tab-link.active {
+            color: var(--color-accent-orange);
+            background: var(--color-accent-orange-light);
+            font-weight: 700;
+        }
+
         @media (max-width: 768px) {
-            header .catalog-link {
+
+            header .catalog-link,
+            header .nav-tab-link {
                 display: none;
             }
         }
@@ -557,11 +584,26 @@
 
         .qty-val {
             width: 40px;
+            min-width: 0;
             text-align: center;
             font-size: 15px;
             font-weight: 700;
             color: var(--color-text-white);
             font-variant-numeric: tabular-nums;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .qty-val::-webkit-outer-spin-button,
+        .qty-val::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .qty-val:focus {
+            outline: none;
+            color: var(--color-accent-orange);
         }
 
         /* 담기 버튼 */
@@ -847,8 +889,12 @@
                 <div class="logo-text">영림우드<span>.</span></div>
             </a>
             <div class="header-nav-group">
-                <a href="calculator.html" class="catalog-link">실시간 단가 계산기</a>
-                <a href="molding_catalog.html" class="catalog-link">몰딩 재고 확인</a>
+                <a href="calculator.html" class="nav-tab-link">최신단가표</a>
+                <a href="catalog.html" class="nav-tab-link">영림카탈로그</a>
+                <a href="door_order.html" class="nav-tab-link">문짝·문틀 주문</a>
+                <a href="molding_catalog.html" class="nav-tab-link">몰딩 재고 확인</a>
+                <a href="wallpanel.html" class="nav-tab-link active">월판넬</a>
+                <a href="index.html#inquiry-form-sec" class="nav-tab-link">간편 유선 상담 신청</a>
             </div>
         </div>
     </header>
@@ -885,7 +931,10 @@
                 <div class="qty-addbtn-row">
                     <div class="qty-stepper">
                         <button type="button" onclick="changeWallpanelQty(-1)" aria-label="수량 감소">−</button>
-                        <span class="qty-val" id="wallpanelQtyVal">1</span>
+                        <input type="text" inputmode="numeric" class="qty-val" id="wallpanelQtyVal" value="1"
+                            aria-label="수량 직접 입력"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            onchange="setWallpanelQtyDirect(this.value)">
                         <button type="button" onclick="changeWallpanelQty(1)" aria-label="수량 증가">＋</button>
                     </div>
                     <button type="button" class="add-line-btn" id="addLineBtn" onclick="addWallpanelItem()">＋ 이 조합 담기</button>
@@ -1147,14 +1196,22 @@
         function changeWallpanelQty(delta) {
             currentQty = Math.max(1, currentQty + delta);
             const el = document.getElementById("wallpanelQtyVal");
-            if (el) el.textContent = currentQty;
+            if (el) el.value = currentQty;
+        }
+
+        function setWallpanelQtyDirect(rawValue) {
+            let val = parseInt(rawValue, 10);
+            if (isNaN(val) || val < 1) val = 1;
+            currentQty = val;
+            const el = document.getElementById("wallpanelQtyVal");
+            if (el) el.value = val;
         }
 
         // 라인/형태/타입/색상/패턴 전환 시 수량을 1로 초기화
         function resetWallpanelQty() {
             currentQty = 1;
             const el = document.getElementById("wallpanelQtyVal");
-            if (el) el.textContent = currentQty;
+            if (el) el.value = currentQty;
         }
 
         // ===================== 5. 템바보드 라인 =====================
