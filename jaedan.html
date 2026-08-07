@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ko">
+<title>영림 재단 견적</title>
+<meta name="description" content="합판·MDF 재단 리스트를 입력하면 원장 배치도·로스율·재단비를 즉시 계산하는 도구">
+<style>
+:root {
+  --border: #d7d7d7;
+  --bg: #f7f7f5;
+  --panel-bg: #ffffff;
+  --text: #222;
+  --muted: #777;
+  --accent: #2563eb;
+  --danger: #c0392b;
+  --danger-bg: #fdecea;
+  --sheet-1d: #cdeecb;
+  --sheet-1d-border: #4c9a4c;
+  --sheet-2d: #ffe0c2;
+  --sheet-2d-border: #d98a3c;
+  --scrap: #f0f0f0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border: #3a3d42;
+    --bg: #16181c;
+    --panel-bg: #1f2226;
+    --text: #e6e6e6;
+    --muted: #9a9a9a;
+    --accent: #5b8dfb;
+    --danger: #ff8a80;
+    --danger-bg: #3a2020;
+    --sheet-1d: #234a2b;
+    --sheet-1d-border: #6fcf7c;
+    --sheet-2d: #4a3420;
+    --sheet-2d-border: #e0a25c;
+    --scrap: #2a2d31;
+  }
+}
+:root[data-theme="dark"] {
+  --border: #3a3d42;
+  --bg: #16181c;
+  --panel-bg: #1f2226;
+  --text: #e6e6e6;
+  --muted: #9a9a9a;
+  --accent: #5b8dfb;
+  --danger: #ff8a80;
+  --danger-bg: #3a2020;
+  --sheet-1d: #234a2b;
+  --sheet-1d-border: #6fcf7c;
+  --sheet-2d: #4a3420;
+  --sheet-2d-border: #e0a25c;
+  --scrap: #2a2d31;
+}
+:root[data-theme="light"] {
+  --border: #d7d7d7;
+  --bg: #f7f7f5;
+  --panel-bg: #ffffff;
+  --text: #222;
+  --muted: #777;
+  --accent: #2563eb;
+  --danger: #c0392b;
+  --danger-bg: #fdecea;
+  --sheet-1d: #cdeecb;
+  --sheet-1d-border: #4c9a4c;
+  --sheet-2d: #ffe0c2;
+  --sheet-2d-border: #d98a3c;
+  --scrap: #f0f0f0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Pretendard", "Malgun Gothic", -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar {
+  padding: 12px 20px;
+  background: #1f2937;
+  color: #fff;
+}
+.topbar h1 { margin: 0; font-size: 18px; }
+.topbar .sub { font-size: 12px; color: #b7bfcc; margin-top: 2px; }
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 12px;
+  padding: 12px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.block { margin-bottom: 18px; }
+.block h2 { font-size: 14px; margin: 0 0 10px; color: var(--text); }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+.field select, .field input[type=number] {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--panel-bg);
+  color: var(--text);
+}
+.field.checkbox { flex-direction: row; align-items: center; gap: 8px; }
+.field.checkbox input { width: auto; }
+
+.item-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 60px auto auto;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.item-form input[type=number] {
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 100%;
+  min-width: 0;
+  background: var(--panel-bg);
+  color: var(--text);
+}
+.checkbox.small { display: flex; align-items: center; gap: 4px; font-size: 12px; white-space: nowrap; }
+#addItemBtn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.item-list { width: 100%; border-collapse: collapse; font-size: 12px; }
+.item-list th, .item-list td { padding: 5px 4px; border-bottom: 1px solid var(--border); text-align: center; }
+.item-list th { color: var(--muted); font-weight: 500; }
+.item-list .del-btn {
+  border: none; background: none; color: var(--danger); cursor: pointer; font-size: 13px;
+}
+.empty-hint { font-size: 12px; color: var(--muted); text-align: center; padding: 10px 0; }
+
+.sheet-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.sheet-tabs button {
+  border: 1px solid var(--border);
+  background: var(--panel-bg);
+  color: var(--text);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.sheet-tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.sheet-view { overflow-x: auto; }
+.sheet-view svg { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 6px; }
+
+.piece-rect { stroke: #333; stroke-width: 1; }
+.piece-rect.type-1d { fill: var(--sheet-1d); }
+.piece-rect.type-2d { fill: var(--sheet-2d); }
+.piece-label { font-size: 11px; fill: #222; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+.scrap-rect { fill: var(--scrap); stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 3; }
+.trim-rect { fill: var(--scrap); stroke: none; opacity: 0.7; }
+.sheet-outline { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+.sheet-title { font-size: 13px; margin: 6px 0; font-weight: 600; }
+.sheet-title.type-1d { color: var(--sheet-1d-border); }
+.sheet-title.type-2d { color: var(--sheet-2d-border); }
+
+.summary-card .row {
+  display: flex; justify-content: space-between; padding: 6px 0;
+  border-bottom: 1px solid var(--border); font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.summary-card .row .val { font-weight: 600; }
+.summary-card .row.total { font-size: 16px; margin-top: 6px; }
+.summary-card .row.total .val { color: var(--accent); }
+
+.warning-card {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--danger);
+  padding: 10px 12px;
+}
+.warning-card.hidden { display: none; }
+.warning-card h3 { margin: 0 0 6px; font-size: 13px; }
+.warning-card ul { margin: 0; padding-left: 18px; }
+
+.actions button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+.actions button:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.hidden { display: none !important; }
+
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: flex-start; justify-content: center;
+  overflow-y: auto; padding: 30px 12px; z-index: 100;
+}
+.plan-sheet {
+  background: var(--panel-bg); border-radius: 8px; max-width: 820px; width: 100%;
+  padding: 30px; position: relative; color: var(--text);
+}
+.overlay-close {
+  position: absolute; top: 14px; right: 14px;
+  border: none; background: none; font-size: 14px; cursor: pointer; color: var(--muted);
+}
+.pdf-btn {
+  margin-top: 20px; width: 100%; padding: 12px; border: none; border-radius: 8px;
+  background: var(--accent); color: #fff; font-size: 14px; cursor: pointer;
+}
+
+.plan-header { text-align: center; margin-bottom: 20px; }
+.plan-header h2 { margin: 0 0 4px; }
+.plan-header .plan-date { color: var(--muted); font-size: 13px; }
+.plan-section { margin-bottom: 20px; }
+.plan-section h3 { font-size: 14px; border-bottom: 2px solid var(--text); padding-bottom: 4px; margin-bottom: 8px; }
+.plan-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.plan-table th, .plan-table td { border: 1px solid var(--border); padding: 6px 8px; text-align: center; }
+.plan-table th { background: var(--bg); }
+
+@media print {
+  body * { visibility: hidden; }
+  #planOverlay, #planOverlay * { visibility: visible; }
+  #planOverlay { position: absolute; inset: 0; background: #fff; padding: 0; }
+  .no-print { display: none !important; }
+  .plan-sheet { box-shadow: none; max-width: 100%; background: #fff; color: #000; }
+}
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; }
+}
+</style>
+
+<header class="topbar">
+  <h1>영림 재단 견적</h1>
+  <div class="sub">합판·MDF 재단 최적 배치 · 즉시 견적 (베타 · 실사용 테스트용)</div>
+</header>
+
+<div class="layout">
+
+  <aside class="panel panel-left">
+    <section class="block">
+      <h2>규격·두께</h2>
+      <label class="field">
+        <span>원장 규격</span>
+        <select id="specSelect">
+          <option value="4x8">4×8 (1220×2440)</option>
+          <option value="3x6">3×6 (910×1820)</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>두께 (mm)</span>
+        <input type="number" id="thicknessInput" value="18" min="1" step="1">
+      </label>
+      <label class="field checkbox">
+        <input type="checkbox" id="trimCheck">
+        <span>전단(트리밍) 적용 — 상·좌 14mm</span>
+      </label>
+      <label class="field checkbox">
+        <input type="checkbox" id="grainAllToggle">
+        <span>전체 결 지킴</span>
+      </label>
+    </section>
+
+    <section class="block">
+      <h2>재단 항목 입력</h2>
+      <div class="item-form">
+        <input type="number" id="inputW" placeholder="폭(mm)" min="1">
+        <input type="number" id="inputL" placeholder="길이(mm)" min="1">
+        <input type="number" id="inputQ" placeholder="수량" min="1" value="1">
+        <label class="checkbox small"><input type="checkbox" id="inputG"><span>결지킴</span></label>
+        <button id="addItemBtn" type="button">추가</button>
+      </div>
+      <div class="item-list-wrap">
+        <table class="item-list">
+          <thead>
+            <tr><th>폭</th><th>길이</th><th>수량</th><th>결지킴</th><th></th></tr>
+          </thead>
+          <tbody id="itemListBody"></tbody>
+        </table>
+        <p class="empty-hint" id="emptyHint">재단 항목을 입력해 주세요.</p>
+      </div>
+    </section>
+  </aside>
+
+  <main class="panel panel-center">
+    <div class="sheet-tabs" id="sheetTabs"></div>
+    <div class="sheet-view" id="sheetView"></div>
+  </main>
+
+  <aside class="panel panel-right">
+    <section class="block summary-card" id="summaryCard"></section>
+    <section class="block warning-card hidden" id="unplacedCard"></section>
+    <section class="block actions">
+      <button id="previewBtn" type="button">재단 계획서 미리보기</button>
+    </section>
+  </aside>
+
+</div>
+
+<div class="overlay hidden" id="planOverlay">
+  <div class="plan-sheet" id="planSheet">
+    <button class="overlay-close no-print" id="planCloseBtn" type="button">닫기 ✕</button>
+    <div id="planContent"></div>
+    <button class="pdf-btn no-print" id="pdfBtn" type="button">PDF 다운로드</button>
+  </div>
+</div>
+
+<script>
+/**
+ * 영림우드 재단 최적화 엔진 v3
+ * v2(스트립 패킹) → v3: 자유직사각형 기반 재귀 길로틴 분할로 교체.
+ * 스트립 방식은 모든 행이 원장 전체 폭을 쓰는 구조라 혼합 높이 배치를 만들 수 없었음 —
+ * 이번 버전은 자유 영역 리스트를 유지하며 조각을 하나씩 채우고, 채울 때마다 남는 공간을
+ * 길로틴 컷(전체 관통)으로 둘로 쪼개 자유 영역 리스트에 되돌리는 방식.
+ * solve()의 입출력 형태, 1D/2D 판정·재단비·kerf·전단 규칙은 v2와 동일하게 유지.
+ */
+
+const KERF = 4.5;
+const TRIM = 14;
+const MIN_CUT = KERF; // 잔재가 kerf보다 크면 컷으로 셈
+
+const SPECS = {
+  '4x8': { w: 1220, l: 2440 },
+  '3x6': { w: 910,  l: 1820 },
+};
+
+const PRICE = {
+  low:  { d1: 500, d2: 700  },
+  high: { d1: 700, d2: 1000 },
+};
+
+function getPriceTier(t) { return t <= 12 ? 'low' : 'high'; }
+
+const MAX_SHEETS = 200;
+const MAX_DEPTH = 300;
+const TIME_LIMIT_MS = 3000;
+
+// ─── 한 원장 채우기 (자유직사각형 기반 길로틴 배치) ──────
+function guillotineFillSheet(pool, packW, packL, splitMode, rotateTiePref, useTrim) {
+  let freeRects = [{ x: 0, y: 0, w: packW, l: packL, nearWFree: !useTrim }];
+  const placed = [];
+  const remaining = pool.slice();
+  let totalCuts = 0;
+  const cutLog = [];
+
+  for (let i = 0; i < remaining.length;) {
+    const piece = remaining[i];
+    let bestChoice = null;
+
+    for (let fi = 0; fi < freeRects.length; fi++) {
+      const fr = freeRects[fi];
+      for (const orient of piece.orientations) {
+        if (orient.w <= fr.w + 0.01 && orient.l <= fr.l + 0.01) {
+          const leftoverW = fr.w - orient.w;
+          const leftoverL = fr.l - orient.l;
+          const shortFit = Math.min(leftoverW, leftoverL);
+          const better =
+            !bestChoice ||
+            shortFit < bestChoice.shortFit - 0.01 ||
+            (Math.abs(shortFit - bestChoice.shortFit) <= 0.01 &&
+              (rotateTiePref
+                ? (orient.rotated && !bestChoice.orient.rotated)
+                : (!orient.rotated && bestChoice.orient.rotated)));
+          if (better) bestChoice = { fi, orient, leftoverW, leftoverL, shortFit };
+        }
+      }
+    }
+
+    if (!bestChoice) { i++; continue; }
+
+    const fr = freeRects[bestChoice.fi];
+    const { orient, leftoverW, leftoverL } = bestChoice;
+    let needCutW = Math.abs(leftoverW) > 0.01;
+    const needCutL = Math.abs(leftoverL) > 0.01;
+
+    const sameLane = fr.laneW !== undefined && Math.abs(fr.laneW - orient.w) < 0.5;
+    if (sameLane && fr.laneFarCharged) needCutW = false;
+    const needNearW = !fr.nearWFree && !sameLane;
+    const laneFarChargedNow = sameLane ? (fr.laneFarCharged || needCutW) : needCutW;
+
+    placed.push({
+      x: fr.x, y: fr.y, pw: orient.w, pl: orient.l,
+      isFullW: orient.isFullW, isFullL: orient.isFullL, src: piece.src,
+    });
+    totalCuts += (needCutW ? 1 : 0) + (needCutL ? 1 : 0) + (needNearW ? 1 : 0);
+
+    if (needNearW) cutLog.push({ axis: 'W', pos: fr.x, spanFrom: fr.y, spanTo: fr.y + fr.l, idx: piece.src.idx });
+    if (needCutW) cutLog.push({ axis: 'W', pos: fr.x + orient.w, spanFrom: fr.y, spanTo: fr.y + fr.l, idx: piece.src.idx });
+    if (needCutL) cutLog.push({ axis: 'L', pos: fr.y + orient.l, spanFrom: fr.x, spanTo: fr.x + fr.w, idx: piece.src.idx });
+
+    freeRects.splice(bestChoice.fi, 1);
+    remaining.splice(i, 1);
+
+    let prelimCut = false;
+    if (needCutL && !fr.groupPrelimCharged && remaining.length >= 2) {
+      const firstP = remaining[0].src;
+      prelimCut = remaining.some(p => p.src.ow !== firstP.ow || p.src.ol !== firstP.ol);
+    }
+    if (prelimCut) {
+      totalCuts += 1;
+      cutLog.push({ axis: 'L', pos: fr.y + fr.l, spanFrom: fr.x, spanTo: fr.x + fr.w, idx: null, isPrelim: true });
+    }
+    const groupPrelimChargedNow = fr.groupPrelimCharged || prelimCut;
+
+    let useModeA;
+    if (splitMode === 'A') useModeA = true;
+    else if (splitMode === 'B') useModeA = false;
+    else if (splitMode === 'longAxis') useModeA = leftoverW > leftoverL;
+    else useModeA = leftoverW <= leftoverL;
+
+    const newRects = [];
+    if (useModeA) {
+      if (needCutW) newRects.push({ x: fr.x + orient.w + KERF, y: fr.y, w: leftoverW - KERF, l: fr.l, nearWFree: true });
+      if (needCutL) newRects.push({ x: fr.x, y: fr.y + orient.l + KERF, w: orient.w, l: leftoverL - KERF, laneW: orient.w, laneFarCharged: laneFarChargedNow, nearWFree: fr.nearWFree, groupPrelimCharged: groupPrelimChargedNow });
+    } else {
+      if (needCutL) newRects.push({ x: fr.x, y: fr.y + orient.l + KERF, w: fr.w, l: leftoverL - KERF, laneW: orient.w, laneFarCharged: laneFarChargedNow, nearWFree: fr.nearWFree, groupPrelimCharged: groupPrelimChargedNow });
+      if (needCutW) newRects.push({ x: fr.x + orient.w + KERF, y: fr.y, w: leftoverW - KERF, l: orient.l, nearWFree: true });
+    }
+    newRects.forEach(r => { if (r.w > 0.01 && r.l > 0.01) freeRects.push(r); });
+
+    if (freeRects.length > MAX_DEPTH) break;
+  }
+
+  return { placed, freeRects, unplaced: remaining, cuts: totalCuts, cutLog };
+}
+
+// ─── 전체 풀이 ──────────────────────────────────────
+function solve(items, specKey, thickness, useTrim) {
+  const spec = SPECS[specKey];
+  const tier = getPriceTier(thickness);
+  const rate = PRICE[tier];
+
+  const effW = spec.w - (useTrim ? TRIM : 0);
+  const effL_trimmed = spec.l - (useTrim ? TRIM : 0);
+  const rawW = spec.w, rawL = spec.l;
+
+  const allPieces = [];
+  items.forEach((it, idx) => {
+    for (let i = 0; i < it.q; i++) {
+      allPieces.push({ ow: it.w, ol: it.l, grain: it.g, idx });
+    }
+  });
+
+  const prepared = [];
+  const notPlacedGlobal = [];
+  allPieces.forEach(p => {
+    const isOrigFW = (p.ow === rawW);
+    const isOrigFL = (p.ol === rawL);
+    const canRotate = !p.grain && !isOrigFW && !isOrigFL;
+
+    const orients = [];
+    const tryOrient = (w, l, rotated) => {
+      const isFullW = (w === rawW);
+      const isFullL = (l === rawL);
+      const useL = (isFullL || isFullW) ? rawL : effL_trimmed;
+      if (w > effW + 0.01 || l > useL + 0.01) return;
+      orients.push({ w, l, isFullW, isFullL, rotated });
+    };
+    tryOrient(p.ow, p.ol, false);
+    if (canRotate) tryOrient(p.ol, p.ow, true);
+
+    if (orients.length === 0) {
+      notPlacedGlobal.push(p);
+    } else {
+      prepared.push({ orientations: orients, src: p, forcedFull: orients.some(o => o.isFullW || o.isFullL) });
+    }
+  });
+
+  const sorts = [
+    (a, b) => Math.max(b.ow, b.ol) - Math.max(a.ow, a.ol) || Math.min(b.ow, b.ol) - Math.min(a.ow, a.ol),
+    (a, b) => Math.min(b.ow, b.ol) - Math.min(a.ow, a.ol) || Math.max(b.ow, b.ol) - Math.max(a.ow, a.ol),
+    (a, b) => (b.ow * b.ol) - (a.ow * a.ol),
+    (a, b) => Math.min(a.ow, a.ol) - Math.min(b.ow, b.ol) || Math.max(b.ow, b.ol) - Math.max(a.ow, a.ol),
+    (a, b) => Math.max(a.ow, a.ol) - Math.max(b.ow, b.ol) || Math.min(b.ow, b.ol) - Math.min(a.ow, a.ol),
+  ];
+  const splitModes = ['A', 'B', 'longAxis', 'shortAxis'];
+  const rotateTiePrefs = [false, true];
+
+  let best = null;
+  const deadline = Date.now() + TIME_LIMIT_MS;
+
+  outer:
+  for (const sf of sorts) {
+    for (const splitMode of splitModes) {
+      for (const rotateTiePref of rotateTiePrefs) {
+        if (Date.now() > deadline) break outer;
+
+        const orderedPool = prepared.slice().sort((a, b) => sf(a.src, b.src));
+        const sheets = [];
+        let remPool = orderedPool.slice();
+        let sheetGuard = 0;
+
+        while (remPool.length > 0 && sheetGuard++ < MAX_SHEETS) {
+          if (Date.now() > deadline) break;
+
+          const anyFull = remPool.some(p => p.forcedFull);
+          const packW = effW;
+          const packL = anyFull ? rawL : effL_trimmed;
+
+          const { placed, freeRects, unplaced, cuts: partitionCuts, cutLog } = guillotineFillSheet(remPool, packW, packL, splitMode, rotateTiePref, useTrim);
+          if (placed.length === 0) break;
+
+          const allFL = placed.every(it => it.isFullL);
+          const allFW = placed.every(it => it.isFullW);
+          const is1D = allFL || allFW;
+
+          const fullCutLog = cutLog.slice();
+          if (useTrim && !allFL) {
+            fullCutLog.unshift({ axis: 'L', pos: 0, spanFrom: 0, spanTo: effW, idx: null, isLeftTrim: true });
+          }
+          const cuts = fullCutLog.length;
+
+          const unitPrice = is1D ? rate.d1 : rate.d2;
+
+          sheets.push({
+            cutLog: fullCutLog,
+            items: placed.map(it => ({
+              x: it.x, y: it.y, pw: it.pw, pl: it.pl,
+              src: { isFullW: it.isFullW, isFullL: it.isFullL, src: it.src },
+            })),
+            freeRects: freeRects.filter(r => r.w > 0.01 && r.l > 0.01),
+            type: is1D ? '1D' : '2D',
+            cuts,
+            cost: cuts * unitPrice,
+            unitPrice,
+          });
+
+          remPool = unplaced;
+        }
+
+        const strategyUnplaced = notPlacedGlobal.slice();
+        remPool.forEach(p => strategyUnplaced.push(p.src));
+
+        const totalPlaced = sheets.reduce((a, s) => a + s.items.length, 0);
+        const nSheets = sheets.length;
+        const used = sheets.reduce((a, s) =>
+          a + s.items.reduce((b, it) => b + it.pw * it.pl, 0), 0);
+        const totalArea = nSheets * effW * effL_trimmed;
+        const loss = totalArea > 0 ? (1 - used / totalArea) : 1;
+        const totalCost = sheets.reduce((a, s) => a + s.cost, 0);
+
+        if (!best ||
+            totalPlaced > best.totalPlaced ||
+            (totalPlaced === best.totalPlaced && nSheets < best.totalSheets) ||
+            (totalPlaced === best.totalPlaced && nSheets === best.totalSheets && totalCost < best.totalCost) ||
+            (totalPlaced === best.totalPlaced && nSheets === best.totalSheets && totalCost === best.totalCost && loss < best.lossRate)) {
+          best = {
+            sheets, totalPlaced, totalSheets: nSheets, lossRate: loss,
+            totalCuts: sheets.reduce((a, s) => a + s.cuts, 0),
+            totalCost,
+            cuts1D: sheets.filter(s => s.type === '1D').reduce((a, s) => a + s.cuts, 0),
+            cuts2D: sheets.filter(s => s.type === '2D').reduce((a, s) => a + s.cuts, 0),
+            sheets1D: sheets.filter(s => s.type === '1D').length,
+            sheets2D: sheets.filter(s => s.type === '2D').length,
+            unplaced: strategyUnplaced, tier, rate,
+          };
+        }
+      }
+    }
+  }
+
+  if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: allPieces, tier, rate };
+
+  best.unplacedSummary = summarizeUnplaced(best.unplaced, items);
+
+  return best;
+}
+
+function summarizeUnplaced(unplaced, items) {
+  const counts = new Map();
+  unplaced.forEach(p => {
+    const key = p.idx;
+    counts.set(key, (counts.get(key) || 0) + 1);
+  });
+  return Array.from(counts.entries()).map(([idx, count]) => ({
+    idx, w: items[idx].w, l: items[idx].l, count,
+  }));
+}
+
+/**
+ * 영림 재단 견적 — 3분할 작업화면
+ * 엔진의 solve()를 그대로 호출한다. 엔진 로직은 수정하지 않는다.
+ * 배치도는 solve() 결과의 실계산 좌표(x,y,pw,pl)를 그대로 SVG로 변환한다 (임의 도면 금지).
+ */
+
+let items = [];
+let nextId = 1;
+let activeSheetIdx = 0;
+let lastResult = null;
+
+const el = (id) => document.getElementById(id);
+
+el('specSelect').addEventListener('change', recalc);
+el('thicknessInput').addEventListener('input', recalc);
+el('trimCheck').addEventListener('change', recalc);
+el('grainAllToggle').addEventListener('change', () => {
+  const checked = el('grainAllToggle').checked;
+  items.forEach(it => it.g = checked);
+  renderItemList();
+  recalc();
+});
+
+el('addItemBtn').addEventListener('click', () => {
+  const w = parseFloat(el('inputW').value);
+  const l = parseFloat(el('inputL').value);
+  const q = parseInt(el('inputQ').value, 10) || 1;
+  const g = el('inputG').checked;
+
+  if (!(w > 0) || !(l > 0) || !(q >= 1)) {
+    alert('폭·길이는 0보다 큰 숫자, 수량은 1 이상이어야 합니다.');
+    return;
+  }
+  items.push({ id: nextId++, w, l, q, g });
+  el('inputW').value = '';
+  el('inputL').value = '';
+  el('inputQ').value = '1';
+  el('inputG').checked = el('grainAllToggle').checked;
+  el('inputW').focus();
+  renderItemList();
+  recalc();
+});
+
+function removeItem(id) {
+  items = items.filter(it => it.id !== id);
+  renderItemList();
+  recalc();
+}
+
+function recalc() {
+  const specKey = el('specSelect').value;
+  const thickness = parseFloat(el('thicknessInput').value) || 18;
+  const useTrim = el('trimCheck').checked;
+
+  if (items.length === 0) {
+    lastResult = null;
+    renderEmptyState();
+    return;
+  }
+
+  const engineItems = items.map(it => ({ w: it.w, l: it.l, q: it.q, g: it.g }));
+  lastResult = solve(engineItems, specKey, thickness, useTrim);
+  lastResult._specKey = specKey;
+  lastResult._thickness = thickness;
+  lastResult._useTrim = useTrim;
+
+  if (activeSheetIdx >= lastResult.sheets.length) activeSheetIdx = 0;
+
+  renderSheetTabs();
+  renderSheetView();
+  renderSummary();
+  renderUnplaced();
+}
+
+function renderItemList() {
+  const body = el('itemListBody');
+  body.innerHTML = '';
+  el('emptyHint').classList.toggle('hidden', items.length > 0);
+  items.forEach(it => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${it.w}</td>
+      <td>${it.l}</td>
+      <td>${it.q}</td>
+      <td>${it.g ? 'O' : '-'}</td>
+      <td><button class="del-btn" type="button" aria-label="삭제">✕</button></td>
+    `;
+    tr.querySelector('.del-btn').addEventListener('click', () => removeItem(it.id));
+    body.appendChild(tr);
+  });
+}
+
+function renderEmptyState() {
+  el('sheetTabs').innerHTML = '';
+  el('sheetView').innerHTML = '<p class="empty-hint">재단 항목을 추가하면 배치도가 표시됩니다.</p>';
+  el('summaryCard').innerHTML = '';
+  el('unplacedCard').classList.add('hidden');
+}
+
+function renderSheetTabs() {
+  const tabs = el('sheetTabs');
+  tabs.innerHTML = '';
+  if (!lastResult || lastResult.sheets.length === 0) return;
+  lastResult.sheets.forEach((sheet, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = `원장 ${i + 1} (${sheet.type})`;
+    btn.className = i === activeSheetIdx ? 'active' : '';
+    btn.addEventListener('click', () => {
+      activeSheetIdx = i;
+      renderSheetTabs();
+      renderSheetView();
+    });
+    tabs.appendChild(btn);
+  });
+}
+
+function renderSheetView() {
+  const view = el('sheetView');
+  view.innerHTML = '';
+  if (!lastResult || lastResult.sheets.length === 0) {
+    if (lastResult && lastResult.unplaced.length > 0 && items.length > 0) {
+      view.innerHTML = '<p class="empty-hint">배치 가능한 항목이 없습니다. 우측 미배치 안내를 확인하세요.</p>';
+    }
+    return;
+  }
+  const sheet = lastResult.sheets[activeSheetIdx];
+  const title = document.createElement('div');
+  title.className = `sheet-title type-${sheet.type.toLowerCase()}`;
+  title.textContent = `원장 ${activeSheetIdx + 1} — ${lastResult._specKey} / ${lastResult._thickness}T — ${sheet.type}·${sheet.cuts}컷 — ${sheet.cost.toLocaleString()}원`;
+  view.appendChild(title);
+  view.appendChild(buildSheetSvg(sheet, lastResult._specKey, lastResult._useTrim));
+}
+
+function buildSheetSvg(sheet, specKey, useTrim) {
+  const spec = SPECS[specKey];
+  const rawW = spec.w, rawL = spec.l;
+
+  const allFL = sheet.items.every(it => it.src.isFullL);
+  const insetTop = useTrim ? TRIM : 0;
+  const insetLeft = (useTrim && !allFL) ? TRIM : 0;
+
+  function toScreen(x, y, pw, pl) {
+    return { sx: insetLeft + y, sy: insetTop + x, sw: pl, sh: pw };
+  }
+
+  const maxW = 720;
+  const scale = maxW / rawL;
+  const svgW = rawL * scale;
+  const svgH = rawW * scale;
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.setAttribute('width', svgW);
+  svg.setAttribute('height', svgH);
+
+  const outline = document.createElementNS(svgNS, 'rect');
+  outline.setAttribute('class', 'sheet-outline');
+  outline.setAttribute('x', 0); outline.setAttribute('y', 0);
+  outline.setAttribute('width', svgW); outline.setAttribute('height', svgH);
+  svg.appendChild(outline);
+
+  if (useTrim) {
+    if (insetTop > 0) {
+      svg.appendChild(rectEl(svgNS, 0, 0, svgW, insetTop * scale, 'trim-rect'));
+    }
+    if (insetLeft > 0) {
+      svg.appendChild(rectEl(svgNS, 0, 0, insetLeft * scale, svgH, 'trim-rect'));
+    }
+  }
+
+  (sheet.freeRects || []).forEach(fr => {
+    const g = toScreen(fr.x, fr.y, fr.w, fr.l);
+    svg.appendChild(rectEl(svgNS, g.sx * scale, g.sy * scale, g.sw * scale, g.sh * scale, 'scrap-rect'));
+  });
+
+  sheet.items.forEach((it, idx) => {
+    const g = toScreen(it.x, it.y, it.pw, it.pl);
+    svg.appendChild(rectEl(svgNS, g.sx * scale, g.sy * scale, g.sw * scale, g.sh * scale,
+      `piece-rect type-${sheet.type.toLowerCase()}`));
+
+    const label = document.createElementNS(svgNS, 'text');
+    label.setAttribute('class', 'piece-label');
+    label.setAttribute('x', (g.sx + g.sw / 2) * scale);
+    label.setAttribute('y', (g.sy + g.sh / 2) * scale);
+    label.textContent = `#${idx + 1} ${Math.round(g.sw)}×${Math.round(g.sh)}`;
+    svg.appendChild(label);
+  });
+
+  return svg;
+}
+
+function rectEl(svgNS, x, y, w, h, cls) {
+  const r = document.createElementNS(svgNS, 'rect');
+  r.setAttribute('x', x); r.setAttribute('y', y);
+  r.setAttribute('width', Math.max(w, 0)); r.setAttribute('height', Math.max(h, 0));
+  r.setAttribute('class', cls);
+  return r;
+}
+
+function renderSummary() {
+  const card = el('summaryCard');
+  if (!lastResult) { card.innerHTML = ''; return; }
+  const r = lastResult;
+  card.innerHTML = `
+    <h2>결과 요약</h2>
+    <div class="row"><span>필요 원장 수</span><span class="val">${r.totalSheets}장</span></div>
+    <div class="row"><span>로스율</span><span class="val">${(r.lossRate * 100).toFixed(1)}%</span></div>
+    <div class="row"><span>총 컷 수</span><span class="val">${r.totalCuts}회</span></div>
+    <div class="row"><span>&nbsp;&nbsp;1D 컷 / 원장</span><span class="val">${r.cuts1D}회 / ${r.sheets1D}장</span></div>
+    <div class="row"><span>&nbsp;&nbsp;2D 컷 / 원장</span><span class="val">${r.cuts2D}회 / ${r.sheets2D}장</span></div>
+    <div class="row total"><span>총 재단비</span><span class="val">${r.totalCost.toLocaleString()}원</span></div>
+  `;
+}
+
+function renderUnplaced() {
+  const card = el('unplacedCard');
+  if (!lastResult || lastResult.unplacedSummary.length === 0) {
+    card.classList.add('hidden');
+    card.innerHTML = '';
+    return;
+  }
+  const totalCount = lastResult.unplacedSummary.reduce((a, u) => a + u.count, 0);
+  card.classList.remove('hidden');
+  card.innerHTML = `
+    <h3>⚠ 원장에 안 들어가는 항목 ${totalCount}개</h3>
+    <ul>
+      ${lastResult.unplacedSummary.map(u =>
+        `<li>${u.w}×${u.l} — ${u.count}개 (선택한 규격/전단 조건에서 배치 불가)</li>`
+      ).join('')}
+    </ul>
+  `;
+}
+
+el('previewBtn').addEventListener('click', () => {
+  if (!lastResult || items.length === 0) {
+    alert('먼저 재단 항목을 입력해 주세요.');
+    return;
+  }
+  renderPlan();
+  el('planOverlay').classList.remove('hidden');
+});
+el('planCloseBtn').addEventListener('click', () => el('planOverlay').classList.add('hidden'));
+el('pdfBtn').addEventListener('click', () => window.print());
+
+function renderPlan() {
+  const r = lastResult;
+  const spec = SPECS[r._specKey];
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일 ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+  const content = el('planContent');
+  content.innerHTML = `
+    <div class="plan-header">
+      <h2>재단 계획서</h2>
+      <div class="plan-date">${dateStr}</div>
+    </div>
+
+    <div class="plan-section">
+      <h3>판재 정보</h3>
+      <table class="plan-table">
+        <tr><th>규격</th><td>${r._specKey} (${spec.w}×${spec.l})</td>
+            <th>두께</th><td>${r._thickness}T</td>
+            <th>전단</th><td>${r._useTrim ? '적용' : '미적용'}</td></tr>
+      </table>
+    </div>
+
+    <div class="plan-section">
+      <h3>재단 결과</h3>
+      <table class="plan-table">
+        <tr><th>총 판재 수</th><th>재단 횟수</th><th>총 재단비</th></tr>
+        <tr>
+          <td>${r.totalSheets}장</td>
+          <td>${r.totalCuts}회</td>
+          <td>${r.totalCost.toLocaleString()}원</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="plan-section">
+      <h3>재단 항목</h3>
+      <table class="plan-table">
+        <thead><tr><th>폭</th><th>길이</th><th>수량</th><th>결지킴</th></tr></thead>
+        <tbody>
+          ${items.map(it => `<tr><td>${it.w}</td><td>${it.l}</td><td>${it.q}</td><td>${it.g ? 'O' : '-'}</td></tr>`).join('')}
+        </tbody>
+      </table>
+      ${r.unplacedSummary.length > 0 ? `
+        <p style="color:var(--danger);font-size:12px;margin-top:8px;">
+          ⚠ 미배치: ${r.unplacedSummary.map(u => `${u.w}×${u.l} ${u.count}개`).join(', ')}
+        </p>` : ''}
+    </div>
+
+    <div class="plan-section">
+      <h3>배치도</h3>
+      <div id="planSheets"></div>
+    </div>
+  `;
+
+  const planSheets = content.querySelector('#planSheets');
+  r.sheets.forEach((sheet, i) => {
+    const wrap = document.createElement('div');
+    wrap.style.marginBottom = '16px';
+    const title = document.createElement('div');
+    title.className = `sheet-title type-${sheet.type.toLowerCase()}`;
+    title.textContent = `원장 ${i + 1} — ${sheet.type}·${sheet.cuts}컷 — ${sheet.cost.toLocaleString()}원`;
+    wrap.appendChild(title);
+    wrap.appendChild(buildSheetSvg(sheet, r._specKey, r._useTrim));
+    planSheets.appendChild(wrap);
+  });
+}
+
+renderItemList();
+renderEmptyState();
+</script>
+</html>
