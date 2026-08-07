@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>영림 재단 견적</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <h1>영림 재단 견적</h1>
+</header>
+
+<div class="layout">
+
+  <!-- 좌: 규격·두께 선택 + 재단 항목 입력 -->
+  <aside class="panel panel-left">
+    <section class="block">
+      <h2>규격·두께</h2>
+      <label class="field">
+        <span>원장 규격</span>
+        <select id="specSelect">
+          <option value="4x8">4×8 (1220×2440)</option>
+          <option value="3x6">3×6 (910×1820)</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>두께 (mm)</span>
+        <input type="number" id="thicknessInput" value="18" min="1" step="1">
+      </label>
+      <label class="field checkbox">
+        <input type="checkbox" id="trimCheck">
+        <span>전단(트리밍) 적용 — 상·좌 14mm</span>
+      </label>
+      <label class="field checkbox">
+        <input type="checkbox" id="grainAllToggle">
+        <span>전체 결 지킴</span>
+      </label>
+    </section>
+
+    <section class="block">
+      <h2>재단 항목 입력</h2>
+      <div class="item-form">
+        <input type="number" id="inputW" placeholder="폭(mm)" min="1">
+        <input type="number" id="inputL" placeholder="길이(mm)" min="1">
+        <input type="number" id="inputQ" placeholder="수량" min="1" value="1">
+        <label class="checkbox small"><input type="checkbox" id="inputG"><span>결지킴</span></label>
+        <button id="addItemBtn" type="button">추가</button>
+      </div>
+      <div class="item-list-wrap">
+        <table class="item-list">
+          <thead>
+            <tr><th>폭</th><th>길이</th><th>수량</th><th>결지킴</th><th></th></tr>
+          </thead>
+          <tbody id="itemListBody"></tbody>
+        </table>
+        <p class="empty-hint" id="emptyHint">재단 항목을 입력해 주세요.</p>
+      </div>
+    </section>
+  </aside>
+
+  <!-- 중앙: 배치 도면 -->
+  <main class="panel panel-center">
+    <div class="sheet-tabs" id="sheetTabs"></div>
+    <div class="sheet-view" id="sheetView"></div>
+  </main>
+
+  <!-- 우: 결과 요약 -->
+  <aside class="panel panel-right">
+    <section class="block summary-card" id="summaryCard"></section>
+    <section class="block warning-card hidden" id="unplacedCard"></section>
+    <section class="block actions">
+      <button id="previewBtn" type="button">재단 계획서 미리보기</button>
+    </section>
+  </aside>
+
+</div>
+
+<!-- 재단 계획서 오버레이 -->
+<div class="overlay hidden" id="planOverlay">
+  <div class="plan-sheet" id="planSheet">
+    <button class="overlay-close no-print" id="planCloseBtn" type="button">닫기 ✕</button>
+    <div id="planContent"></div>
+    <button class="pdf-btn no-print" id="pdfBtn" type="button">PDF 다운로드</button>
+  </div>
+</div>
+
+<script src="../files/jaedan_engine_v2.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
