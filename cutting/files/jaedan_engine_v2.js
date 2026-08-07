@@ -9,7 +9,7 @@
  */
 
 const KERF = 4.5;
-const TRIM = 14;
+const TRIM = 5;
 const MIN_CUT = KERF; // 잔재가 kerf보다 크면 컷으로 셈
 
 const SPECS = {
