@@ -362,7 +362,7 @@ const MAX_DEPTH = 300;
 const TIME_LIMIT_MS = 3000;
 
 // ─── 한 원장 채우기 (자유직사각형 기반 길로틴 배치) ──────
-function guillotineFillSheet(pool, packW, packL, splitMode, rotateTiePref, useTrim) {
+function guillotineFillSheet(pool, packW, packL, splitMode, rotateTiePref, useTrim, globalBestFit) {
   let freeRects = [{ x: 0, y: 0, w: packW, l: packL, nearWFree: !useTrim }];
   const placed = [];
   const remaining = pool.slice();
@@ -370,30 +370,35 @@ function guillotineFillSheet(pool, packW, packL, splitMode, rotateTiePref, useTr
   const cutLog = [];
 
   for (let i = 0; i < remaining.length;) {
-    const piece = remaining[i];
     let bestChoice = null;
+    const pieceRange = globalBestFit ? remaining.map((_, idx) => idx) : [i];
 
-    for (let fi = 0; fi < freeRects.length; fi++) {
-      const fr = freeRects[fi];
-      for (const orient of piece.orientations) {
-        if (orient.w <= fr.w + 0.01 && orient.l <= fr.l + 0.01) {
-          const leftoverW = fr.w - orient.w;
-          const leftoverL = fr.l - orient.l;
-          const shortFit = Math.min(leftoverW, leftoverL);
-          const better =
-            !bestChoice ||
-            shortFit < bestChoice.shortFit - 0.01 ||
-            (Math.abs(shortFit - bestChoice.shortFit) <= 0.01 &&
-              (rotateTiePref
-                ? (orient.rotated && !bestChoice.orient.rotated)
-                : (!orient.rotated && bestChoice.orient.rotated)));
-          if (better) bestChoice = { fi, orient, leftoverW, leftoverL, shortFit };
+    for (const pi of pieceRange) {
+      const piece = remaining[pi];
+      for (let fi = 0; fi < freeRects.length; fi++) {
+        const fr = freeRects[fi];
+        for (const orient of piece.orientations) {
+          if (orient.w <= fr.w + 0.01 && orient.l <= fr.l + 0.01) {
+            const leftoverW = fr.w - orient.w;
+            const leftoverL = fr.l - orient.l;
+            const shortFit = Math.min(leftoverW, leftoverL);
+            const better =
+              !bestChoice ||
+              shortFit < bestChoice.shortFit - 0.01 ||
+              (Math.abs(shortFit - bestChoice.shortFit) <= 0.01 &&
+                (rotateTiePref
+                  ? (orient.rotated && !bestChoice.orient.rotated)
+                  : (!orient.rotated && bestChoice.orient.rotated)));
+            if (better) bestChoice = { pi, fi, orient, leftoverW, leftoverL, shortFit };
+          }
         }
       }
     }
 
     if (!bestChoice) { i++; continue; }
+    i = bestChoice.pi;
 
+    const piece = remaining[i];
     const fr = freeRects[bestChoice.fi];
     const { orient, leftoverW, leftoverL } = bestChoice;
     let needCutW = Math.abs(leftoverW) > 0.01;
@@ -504,8 +509,10 @@ function solve(items, specKey, thickness, useTrim) {
 
   let best = null;
   const deadline = Date.now() + TIME_LIMIT_MS;
+  const globalBestFitOptions = [false, true];
 
   outer:
+  for (const globalBestFit of globalBestFitOptions) {
   for (const sf of sorts) {
     for (const splitMode of splitModes) {
       for (const rotateTiePref of rotateTiePrefs) {
@@ -523,7 +530,7 @@ function solve(items, specKey, thickness, useTrim) {
           const packW = effW;
           const packL = anyFull ? rawL : effL_trimmed;
 
-          const { placed, freeRects, unplaced, cuts: partitionCuts, cutLog } = guillotineFillSheet(remPool, packW, packL, splitMode, rotateTiePref, useTrim);
+          const { placed, freeRects, unplaced, cuts: partitionCuts, cutLog } = guillotineFillSheet(remPool, packW, packL, splitMode, rotateTiePref, useTrim, globalBestFit);
           if (placed.length === 0) break;
 
           const allFL = placed.every(it => it.isFullL);
@@ -583,6 +590,7 @@ function solve(items, specKey, thickness, useTrim) {
         }
       }
     }
+  }
   }
 
   if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: allPieces, tier, rate };

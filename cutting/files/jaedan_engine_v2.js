@@ -41,7 +41,7 @@ const TIME_LIMIT_MS = 3000; // 전략 탐색 전체 시간 제한
 // splitMode 'B' = 길이 잔여가 자유영역 전체 폭을 이어받음(항상)
 // splitMode 'longAxis'/'shortAxis' = 분할마다 두 방향을 실제로 비교해 더 큰(작은) 잔여 쪽이
 //   전체 폭/길이를 이어받도록 그때그때 선택.
-function guillotineFillSheet(pool, packW, packL, splitMode, rotateTiePref, useTrim) {
+function guillotineFillSheet(pool, packW, packL, splitMode, rotateTiePref, useTrim, globalBestFit) {
   // nearWFree: 이 자유영역의 "가까운 쪽"(폭축) 경계가 방금 만들어진 조각-잔여 경계라서
   // 누구든 여기 들어오는 조각이 무조건 무료로 상속받는 경우 true. 전단 없음(useTrim=false)일
   // 때는 원장 가장자리 자체이므로 처음부터 무료.
@@ -51,31 +51,42 @@ function guillotineFillSheet(pool, packW, packL, splitMode, rotateTiePref, useTr
   let totalCuts = 0;
   const cutLog = []; // 실제 물리적 컷 순서 재구성용 — 재단 계획서의 "작업 순서" 표시에 사용
 
+  // globalBestFit: 정해진 조각 순서(pool 순서)대로 하나씩만 자유영역에 맞춰보는 게 아니라,
+  // 매 단계마다 "남은 조각 전체 × 자유영역 전체" 조합 중 최선(best-short-side-fit)을 찾는다.
+  // 순서 고정 방식은 특정 배치(예: 서로 다른 길이의 조각들이 같은 레인에 먼저 들어가야
+  // 나머지가 맞물리는 경우)를 못 찾는 사례가 있어 추가한 보조 전략 — 기존 40개 전략과
+  // 결과를 비교해 더 나은 쪽을 solve()가 선택하므로, 이 모드가 기존 확정 케이스를
+  // 깨뜨릴 위험은 없다(추가만 될 뿐 대체하지 않음).
   for (let i = 0; i < remaining.length;) {
-    const piece = remaining[i];
     let bestChoice = null;
+    const pieceRange = globalBestFit ? remaining.map((_, idx) => idx) : [i];
 
-    for (let fi = 0; fi < freeRects.length; fi++) {
-      const fr = freeRects[fi];
-      for (const orient of piece.orientations) {
-        if (orient.w <= fr.w + 0.01 && orient.l <= fr.l + 0.01) {
-          const leftoverW = fr.w - orient.w;
-          const leftoverL = fr.l - orient.l;
-          const shortFit = Math.min(leftoverW, leftoverL);
-          const better =
-            !bestChoice ||
-            shortFit < bestChoice.shortFit - 0.01 ||
-            (Math.abs(shortFit - bestChoice.shortFit) <= 0.01 &&
-              (rotateTiePref
-                ? (orient.rotated && !bestChoice.orient.rotated)
-                : (!orient.rotated && bestChoice.orient.rotated)));
-          if (better) bestChoice = { fi, orient, leftoverW, leftoverL, shortFit };
+    for (const pi of pieceRange) {
+      const piece = remaining[pi];
+      for (let fi = 0; fi < freeRects.length; fi++) {
+        const fr = freeRects[fi];
+        for (const orient of piece.orientations) {
+          if (orient.w <= fr.w + 0.01 && orient.l <= fr.l + 0.01) {
+            const leftoverW = fr.w - orient.w;
+            const leftoverL = fr.l - orient.l;
+            const shortFit = Math.min(leftoverW, leftoverL);
+            const better =
+              !bestChoice ||
+              shortFit < bestChoice.shortFit - 0.01 ||
+              (Math.abs(shortFit - bestChoice.shortFit) <= 0.01 &&
+                (rotateTiePref
+                  ? (orient.rotated && !bestChoice.orient.rotated)
+                  : (!orient.rotated && bestChoice.orient.rotated)));
+            if (better) bestChoice = { pi, fi, orient, leftoverW, leftoverL, shortFit };
+          }
         }
       }
     }
 
     if (!bestChoice) { i++; continue; } // 이 원장 자유영역엔 못 들어감 → 다음 원장에서 시도
+    i = bestChoice.pi;
 
+    const piece = remaining[i];
     const fr = freeRects[bestChoice.fi];
     const { orient, leftoverW, leftoverL } = bestChoice;
     // 잔여가 작은 양수든 음수든(kerf 반올림으로 거의 다 써버린 경우 포함) 그 조각을 판에서
@@ -211,8 +222,13 @@ function solve(items, specKey, thickness, useTrim) {
 
   let best = null;
   const deadline = Date.now() + TIME_LIMIT_MS;
+  // globalBestFit=true: 순서 고정 대신 매 단계 "남은 조각 전체" 중 최선을 찾는 보조 전략도
+  // 함께 탐색(§ guillotineFillSheet 주석 참고) — 기존 전략에 추가만 되므로 확정 케이스에
+  // 영향 없음.
+  const globalBestFitOptions = [false, true];
 
   outer:
+  for (const globalBestFit of globalBestFitOptions) {
   for (const sf of sorts) {
     for (const splitMode of splitModes) {
       for (const rotateTiePref of rotateTiePrefs) {
@@ -232,7 +248,7 @@ function solve(items, specKey, thickness, useTrim) {
           const packL = anyFull ? rawL : effL_trimmed;
 
           const { placed, freeRects, unplaced, cuts: partitionCuts, cutLog } = guillotineFillSheet(
-            remPool, packW, packL, splitMode, rotateTiePref, useTrim);
+            remPool, packW, packL, splitMode, rotateTiePref, useTrim, globalBestFit);
           if (placed.length === 0) break; // 더 못 채움
 
           const allFL = placed.every(it => it.isFullL);
@@ -297,6 +313,7 @@ function solve(items, specKey, thickness, useTrim) {
         }
       }
     }
+  }
   }
 
   if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: allPieces, tier, rate };
