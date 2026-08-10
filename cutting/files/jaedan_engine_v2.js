@@ -162,6 +162,113 @@ function guillotineFillSheet(pool, packW, packL, splitMode, rotateTiePref, useTr
   return { placed, freeRects, unplaced: remaining, cuts: totalCuts, cutLog };
 }
 
+// ─── 백트래킹 완전탐색 (1장에 다 들어가는지 확실히 확인) ──────
+// guillotineFillSheet + 80개 전략은 전부 "그 순간 최선"만 고르는 휴리스틱이라, 특정 조각
+// 조합에서는 이론적으로 1장에 들어가는 배치가 있어도 못 찾는 경우가 있다(순서/분할 선택이
+// 잘못 꼬이면 되돌리지 않으므로). 이 함수는 실패하면 되돌아가 다른 선택지를 시도하는 진짜
+// 백트래킹이라, 시간/노드 예산 안에서 끝나기만 하면 "1장에 다 들어가는가"를 확실하게
+// 판정한다(휴리스틱처럼 특정 배치를 놓치지 않음). 컷 집계 규칙은 guillotineFillSheet와
+// 완전히 동일하게 맞춤(다른 결과가 나오면 안 되므로).
+function backtrackFillSheet(pool, packW, packL, splitMode, useTrim, deadline, nodeBudget) {
+  let freeRects = [{ x: 0, y: 0, w: packW, l: packL, nearWFree: !useTrim }];
+  const placed = [];
+  const cutLog = [];
+  let totalCuts = 0;
+  const remaining = pool.slice();
+  let nodeCount = 0;
+
+  function step() {
+    if (remaining.length === 0) return true;
+    if (Date.now() > deadline || nodeCount > nodeBudget) return false;
+    nodeCount++;
+
+    const candidates = [];
+    for (let pi = 0; pi < remaining.length; pi++) {
+      const piece = remaining[pi];
+      for (let fi = 0; fi < freeRects.length; fi++) {
+        const fr = freeRects[fi];
+        for (const orient of piece.orientations) {
+          if (orient.w <= fr.w + 0.01 && orient.l <= fr.l + 0.01) {
+            const leftoverW = fr.w - orient.w;
+            const leftoverL = fr.l - orient.l;
+            candidates.push({ pi, fi, orient, leftoverW, leftoverL, shortFit: Math.min(leftoverW, leftoverL) });
+          }
+        }
+      }
+    }
+    if (candidates.length === 0) return false;
+    candidates.sort((a, b) => a.shortFit - b.shortFit);
+    // 분기 제한 없이 best-fit 순으로 전부 시도 — 상위 몇 개로만 제한하면 정답이 그 밖에
+    // 있는 경우를 놓친다(실사용 사례로 확인됨). 시간/노드 예산이 안전장치 역할.
+    for (const cand of candidates) {
+      const savedFree = freeRects.slice();
+      const savedRemaining = remaining.slice();
+      const savedCutLogLen = cutLog.length;
+      const savedTotalCuts = totalCuts;
+      const savedPlacedLen = placed.length;
+
+      const piece = remaining[cand.pi];
+      const fr = freeRects[cand.fi];
+      const { orient, leftoverW, leftoverL } = cand;
+      let needCutW = Math.abs(leftoverW) > 0.01;
+      const needCutL = Math.abs(leftoverL) > 0.01;
+      const sameLane = fr.laneW !== undefined && Math.abs(fr.laneW - orient.w) < 0.5;
+      if (sameLane && fr.laneFarCharged) needCutW = false;
+      const needNearW = !fr.nearWFree && !sameLane;
+      const laneFarChargedNow = sameLane ? (fr.laneFarCharged || needCutW) : needCutW;
+
+      placed.push({ x: fr.x, y: fr.y, pw: orient.w, pl: orient.l, isFullW: orient.isFullW, isFullL: orient.isFullL, src: piece.src });
+      totalCuts += (needCutW ? 1 : 0) + (needCutL ? 1 : 0) + (needNearW ? 1 : 0);
+      if (needNearW) cutLog.push({ axis: 'W', pos: fr.x, spanFrom: fr.y, spanTo: fr.y + fr.l, idx: piece.src.idx });
+      if (needCutW) cutLog.push({ axis: 'W', pos: fr.x + orient.w, spanFrom: fr.y, spanTo: fr.y + fr.l, idx: piece.src.idx });
+      if (needCutL) cutLog.push({ axis: 'L', pos: fr.y + orient.l, spanFrom: fr.x, spanTo: fr.x + fr.w, idx: piece.src.idx });
+
+      freeRects.splice(cand.fi, 1);
+      remaining.splice(cand.pi, 1);
+
+      let prelimCut = false;
+      if (needCutL && !fr.groupPrelimCharged && remaining.length >= 2) {
+        const firstP = remaining[0].src;
+        prelimCut = remaining.some(p => p.src.ow !== firstP.ow || p.src.ol !== firstP.ol);
+      }
+      if (prelimCut) {
+        totalCuts += 1;
+        cutLog.push({ axis: 'L', pos: fr.y + fr.l, spanFrom: fr.x, spanTo: fr.x + fr.w, idx: null, isPrelim: true });
+      }
+      const groupPrelimChargedNow = fr.groupPrelimCharged || prelimCut;
+
+      let useModeA;
+      if (splitMode === 'A') useModeA = true;
+      else if (splitMode === 'B') useModeA = false;
+      else if (splitMode === 'longAxis') useModeA = leftoverW > leftoverL;
+      else useModeA = leftoverW <= leftoverL;
+
+      const newRects = [];
+      if (useModeA) {
+        if (needCutW) newRects.push({ x: fr.x + orient.w + KERF, y: fr.y, w: leftoverW - KERF, l: fr.l, nearWFree: true });
+        if (needCutL) newRects.push({ x: fr.x, y: fr.y + orient.l + KERF, w: orient.w, l: leftoverL - KERF, laneW: orient.w, laneFarCharged: laneFarChargedNow, nearWFree: fr.nearWFree, groupPrelimCharged: groupPrelimChargedNow });
+      } else {
+        if (needCutL) newRects.push({ x: fr.x, y: fr.y + orient.l + KERF, w: fr.w, l: leftoverL - KERF, laneW: orient.w, laneFarCharged: laneFarChargedNow, nearWFree: fr.nearWFree, groupPrelimCharged: groupPrelimChargedNow });
+        if (needCutW) newRects.push({ x: fr.x + orient.w + KERF, y: fr.y, w: leftoverW - KERF, l: orient.l, nearWFree: true });
+      }
+      newRects.forEach(r => { if (r.w > 0.01 && r.l > 0.01) freeRects.push(r); });
+
+      if (step()) return true;
+
+      // 실패 → 되돌리기
+      freeRects = savedFree;
+      remaining.length = 0; Array.prototype.push.apply(remaining, savedRemaining);
+      cutLog.length = savedCutLogLen;
+      totalCuts = savedTotalCuts;
+      placed.length = savedPlacedLen;
+    }
+    return false;
+  }
+
+  const success = step();
+  return { placed, freeRects, unplaced: remaining, cuts: totalCuts, cutLog, success };
+}
+
 // ─── 전체 풀이 ──────────────────────────────────────
 function solve(items, specKey, thickness, useTrim) {
   const spec = SPECS[specKey];
@@ -314,6 +421,58 @@ function solve(items, specKey, thickness, useTrim) {
       }
     }
   }
+  }
+
+  // 80개 휴리스틱 전략이 전부 2장 이상으로 계산했어도, 실제로는 1장에 다 들어가는 배치가
+  // 존재할 수 있다(휴리스틱은 그 순간 최선만 고르고 되돌리지 않으므로 특정 배치를 놓칠 수
+  // 있음 — 실사용 사례로 확인됨). 백트래킹으로 "1장에 전부 들어가는가"를 확실하게 한 번 더
+  // 확인하고, 되면 그 결과로 교체한다. 이미 1장에 다 들어간 케이스는 건드리지 않으므로
+  // (조건: totalSheets > 1) 기존 확정 케이스에는 영향 없음.
+  if (best && best.totalSheets > 1 && prepared.length > 0) {
+    const anyFullGlobal = prepared.some(p => p.forcedFull);
+    const btPackW = effW;
+    const btPackL = anyFullGlobal ? rawL : effL_trimmed;
+    const btDeadline = Date.now() + 2000;
+    const btNodeBudget = 100000;
+    for (const splitMode of splitModes) {
+      if (Date.now() > btDeadline) break;
+      const bt = backtrackFillSheet(prepared.slice(), btPackW, btPackL, splitMode, useTrim, btDeadline, btNodeBudget);
+      if (bt.success && bt.placed.length === prepared.length) {
+        const allFL = bt.placed.every(it => it.isFullL);
+        const allFW = bt.placed.every(it => it.isFullW);
+        const is1D = allFL || allFW;
+        const fullCutLog = bt.cutLog.slice();
+        if (useTrim && !allFL) {
+          fullCutLog.unshift({ axis: 'L', pos: 0, spanFrom: 0, spanTo: effW, idx: null, isLeftTrim: true });
+        }
+        const cuts = fullCutLog.length;
+        const unitPrice = is1D ? rate.d1 : rate.d2;
+        const sheet = {
+          items: bt.placed.map(it => ({
+            x: it.x, y: it.y, pw: it.pw, pl: it.pl,
+            src: { isFullW: it.isFullW, isFullL: it.isFullL, src: it.src },
+          })),
+          freeRects: bt.freeRects.filter(r => r.w > 0.01 && r.l > 0.01),
+          type: is1D ? '1D' : '2D',
+          cuts, cost: cuts * unitPrice, unitPrice, cutLog: fullCutLog,
+        };
+        const totalPlaced = bt.placed.length;
+        const used = bt.placed.reduce((a, it) => a + it.pw * it.pl, 0);
+        const totalArea = effW * effL_trimmed;
+        const loss = totalArea > 0 ? (1 - used / totalArea) : 1;
+
+        if (totalPlaced > best.totalPlaced || (totalPlaced === best.totalPlaced && 1 < best.totalSheets)) {
+          best = {
+            sheets: [sheet], totalPlaced, totalSheets: 1, lossRate: loss,
+            totalCuts: sheet.cuts, totalCost: sheet.cost,
+            cuts1D: is1D ? sheet.cuts : 0, cuts2D: is1D ? 0 : sheet.cuts,
+            sheets1D: is1D ? 1 : 0, sheets2D: is1D ? 0 : 1,
+            unplaced: notPlacedGlobal.slice(), tier, rate,
+          };
+        }
+        break;
+      }
+    }
   }
 
   if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: allPieces, tier, rate };
