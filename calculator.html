@@ -13,6 +13,11 @@
     <meta property="og:description" content="석고보드, 경량철골, 단열재 등 전 품목 실시간 온라인 단가 제공 및 즉시 견적 확인.">
     <meta property="og:type" content="website">
 
+    <!-- Favicon / App Icon -->
+    <link rel="icon" type="image/svg+xml" href="assets/logo/app-icon.svg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
     <!-- Fonts: Pretendard for Korean, Montserrat for English Numbers/Headers -->
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
@@ -853,6 +858,93 @@
             display: none;
         }
 
+        .group-card-wrapper {
+            margin-bottom: 10px;
+        }
+
+        .group-card-wrapper .group-card {
+            margin-bottom: 0;
+        }
+
+        .group-card-wrapper.open .group-card {
+            border-color: var(--color-accent-orange);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .group-card-wrapper.open .group-card-chevron {
+            transform: rotate(90deg);
+        }
+
+        .group-accordion-panel {
+            padding: 0 16px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-accent-orange);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .group-accordion-panel:empty {
+            display: none;
+            padding: 0;
+            border: none;
+        }
+
+        /* 아코디언 세부 품목 한 줄 레이아웃 — 패널(카드) 실제 폭에 맞춰 우측 끝까지 채우고,
+           단가/담기 묶음은 우측에 딱 붙임(모바일 바텀시트의 .option-card와는 별개 클래스) */
+        .option-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .option-row:last-child {
+            border-bottom: none;
+        }
+
+        .option-row-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .option-row-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .option-row-spec-inline {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--color-text-muted);
+            margin-left: 6px;
+        }
+
+        .option-row.highlight-row {
+            background: var(--color-accent-orange-light);
+        }
+
+        .option-row-price {
+            flex-shrink: 0;
+            min-width: 100px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-accent-orange);
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .option-row-controls {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .group-card {
             display: flex;
             align-items: center;
@@ -923,6 +1015,7 @@
             width: 20px;
             height: 20px;
             stroke: var(--color-text-muted);
+            transition: transform 0.2s ease;
         }
 
         /* ===== 지시서#03 G2: 옵션 선택 바텀시트 ===== */
@@ -2577,6 +2670,17 @@
                 font-size: 13px;
             }
         }
+
+        /* PC 전용 콘텐츠 폭 확대 — 모바일은 위 기본값(.container 1200px, .header-wrap 미지정=1200px 상속) 그대로 유지 */
+        @media (min-width: 769px) {
+            .container {
+                max-width: 1400px;
+            }
+
+            .header-wrap {
+                max-width: 1600px;
+            }
+        }
     </style>
 
 </head>
@@ -2587,8 +2691,10 @@
     <header id="header">
         <div class="container header-wrap">
             <a href="index.html" class="logo-area">
-                <svg viewBox="0 0 24 24">
-                    <path d="M19 12h-2v3h-2v-3h-2v6h6v-6zm-8 6V6l-7 6 7 6zm3-8V6h6v4h-6z" />
+                <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <path d="M6 47 L42 11 L42 83 Z" />
+                    <rect x="46" y="11" width="48" height="24" rx="3" />
+                    <path d="M46 53 L66 53 L66 41 L94 41 L94 89 L46 89 Z" />
                 </svg>
                 <div class="logo-text">영림우드<span>.</span></div>
             </a>
@@ -3328,17 +3434,30 @@
             return result;
         }
 
-        function getCsvValue(row, aliases) {
-            const normalizedAliases = aliases.map(alias => String(alias).trim().toLowerCase());
-            const headerMap = {};
-            row.forEach((value, index) => {
+        // 구글시트 연동 근본 버그 수정: 이전엔 getCsvValue(row, aliases)가 매번 "지금 조회하려는
+        // 그 데이터 행 자신"의 셀 값들을 헤더인 것처럼 headerMap으로 만들어 조회했음(예: 데이터행이
+        // ['1','','MDF 3T','4x8...','장','4500','']이면 이 값들 자체를 키로 삼음) — 실제 헤더 행
+        // (No/품목코드/품명/규격/단위/단가/그룹)은 fetchSheetData에서 변수로만 잡아두고 한 번도
+        // 쓰이지 않았음. 그 결과 모든 별칭(name/price/spec 등)이 단 한 번도 매칭되지 않아 name이
+        // 항상 빈 문자열이 되고, transformSheetRow 뒤의 `.filter(item => item.name)`에서 전 품목이
+        // 걸러져 SHEET_DATA가 결코 채워지지 않았다 — 즉 "NO 컬럼만" 반영 안 된 게 아니라 구글시트
+        // 편집 자체가 통째로 사이트에 반영된 적이 없었고(하드코딩 폴백만 계속 노출됨), 실제 헤더
+        // 문자열을 그대로 넣어 테스트했을 때만 우연히 값이 나와 발견이 늦어졌던 것으로 추정.
+        // 수정: 헤더 행에서 한 번만 만든 인덱스 맵(headerIndex)을 데이터 행 조회에 재사용한다.
+        function buildHeaderIndex(headerRow) {
+            const map = {};
+            headerRow.forEach((value, index) => {
                 const key = String(value || '').trim().toLowerCase();
-                headerMap[key] = index;
+                if (!(key in map)) map[key] = index;
             });
+            return map;
+        }
 
+        function getCsvValue(row, headerIndex, aliases) {
+            const normalizedAliases = aliases.map(alias => String(alias).trim().toLowerCase());
             for (const alias of normalizedAliases) {
-                if (headerMap[alias] !== undefined) {
-                    return row[headerMap[alias]] || '';
+                if (headerIndex[alias] !== undefined) {
+                    return row[headerIndex[alias]] || '';
                 }
             }
             return '';
@@ -3463,12 +3582,8 @@
             'louver_wood', 'hardware'
         ];
 
-        function isMobileViewport() {
-            return window.innerWidth <= 1024;
-        }
-
         function isGroupedUiActive(categoryKey) {
-            return isMobileViewport() && GROUPED_UI_CATEGORIES.includes(categoryKey);
+            return GROUPED_UI_CATEGORIES.includes(categoryKey);
         }
 
         function getGroupsForCategory(categoryKey) {
@@ -3546,22 +3661,27 @@
             return groups;
         }
 
-        function transformSheetRow(row, category) {
-            const no = getCsvValue(row, ['no', '번호', '순번', 'id', '넘버']);
-            const code = getCsvValue(row, ['code', '품목코드', '코드']);
-            const name = getCsvValue(row, ['name', '품명', '품목명', '제품명', '현장명', '프로젝트명', '실적명', '현장']);
-            const spec = getCsvValue(row, ['spec', '규격', '사양', '내용', '설명']);
-            const unit = getCsvValue(row, ['unit', '단위', '완료일', '납품일', '시기']);
-            const priceRaw = getCsvValue(row, ['price', '단가', '가격', 'price_krw']);
-            const image = getCsvValue(row, ['image', '이미지', 'img']);
-            const sub = getCsvValue(row, ['sub', '분류', '카테고리']);
-            const groupRaw = getCsvValue(row, ['group', '그룹']);
+        function transformSheetRow(row, category, headerIndex) {
+            const no = getCsvValue(row, headerIndex, ['no', '번호', '순번', 'id', '넘버']);
+            const code = getCsvValue(row, headerIndex, ['code', '품목코드', '코드']);
+            const name = getCsvValue(row, headerIndex, ['name', '품명', '품목명', '제품명', '현장명', '프로젝트명', '실적명', '현장']);
+            const spec = getCsvValue(row, headerIndex, ['spec', '규격', '사양', '내용', '설명']);
+            const unit = getCsvValue(row, headerIndex, ['unit', '단위', '완료일', '납품일', '시기']);
+            const priceRaw = getCsvValue(row, headerIndex, ['price', '단가', '가격', 'price_krw']);
+            const image = getCsvValue(row, headerIndex, ['image', '이미지', 'img']);
+            const sub = getCsvValue(row, headerIndex, ['sub', '분류', '카테고리']);
+            const groupRaw = getCsvValue(row, headerIndex, ['group', '그룹']);
             const price = parseInt(String(priceRaw).replace(/[^0-9]/g, '')) || 0;
             const slug = String(code || no || name || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
             const group = String(groupRaw || '').trim() || (GROUP_FALLBACK[category] ? GROUP_FALLBACK[category](name, spec) : '');
+            // 구글시트 버그 수정: 이전엔 no를 id 생성용 슬러그 재료로만 쓰고 버려서,
+            // 시트에서 "NO"(순번) 값을 바꿔도 화면 노출 순서에 전혀 반영되지 않았음(원본 행 순서 그대로 사용).
+            // 이제 no를 실제 필드로 보존해 fetchSheetData에서 이 값 기준으로 재정렬한다.
+            const noNum = parseInt(String(no).replace(/[^0-9.-]/g, ''), 10);
 
             return {
                 id: `${category}_${slug || 'item'}`,
+                no: isNaN(noNum) ? null : noNum,
                 code: String(code || '').trim(),
                 name: String(name || '').trim(),
                 spec: String(spec || '').trim(),
@@ -3596,10 +3716,20 @@
                 }
 
                 const headerRow = rows[0];
+                const headerIndex = buildHeaderIndex(headerRow);
                 const dataRows = rows.slice(1).filter(row => row.some(cell => String(cell).trim()));
                 const transformed = dataRows
-                    .map(row => transformSheetRow(row, category))
+                    .map(row => transformSheetRow(row, category, headerIndex))
                     .filter(item => item.name);
+
+                // 구글시트 버그 수정: NO(순번) 오름차순으로 정렬해 시트에서 순번을 바꾸면
+                // 실제로 화면 노출 순서가 바뀌도록 함. NO가 비어있는 행은 기존 상대 순서를
+                // 유지한 채(Array.sort는 안정 정렬) 맨 뒤로 보낸다.
+                transformed.sort((a, b) => {
+                    const an = a.no === null ? Infinity : a.no;
+                    const bn = b.no === null ? Infinity : b.no;
+                    return an - bn;
+                });
 
                 if (transformed.length > 0) {
                     SHEET_DATA[category] = transformed;
@@ -3759,16 +3889,6 @@
             renderActiveProducts();
             updateEstimateSummary();
             fetchAllSheetData();
-
-            // 지시서#03 G2: 뷰포트가 모바일↔PC 경계(768px)를 넘나들 때 그룹 UI/테이블 렌더링 모드 재적용
-            let lastIsMobile = isMobileViewport();
-            window.addEventListener("resize", () => {
-                const nowIsMobile = isMobileViewport();
-                if (nowIsMobile !== lastIsMobile) {
-                    lastIsMobile = nowIsMobile;
-                    renderActiveProducts();
-                }
-            });
 
             // Set Hero Date
             const d = new Date();
@@ -3987,13 +4107,16 @@
         }
 
         // 통합 지시서(최종본) 항목7: 견적문의(가격 미확정) 품목은 정렬 방향과 무관하게 항상 뒤로 보냄
+        // 구글시트 버그 수정: 이전엔 dir이 없으면(기본 상태) 그대로 반환해 견적문의 품목이
+        // NO 순번상 위치에 섞여 있었음. 이제 정렬 방향과 무관하게 항상 견적문의를 맨 뒤로 분리한다.
         function sortByPrice(list, dir) {
-            if (!dir) return list;
-            return [...list].sort((a, b) => {
-                const pa = (typeof a.price === 'number' && a.price > 0) ? a.price : Infinity;
-                const pb = (typeof b.price === 'number' && b.price > 0) ? b.price : Infinity;
-                return dir === 'asc' ? pa - pb : pb - pa;
-            });
+            const isQuoteOnly = (item) => !(typeof item.price === 'number' && item.price > 0);
+            const normal = list.filter(item => !isQuoteOnly(item));
+            const quoteOnly = list.filter(isQuoteOnly);
+            if (dir) {
+                normal.sort((a, b) => dir === 'asc' ? a.price - b.price : b.price - a.price);
+            }
+            return [...normal, ...quoteOnly];
         }
 
         // 헤더의 위/아래 화살표 클릭 — 같은 방향을 다시 누르면 정렬 해제(원래 순서로 복귀)
@@ -4067,6 +4190,8 @@
             if (!wrap) return;
             wrap.innerHTML = "";
 
+            openAccordionInfo = null;
+
             const groups = getGroupsForCategory(categoryKey);
             groups.forEach(group => {
                 const firstItem = group.items[0];
@@ -4075,10 +4200,13 @@
                     ? `<img src="${thumbImg}" alt="">`
                     : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2zm0 8h18c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2z"/></svg>`;
 
+                const wrapper = document.createElement("div");
+                wrapper.className = "group-card-wrapper";
+                wrapper.dataset.groupName = group.name;
+
                 const card = document.createElement("div");
                 card.className = "group-card";
                 const effectiveCatKey = group.catKey || categoryKey;
-                card.onclick = () => openOptionSheet(effectiveCatKey, group.name);
                 card.innerHTML = `
                     <div class="group-card-thumb">${thumbContent}</div>
                     <div class="group-card-body">
@@ -4089,8 +4217,46 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
                     </svg>
                 `;
-                wrap.appendChild(card);
+
+                const panel = document.createElement("div");
+                panel.className = "group-accordion-panel";
+
+                card.onclick = () => handleGroupCardClick(effectiveCatKey, group, wrapper, panel);
+
+                wrapper.appendChild(card);
+                wrapper.appendChild(panel);
+                wrap.appendChild(wrapper);
             });
+        }
+
+        // PC(1025px~): 카드 바로 아래로 펼쳐지는 인라인 아코디언(하나만 열림).
+        // 모바일/태블릿(~1024px): 기존 바텀시트 오버레이 그대로 유지.
+        let openAccordionInfo = null;
+
+        function handleGroupCardClick(categoryKey, group, wrapper, panel) {
+            if (window.innerWidth <= 1024) {
+                openOptionSheet(categoryKey, group.name);
+                return;
+            }
+
+            if (openAccordionInfo && openAccordionInfo.wrapper !== wrapper) {
+                closeGroupAccordion(openAccordionInfo.wrapper, openAccordionInfo.panel);
+            }
+
+            if (wrapper.classList.contains("open")) {
+                closeGroupAccordion(wrapper, panel);
+                openAccordionInfo = null;
+            } else {
+                panel.innerHTML = "";
+                group.items.forEach(item => panel.appendChild(buildOptionRowCard(item, categoryKey)));
+                wrapper.classList.add("open");
+                openAccordionInfo = { wrapper, panel };
+            }
+        }
+
+        function closeGroupAccordion(wrapper, panel) {
+            wrapper.classList.remove("open");
+            panel.innerHTML = "";
         }
 
         function buildOptionCard(item, categoryKey) {
@@ -4124,6 +4290,40 @@
                 <div class="option-card-bottom">${controlDisplay}</div>
             `;
             return card;
+        }
+
+        // PC 아코디언 전용 한 줄 레이아웃(품명·규격 / 단가 / 수량·담기가 한 행에, 폭 제한).
+        // 모바일 바텀시트는 위 buildOptionCard()를 그대로 쓰므로 이 함수와 무관.
+        function buildOptionRowCard(item, categoryKey) {
+            const isQuoteOnly = (item.price === 0 || item.price === null || item.price === "견적문의");
+            const priceDisplay = isQuoteOnly
+                ? `<span style="color: var(--color-accent-orange); font-weight: bold;">견적문의</span>`
+                : `<span class="font-num">${formatNumber(item.price)}</span>원<span class="option-card-price-vat">(VAT 별도)</span>`;
+
+            const controlDisplay = isQuoteOnly
+                ? `<button class="btn-inquire" type="button" onclick="inquireProduct('${item.name.replace(/'/g, "\\'")}', '${categoryKey}')">문의하기</button>`
+                : `
+                    <div class="qty-control">
+                        <button class="qty-btn" type="button" onclick="changeStagedQty('${item.id}', -1)">-</button>
+                        <input class="qty-input font-num" type="text" inputmode="numeric" value="1"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            onchange="setStagedQty('${item.id}', this.value)" id="qty-input-${item.id}">
+                        <button class="qty-btn" type="button" onclick="changeStagedQty('${item.id}', 1)">+</button>
+                    </div>
+                    <button class="option-add-btn" type="button" id="add-btn-${item.id}" onclick="handleOptionAdd('${item.id}')">담기</button>
+                `;
+
+            const row = document.createElement("div");
+            row.className = "option-row";
+            row.id = "option-row-" + item.id;
+            row.innerHTML = `
+                <div class="option-row-info">
+                    <div class="option-row-name">${item.name}<span class="option-row-spec-inline">· ${item.spec} · ${item.unit}</span></div>
+                </div>
+                <div class="option-row-price">${priceDisplay}</div>
+                <div class="option-row-controls">${controlDisplay}</div>
+            `;
+            return row;
         }
 
         function openOptionSheet(categoryKey, groupName) {
@@ -4176,8 +4376,13 @@
             flashAddedBtn(document.getElementById("add-btn-" + productId));
         }
 
-        // 검색 결과에서 그룹형 카테고리의 특정 옵션으로 바로 이동 (목록→시트 오픈→해당 옵션 하이라이트)
+        // 검색 결과에서 그룹형 카테고리의 특정 옵션으로 바로 이동.
+        // PC(1025px~)는 소그룹 인라인 아코디언을 펼쳐서 하이라이트, 모바일/태블릿은 기존 바텀시트 그대로.
         function openGroupSheetForItem(categoryKey, item) {
+            if (window.innerWidth > 1024) {
+                openGroupAccordionForItem(categoryKey, item);
+                return;
+            }
             openOptionSheet(categoryKey, item.group || item.name);
             setTimeout(() => {
                 const card = document.getElementById("option-card-" + item.id);
@@ -4185,6 +4390,30 @@
                     card.scrollIntoView({ behavior: "smooth", block: "center" });
                     card.classList.add("highlight-row");
                     setTimeout(() => card.classList.remove("highlight-row"), 2000);
+                }
+            }, 150);
+        }
+
+        function openGroupAccordionForItem(categoryKey, item) {
+            const groupName = item.group || item.name;
+            const groups = getGroupsForCategory(categoryKey);
+            const group = groups.find(g => g.name === groupName);
+            if (!group) return;
+
+            const wrapper = document.querySelector(`.group-card-wrapper[data-group-name="${CSS.escape(groupName)}"]`);
+            if (!wrapper) return;
+            const panel = wrapper.querySelector(".group-accordion-panel");
+
+            if (!wrapper.classList.contains("open")) {
+                handleGroupCardClick(categoryKey, group, wrapper, panel);
+            }
+
+            setTimeout(() => {
+                wrapper.scrollIntoView({ behavior: "smooth", block: "center" });
+                const row = document.getElementById("option-row-" + item.id);
+                if (row) {
+                    row.classList.add("highlight-row");
+                    setTimeout(() => row.classList.remove("highlight-row"), 2000);
                 }
             }, 150);
         }
@@ -4251,6 +4480,13 @@
             if (deliveryAlert) {
                 deliveryAlert.style.display = (categoryKey === "delivery") ? "flex" : "none";
             }
+
+            // 버그 수정: 탭을 바꿔도 품목 목록 스크롤 위치가 이전 탭 위치 그대로 유지되던 문제 —
+            // 콘텐츠 스크롤 컨테이너(PC 표/모바일 그룹 목록)를 탭 전환 시 항상 맨 위로 리셋.
+            const tableWrapEl = document.querySelector(".table-responsive");
+            if (tableWrapEl) tableWrapEl.scrollTop = 0;
+            const groupListEl = document.getElementById("mobileGroupList");
+            if (groupListEl) groupListEl.scrollTop = 0;
 
             renderActiveProducts();
         }

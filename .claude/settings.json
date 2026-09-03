@@ -5,7 +5,16 @@
       "Bash(git ls-tree *)",
       "Bash(git -c core.quotepath=false log --diff-filter=D --oneline -- '*/admin.html' '*/logo.png')",
       "Bash(git -c core.quotepath=false log --name-status --oneline)",
-      "Bash(grep -noE \"#[0-9A-Fa-f]{3,8}|rgba?\\\\\\([^\\)]+\\\\\\)\" index.html)"
+      "Bash(grep -noE \"#[0-9A-Fa-f]{3,8}|rgba?\\\\\\([^\\)]+\\\\\\)\" index.html)",
+      "Bash(PYTHONIOENCODING=utf-8 uv run --with websocket-client --with requests python -c ' *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://mtv-baby-pollution-eye.trycloudflare.com/molding_catalog.html)",
+      "Bash(\"/c/Program Files/Google/Chrome/Application/chrome.exe\" --headless=new --disable-gpu --remote-debugging-port=9222 --remote-allow-origins=* --window-size=375,812 about:blank)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8099/molding_catalog.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://frame-certain-trademarks-sorts.trycloudflare.com/molding_catalog.html)",
+      "Bash(curl -s -o /dev/null -w \"local server: %{http_code}\\\\n\" http://localhost:8099/molding_catalog.html)",
+      "Bash(curl -s -o /dev/null -w \"local server 8080: %{http_code}\\\\n\" http://localhost:8080/molding_catalog.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://titled-presents-farmer-minimum.trycloudflare.com/molding_catalog.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://individually-cycle-logo-actress.trycloudflare.com/molding_catalog.html)"
     ]
   }
 }

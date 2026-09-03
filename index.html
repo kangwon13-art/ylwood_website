@@ -13,6 +13,11 @@
     <meta property="og:description" content="석고보드, 경량철골, 단열재 등 전 품목 실시간 온라인 단가 제공 및 즉시 견적 확인.">
     <meta property="og:type" content="website">
 
+    <!-- Favicon / App Icon -->
+    <link rel="icon" type="image/svg+xml" href="assets/logo/app-icon.svg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
     <!-- Fonts: Pretendard for Korean, Montserrat for English Numbers/Headers -->
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
@@ -87,28 +92,30 @@
             padding: 0 20px;
         }
 
-        /* HEADER */
+        /* HEADER — 대산 참고: 로고만 있는 헤더 유지, 상단 여백 넉넉히 + 헤더 바 자체를 둥근
+           카드 형태로(재발 방지 규칙에 따라 backdrop-filter도 함께 제거) */
         header {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--color-border);
-            padding: 15px 0;
+            background: var(--color-bg-primary);
+            padding: 24px 0 0;
             transition: var(--transition-smooth);
         }
 
         header.scrolled {
-            padding: 10px 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 14px 0 0;
         }
 
         .header-wrap {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid var(--color-border);
+            border-radius: 24px;
+            padding: 18px 32px;
+            box-shadow: var(--shadow-premium);
         }
 
         .logo-area {
@@ -196,7 +203,7 @@
         /* HERO SECTION */
         .hero {
             position: relative;
-            padding: 76px 0 60px;
+            padding: 100px 0 80px;
             background: radial-gradient(circle at 70% 20%, var(--color-accent-orange-light) 0%, var(--color-bg-primary) 65%);
             overflow: hidden;
         }
@@ -212,16 +219,22 @@
             pointer-events: none;
         }
 
+        /* 작업지시서#06 항목3-1(2차): 좌우 비대칭 구조 폐기 → 구글 메인페이지처럼
+           검색창 하나에 집중된 가운데 정렬 미니멀 히어로로 전환 */
         .hero-wrap {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 40px;
-            align-items: center;
+            display: flex;
+            justify-content: center;
         }
 
         .hero-content {
             position: relative;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            max-width: 840px;
         }
 
         .hero-tag {
@@ -235,7 +248,7 @@
             padding: 6px 14px;
             border-radius: 50px;
             border: 1px solid rgba(255, 107, 53, 0.25);
-            margin-bottom: 12px;
+            margin-bottom: 24px;
             animation: pulse-border 2s infinite;
         }
 
@@ -253,13 +266,14 @@
             }
         }
 
+        /* 대산 참고 리브랜딩: 헤드라인을 눈에 띄게 확대 */
         .hero-title {
-            font-size: 42px;
+            font-size: 64px;
             font-weight: 800;
-            line-height: 1.25;
+            line-height: 1.35;
             color: var(--color-text-white);
-            margin-bottom: 16px;
-            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
         }
 
         .hero-title span {
@@ -269,23 +283,97 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* 대산 참고 리브랜딩: 서브카피 텍스트를 큼직하고 명확하게 부활(로고 배지는 검색창 아래로 이동) */
         .hero-desc {
-            font-size: 17px;
-            color: var(--color-text-muted);
-            margin-bottom: 16px;
-            max-width: 580px;
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--color-text-light);
+            margin-bottom: 28px;
+            max-width: 640px;
         }
 
+        /* 히어로 마이크로 수정(3차): 서브카피 텍스트 → 영림우드가 공식 유통하는 브랜드
+           로고 2종(영림몰딩도어/영림키친바스)을 나란히 표시. (4차) 흰 배경 박스 제거한
+           투명 PNG로 교체 + 크기 약 1.5배 확대(26px→39px) */
+        /* 대산 참고 리브랜딩: 검색창 아래 보조 신뢰 요소로 격하 — 서브카피가 부활했으므로
+           배지는 다시 작게(주인공은 헤드라인/서브카피/검색창) */
+        .hero-distributor-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 18px 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-distributor-logo {
+            height: 24px;
+            width: auto;
+            display: block;
+            opacity: 0.85;
+        }
+
+        .hero-distributor-divider {
+            width: 1px;
+            height: 16px;
+            background: var(--color-border);
+            flex-shrink: 0;
+        }
+
+        /* 히어로 마이크로 수정 항목4: 검색창을 한 단계 더 확대 */
         .hero-search {
-            max-width: 520px;
-            margin-bottom: 24px;
+            width: 100%;
+            max-width: 800px;
+            margin: 4px 0 16px;
         }
 
         .hero-search .form-input {
-            height: 54px;
-            font-size: 16px;
-            border-radius: 12px;
+            height: 76px;
+            font-size: 18px;
+            padding-left: 56px !important;
+            border-radius: 16px;
             box-shadow: var(--shadow-premium);
+        }
+
+        .hero-search #globalProductSearchBtn {
+            left: 22px !important;
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 검색창 바로 아래 한 줄: 실시간 갱신 인디케이터 */
+        .hero-live-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--color-text-muted);
+            margin-bottom: 32px;
+        }
+
+        .hero-live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            flex-shrink: 0;
+            animation: hero-live-pulse 2s infinite;
+        }
+
+        @keyframes hero-live-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55);
+            }
+
+            70% {
+                box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
         }
 
         .hero-ctas {
@@ -335,10 +423,10 @@
         .hero-badge-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 50px;
+            gap: 40px;
+            margin-top: 56px;
             border-top: 1px solid var(--color-border);
-            padding-top: 30px;
+            padding-top: 36px;
         }
 
         .hero-badge-item {
@@ -365,34 +453,71 @@
         .hero-image-panel {
             position: relative;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
+            align-items: stretch;
         }
 
-        .hero-card {
-            background: rgba(255, 255, 255, 0.75);
-            border: 1px solid var(--color-border);
-            border-radius: 20px;
-            padding: 30px;
+        /* 작업지시서#06(재작업): 문틀/몰딩 단면 라인아트 다이어그램 — 히어로 우측의 시각적 무게중심.
+           박스/그림자 없이 하단 헤어라인 하나로만 아래 정보 블록과 구분한다. */
+        .hero-diagram {
             width: 100%;
-            box-shadow: var(--shadow-premium);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            padding-bottom: 18px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .hero-diagram svg {
+            display: block;
+            width: 100%;
+            height: 58px;
+            color: var(--color-text-light);
+        }
+
+        .hero-diagram-label {
+            display: block;
+            font-family: var(--font-family-alt);
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            letter-spacing: 0.4px;
+            margin-top: 8px;
+        }
+
+        /* 작업지시서#06 항목3-1: "단가 투명 보장제" 카드(백색 박스+그림자+체크아이콘 나열)를
+           SaaS 위젯처럼 보이던 형태에서, 하단 통계 3종(.hero-badge-grid)과 동일한 톤 —
+           박스 없이 헤어라인 구분 + 라벨(뮤트)/값(강조) 나열 — 정보 블록으로 재구성 */
+        .hero-card {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            width: 100%;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
         }
 
         .hero-card-header {
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--color-border);
-            padding-bottom: 15px;
+            margin-bottom: 6px;
+            border-bottom: none;
+            padding-bottom: 0;
         }
 
         .hero-card-title {
-            font-size: 18px;
+            font-size: 12.5px;
             font-weight: 700;
-            color: var(--color-text-white);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+        }
+
+        .hero-card-title svg {
+            color: var(--color-accent-orange);
+            flex-shrink: 0;
         }
 
         .hero-card-subtitle {
@@ -404,8 +529,10 @@
         .hero-stat-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
+            align-items: baseline;
+            gap: 12px;
+            padding: 13px 0;
+            border-top: 1px solid var(--color-border);
         }
 
         .hero-stat-label {
@@ -415,13 +542,14 @@
 
         .hero-stat-value {
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--color-text-light);
+            white-space: nowrap;
+            text-align: right;
         }
 
         .hero-stat-value.highlight {
             color: var(--color-accent-orange);
-            font-weight: 700;
         }
 
         .hero-card-cta {
@@ -445,32 +573,37 @@
         }
 
         /* Hero Navigation Cards & CTA (작업지시서#05 개편) */
+        /* 1열×6행 세로 스택 → 2열×3행 그리드로 전환(가운데 정렬) */
         .hero-navigation-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 12px 0 30px;
-            max-width: 520px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            row-gap: 16px;
+            column-gap: 32px;
+            margin: 8px auto 36px;
+            max-width: 660px;
             width: 100%;
         }
 
+        /* 대산 참고 리브랜딩: 아이콘 큼직 + 테두리 뚜렷한 큰 버튼으로 확대 */
         .hero-nav-card {
             background: transparent;
-            border: 1px solid var(--color-border);
-            border-radius: 10px;
-            padding: 14px 28px;
+            border: 2px solid var(--color-border);
+            border-radius: 14px;
+            padding: 20px 18px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 12px;
             transition: var(--transition-smooth);
             cursor: pointer;
             width: 100%;
             box-sizing: border-box;
             color: var(--color-text-white);
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             text-decoration: none;
+            text-align: center;
+            line-height: 1.35;
         }
 
         .hero-nav-card:hover {
@@ -482,6 +615,8 @@
         .hero-nav-icon-svg {
             color: var(--color-accent-orange);
             flex-shrink: 0;
+            width: 26px;
+            height: 26px;
             transition: var(--transition-smooth);
         }
 
@@ -492,17 +627,19 @@
         .btn-consult {
             width: 100%;
             background: transparent;
-            border: 1px solid var(--color-border);
+            border: 2px solid var(--color-border);
             color: var(--color-text-white);
-            padding: 14px 28px;
-            border-radius: 10px;
-            font-size: 15px;
+            padding: 20px 18px;
+            border-radius: 14px;
+            font-size: 16px;
             font-weight: 700;
             transition: var(--transition-smooth);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 12px;
+            text-align: center;
+            line-height: 1.35;
         }
 
         .btn-consult:hover {
@@ -661,6 +798,218 @@
 
         .category-card:hover .category-footer-link svg {
             transform: translateX(4px);
+        }
+
+        /* 작업지시서#06(재작업): 균일 카드 그리드 대신 위계형 레이아웃(대표 2종 대형 블록 +
+           나머지 hairline 리스트)으로 전환. 기존 .category-card 계열은 하단 REFERENCES 섹션이
+           그대로 재사용하므로 건드리지 않고, 신규 네임스페이스(.matcat-*)로 분리한다. */
+        .categories {
+            position: relative;
+        }
+
+        .categories::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='240' height='80' viewBox='0 0 240 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 14 Q60 2 120 14 T240 14' stroke='%23333A47' stroke-width='1' fill='none'/%3E%3Cpath d='M0 38 Q60 26 120 38 T240 38' stroke='%23333A47' stroke-width='1' fill='none'/%3E%3Cpath d='M0 62 Q60 50 120 62 T240 62' stroke='%23333A47' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            pointer-events: none;
+        }
+
+        .matcat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 24px;
+            text-align: left;
+            margin-bottom: 48px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--color-border);
+            position: relative;
+        }
+
+        .matcat-header .section-tag,
+        .matcat-header .section-title {
+            text-align: left;
+        }
+
+        /* 히어로 마이크로 수정 항목7: 두 줄로 꺾이던 설명문을 한 줄로 유지(폭 확대 + 폰트 미세 축소) */
+        .matcat-header .section-desc {
+            text-align: left;
+            margin: 10px 0 0;
+            max-width: 900px;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .matcat-header-count {
+            font-family: var(--font-family-alt);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+            padding-bottom: 4px;
+        }
+
+        .matcat-header-count span {
+            color: var(--color-accent-orange);
+            font-size: 22px;
+        }
+
+        .matcat-featured-grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 24px;
+            margin-bottom: 6px;
+        }
+
+        .matcat-feature-card {
+            position: relative;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-top: 3px solid var(--color-accent-orange);
+            padding: 36px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            min-height: 260px;
+        }
+
+        .matcat-feature-card:first-child {
+            min-height: 300px;
+        }
+
+        .matcat-feature-card:hover {
+            border-color: var(--color-border);
+            border-top-color: var(--color-accent-orange);
+            box-shadow: var(--shadow-premium);
+            transform: translateY(-6px);
+        }
+
+        .matcat-feature-index {
+            font-family: var(--font-family-alt);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-accent-orange);
+            letter-spacing: 1px;
+            margin-bottom: 22px;
+        }
+
+        .matcat-lineart {
+            color: var(--color-text-light);
+            margin-bottom: 22px;
+            transition: var(--transition-smooth);
+        }
+
+        .matcat-feature-card:hover .matcat-lineart {
+            color: var(--color-accent-orange);
+        }
+
+        .matcat-feature-name {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--color-text-white);
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        .matcat-feature-desc {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--color-text-muted);
+            line-height: 1.65;
+            max-width: 420px;
+            margin-bottom: auto;
+        }
+
+        .matcat-feature-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-accent-orange);
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .matcat-feature-link svg {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
+            transition: var(--transition-smooth);
+        }
+
+        .matcat-feature-card:hover .matcat-feature-link svg {
+            transform: translateX(4px);
+        }
+
+        .matcat-list {
+            margin-top: 8px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .matcat-list-item {
+            display: grid;
+            grid-template-columns: 40px 34px 1fr 1.5fr auto;
+            align-items: center;
+            column-gap: 20px;
+            padding: 20px 4px;
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .matcat-list-item:hover {
+            background: var(--color-accent-orange-light);
+        }
+
+        .matcat-list-item:hover .matcat-list-name,
+        .matcat-list-item:hover .matcat-lineart-sm,
+        .matcat-list-item:hover .matcat-list-arrow {
+            color: var(--color-accent-orange);
+        }
+
+        .matcat-list-number {
+            font-family: var(--font-family-alt);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+        }
+
+        .matcat-lineart-sm {
+            color: var(--color-text-light);
+            display: flex;
+            flex-shrink: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .matcat-list-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            transition: var(--transition-smooth);
+        }
+
+        .matcat-list-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--color-text-muted);
+        }
+
+        .matcat-list-arrow {
+            color: var(--color-accent-orange);
+            display: flex;
+            transition: var(--transition-smooth);
+        }
+
+        .matcat-list-arrow svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
         }
 
         /* CONSULTATION INQUIRY FORM */
@@ -1051,6 +1400,21 @@
                 width: 100%;
             }
 
+            .matcat-featured-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .matcat-feature-card:first-child {
+                min-height: 240px;
+            }
+
+            .matcat-list-item {
+                grid-template-columns: 32px 30px 1fr auto;
+            }
+
+            .matcat-list-desc {
+                display: none;
+            }
 
         }
 
@@ -1060,7 +1424,96 @@
             }
 
             .hero-title {
-                font-size: 26px;
+                font-size: 28px;
+                letter-spacing: -1px;
+            }
+
+            .hero-desc {
+                font-size: 17px;
+            }
+
+            .hero-diagram {
+                display: none;
+            }
+
+            /* 모바일 히어로 4건 수정(PC 무변화, 이 블록 안에서만 적용) */
+            /* 모바일 헤더를 calculator.html 모바일 헤더 스타일과 통일: 라운드 카드 대신
+               sticky+블러+하단 보더 형태, header-wrap은 카드 배경/여백 없이 화면 꽉 차게 */
+            header {
+                position: sticky;
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-bottom: 1px solid var(--color-border);
+                padding: 15px 0;
+            }
+
+            header.scrolled {
+                padding: 10px 0;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .header-wrap {
+                width: 100%;
+                margin: 0;
+                background: transparent;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 0 16px;
+            }
+
+            .hero-navigation-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+
+            .hero-search {
+                max-width: 340px;
+                margin: 4px auto 16px;
+            }
+
+            .hero-search .form-input {
+                height: 56px;
+                font-size: 14px;
+                padding-left: 42px !important;
+            }
+
+            .hero-search #globalProductSearchBtn {
+                left: 16px !important;
+                width: 18px;
+                height: 18px;
+            }
+
+            .matcat-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .matcat-header .section-desc {
+                white-space: normal;
+                max-width: 100%;
+                font-size: 14px;
+            }
+
+            .matcat-feature-card {
+                padding: 24px;
+                min-height: 0 !important;
+            }
+
+            .matcat-feature-name {
+                font-size: 21px;
+            }
+
+            .matcat-list-item {
+                grid-template-columns: 26px 26px 1fr auto;
+                column-gap: 12px;
+                padding: 16px 2px;
+            }
+
+            .matcat-list-name {
+                font-size: 15px;
             }
 
             .category-grid {
@@ -1381,6 +1834,17 @@
                 font-size: 13px;
             }
         }
+
+        /* PC 전용 콘텐츠 폭 확대 — 모바일은 위 기본값(.container 1200px, .header-wrap 미지정=1200px 상속) 그대로 유지 */
+        @media (min-width: 769px) {
+            .container {
+                max-width: 1400px;
+            }
+
+            .header-wrap {
+                max-width: 1600px;
+            }
+        }
     </style>
 
 </head>
@@ -1391,8 +1855,10 @@
     <header id="header">
         <div class="container header-wrap">
             <a href="index.html" class="logo-area">
-                <svg viewBox="0 0 24 24">
-                    <path d="M19 12h-2v3h-2v-3h-2v6h6v-6zm-8 6V6l-7 6 7 6zm3-8V6h6v4h-6z" />
+                <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <path d="M6 47 L42 11 L42 83 Z" />
+                    <rect x="46" y="11" width="48" height="24" rx="3" />
+                    <path d="M46 53 L66 53 L66 41 L94 41 L94 89 L46 89 Z" />
                 </svg>
                 <div class="logo-text">영림우드<span>.</span></div>
             </a>
@@ -1420,7 +1886,7 @@
                 <div class="global-search-container hero-search" style="position: relative; z-index: 10;">
                     <input class="form-input" type="text" id="globalProductSearchInput"
                         placeholder="품목명 또는 규격 검색 (예: 석고보드, 12T)..."
-                        style="width: 100%; box-sizing: border-box; padding-left: 44px; background: var(--color-bg-secondary);">
+                        style="width: 100%; box-sizing: border-box; background: var(--color-bg-secondary);">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
                         viewBox="0 0 24 24" id="globalProductSearchBtn"
                         style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); cursor: pointer;">
@@ -1430,6 +1896,17 @@
                     <div class="global-search-dropdown" id="globalSearchDropdown"
                         style="display: none; position: absolute; top: calc(100% + 5px); left: 0; right: 0; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; max-height: 250px; overflow-y: auto; box-shadow: var(--shadow-premium); z-index: 9999;">
                     </div>
+                </div>
+                <!-- 대산 참고 리브랜딩: 로고 배지를 검색창 아래(보조 신뢰 요소)로 이동 -->
+                <div class="hero-distributor-badges">
+                    <img src="assets/logo/yl1-transparent.png" alt="영림몰딩도어 공식 유통사" class="hero-distributor-logo">
+                    <span class="hero-distributor-divider" aria-hidden="true"></span>
+                    <img src="assets/logo/yl2-transparent.png" alt="영림키친바스 공식 유통사" class="hero-distributor-logo">
+                </div>
+                <!-- 작업지시서#06 항목3-1(2차): "단가 투명 보장제" 카드 전체 삭제, 한 줄 인디케이터로 대체 -->
+                <div class="hero-live-status">
+                    <span class="hero-live-dot" aria-hidden="true"></span>
+                    <span>실시간 단가 업데이트 <span class="font-num" id="heroDate">오늘 09:00 기준 완료</span></span>
                 </div>
                 <!-- Hero Navigation Grid & Secondary CTA -->
                 <div class="hero-navigation-grid">
@@ -1485,236 +1962,184 @@
                     </div>
                 </div>
             </div>
-            <div class="hero-image-panel">
-                <div class="hero-card">
-                    <div class="hero-card-header">
-                        <h3 class="hero-card-title">
-                            <svg width="20" height="20" fill="none" stroke="var(--color-accent-orange)"
-                                stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            영림우드 단가 투명 보장제
-                        </h3>
-                        <p class="hero-card-subtitle">원자재 시세 반영 투명 단가 시스템</p>
-                    </div>
-                    <div class="hero-stat-row">
-                        <span class="hero-stat-label">실시간 단가 업데이트</span>
-                        <span class="hero-stat-value font-num" id="heroDate">오늘 09:00 기준 완료</span>
-                    </div>
-                    <div class="hero-stat-row">
-                        <span class="hero-stat-label">유통 수수료 최소화</span>
-                        <span class="hero-stat-value highlight font-num">직송 15% 절감 효과</span>
-                    </div>
-                    <div class="hero-stat-row">
-                        <span class="hero-stat-label">전국 직배송망</span>
-                        <span class="hero-stat-value highlight font-num">당일/익일 출고 보장</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
 
 
-    <!-- CATEGORIES SECTION -->
+    <!-- CATEGORIES SECTION (작업지시서#06 재작업: 균일 그리드 → 위계형 레이아웃) -->
     <section class="categories" id="categories-sec">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Categories</span>
-                <h2 class="section-title">취급 자재 카테고리</h2>
-                <p class="section-desc">영림우드가 엄선하여 직배송하는 고품질 건축 자재 리스트입니다. 카테고리를 클릭하면 단가 계산기로 즉시 이동합니다.</p>
+            <div class="matcat-header">
+                <div>
+                    <span class="section-tag">Categories</span>
+                    <h2 class="section-title">취급 자재 카테고리</h2>
+                    <p class="section-desc">영림우드가 엄선하여 직배송하는 고품질 건축 자재 리스트입니다. 카테고리를 클릭하면 단가 계산기로 즉시 이동합니다.</p>
+                </div>
+                <div class="matcat-header-count"><span class="font-num">10</span>개 품목군</div>
             </div>
-            <div class="category-grid">
-                <!-- 1. 마감자재 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('finishing')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 4.85L18.2 13H17v5h-2v-5H9v5H7v-5H5.8L12 7.85z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">마감자재</h3>
-                        <p class="category-description">템바보드, 아쿠아보드, 원스톤 플렉시블 보드, 인피니월, 월시스템와이드 등 세련된 월판넬 및 프리미엄 마감재.
-                        </p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+
+            <!-- 히어로 마이크로 수정 항목6: "대표 2종 대형 카드" 위계 폐기 — 전 10종을 동일한 번호+hairline 리스트로 통일 -->
+            <div class="matcat-list">
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('finishing')">
+                    <span class="matcat-list-number font-num">01</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <rect x="8" y="6" width="32" height="36" rx="1" />
+                        <line x1="19" y1="6" x2="19" y2="42" />
+                        <line x1="29" y1="6" x2="29" y2="42" />
+                        <path d="M8 46h32M8 44v4M40 44v4" opacity="0.6" />
+                    </svg>
+                    <h3 class="matcat-list-name">마감자재</h3>
+                    <p class="matcat-list-desc">템바보드, 아쿠아보드, 원스톤 플렉시블 보드, 인피니월, 월시스템와이드 등 프리미엄 마감재.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 2. MDF -->
-                <div class="category-card" onclick="selectCategoryAndScroll('mdf')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M3 13h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2zm0 8h18c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">MDF</h3>
-                        <p class="category-description">3t부터 30t까지 다양한 두께를 지원하는 가구 제작 및 인테리어 기초 시공용 고밀도 보드 자재.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('plywood')">
+                    <span class="matcat-list-number font-num">02</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <rect x="6" y="9" width="36" height="6" />
+                        <rect x="6" y="18" width="36" height="6" />
+                        <rect x="6" y="27" width="36" height="6" />
+                        <rect x="6" y="36" width="36" height="3" opacity="0.5" />
+                    </svg>
+                    <h3 class="matcat-list-name">합판</h3>
+                    <p class="matcat-list-desc">4x8 및 3x6 규격의 베트남산, 라왕, 코아합판, 태고 코팅합판, 내수 합판 등 자재.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 3. 합판 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('plywood')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">합판</h3>
-                        <p class="category-description">4x8 및 3x6 규격의 베트남산, 라왕, 코아합판, 태고 코팅합판, 내수 합판 등 용도별 자재 라인업.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('mdf')">
+                    <span class="matcat-list-number font-num">03</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <rect x="8" y="12" width="32" height="24" />
+                        <path d="M14 34l7-20M23 34l7-20M32 34l6-17" opacity="0.6" />
+                    </svg>
+                    <h3 class="matcat-list-name">MDF</h3>
+                    <p class="matcat-list-desc">3t~30t 다양한 두께, 가구·인테리어 기초 시공용 고밀도 보드.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 4. 인테리어합판 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('interior_plywood')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M12 2c1.1 0 2 .9 2 2v3.07c0 .24.16.44.38.49L17.7 8.2c.98.24 1.7 1.12 1.7 2.14v6.83c0 1.62-1.32 2.93-2.93 2.93h-8.94c-1.61 0-2.93-1.31-2.93-2.93V10.3c0-1.02.72-1.9 1.7-2.14L9.62 7.6c.22-.05.38-.25.38-.49V4c0-1.1.9-2 2-2z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">인테리어합판</h3>
-                        <p class="category-description">미송합판, 낙엽송합판, 레드오크, 러시아산 자작합판 등 노출 마감용 인테리어 특수합판 일체.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('interior_plywood')">
+                    <span class="matcat-list-number font-num">04</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <rect x="8" y="8" width="32" height="32" />
+                        <path d="M8 18c6 -4 10 4 16 0s10 4 16 0" />
+                        <path d="M8 28c6 -4 10 4 16 0s10 4 16 0" opacity="0.6" />
+                    </svg>
+                    <h3 class="matcat-list-name">인테리어합판</h3>
+                    <p class="matcat-list-desc">미송·낙엽송합판, 레드오크, 러시아산 자작합판 등 노출 마감용 특수합판.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 5. 목재/구조재 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('timber')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">목재/구조재</h3>
-                        <p class="category-description">소송 각재(다루끼, 투바이), 뉴송 각재(폼다루끼, 투바이), 산승각/오비끼, SPF/SPC 구조재 등 시공 목재
-                            전문.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('timber')">
+                    <span class="matcat-list-number font-num">05</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <rect x="10" y="10" width="28" height="28" />
+                        <path d="M10 6v4M38 6v4M6 10h4M6 38h4" opacity="0.6" />
+                        <line x1="16" y1="16" x2="32" y2="32" opacity="0.5" />
+                    </svg>
+                    <h3 class="matcat-list-name">목재/구조재</h3>
+                    <p class="matcat-list-desc">소송·뉴송 각재(다루끼/투바이), 산승각/오비끼, SPF/SPC 구조재.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 6. 석고보드 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('plaster')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">석고보드</h3>
-                        <p class="category-description">일반, 방수, 방화, 차음석고보드 등 다양한 규격을 보유하고 있습니다. 벽체 및 천장 시공 필수 자재.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('plaster')">
+                    <span class="matcat-list-number font-num">06</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <rect x="8" y="14" width="32" height="20" />
+                        <line x1="8" y1="20" x2="40" y2="20" />
+                        <line x1="8" y1="28" x2="40" y2="28" opacity="0.6" />
+                    </svg>
+                    <h3 class="matcat-list-name">석고보드</h3>
+                    <p class="matcat-list-desc">일반·방수·방화·차음석고보드 등 벽체 및 천장 시공 필수 자재.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 7. 단열재 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('insulation')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M12 2L2 22h20L12 2zm0 3.99L19.53 19H4.47L12 5.99zM13 16h-2v2h2v-2zm0-6h-2v4h2v-4z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">단열재</h3>
-                        <p class="category-description">그라스울, 압출법(아이소핑크), 비드법 단열재 등 준불연 고성능 열전도율 보장 자재 공급.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('insulation')">
+                    <span class="matcat-list-number font-num">07</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <rect x="8" y="8" width="32" height="32" />
+                        <path d="M12 8v32M20 8v32M28 8v32M36 8v32" stroke-dasharray="2 3" opacity="0.6" />
+                    </svg>
+                    <h3 class="matcat-list-name">단열재</h3>
+                    <p class="matcat-list-desc">그라스울, 압출법(아이소핑크), 비드법 등 준불연 고성능 단열자재.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 8. 방부목/특수목 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('deck_timber')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M17 15.58V21H7v-5.42L12 11l5 4.58zM12 2L2 11h3v9h14v-9h3L12 2z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">방부목/특수목/합성목</h3>
-                        <p class="category-description">야외 테라스용 방부목, 친환경 합성목재 데크 및 방킬라이, 멀바우 등 천연목 데크 유통 표준 규격 완비.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('deck_timber')">
+                    <span class="matcat-list-number font-num">08</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <path d="M6 34h36v6H6z" />
+                        <path d="M12 34v-4M20 34v-4M28 34v-4M36 34v-4" opacity="0.6" />
+                    </svg>
+                    <h3 class="matcat-list-name">방부목/특수목/합성목</h3>
+                    <p class="matcat-list-desc">테라스용 방부목, 합성목재 데크, 방킬라이·멀바우 등 천연목 데크.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 8.5. 루바/집성판 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('louver_wood')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">루바/집성판</h3>
-                        <p class="category-description">루바, 집성판, 각종 폭판 등 인테리어 마감재 및 목공 전용 목재 자재 전문 공급.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('louver_wood')">
+                    <span class="matcat-list-number font-num">09</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <line x1="10" y1="8" x2="10" y2="40" />
+                        <line x1="19" y1="8" x2="19" y2="40" />
+                        <line x1="28" y1="8" x2="28" y2="40" opacity="0.7" />
+                        <line x1="37" y1="8" x2="37" y2="40" opacity="0.5" />
+                    </svg>
+                    <h3 class="matcat-list-name">루바/집성판</h3>
+                    <p class="matcat-list-desc">루바, 집성판, 각종 폭판 등 인테리어 마감 및 목공 전용 목재.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
-                <!-- 9. 철물/부자재 -->
-                <div class="category-card" onclick="selectCategoryAndScroll('hardware')">
-                    <div class="category-icon-wrap">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.3C.5 6.7.9 9.8 2.9 11.8c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.4-2.4c.4-.4.4-1.1 0-1.4z" />
-                        </svg>
-                    </div>
-                    <div class="category-card-body">
-                        <h3 class="category-name">철물/부자재</h3>
-                        <p class="category-description">수성/유성 도료, 친환경 접착제, 목공 타카핀, 건용 폼, 실리콘 등 현장에서 쓰이는 필수 철물 자재 일체.</p>
-                    </div>
-                    <div class="category-footer-link">
-                        단가 확인 및 견적 산출
+                <div class="matcat-list-item" onclick="selectCategoryAndScroll('hardware')">
+                    <span class="matcat-list-number font-num">10</span>
+                    <svg class="matcat-lineart-sm" width="28" height="28" viewBox="0 0 48 48" fill="none"
+                        stroke="currentColor" stroke-width="1.5">
+                        <path d="M18 14h12l-3 6h-6z" />
+                        <path d="M21 20v18M27 20v18" />
+                        <path d="M21 24h6M21 28h6M21 32h6M21 36h6" opacity="0.6" />
+                    </svg>
+                    <h3 class="matcat-list-name">철물/부자재</h3>
+                    <p class="matcat-list-desc">수성/유성 도료, 친환경 접착제, 타카핀, 폼, 실리콘 등 현장 필수 자재.</p>
+                    <span class="matcat-list-arrow">
                         <svg viewBox="0 0 24 24">
                             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                         </svg>
-                    </div>
+                    </span>
                 </div>
             </div>
         </div>
@@ -2723,7 +3148,7 @@
             const d = new Date();
             const heroDateEl = document.getElementById("heroDate");
             if (heroDateEl) {
-                heroDateEl.innerText = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 09:00 기준 완료`;
+                heroDateEl.innerText = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 기준 완료`;
             }
 
             // Header scroll effect
