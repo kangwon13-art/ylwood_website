@@ -594,30 +594,8 @@ function buildPrepared(items, spec, useTrim, topTrim, leftTrim) {
   return { effW, effL_trimmed, rawW, rawL, allPieces, prepared, notPlacedGlobal };
 }
 
-// ─── 전체 풀이 ──────────────────────────────────────
-function solve(items, specKey, thickness, useTrim) {
-  const spec = SPECS[specKey];
-  const tier = getPriceTier(thickness);
-  const rate = PRICE[tier];
-
-  let topTrim = MAX_TRIM, leftTrim = MAX_TRIM;
-  let build = buildPrepared(items, spec, useTrim, topTrim, leftTrim);
-  if (useTrim && build.notPlacedGlobal.length > 0) {
-    let bestCombo = { topTrim, leftTrim, unplaced: build.notPlacedGlobal.length, build };
-    for (let t = MAX_TRIM; t >= MIN_TRIM; t--) {
-      for (let l = MAX_TRIM; l >= MIN_TRIM; l--) {
-        if (t === MAX_TRIM && l === MAX_TRIM) continue;
-        const b = buildPrepared(items, spec, useTrim, t, l);
-        const unplaced = b.notPlacedGlobal.length;
-        const better = unplaced < bestCombo.unplaced ||
-          (unplaced === bestCombo.unplaced && (t + l) > (bestCombo.topTrim + bestCombo.leftTrim));
-        if (better) bestCombo = { topTrim: t, leftTrim: l, unplaced, build: b };
-      }
-    }
-    topTrim = bestCombo.topTrim; leftTrim = bestCombo.leftTrim; build = bestCombo.build;
-  }
-  if (!useTrim) { topTrim = 0; leftTrim = 0; }
-
+// ─── 무거운 배치 계산 (80개 휴리스틱 전략 + 백트래킹) ──────
+function runHeavySolve(build, useTrim, rate, tier) {
   const { effW, effL_trimmed, rawW, rawL, allPieces, prepared, notPlacedGlobal } = build;
 
   const sorts = [
@@ -764,6 +742,63 @@ function solve(items, specKey, thickness, useTrim) {
   }
 
   if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: allPieces, tier, rate };
+
+  return best;
+}
+
+// ─── 전체 풀이 ──────────────────────────────────────
+function solve(items, specKey, thickness, useTrim) {
+  const spec = SPECS[specKey];
+  const tier = getPriceTier(thickness);
+  const rate = PRICE[tier];
+
+  let topTrim = MAX_TRIM, leftTrim = MAX_TRIM;
+  let build = buildPrepared(items, spec, useTrim, topTrim, leftTrim);
+  if (useTrim && build.notPlacedGlobal.length > 0) {
+    let bestCombo = { topTrim, leftTrim, unplaced: build.notPlacedGlobal.length, build };
+    for (let t = MAX_TRIM; t >= MIN_TRIM; t--) {
+      for (let l = MAX_TRIM; l >= MIN_TRIM; l--) {
+        if (t === MAX_TRIM && l === MAX_TRIM) continue;
+        const b = buildPrepared(items, spec, useTrim, t, l);
+        const unplaced = b.notPlacedGlobal.length;
+        const better = unplaced < bestCombo.unplaced ||
+          (unplaced === bestCombo.unplaced && (t + l) > (bestCombo.topTrim + bestCombo.leftTrim));
+        if (better) bestCombo = { topTrim: t, leftTrim: l, unplaced, build: b };
+      }
+    }
+    topTrim = bestCombo.topTrim; leftTrim = bestCombo.leftTrim; build = bestCombo.build;
+  }
+  if (!useTrim) { topTrim = 0; leftTrim = 0; }
+
+  let best = runHeavySolve(build, useTrim, rate, tier);
+
+  if (useTrim && best && best.totalSheets > 1) {
+    const buildMin = buildPrepared(items, spec, useTrim, MIN_TRIM, MIN_TRIM);
+    const refBest = runHeavySolve(buildMin, useTrim, rate, tier);
+    if (refBest && (refBest.totalSheets < best.totalSheets ||
+        (refBest.totalSheets === best.totalSheets && refBest.totalPlaced > best.totalPlaced))) {
+      const targetSheets = refBest.totalSheets;
+      const searchDeadline = Date.now() + 5000;
+      let foundTop = MIN_TRIM, foundLeft = MIN_TRIM, foundResult = refBest;
+
+      for (let t = MAX_TRIM; t > MIN_TRIM; t--) {
+        if (Date.now() > searchDeadline) break;
+        const b = buildPrepared(items, spec, useTrim, t, MIN_TRIM);
+        const r = runHeavySolve(b, useTrim, rate, tier);
+        if (r && r.totalSheets <= targetSheets) { foundTop = t; foundResult = r; break; }
+      }
+      for (let l = MAX_TRIM; l > MIN_TRIM; l--) {
+        if (Date.now() > searchDeadline) break;
+        const b = buildPrepared(items, spec, useTrim, foundTop, l);
+        const r = runHeavySolve(b, useTrim, rate, tier);
+        if (r && r.totalSheets <= targetSheets) { foundLeft = l; foundResult = r; break; }
+      }
+
+      topTrim = foundTop; leftTrim = foundLeft; best = foundResult;
+    }
+  }
+
+  if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: build.allPieces, tier, rate };
 
   best.unplacedSummary = summarizeUnplaced(best.unplaced, items);
   best.topTrim = topTrim;

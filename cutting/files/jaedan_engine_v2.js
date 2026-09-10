@@ -317,36 +317,12 @@ function buildPrepared(items, spec, useTrim, topTrim, leftTrim) {
   return { effW, effL_trimmed, rawW, rawL, allPieces, prepared, notPlacedGlobal };
 }
 
-// ─── 전체 풀이 ──────────────────────────────────────
-function solve(items, specKey, thickness, useTrim) {
-  const spec = SPECS[specKey];
-  const tier = getPriceTier(thickness);
-  const rate = PRICE[tier];
-
-  // 전단폭 결정: 상단(폭축)·좌측(길이축) 독립적으로 12mm(MAX_TRIM)부터 시작 — 대부분
-  // 여기서 바로 다 들어간다. 그렇지 않을 때만(치수가 12mm 전단에서 물리적으로 안 들어가는
-  // 조각이 있을 때만) 1mm(MIN_TRIM)까지 두 축을 독립적으로 낮춰가며 재시도한다. 이 스캔은
-  // 무거운 배치 탐색(80전략+백트래킹) 없이 "치수가 들어가는가"만 가볍게 확인하므로
-  // 144개 조합을 다 훑어도 실질적으로 공짜(O(조각 수)×144, 수 ms 이내) — 실제 무거운
-  // 배치 계산은 최종 확정된 전단폭 하나로 딱 한 번만 돌린다.
-  let topTrim = MAX_TRIM, leftTrim = MAX_TRIM;
-  let build = buildPrepared(items, spec, useTrim, topTrim, leftTrim);
-  if (useTrim && build.notPlacedGlobal.length > 0) {
-    let bestCombo = { topTrim, leftTrim, unplaced: build.notPlacedGlobal.length, build };
-    for (let t = MAX_TRIM; t >= MIN_TRIM; t--) {
-      for (let l = MAX_TRIM; l >= MIN_TRIM; l--) {
-        if (t === MAX_TRIM && l === MAX_TRIM) continue; // 이미 계산함
-        const b = buildPrepared(items, spec, useTrim, t, l);
-        const unplaced = b.notPlacedGlobal.length;
-        const better = unplaced < bestCombo.unplaced ||
-          (unplaced === bestCombo.unplaced && (t + l) > (bestCombo.topTrim + bestCombo.leftTrim));
-        if (better) bestCombo = { topTrim: t, leftTrim: l, unplaced, build: b };
-      }
-    }
-    topTrim = bestCombo.topTrim; leftTrim = bestCombo.leftTrim; build = bestCombo.build;
-  }
-  if (!useTrim) { topTrim = 0; leftTrim = 0; }
-
+// ─── 무거운 배치 계산 (80개 휴리스틱 전략 + 백트래킹) ──────
+// buildPrepared()로 확정된 전단값 하나(build)에 대해 실제 최적 배치를 계산한다. 전단폭
+// 후보를 여러 개 비교해야 할 때(§ solve() 참고) 이 함수를 반복 호출하게 되므로, 가벼운
+// buildPrepared()와 달리 이 함수 자체는 비용이 있다(정상 케이스 수 ms, 백트래킹 걸리면
+// 최대 2초) — 호출 횟수를 신중하게 제한해야 한다.
+function runHeavySolve(build, useTrim, rate, tier) {
   const { effW, effL_trimmed, rawW, rawL, allPieces, prepared, notPlacedGlobal } = build;
 
   // 정렬 전략(크기 기준, 회전 전 원본 치수 기준)
@@ -509,6 +485,77 @@ function solve(items, specKey, thickness, useTrim) {
   }
 
   if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: allPieces, tier, rate };
+
+  return best;
+}
+
+// ─── 전체 풀이 ──────────────────────────────────────
+// 전단폭(topTrim=상·leftTrim=좌)은 독립적으로 12mm(MAX_TRIM)부터 시작해 아래 2단계로
+// 필요한 만큼만 1mm(MIN_TRIM)까지 줄인다.
+//   1단계(구조적 적합성): 12mm에서 물리적으로 안 들어가는 조각이 있으면, 가벼운 적합성
+//     판정(buildPrepared, 무거운 배치 탐색 없음)만으로 144개 조합을 스캔해 "미배치 최소
+//     → 그 안에서 전단 합 최대"인 조합을 찾는다. 수 ms 이내.
+//   2단계(배치 효율): 1단계까지 확정한 전단값으로 실제 배치(runHeavySolve)를 한 번 돌려본
+//     결과가 여전히 2장 이상이면, 전단을 더 줄이면 원장 수가 줄어드는지 확인한다. 1mm/1mm
+//     로 참고 계산을 한 번 해보고(가장 넉넉한 경우) 그래도 원장 수가 안 줄면 포기(불필요한
+//     탐색 안 함). 줄어들면 그때만 상·좌를 독립적으로 단계적으로 낮추며 "원장 수를 줄이는
+//     가장 큰 전단값"을 찾는다 — 이 단계만 무거운 계산을 여러 번 하므로 5초 안전 시간제한.
+function solve(items, specKey, thickness, useTrim) {
+  const spec = SPECS[specKey];
+  const tier = getPriceTier(thickness);
+  const rate = PRICE[tier];
+
+  let topTrim = MAX_TRIM, leftTrim = MAX_TRIM;
+  let build = buildPrepared(items, spec, useTrim, topTrim, leftTrim);
+  if (useTrim && build.notPlacedGlobal.length > 0) {
+    let bestCombo = { topTrim, leftTrim, unplaced: build.notPlacedGlobal.length, build };
+    for (let t = MAX_TRIM; t >= MIN_TRIM; t--) {
+      for (let l = MAX_TRIM; l >= MIN_TRIM; l--) {
+        if (t === MAX_TRIM && l === MAX_TRIM) continue; // 이미 계산함
+        const b = buildPrepared(items, spec, useTrim, t, l);
+        const unplaced = b.notPlacedGlobal.length;
+        const better = unplaced < bestCombo.unplaced ||
+          (unplaced === bestCombo.unplaced && (t + l) > (bestCombo.topTrim + bestCombo.leftTrim));
+        if (better) bestCombo = { topTrim: t, leftTrim: l, unplaced, build: b };
+      }
+    }
+    topTrim = bestCombo.topTrim; leftTrim = bestCombo.leftTrim; build = bestCombo.build;
+  }
+  if (!useTrim) { topTrim = 0; leftTrim = 0; }
+
+  let best = runHeavySolve(build, useTrim, rate, tier);
+
+  if (useTrim && best && best.totalSheets > 1) {
+    const buildMin = buildPrepared(items, spec, useTrim, MIN_TRIM, MIN_TRIM);
+    const refBest = runHeavySolve(buildMin, useTrim, rate, tier);
+    if (refBest && (refBest.totalSheets < best.totalSheets ||
+        (refBest.totalSheets === best.totalSheets && refBest.totalPlaced > best.totalPlaced))) {
+      const targetSheets = refBest.totalSheets;
+      const searchDeadline = Date.now() + 5000;
+      let foundTop = MIN_TRIM, foundLeft = MIN_TRIM, foundResult = refBest;
+
+      // 좌측을 최소(MIN_TRIM)로 고정한 채, 상단을 12→1로 내려가며 목표 원장 수를 달성하는
+      // 가장 큰 topTrim을 찾는다.
+      for (let t = MAX_TRIM; t > MIN_TRIM; t--) {
+        if (Date.now() > searchDeadline) break;
+        const b = buildPrepared(items, spec, useTrim, t, MIN_TRIM);
+        const r = runHeavySolve(b, useTrim, rate, tier);
+        if (r && r.totalSheets <= targetSheets) { foundTop = t; foundResult = r; break; }
+      }
+      // 상단은 foundTop으로 고정, 좌측을 12→1로 내려가며 목표 원장 수를 달성하는 가장 큰
+      // leftTrim을 찾는다.
+      for (let l = MAX_TRIM; l > MIN_TRIM; l--) {
+        if (Date.now() > searchDeadline) break;
+        const b = buildPrepared(items, spec, useTrim, foundTop, l);
+        const r = runHeavySolve(b, useTrim, rate, tier);
+        if (r && r.totalSheets <= targetSheets) { foundLeft = l; foundResult = r; break; }
+      }
+
+      topTrim = foundTop; leftTrim = foundLeft; best = foundResult;
+    }
+  }
+
+  if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: build.allPieces, tier, rate };
 
   best.unplacedSummary = summarizeUnplaced(best.unplaced, items);
   best.topTrim = topTrim;
