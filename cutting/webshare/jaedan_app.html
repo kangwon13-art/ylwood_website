@@ -279,7 +279,7 @@ body {
       </label>
       <label class="field checkbox">
         <input type="checkbox" id="trimCheck">
-        <span>전단(트리밍) 적용 — 상·좌 5mm</span>
+        <span>전단(트리밍) 적용 — 상·좌 최대 12mm(자동조정)</span>
       </label>
       <label class="field checkbox">
         <input type="checkbox" id="grainAllToggle">
@@ -342,7 +342,8 @@ body {
  */
 
 const KERF = 4.5;
-const TRIM = 5;
+const MAX_TRIM = 12;
+const MIN_TRIM = 1;
 const MIN_CUT = KERF; // 잔재가 kerf보다 크면 컷으로 셈
 
 const SPECS = {
@@ -552,14 +553,10 @@ function backtrackFillSheet(pool, packW, packL, splitMode, useTrim, deadline, no
   return { placed, freeRects, unplaced: remaining, cuts: totalCuts, cutLog, success };
 }
 
-// ─── 전체 풀이 ──────────────────────────────────────
-function solve(items, specKey, thickness, useTrim) {
-  const spec = SPECS[specKey];
-  const tier = getPriceTier(thickness);
-  const rate = PRICE[tier];
-
-  const effW = spec.w - (useTrim ? TRIM : 0);
-  const effL_trimmed = spec.l - (useTrim ? TRIM : 0);
+// ─── 조각 전개 + 배치 가능 방향(orientation) 판정 ──────
+function buildPrepared(items, spec, useTrim, topTrim, leftTrim) {
+  const effW = spec.w - (useTrim ? topTrim : 0);
+  const effL_trimmed = spec.l - (useTrim ? leftTrim : 0);
   const rawW = spec.w, rawL = spec.l;
 
   const allPieces = [];
@@ -593,6 +590,35 @@ function solve(items, specKey, thickness, useTrim) {
       prepared.push({ orientations: orients, src: p, forcedFull: orients.some(o => o.isFullW || o.isFullL) });
     }
   });
+
+  return { effW, effL_trimmed, rawW, rawL, allPieces, prepared, notPlacedGlobal };
+}
+
+// ─── 전체 풀이 ──────────────────────────────────────
+function solve(items, specKey, thickness, useTrim) {
+  const spec = SPECS[specKey];
+  const tier = getPriceTier(thickness);
+  const rate = PRICE[tier];
+
+  let topTrim = MAX_TRIM, leftTrim = MAX_TRIM;
+  let build = buildPrepared(items, spec, useTrim, topTrim, leftTrim);
+  if (useTrim && build.notPlacedGlobal.length > 0) {
+    let bestCombo = { topTrim, leftTrim, unplaced: build.notPlacedGlobal.length, build };
+    for (let t = MAX_TRIM; t >= MIN_TRIM; t--) {
+      for (let l = MAX_TRIM; l >= MIN_TRIM; l--) {
+        if (t === MAX_TRIM && l === MAX_TRIM) continue;
+        const b = buildPrepared(items, spec, useTrim, t, l);
+        const unplaced = b.notPlacedGlobal.length;
+        const better = unplaced < bestCombo.unplaced ||
+          (unplaced === bestCombo.unplaced && (t + l) > (bestCombo.topTrim + bestCombo.leftTrim));
+        if (better) bestCombo = { topTrim: t, leftTrim: l, unplaced, build: b };
+      }
+    }
+    topTrim = bestCombo.topTrim; leftTrim = bestCombo.leftTrim; build = bestCombo.build;
+  }
+  if (!useTrim) { topTrim = 0; leftTrim = 0; }
+
+  const { effW, effL_trimmed, rawW, rawL, allPieces, prepared, notPlacedGlobal } = build;
 
   const sorts = [
     (a, b) => Math.max(b.ow, b.ol) - Math.max(a.ow, a.ol) || Math.min(b.ow, b.ol) - Math.min(a.ow, a.ol),
@@ -740,6 +766,8 @@ function solve(items, specKey, thickness, useTrim) {
   if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: allPieces, tier, rate };
 
   best.unplacedSummary = summarizeUnplaced(best.unplaced, items);
+  best.topTrim = topTrim;
+  best.leftTrim = leftTrim;
 
   return best;
 }
@@ -886,16 +914,16 @@ function renderSheetView() {
   title.className = `sheet-title type-${sheet.type.toLowerCase()}`;
   title.textContent = `원장 ${activeSheetIdx + 1} — ${lastResult._specKey} / ${lastResult._thickness}T — ${sheet.type}·${sheet.cuts}컷 — ${sheet.cost.toLocaleString()}원`;
   view.appendChild(title);
-  view.appendChild(buildSheetSvg(sheet, lastResult._specKey, lastResult._useTrim));
+  view.appendChild(buildSheetSvg(sheet, lastResult._specKey, lastResult._useTrim, lastResult.topTrim, lastResult.leftTrim));
 }
 
-function buildSheetSvg(sheet, specKey, useTrim) {
+function buildSheetSvg(sheet, specKey, useTrim, topTrim, leftTrim) {
   const spec = SPECS[specKey];
   const rawW = spec.w, rawL = spec.l;
 
   const allFL = sheet.items.every(it => it.src.isFullL);
-  const insetTop = useTrim ? TRIM : 0;
-  const insetLeft = (useTrim && !allFL) ? TRIM : 0;
+  const insetTop = useTrim ? topTrim : 0;
+  const insetLeft = (useTrim && !allFL) ? leftTrim : 0;
 
   function toScreen(x, y, pw, pl) {
     return { sx: insetLeft + y, sy: insetTop + x, sw: pl, sh: pw };
@@ -963,6 +991,7 @@ function renderSummary() {
   card.innerHTML = `
     <h2>결과 요약</h2>
     <div class="row"><span>필요 원장 수</span><span class="val">${r.totalSheets}장</span></div>
+    ${r._useTrim ? `<div class="row"><span>적용 전단</span><span class="val">상 ${r.topTrim}mm · 좌 ${r.leftTrim}mm</span></div>` : ''}
     <div class="row"><span>로스율</span><span class="val">${(r.lossRate * 100).toFixed(1)}%</span></div>
     <div class="row"><span>총 컷 수</span><span class="val">${r.totalCuts}회</span></div>
     <div class="row"><span>&nbsp;&nbsp;1D 컷 / 원장</span><span class="val">${r.cuts1D}회 / ${r.sheets1D}장</span></div>
@@ -1019,7 +1048,7 @@ function renderPlan() {
       <table class="plan-table">
         <tr><th>규격</th><td>${r._specKey} (${spec.w}×${spec.l})</td>
             <th>두께</th><td>${r._thickness}T</td>
-            <th>전단</th><td>${r._useTrim ? '적용' : '미적용'}</td></tr>
+            <th>전단</th><td>${r._useTrim ? `적용 (상 ${r.topTrim}mm · 좌 ${r.leftTrim}mm)` : '미적용'}</td></tr>
       </table>
     </div>
 
@@ -1063,7 +1092,7 @@ function renderPlan() {
     title.className = `sheet-title type-${sheet.type.toLowerCase()}`;
     title.textContent = `원장 ${i + 1} — ${sheet.type}·${sheet.cuts}컷 — ${sheet.cost.toLocaleString()}원`;
     wrap.appendChild(title);
-    wrap.appendChild(buildSheetSvg(sheet, r._specKey, r._useTrim));
+    wrap.appendChild(buildSheetSvg(sheet, r._specKey, r._useTrim, r.topTrim, r.leftTrim));
     planSheets.appendChild(wrap);
   });
 }

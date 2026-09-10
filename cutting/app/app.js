@@ -134,7 +134,7 @@ function renderSheetView() {
   title.className = `sheet-title type-${sheet.type.toLowerCase()}`;
   title.textContent = `원장 ${activeSheetIdx + 1} — ${lastResult._specKey} / ${lastResult._thickness}T — ${sheet.type}·${sheet.cuts}컷 — ${sheet.cost.toLocaleString()}원`;
   view.appendChild(title);
-  view.appendChild(buildSheetSvg(sheet, lastResult._specKey, lastResult._useTrim));
+  view.appendChild(buildSheetSvg(sheet, lastResult._specKey, lastResult._useTrim, lastResult.topTrim, lastResult.leftTrim));
 }
 
 /**
@@ -142,13 +142,13 @@ function renderSheetView() {
  * 물리적 원장 좌표(폭축=세로, 길이축=가로)로 변환해 SVG를 그린다.
  * 도면은 90도 눕혀 길이 방향이 가로가 되도록 표시한다.
  */
-function buildSheetSvg(sheet, specKey, useTrim) {
+function buildSheetSvg(sheet, specKey, useTrim, topTrim, leftTrim) {
   const spec = SPECS[specKey];
   const rawW = spec.w, rawL = spec.l;
 
   const allFL = sheet.items.every(it => it.src.isFullL);
-  const insetTop = useTrim ? TRIM : 0;              // 폭축 인셋 (상전단, 항상)
-  const insetLeft = (useTrim && !allFL) ? TRIM : 0;  // 길이축 인셋 (좌전단, 전길이만이면 생략)
+  const insetTop = useTrim ? topTrim : 0;              // 폭축 인셋 (상전단, 항상)
+  const insetLeft = (useTrim && !allFL) ? leftTrim : 0;  // 길이축 인셋 (좌전단, 전길이만이면 생략)
 
   // 화면 좌표 변환: X축(가로) = 길이 방향, Y축(세로) = 폭 방향 (엔진 좌표계는 x=폭,y=길이 고정)
   function toScreen(x, y, pw, pl) {
@@ -222,6 +222,7 @@ function renderSummary() {
   card.innerHTML = `
     <h2>결과 요약</h2>
     <div class="row"><span>필요 원장 수</span><span class="val">${r.totalSheets}장</span></div>
+    ${r._useTrim ? `<div class="row"><span>적용 전단</span><span class="val">상 ${r.topTrim}mm · 좌 ${r.leftTrim}mm</span></div>` : ''}
     <div class="row"><span>로스율</span><span class="val">${(r.lossRate * 100).toFixed(1)}%</span></div>
     <div class="row"><span>총 컷 수</span><span class="val">${r.totalCuts}회</span></div>
     <div class="row"><span>&nbsp;&nbsp;1D 컷 / 원장</span><span class="val">${r.cuts1D}회 / ${r.sheets1D}장</span></div>
@@ -279,7 +280,7 @@ function renderPlan() {
       <table class="plan-table">
         <tr><th>규격</th><td>${r._specKey} (${spec.w}×${spec.l})</td>
             <th>두께</th><td>${r._thickness}T</td>
-            <th>전단</th><td>${r._useTrim ? '적용' : '미적용'}</td></tr>
+            <th>전단</th><td>${r._useTrim ? `적용 (상 ${r.topTrim}mm · 좌 ${r.leftTrim}mm)` : '미적용'}</td></tr>
       </table>
     </div>
 
@@ -323,7 +324,7 @@ function renderPlan() {
     title.className = `sheet-title type-${sheet.type.toLowerCase()}`;
     title.textContent = `원장 ${i + 1} — ${sheet.type}·${sheet.cuts}컷 — ${sheet.cost.toLocaleString()}원`;
     wrap.appendChild(title);
-    wrap.appendChild(buildSheetSvg(sheet, r._specKey, r._useTrim));
+    wrap.appendChild(buildSheetSvg(sheet, r._specKey, r._useTrim, r.topTrim, r.leftTrim));
     planSheets.appendChild(wrap);
   });
 }

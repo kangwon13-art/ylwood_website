@@ -9,7 +9,8 @@
  */
 
 const KERF = 4.5;
-const TRIM = 5;
+const MAX_TRIM = 12; // 전단폭 상한(선호값) — 최대한 깨끗하게 트리밍
+const MIN_TRIM = 1;  // 전단폭 하한 — 이보다 더 줄이지 않음
 const MIN_CUT = KERF; // 잔재가 kerf보다 크면 컷으로 셈
 
 const SPECS = {
@@ -269,18 +270,15 @@ function backtrackFillSheet(pool, packW, packL, splitMode, useTrim, deadline, no
   return { placed, freeRects, unplaced: remaining, cuts: totalCuts, cutLog, success };
 }
 
-// ─── 전체 풀이 ──────────────────────────────────────
-function solve(items, specKey, thickness, useTrim) {
-  const spec = SPECS[specKey];
-  const tier = getPriceTier(thickness);
-  const rate = PRICE[tier];
-
-  // 유효 치수
-  const effW = spec.w - (useTrim ? TRIM : 0); // 상전단=폭줄임
-  const effL_trimmed = spec.l - (useTrim ? TRIM : 0); // 좌전단=길이줄임
+// ─── 조각 전개 + 배치 가능 방향(orientation) 판정 ──────
+// topTrim(상전단=폭축 축소)·leftTrim(좌전단=길이축 축소)을 독립 매개변수로 받는다.
+// 이 함수는 포장 탐색 없이 "이 치수가 이 전단폭에서 물리적으로 들어가는가"만 가볍게
+// 판정하므로, 전단폭 후보를 여러 개 스캔할 때 싸게 반복 호출할 수 있다.
+function buildPrepared(items, spec, useTrim, topTrim, leftTrim) {
+  const effW = spec.w - (useTrim ? topTrim : 0); // 상전단=폭줄임
+  const effL_trimmed = spec.l - (useTrim ? leftTrim : 0); // 좌전단=길이줄임
   const rawW = spec.w, rawL = spec.l;
 
-  // 조각 전개
   const allPieces = [];
   items.forEach((it, idx) => {
     for (let i = 0; i < it.q; i++) {
@@ -315,6 +313,41 @@ function solve(items, specKey, thickness, useTrim) {
       prepared.push({ orientations: orients, src: p, forcedFull: orients.some(o => o.isFullW || o.isFullL) });
     }
   });
+
+  return { effW, effL_trimmed, rawW, rawL, allPieces, prepared, notPlacedGlobal };
+}
+
+// ─── 전체 풀이 ──────────────────────────────────────
+function solve(items, specKey, thickness, useTrim) {
+  const spec = SPECS[specKey];
+  const tier = getPriceTier(thickness);
+  const rate = PRICE[tier];
+
+  // 전단폭 결정: 상단(폭축)·좌측(길이축) 독립적으로 12mm(MAX_TRIM)부터 시작 — 대부분
+  // 여기서 바로 다 들어간다. 그렇지 않을 때만(치수가 12mm 전단에서 물리적으로 안 들어가는
+  // 조각이 있을 때만) 1mm(MIN_TRIM)까지 두 축을 독립적으로 낮춰가며 재시도한다. 이 스캔은
+  // 무거운 배치 탐색(80전략+백트래킹) 없이 "치수가 들어가는가"만 가볍게 확인하므로
+  // 144개 조합을 다 훑어도 실질적으로 공짜(O(조각 수)×144, 수 ms 이내) — 실제 무거운
+  // 배치 계산은 최종 확정된 전단폭 하나로 딱 한 번만 돌린다.
+  let topTrim = MAX_TRIM, leftTrim = MAX_TRIM;
+  let build = buildPrepared(items, spec, useTrim, topTrim, leftTrim);
+  if (useTrim && build.notPlacedGlobal.length > 0) {
+    let bestCombo = { topTrim, leftTrim, unplaced: build.notPlacedGlobal.length, build };
+    for (let t = MAX_TRIM; t >= MIN_TRIM; t--) {
+      for (let l = MAX_TRIM; l >= MIN_TRIM; l--) {
+        if (t === MAX_TRIM && l === MAX_TRIM) continue; // 이미 계산함
+        const b = buildPrepared(items, spec, useTrim, t, l);
+        const unplaced = b.notPlacedGlobal.length;
+        const better = unplaced < bestCombo.unplaced ||
+          (unplaced === bestCombo.unplaced && (t + l) > (bestCombo.topTrim + bestCombo.leftTrim));
+        if (better) bestCombo = { topTrim: t, leftTrim: l, unplaced, build: b };
+      }
+    }
+    topTrim = bestCombo.topTrim; leftTrim = bestCombo.leftTrim; build = bestCombo.build;
+  }
+  if (!useTrim) { topTrim = 0; leftTrim = 0; }
+
+  const { effW, effL_trimmed, rawW, rawL, allPieces, prepared, notPlacedGlobal } = build;
 
   // 정렬 전략(크기 기준, 회전 전 원본 치수 기준)
   const sorts = [
@@ -478,6 +511,8 @@ function solve(items, specKey, thickness, useTrim) {
   if (!best) best = { sheets: [], totalPlaced: 0, totalSheets: 0, lossRate: 1, totalCuts: 0, totalCost: 0, cuts1D: 0, cuts2D: 0, sheets1D: 0, sheets2D: 0, unplaced: allPieces, tier, rate };
 
   best.unplacedSummary = summarizeUnplaced(best.unplaced, items);
+  best.topTrim = topTrim;
+  best.leftTrim = leftTrim;
 
   return best;
 }
