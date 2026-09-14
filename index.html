@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>영림우드 | 건축자재 실시간 단가표 & 맞춤 견적 시스템</title>
+    <title>INFILL | 건축자재 실시간 단가표 & 맞춤 견적 시스템</title>
     <!-- SEO Meta Tags -->
     <meta name="description"
         content="석고보드, 경량철골, 단열재, 목재, 텍스, 페인트 등 고품질 건축자재를 전국 최저가 수준으로 신속하게 유통합니다. 실시간 단가 계산 및 비대면 상담 가능.">
-    <meta name="keywords" content="영림우드, 건축자재, 석고보드 단가, 경량철골 견적, 단열재 최저가, 목재 납품, 텍스 시공, 수성페인트 단가, 실시간 견적">
-    <meta property="og:title" content="영림우드 - 건축자재 실시간 단가 & 무료 견적 시스템">
+    <meta name="keywords" content="INFILL, 건축자재, 석고보드 단가, 경량철골 견적, 단열재 최저가, 목재 납품, 텍스 시공, 수성페인트 단가, 실시간 견적">
+    <meta property="og:title" content="INFILL - 건축자재 실시간 단가 & 무료 견적 시스템">
     <meta property="og:description" content="석고보드, 경량철골, 단열재 등 전 품목 실시간 온라인 단가 제공 및 즉시 견적 확인.">
     <meta property="og:type" content="website">
 
@@ -127,21 +127,67 @@
         .logo-area svg {
             width: 32px;
             height: 32px;
-            fill: var(--color-accent-orange);
         }
 
-        .logo-text {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--color-text-white);
+        .logo-word-group {
             display: flex;
             align-items: center;
+            gap: 12px;
         }
 
-        .logo-text span {
-            color: var(--color-accent-orange);
-            margin-left: 2px;
+        .logo-wordmark {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--color-text-white);
+        }
+
+        .logo-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--color-border);
+        }
+
+        .logo-tagline {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+        }
+
+        .logo-endorsement {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+        }
+
+        .header-phone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-phone-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--color-accent-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .header-phone-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: #FFFFFF;
+        }
+
+        .header-phone-number {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            white-space: nowrap;
         }
 
         .header-contact {
@@ -1210,11 +1256,16 @@
         .footer-logo {
             font-size: 18px;
             font-weight: 800;
+            letter-spacing: 1px;
             color: var(--color-text-white);
         }
 
-        .footer-logo span {
-            color: var(--color-accent-orange);
+        .footer-logo-endorsement {
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: normal;
+            color: var(--color-text-muted);
+            margin-left: 6px;
         }
 
         .footer-details {
@@ -1463,6 +1514,19 @@
                 padding: 0 16px;
             }
 
+            .logo-word-group {
+                gap: 10px;
+            }
+
+            .logo-divider,
+            .logo-tagline {
+                display: none;
+            }
+
+            .header-phone {
+                display: none;
+            }
+
             .hero-navigation-grid {
                 grid-template-columns: 1fr;
                 max-width: 400px;
@@ -1631,8 +1695,9 @@
                 display: flex;
             }
 
-            .logo-text {
-                font-size: 16px;
+            .logo-wordmark {
+                font-size: 17px;
+                letter-spacing: 1px;
             }
 
             header .catalog-link {
@@ -1856,12 +1921,24 @@
         <div class="container header-wrap">
             <a href="index.html" class="logo-area">
                 <svg viewBox="0 0 100 100" aria-hidden="true">
-                    <path d="M6 47 L42 11 L42 83 Z" />
-                    <rect x="46" y="11" width="48" height="24" rx="3" />
-                    <path d="M46 53 L66 53 L66 41 L94 41 L94 89 L46 89 Z" />
+                    <polygon points="90,52 70,86.64 30,86.64 10,52 30,17.36 70,17.36" fill="none" stroke="#1A1F2B" stroke-width="7" />
+                    <rect x="32" y="34" width="36" height="32" rx="3" fill="#FF6B35" />
+                    <line x1="36" y1="46" x2="64" y2="46" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" />
+                    <line x1="36" y1="56" x2="64" y2="56" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" />
                 </svg>
-                <div class="logo-text">영림우드<span>.</span></div>
+                <div class="logo-word-group">
+                    <span class="logo-wordmark">INFILL</span>
+                    <span class="logo-divider"></span>
+                    <span class="logo-tagline">공간을 완성하는 인필</span>
+                    <span class="logo-endorsement">by 영림우드</span>
+                </div>
             </a>
+            <div class="header-phone">
+                <span class="header-phone-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+                </span>
+                <span class="header-phone-number">02-1234-5678</span>
+            </div>
         </div>
     </header>
 
@@ -1874,14 +1951,14 @@
                         <path
                             d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h-2v-2h4v8zm0-10h-2V5h-2v2h4z" />
                     </svg>
-                    영림우드 공식 유통사 · 건축자재 전문
+                    INFILL · 건축자재 전문
                 </div>
                 <h1 class="hero-title">
                     찾는 자재 검색 한 번,<br>
                     <span>단가부터 견적까지 한 화면에서</span>
                 </h1>
                 <p class="hero-desc">
-                    실시간 단가와 즉시 견적. 영림우드 공식 유통.
+                    실시간 단가와 즉시 견적. INFILL 공식 유통.
                 </p>
                 <div class="global-search-container hero-search" style="position: relative; z-index: 10;">
                     <input class="form-input" type="text" id="globalProductSearchInput"
@@ -1974,7 +2051,7 @@
                 <div>
                     <span class="section-tag">Categories</span>
                     <h2 class="section-title">취급 자재 카테고리</h2>
-                    <p class="section-desc">영림우드가 엄선하여 직배송하는 고품질 건축 자재 리스트입니다. 카테고리를 클릭하면 단가 계산기로 즉시 이동합니다.</p>
+                    <p class="section-desc">INFILL이 엄선하여 직배송하는 고품질 건축 자재 리스트입니다. 카테고리를 클릭하면 단가 계산기로 즉시 이동합니다.</p>
                 </div>
                 <div class="matcat-header-count"><span class="font-num">10</span>개 품목군</div>
             </div>
@@ -2211,7 +2288,7 @@
             <div class="section-header">
                 <span class="section-tag">REFERENCES</span>
                 <h2 class="section-title">주요 납품 실적</h2>
-                <p class="section-desc">영림우드가 납품을 완료한 주요 프로젝트 현장입니다.</p>
+                <p class="section-desc">INFILL이 납품을 완료한 주요 프로젝트 현장입니다.</p>
             </div>
             <div class="category-grid" id="referenceContainer">
                 <!-- References will be rendered here dynamically -->
@@ -2297,7 +2374,7 @@
         <div class="container">
             <div class="footer-wrap">
                 <div class="footer-info">
-                    <div class="footer-logo">영림우드<span>.</span></div>
+                    <div class="footer-logo">INFILL<span class="footer-logo-endorsement">by 영림우드</span></div>
                     <div class="footer-details">
                         (주)영림우드종합자재 | 대표이사: 홍길동 | 사업자등록번호: 123-45-67890<br>
                         본사/물류창고: 경기도 하남시 자재단지로 123번길 45<br>
@@ -2312,7 +2389,7 @@
                     <div class="footer-bottom-nav">
                         <a href="#" onclick="alert('준비 중입니다.'); return false;">이용약관</a>
                         <a href="#"
-                            onclick="alert('영림우드는 이용자의 개인정보를 소중히 보호하며 제3자에게 임의 제공하지 않습니다.'); return false;">개인정보처리방침</a>
+                            onclick="alert('INFILL은 이용자의 개인정보를 소중히 보호하며 제3자에게 임의 제공하지 않습니다.'); return false;">개인정보처리방침</a>
                         <a href="#" onclick="scrollToElement('header')">맨위로</a>
                     </div>
                 </div>

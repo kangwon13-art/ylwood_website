@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>영림우드 | 영림카탈로그 - 디지털 카탈로그</title>
+    <title>INFILL | 영림카탈로그 - 디지털 카탈로그</title>
     <!-- SEO Meta Tags -->
-    <meta name="description" content="영림우드의 프리미엄 건축자재 종합 카탈로그를 온라인에서 손쉽게 확인하세요.">
-    <meta name="keywords" content="영림우드, 카탈로그, 건축자재 카탈로그, 자재 단가">
-    <meta property="og:title" content="영림우드 - 영림카탈로그">
-    <meta property="og:description" content="영림우드의 프리미엄 건축자재 종합 카탈로그 온라인 열람.">
+    <meta name="description" content="INFILL의 프리미엄 건축자재 종합 카탈로그를 온라인에서 손쉽게 확인하세요.">
+    <meta name="keywords" content="INFILL, 카탈로그, 건축자재 카탈로그, 자재 단가">
+    <meta property="og:title" content="INFILL - 영림카탈로그">
+    <meta property="og:description" content="INFILL의 프리미엄 건축자재 종합 카탈로그 온라인 열람.">
     <meta property="og:type" content="website">
 
     <!-- Favicon / App Icon -->
@@ -101,18 +101,61 @@
         .logo-area svg {
             width: 28px;
             height: 28px;
-            fill: var(--color-accent-orange);
         }
 
-        .logo-text {
+        .logo-word-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-wordmark {
             font-size: 20px;
             font-weight: 800;
+            letter-spacing: 1.5px;
             color: var(--color-text-white);
-            letter-spacing: -0.5px;
         }
 
-        .logo-text span {
-            color: var(--color-accent-orange);
+        .logo-endorsement {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+        }
+
+        .header-right-group {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .header-phone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-phone-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--color-accent-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .header-phone-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: #FFFFFF;
+        }
+
+        .header-phone-number {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            white-space: nowrap;
         }
 
         .header-contact {
@@ -194,6 +237,19 @@
         @media (max-width: 768px) {
             header .nav-tab-link {
                 display: none;
+            }
+
+            .header-phone {
+                display: none;
+            }
+
+            .logo-word-group {
+                gap: 10px;
+            }
+
+            .logo-wordmark {
+                font-size: 17px;
+                letter-spacing: 1px;
             }
         }
 
@@ -341,12 +397,17 @@
         .footer-logo {
             font-size: 24px;
             font-weight: 800;
+            letter-spacing: 1px;
             color: var(--color-text-white);
             margin-bottom: 20px;
         }
 
-        .footer-logo span {
-            color: var(--color-accent-orange);
+        .footer-logo-endorsement {
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: normal;
+            color: var(--color-text-muted);
+            margin-left: 8px;
         }
 
         .footer-details {
@@ -493,19 +554,31 @@
         <div class="container header-wrap">
             <a href="index.html" class="logo-area">
                 <svg viewBox="0 0 100 100" aria-hidden="true">
-                    <path d="M6 47 L42 11 L42 83 Z" />
-                    <rect x="46" y="11" width="48" height="24" rx="3" />
-                    <path d="M46 53 L66 53 L66 41 L94 41 L94 89 L46 89 Z" />
+                    <polygon points="90,52 70,86.64 30,86.64 10,52 30,17.36 70,17.36" fill="none" stroke="#1A1F2B" stroke-width="7" />
+                    <rect x="32" y="34" width="36" height="32" rx="3" fill="#FF6B35" />
+                    <line x1="36" y1="46" x2="64" y2="46" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" />
+                    <line x1="36" y1="56" x2="64" y2="56" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" />
                 </svg>
-                <div class="logo-text">영림우드<span>.</span></div>
+                <div class="logo-word-group">
+                    <span class="logo-wordmark">INFILL</span>
+                    <span class="logo-endorsement">by 영림우드</span>
+                </div>
             </a>
-            <div class="header-nav-group">
-                <a href="calculator.html" class="nav-tab-link">최신단가표</a>
-                <a href="catalog.html" class="nav-tab-link active">영림카탈로그</a>
-                <a href="door_order.html" class="nav-tab-link">문짝·문틀 주문</a>
-                <a href="molding_catalog.html" class="nav-tab-link">몰딩 재고 확인</a>
-                <a href="wallpanel.html" class="nav-tab-link">월판넬</a>
-                <a href="index.html#inquiry-form-sec" class="nav-tab-link">간편 유선 상담 신청</a>
+            <div class="header-right-group">
+                <div class="header-nav-group">
+                    <a href="calculator.html" class="nav-tab-link">최신단가표</a>
+                    <a href="catalog.html" class="nav-tab-link active">영림카탈로그</a>
+                    <a href="door_order.html" class="nav-tab-link">문짝·문틀 주문</a>
+                    <a href="molding_catalog.html" class="nav-tab-link">몰딩 재고 확인</a>
+                    <a href="wallpanel.html" class="nav-tab-link">월판넬</a>
+                    <a href="index.html#inquiry-form-sec" class="nav-tab-link">간편 유선 상담 신청</a>
+                </div>
+                <div class="header-phone">
+                    <span class="header-phone-icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+                    </span>
+                    <span class="header-phone-number">02-1234-5678</span>
+                </div>
             </div>
         </div>
     </header>
@@ -514,7 +587,7 @@
     <section class="inner-title-sec">
         <div class="container">
             <span class="page-tag">Catalog</span>
-            <h1 class="page-title">영림우드 종합 카탈로그</h1>
+            <h1 class="page-title">INFILL 종합 카탈로그</h1>
         </div>
     </section>
 
@@ -547,7 +620,7 @@
         <div class="container">
             <div class="footer-wrap">
                 <div class="footer-info">
-                    <div class="footer-logo">영림우드<span>.</span></div>
+                    <div class="footer-logo">INFILL<span class="footer-logo-endorsement">by 영림우드</span></div>
                     <div class="footer-details">
                         (주)영림우드종합자재 | 대표이사: 홍길동 | 사업자등록번호: 123-45-67890<br>
                         본사/물류창고: 경기도 하남시 자재단지로 123번길 45<br>
@@ -562,7 +635,7 @@
                     <div class="footer-bottom-nav">
                         <a href="#" onclick="alert('준비 중입니다.'); return false;">이용약관</a>
                         <a href="#"
-                            onclick="alert('영림우드는 이용자의 개인정보를 소중히 보호하며 제3자에게 임의 제공하지 않습니다.'); return false;">개인정보처리방침</a>
+                            onclick="alert('INFILL은 이용자의 개인정보를 소중히 보호하며 제3자에게 임의 제공하지 않습니다.'); return false;">개인정보처리방침</a>
                         <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">맨위로</a>
                     </div>
                 </div>

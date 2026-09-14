@@ -1,5 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" role="img" aria-label="영림우드">
-  <path d="M6 47 L42 11 L42 83 Z"/>
-  <rect x="46" y="11" width="48" height="24" rx="3"/>
-  <path d="M46 53 L66 53 L66 41 L94 41 L94 89 L46 89 Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="INFILL">
+  <polygon points="90,52 70,86.64 30,86.64 10,52 30,17.36 70,17.36" fill="none" stroke="#1A1F2B" stroke-width="7"/>
+  <rect x="32" y="34" width="36" height="32" rx="3" fill="#FF6B35"/>
+  <line x1="36" y1="46" x2="64" y2="46" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <line x1="36" y1="56" x2="64" y2="56" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
 </svg>
