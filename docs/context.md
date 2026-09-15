@@ -93,7 +93,7 @@
 
 ---
 
-## 5. 협업 원칙 (`decisions.md` 재발 방지 원칙 7건 요약 — 전문은 `docs/decisions.md` 참조)
+## 5. 협업 원칙 (`decisions.md` 재발 방지 원칙 8건 요약 — 전문은 `docs/decisions.md` 참조)
 
 1. **커밋 전 git status 전체 파일 목록 체크** — 작업 범위의 파일이 전부 스테이징됐는지 확인 후 커밋.
 2. **커밋·push는 감독 명시적 승인 후에만** — "확인 완료"/"승인" 문구 없이 임의 진행 금지.
@@ -102,6 +102,7 @@
 5. **정렬·여백 검증은 픽셀 좌표 수치 필수** — `getBoundingClientRect()` 실측치 첨부, "비슷함" 판정 금지.
 6. **인라인 style 우선순위 확인** — 스타일 미적용 시 `!important`보다 먼저 HTML 인라인 `style=` 존재 여부 확인.
 7. **모바일+태블릿 풀블리드가 기본 방침** — 별도 명시 없는 한 두 브레이크포인트 모두 대상, PC(1025px+)는 별도 미디어쿼리로 격리.
+8. **구글시트에 품목 추가 시 NO(순번) 컬럼 중복 금지** — 기존 시트 탭의 마지막 NO 다음 번호부터 이어서 부여할 것. 품목코드가 비어있으면 NO로 품목 `id`를 만드는 구조라, NO가 겹치면 서로 다른 품목이 같은 id를 가져 "A를 담았는데 B가 담기는" 사고로 이어짐(2026-09-15 실제 발생·수정, `c5b46d2`). 코드 쪽에도 `ensureUniqueIds()` 최후 방어선이 있지만, 애초에 NO를 안 겹치게 입력하는 게 원칙.
 
 추가로 이번 세션(2026-08 이후)에서 확립된 운영 규칙:
 - 매 라운드 종료 시 `docs/context.md` 자동 갱신.
@@ -148,6 +149,7 @@
 - `wallpanel.html` 이미지 404(템바보드 썸네일 일부 누락) — 기존 이슈, 자산 확보 후 해결 예정.
 - `docs/design.md`(Pinterest 디자인 시스템 참고 문서로 추정, 이 프로젝트와 무관한 내용)가 커밋되지 않은 채 저장소에 남아있음 — 필요 없으면 삭제, 필요하면 별도 용도 확인 후 처리 요망.
 - **카트/상태 저장 방식 조사 결과(`localStorage`/`sessionStorage` grep, 6개 서비스 페이지 전체 대상)**: `door_order.html`(`doorOrderSets`), `wallpanel.html`(`wallpanelCartItems`), `molding_catalog.html`(`moldingCartItems`), `index.html`/`calculator.html`(`yw_cart`, `pendingEstimateText` 등) **전부 `sessionStorage`만 사용 — `localStorage` API 호출은 6개 페이지 어디에도 없음**(공용 기기 데이터 잔류 이슈 없음, 통일 작업 불필요). `localStorage.setItem/getItem` 호출은 서비스 링크가 없는 백업 파일(`admin.html`, `admin_restored.html`, `index_restored.html`)에만 존재하며, 이 3개는 이미 1번 섹션에 "미사용/백업 파일"로 분리 기재돼 있음. 참고로 index.html/calculator.html의 `console.warn("Failed to load cart from localStorage: ...")` 문구는 실제 호출과 무관한 복사 잔재 오기(실제로는 sessionStorage를 읽음) — 기능상 문제는 아니나 다음에 그 파일들을 손댈 때 로그 문구도 함께 정정 권장.
+- **(해결됨) 2026-09-15, 긴급 버그 — 엉뚱한 품목이 장바구니에 담기는 사고**: `calculator.html`의 품목 `id`는 품목코드가 비어있으면 `NO`(순번)로 대체해서 만드는데, 합판 시트 탭에 품목 3개(백색 코팅합판/미장(라미날 합판)/스페이스월)를 추가하면서 NO를 이어서 매기지 않고 25/26/27로 되돌려 매겨, 기존 NO 25/26/27 품목과 완전히 동일한 `id`가 생성됨 — "미장(라미날 합판)" 담기를 눌러도 실제로는 "17.5mm 4x8 합판 베트남 보급형"이 담기는 사고로 이어짐. 사장님이 시트 NO를 35/36/37로 재정리했고, 코드에도 `loadLocalData()`에 `ensureUniqueIds()` 안전장치를 추가해 앞으로 NO/코드가 중복돼도 자동으로 유일한 id를 부여하고 `console.warn`으로 경고하도록 함(`c5b46d2`). 재발 방지 원칙은 `decisions.md` 원칙 8 참조 — **앞으로 시트에 품목 추가 시 NO를 기존 값과 안 겹치게, 이어서 부여할 것.**
 
 ---
 
