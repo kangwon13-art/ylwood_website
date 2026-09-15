@@ -3453,6 +3453,27 @@
         // This is captured once at script evaluation time and remains the fallback source.
         const BASE_PRODUCTS_DATA = JSON.parse(JSON.stringify(PRODUCTS_DATA));
 
+        // 안전장치: 품목코드가 비어있으면 NO(순번)로 id 슬러그를 만드는 구조라,
+        // 시트에 NO가 중복 입력되면(예: 합판 시트에 새 품목을 추가하면서 NO를 25/26/27로
+        // 재사용) 서로 다른 품목이 완전히 같은 id를 갖게 되어 "미장(라미날 합판)" 담기 시
+        // "17.5mm 베트남 보급형"이 담기는 등 엉뚱한 품목이 장바구니에 반영되는 사고가 났음.
+        // 같은 카테고리 안에서 id가 중복되면, 배열에서 먼저 나온 품목은 기존 id를 그대로
+        // 유지(검색 딥링크·세션 카트 등 기존 id 참조와의 호환성 보존)하고, 이후 중복분에만
+        // 배열 인덱스를 붙여 강제로 유일한 id를 부여한다.
+        function ensureUniqueIds(items, cat) {
+            const seen = new Map();
+            items.forEach((item, idx) => {
+                const baseId = item.id;
+                if (!seen.has(baseId)) {
+                    seen.set(baseId, true);
+                    return;
+                }
+                const newId = `${baseId}__dup${idx}`;
+                console.warn(`[ID 중복 감지] 카테고리 "${cat}"에서 id "${baseId}"가 중복되어 "${newId}"로 자동 보정했습니다. (품목: "${item.name}")`);
+                item.id = newId;
+            });
+        }
+
         function loadLocalData() {
             for (const cat in BASE_PRODUCTS_DATA) {
                 PRODUCTS_DATA[cat] = JSON.parse(JSON.stringify(BASE_PRODUCTS_DATA[cat]));
@@ -3463,6 +3484,7 @@
                         item.group = fallbackedGroup || item.name;
                     }
                 });
+                ensureUniqueIds(PRODUCTS_DATA[cat], cat);
             }
 
             for (const cat in SHEET_DATA) {
@@ -3475,6 +3497,7 @@
                             item.group = fallbackedGroup || item.name;
                         }
                     });
+                    ensureUniqueIds(PRODUCTS_DATA[cat], cat);
                 }
             }
 
