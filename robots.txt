@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://infill-wood.kr/sitemap.xml
