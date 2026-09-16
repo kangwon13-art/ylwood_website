@@ -1669,6 +1669,224 @@
             box-shadow: 0 4px 15px rgba(254, 229, 0, 0.2);
         }
 
+        /* 지시서#10: 이메일 견적 요청 — 카카오 버튼 병행(대체 아님).
+           위계상 카카오보다 한 단계 낮은 무게감을 주기 위해 색을 채우지 않고 테두리만 사용. */
+        .btn-quote-request {
+            background: transparent;
+            color: var(--color-accent-orange);
+            border: 1.5px solid var(--color-accent-orange);
+            height: 44px;
+            font-size: 13.5px;
+            font-weight: 700;
+        }
+
+        .btn-quote-request:hover {
+            background: var(--color-accent-orange-light);
+        }
+
+        .btn-quote-request svg {
+            flex-shrink: 0;
+        }
+
+        /* 지시서#10: 견적 요청 폼 — 기존 옵션시트(.option-sheet)와 동일한 바텀시트 패턴을
+           별도 클래스로 재구현(서로 다른 body 클래스로 독립 동작, DOM 공유 없음). */
+        .quote-request-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 31, 43, 0.45);
+            z-index: 10002;
+        }
+
+        .quote-request-sheet {
+            display: none;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            max-height: 92vh;
+            max-height: 92svh;
+            background: var(--color-bg-secondary);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -10px 30px rgba(31, 42, 68, 0.25);
+            z-index: 10003;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        body.quote-request-open .quote-request-overlay,
+        body.quote-request-open .quote-request-sheet {
+            display: flex;
+        }
+
+        body.quote-request-open {
+            position: fixed;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body.quote-request-open #header {
+            z-index: 10 !important;
+        }
+
+        .quote-request-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 20px 20px 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .quote-request-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-text-white);
+        }
+
+        .quote-request-subtitle {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-top: 4px;
+        }
+
+        .quote-request-close {
+            background: var(--color-bg-tertiary);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .quote-request-body {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 16px 20px 24px;
+        }
+
+        .quote-request-cart-preview {
+            background: var(--color-accent-orange-light);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-bottom: 18px;
+        }
+
+        .quote-request-cart-preview b {
+            color: var(--color-text-white);
+        }
+
+        .quote-field {
+            margin-bottom: 14px;
+        }
+
+        .quote-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-text-white);
+            margin-bottom: 6px;
+        }
+
+        .quote-field label .req {
+            color: var(--color-accent-orange);
+        }
+
+        .quote-field label .opt {
+            font-weight: 400;
+            color: var(--color-text-muted);
+            font-size: 11.5px;
+        }
+
+        .quote-field input,
+        .quote-field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--color-text-white);
+            background: var(--color-bg-primary);
+            box-sizing: border-box;
+        }
+
+        .quote-field textarea {
+            resize: none;
+            height: 64px;
+        }
+
+        .quote-field-error {
+            display: none;
+            color: #c0392b;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .quote-field.has-error input {
+            border-color: #c0392b;
+        }
+
+        .quote-field.has-error .quote-field-error {
+            display: block;
+        }
+
+        .quote-request-feedback {
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .quote-request-feedback.success {
+            background: rgba(52, 199, 89, 0.1);
+            color: #1e8e3e;
+        }
+
+        .quote-request-feedback.error {
+            background: rgba(255, 59, 48, 0.1);
+            color: #c0392b;
+        }
+
+        .quote-request-feedback .kakao-fallback-link {
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: 700;
+            color: #191919;
+            background: #FEE500;
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .quote-request-submit-btn {
+            width: 100%;
+            background: var(--color-accent-orange);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition-smooth);
+        }
+
+        .quote-request-submit-btn:disabled {
+            background: var(--color-border);
+            color: var(--color-text-muted);
+            cursor: not-allowed;
+        }
+
         /* CONSULTATION INQUIRY FORM */
         .inquiry {
             padding: 100px 0;
@@ -2950,6 +3168,15 @@
                                     PNG 저장
                                 </button>
                             </div>
+                            <button type="button" class="btn btn-quote-request btn-full" id="quoteRequestTriggerBtn"
+                                onclick="openQuoteRequestSheet()">
+                                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                </svg>
+                                이메일로 견적 요청
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -3004,6 +3231,48 @@
         </div>
         <div class="option-sheet-body" id="optionSheetBody">
             <!-- Loaded dynamically via JavaScript (openOptionSheet) -->
+        </div>
+    </div>
+
+    <div class="quote-request-overlay" id="quoteRequestOverlay" onclick="closeQuoteRequestSheet()"></div>
+    <div class="quote-request-sheet" id="quoteRequestSheet">
+        <div class="quote-request-header">
+            <div>
+                <div class="quote-request-title">이메일로 견적 요청</div>
+                <div class="quote-request-subtitle">담당자가 이메일로 확인 후 연락드립니다</div>
+            </div>
+            <button class="quote-request-close" type="button" onclick="closeQuoteRequestSheet()" aria-label="닫기">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="quote-request-body">
+            <div class="quote-request-cart-preview" id="quoteRequestCartPreview"></div>
+            <form id="quoteRequestForm" novalidate onsubmit="handleQuoteRequestSubmit(event)">
+                <div class="quote-field" id="quoteNameField">
+                    <label for="quoteName">성함 <span class="req">*</span></label>
+                    <input type="text" id="quoteName" autocomplete="name"
+                        oninput="document.getElementById('quoteNameField').classList.remove('has-error')">
+                    <span class="quote-field-error" id="quoteNameError">성함을 입력해주세요</span>
+                </div>
+                <div class="quote-field" id="quoteTelField">
+                    <label for="quoteTel">연락처 <span class="req">*</span></label>
+                    <input type="tel" id="quoteTel" autocomplete="tel" placeholder="010-0000-0000"
+                        oninput="document.getElementById('quoteTelField').classList.remove('has-error')">
+                    <span class="quote-field-error" id="quoteTelError">연락처를 입력해주세요</span>
+                </div>
+                <div class="quote-field">
+                    <label for="quoteArea">현장명 또는 지역 <span class="opt">(선택)</span></label>
+                    <input type="text" id="quoteArea" autocomplete="off">
+                </div>
+                <div class="quote-field">
+                    <label for="quoteMessage">요청사항 <span class="opt">(선택)</span></label>
+                    <textarea id="quoteMessage"></textarea>
+                </div>
+                <div id="quoteRequestFeedback"></div>
+                <button type="submit" class="quote-request-submit-btn" id="quoteRequestSubmitBtn">견적 요청 보내기</button>
+            </form>
         </div>
     </div>
 
@@ -4826,6 +5095,123 @@
                     // Fallback
                 });
             }
+        }
+
+        // 지시서#10-B. 이메일 견적 요청 (Kakao 채널 대체가 아닌 병행 채널)
+        function openQuoteRequestSheet() {
+            const { items, total } = getSelectedItemsArray();
+            if (items.length === 0) {
+                alert("계산기에서 수량을 1개 이상 추가하신 후 견적 요청을 눌러주세요.");
+                return;
+            }
+            const preview = document.getElementById("quoteRequestCartPreview");
+            preview.innerHTML = `선택하신 품목 <b>${items.length}건</b>, 합계 <b>${formatNumber(total)}원</b>이 이메일에 함께 전송됩니다.`;
+
+            const feedback = document.getElementById("quoteRequestFeedback");
+            feedback.innerHTML = "";
+            feedback.className = "";
+            document.getElementById("quoteNameField").classList.remove("has-error");
+            document.getElementById("quoteTelField").classList.remove("has-error");
+
+            lockBodyScroll();
+            document.body.classList.add("quote-request-open");
+        }
+
+        function closeQuoteRequestSheet() {
+            document.body.classList.remove("quote-request-open");
+            unlockBodyScroll();
+        }
+
+        function handleQuoteRequestSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("quoteName").value.trim();
+            const tel = document.getElementById("quoteTel").value.trim();
+            const area = document.getElementById("quoteArea").value.trim();
+            const message = document.getElementById("quoteMessage").value.trim();
+            const feedback = document.getElementById("quoteRequestFeedback");
+
+            const nameField = document.getElementById("quoteNameField");
+            const telField = document.getElementById("quoteTelField");
+            nameField.classList.toggle("has-error", !name);
+            telField.classList.toggle("has-error", !tel);
+
+            if (!name || !tel) {
+                feedback.className = "";
+                feedback.innerHTML = "";
+                (!name ? document.getElementById("quoteName") : document.getElementById("quoteTel")).focus();
+                return;
+            }
+
+            const { items, total } = getSelectedItemsArray();
+            if (items.length === 0) {
+                feedback.className = "quote-request-feedback error";
+                feedback.textContent = "선택된 견적 내역이 없습니다. 계산기에서 수량을 먼저 추가해 주세요.";
+                return;
+            }
+
+            const submitBtn = document.getElementById("quoteRequestSubmitBtn");
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = "전송 중...";
+            feedback.className = "";
+            feedback.innerHTML = "";
+
+            let estimateRowsHtml = "";
+            items.forEach((item, i) => {
+                const bgColor = (i % 2 === 1) ? "#f9f9f9" : "#ffffff";
+                estimateRowsHtml += `
+                  <tr style="background-color: ${bgColor}; border-bottom: 1px solid #eeeeee;">
+                    <td style="padding: 10px 8px; border: 1px solid #dddddd; text-align: center; font-size: 13px; color: #555555; width: 8%;">${i + 1}</td>
+                    <td style="padding: 10px 8px; border: 1px solid #dddddd; text-align: left; font-size: 13px; font-weight: bold; color: #333333; width: 42%;">${item.name}</td>
+                    <td style="padding: 10px 8px; border: 1px solid #dddddd; text-align: left; font-size: 13px; color: #666666; width: 22%;">${item.spec || "-"}</td>
+                    <td style="padding: 10px 8px; border: 1px solid #dddddd; text-align: center; font-size: 13px; color: #333333; width: 8%;">${item.qty}</td>
+                    <td style="padding: 10px 8px; border: 1px solid #dddddd; text-align: right; font-size: 13px; color: #555555; width: 10%;">${formatNumber(item.price)}원</td>
+                    <td style="padding: 10px 8px; border: 1px solid #dddddd; text-align: right; font-size: 13px; font-weight: bold; color: #FF6B35; width: 10%;">${formatNumber(item.subtotal)}원</td>
+                  </tr>
+                `;
+            });
+            estimateRowsHtml += `
+              <tr style="background-color: #fff2ec; font-weight: bold; border-top: 2px solid #FF6B35;">
+                <td colspan="3" style="padding: 12px 8px; border: 1px solid #dddddd; text-align: center; font-size: 14px; color: #FF6B35;">합계 (부가세/배송비 별도)</td>
+                <td style="padding: 12px 8px; border: 1px solid #dddddd; text-align: center; font-size: 14px; color: #FF6B35;">-</td>
+                <td style="padding: 12px 8px; border: 1px solid #dddddd; text-align: right; font-size: 14px; color: #FF6B35;">-</td>
+                <td style="padding: 12px 8px; border: 1px solid #dddddd; text-align: right; font-size: 14px; color: #FF6B35; font-size: 15px;">${formatNumber(total)}원</td>
+              </tr>
+            `;
+
+            const templateParams = {
+                company: name,
+                phone: tel,
+                category: "계산기 견적 요청 (" + (currentActiveTab || "-") + ")",
+                area: area || "입력 안 함",
+                message: message || "(요청사항 없음)",
+                estimate_rows: estimateRowsHtml
+            };
+
+            emailjs.send("service_itchlia", "template_6udhffm", templateParams)
+                .then(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    feedback.className = "quote-request-feedback success";
+                    feedback.textContent = "견적 요청이 정상적으로 전송되었습니다. 담당자가 확인 후 연락드리겠습니다.";
+                    document.getElementById("quoteRequestForm").reset();
+
+                    if (typeof gtag === "function") {
+                        gtag("event", "generate_lead", {
+                            currency: "KRW",
+                            value: total
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    feedback.className = "quote-request-feedback error";
+                    feedback.innerHTML = "전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주시거나, 카카오톡으로 문의해 주세요." +
+                        '<br><a class="kakao-fallback-link" href="javascript:void(0)" onclick="closeQuoteRequestSheet(); sendKakaoEstimate();">카카오톡으로 문의하기</a>';
+                });
         }
 
         // 11-1. Build selected-items array (name/spec/unit/qty/price/subtotal) for receipt rendering
