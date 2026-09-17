@@ -23,9 +23,9 @@ GROUPS_DIR = REPO_ROOT / "groups"
 KST = timezone(timedelta(hours=9))
 
 # calculator.html의 SHEET_CONFIG와 동일한 공개 CSV export URL (카테고리별).
-# 파일럿은 plaster만 사용하지만, #12 확산 시 이어서 채울 수 있도록 카테고리 키를 그대로 유지한다.
 SHEET_CONFIG = {
     "plaster": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1430273857",
+    "finishing": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1810019476",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -64,6 +64,25 @@ GROUP_PAGE_MAP = {
         "category_label": "석고보드",
         "title": "차음/방균 석고보드 단가 및 규격 안내",
         "description": "곰팡이 억제 기능이나 층간소음 차단 성능을 보강한 석고보드로, 습도가 높거나 소음에 민감한 공간에 적합합니다.",
+    },
+    ("finishing", "아쿠아보드"): {
+        "slug": "finishing-aquaboard",
+        "category_label": "마감자재",
+        "title": "아쿠아보드 단가 및 규격 안내",
+        "description": "자연석 질감을 표현한 마감용 보드로, 실제 석재보다 가벼워 시공이 간편하고 벽면 포인트 마감재로 많이 사용됩니다. 실내 인테리어의 스톤 무늬 연출에 적합합니다.",
+    },
+    ("finishing", "스톤플렉시블보드"): {
+        "slug": "finishing-stone-flexible",
+        "category_label": "마감자재",
+        "title": "원스톤 플렉시블 보드 단가 및 규격 안내",
+        "description": "얇고 유연한 인조석 마감재로, 곡면이나 좁은 공간에도 시공이 가능합니다. 트래버틴·슬레이트 등 다양한 석재 패턴과 사이즈(600×1200mm/1200×2400mm)로 제공됩니다.",
+    },
+    ("finishing", "영림 월판넬"): {
+        "slug": "finishing-wallsystem",
+        "category_label": "마감자재",
+        "title": "영림 월판넬(인피니월·월시스템와이드) 안내",
+        "description": "벽면 마감을 위한 모듈형 월판넬 시스템으로, 현장 조건에 따라 맞춤 시공이 가능합니다. 정확한 사양과 단가는 상담을 통해 안내해 드립니다.",
+        "inquiry_only": True,
     },
 }
 
@@ -292,6 +311,13 @@ HEAD_CSS = """
         table.group-table td.name-col { font-weight: 700; color: var(--color-text-white); }
         table.group-table td.price-col { text-align: right; font-weight: 700; color: var(--color-accent-orange); white-space: nowrap; }
         .group-cta-wrap { max-width: 360px; }
+        .inquiry-banner { background: var(--color-accent-orange-light); border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 12px; padding: 18px 20px; margin-bottom: 28px; word-break: keep-all; }
+        .inquiry-banner strong { display: block; font-size: 15px; color: var(--color-text-white); margin-bottom: 6px; }
+        .inquiry-banner p { font-size: 13.5px; color: var(--color-text-light); line-height: 1.7; margin-bottom: 14px; }
+        .inquiry-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        .inquiry-cta-row a { flex: 1; min-width: 140px; }
+        .btn-kakao-inline { background: #FEE500; color: #191919; }
+        .btn-kakao-inline:hover { background: #f5dc00; transform: translateY(-2px); }
         @media (max-width: 1024px) {
             .group-main { padding: 24px 0 100px; }
             .group-title { font-size: 24px; }
@@ -344,6 +370,21 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
         "group": group_name,
         "items": [{"id": it["id"], "name": it["name"], "price": it["price"]} for it in items],
     }
+
+    inquiry_only = bool(meta.get("inquiry_only"))
+    if inquiry_only:
+        note_or_banner_html = f"""<div class="inquiry-banner">
+                <strong>실시간 단가 준비 중인 품목입니다</strong>
+                <p>정확한 사양과 단가는 카카오톡 또는 전화 상담으로 빠르게 안내해 드립니다.</p>
+                <div class="inquiry-cta-row">
+                    <a href="tel:02-1234-5678" class="btn btn-primary">전화 문의</a>
+                    <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
+                </div>
+            </div>"""
+        cta_html = f'<a href="{calc_link}" class="btn btn-primary btn-full">계산기에서 확인하기</a>'
+    else:
+        note_or_banner_html = f'<div class="snapshot-note">기준일 {gen_date_str} · 실시간 최신 단가는 <a href="{calc_link}">계산기에서 확인</a>하세요</div>'
+        cta_html = f'<a href="{calc_link}" class="btn btn-primary btn-full">계산기에서 담기 · 견적 받기</a>'
 
     html = f"""<!DOCTYPE html>
 <html lang="ko">
@@ -424,7 +465,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
             <span class="group-category-tag">{meta['category_label']}</span>
             <h1 class="group-title">{meta['title']}</h1>
             <p class="group-desc">{meta['description']}</p>
-            <div class="snapshot-note">기준일 {gen_date_str} · 실시간 최신 단가는 <a href="{calc_link}">계산기에서 확인</a>하세요</div>
+            {note_or_banner_html}
 
             <div class="group-table-wrap">
                 <table class="group-table">
@@ -442,7 +483,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
             </div>
 
             <div class="group-cta-wrap">
-                <a href="{calc_link}" class="btn btn-primary btn-full">계산기에서 담기 · 견적 받기</a>
+                {cta_html}
             </div>
         </div>
     </main>
