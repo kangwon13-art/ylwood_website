@@ -25,6 +25,22 @@
 | finishing | 스톤플렉시블보드 | `finishing-stone-flexible` | `/groups/finishing-stone-flexible.html` | 생성 완료(로컬 커밋, push 대기) |
 | finishing | 영림 월판넬 | `finishing-wallsystem` | `/groups/finishing-wallsystem.html` | 생성 완료(전 품목 견적문의 — 문의유도형 템플릿, 로컬 커밋, push 대기) |
 
+## 합판 (지시서#12, 2026-09-18)
+
+백색 코팅합판/미장(라미날 합판)/스페이스월 3개는 2026-09-15 NO 중복 사고 때 추가된 품목이 각자 단독 그룹으로 남아있는 것 — 감독 확인 결과 통합하지 않고 시트 값 그대로 9개 페이지로 진행(딥링크 일관성 + 구체적 검색어 SEO 가치 판단).
+
+| 카테고리 키 | 시트상 그룹명 | 슬러그 | URL | 상태 |
+|---|---|---|---|---|
+| plywood | 합판 910x1820 | `plywood-3x6` | `/groups/plywood-3x6.html` | 생성 완료(로컬 커밋, push 대기) |
+| plywood | 태고합판 910x1820 | `plywood-taego-3x6` | `/groups/plywood-taego-3x6.html` | 생성 완료(로컬 커밋, push 대기) |
+| plywood | 일반합판 1220x2440 | `plywood-4x8-general` | `/groups/plywood-4x8-general.html` | 생성 완료(로컬 커밋, push 대기) |
+| plywood | 코아합판 1220x2440 | `plywood-4x8-core` | `/groups/plywood-4x8-core.html` | 생성 완료(로컬 커밋, push 대기) |
+| plywood | OSB 1220x2440 | `plywood-osb` | `/groups/plywood-osb.html` | 생성 완료(로컬 커밋, push 대기) |
+| plywood | CRC 보드 | `plywood-crc` | `/groups/plywood-crc.html` | 생성 완료(로컬 커밋, push 대기) |
+| plywood | 백색 코팅합판 | `plywood-white-coated` | `/groups/plywood-white-coated.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| plywood | 미장(라미날 합판) | `plywood-laminate` | `/groups/plywood-laminate.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| plywood | 스페이스월 | `plywood-spacewall` | `/groups/plywood-spacewall.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+
 ## 나머지 카테고리 (지시서#12 전수 감사 결과, 2026-09-18)
 
 `g1-group-mapping-v2.md`에 카테고리별 시트 실제 그룹명·개수를 전부 정리해뒀다. 남은 진행 순서(사이트맵 우선순위 기준, 카테고리당 1~2개 라운드):
@@ -32,7 +48,7 @@
 | 카테고리 키 | 카테고리명 | 시트 실제 그룹 수 | 슬러그 부여 상태 |
 |---|---|---|---|
 | mdf | MDF | 1 | `mdf-general` — 생성 완료(로컬 커밋, push 대기) |
-| plywood | 합판 | 9 | 미부여 (백색 코팅합판/미장(라미날 합판)/스페이스월 3개는 각자 단독 그룹 — 통합 여부 확인 필요) |
+| plywood | 합판 | 9 | 9개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | interior_plywood | 인테리어합판 | 7 | 미부여 |
 | timber | 목재/구조재 | 4 | 미부여 |
 | insulation | 단열재 | 6 | 미부여 |

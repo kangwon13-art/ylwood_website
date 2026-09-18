@@ -27,6 +27,7 @@ SHEET_CONFIG = {
     "plaster": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1430273857",
     "finishing": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1810019476",
     "mdf": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=0",
+    "plywood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=2105087312",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -90,6 +91,60 @@ GROUP_PAGE_MAP = {
         "category_label": "MDF",
         "title": "MDF(중밀도섬유판) 단가 및 규격 안내",
         "description": "나무 섬유를 압축 성형해 만든 목재 판재로, 표면이 균일하고 가공이 쉬워 가구·몰딩·인테리어 마감재의 기초 자재로 널리 사용됩니다. 두께별로 다양한 규격을 제공합니다.",
+    },
+    ("plywood", "합판 910x1820"): {
+        "slug": "plywood-3x6",
+        "category_label": "합판",
+        "title": "합판 910x1820(3x6) 단가 및 규격 안내",
+        "description": "2.7mm~11.5mm 다양한 두께로 구성된 소형 규격(910×1820mm) 합판입니다. 가구 제작이나 부분 보수 등 소량 시공에 적합합니다.",
+    },
+    ("plywood", "태고합판 910x1820"): {
+        "slug": "plywood-taego-3x6",
+        "category_label": "합판",
+        "title": "태고합판 910x1820(3x6) 단가 및 규격 안내",
+        "description": "표면에 코팅 처리를 더한 태고합판으로, 별도 마감 없이도 깔끔한 표면을 얻을 수 있어 소형 규격 시공에 사용됩니다.",
+    },
+    ("plywood", "일반합판 1220x2440"): {
+        "slug": "plywood-4x8-general",
+        "category_label": "합판",
+        "title": "일반합판 1220x2440(4x8) 단가 및 규격 안내",
+        "description": "2.7mm~17.5mm까지 다양한 두께와 등급(BB·CC 등)을 갖춘 표준 규격(1220×2440mm) 합판으로, 건축·인테리어 현장에서 가장 널리 쓰이는 기본 자재입니다.",
+    },
+    ("plywood", "코아합판 1220x2440"): {
+        "slug": "plywood-4x8-core",
+        "category_label": "합판",
+        "title": "코아합판 1220x2440(4x8) 단가 및 규격 안내",
+        "description": "알비자·라왕 등의 코아를 사용한 합판으로, 일반 합판보다 강도와 내구성이 우수해 구조용 마감재로 사용됩니다.",
+    },
+    ("plywood", "OSB 1220x2440"): {
+        "slug": "plywood-osb",
+        "category_label": "합판",
+        "title": "OSB 1220x2440(4x8) 단가 및 규격 안내",
+        "description": "작은 목재 조각을 압축 성형한 구조용 판재로, 바닥재나 벽체 하지재로 주로 사용됩니다.",
+    },
+    ("plywood", "CRC 보드"): {
+        "slug": "plywood-crc",
+        "category_label": "합판",
+        "title": "CRC 보드(콘보드) 단가 및 규격 안내",
+        "description": "시멘트와 섬유를 혼합해 만든 불연성 보드로, 내화·방수 성능이 필요한 부위의 마감재로 사용됩니다.",
+    },
+    ("plywood", "백색 코팅합판"): {
+        "slug": "plywood-white-coated",
+        "category_label": "합판",
+        "title": "백색 코팅합판(포리톤) 단가 및 규격 안내",
+        "description": "표면에 백색 코팅을 입힌 합판으로, 별도 도장 없이 깔끔한 화이트 마감을 낼 수 있습니다.",
+    },
+    ("plywood", "미장(라미날 합판)"): {
+        "slug": "plywood-laminate",
+        "category_label": "합판",
+        "title": "미장(라미날 합판) 단가 및 규격 안내",
+        "description": "무늬목 라미네이트를 표면에 적용한 합판으로, 자연스러운 나무 질감의 마감이 필요한 곳에 사용됩니다.",
+    },
+    ("plywood", "스페이스월"): {
+        "slug": "plywood-spacewall",
+        "category_label": "합판",
+        "title": "스페이스월 단가 및 규격 안내",
+        "description": "벽면 마감용 자재로, 백색 쫄대가 포함되어 시공 마무리까지 한 번에 처리할 수 있습니다.",
     },
 }
 
