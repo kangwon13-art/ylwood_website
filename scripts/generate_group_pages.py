@@ -30,6 +30,7 @@ SHEET_CONFIG = {
     "plywood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=2105087312",
     "interior_plywood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1502465421",
     "timber": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1035321209",
+    "insulation": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1422880070",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -213,6 +214,42 @@ GROUP_PAGE_MAP = {
         "category_label": "목재/구조재",
         "title": "라왕 각재 단가 및 규격 안내",
         "description": "라왕 원목으로 가공한 각재로, 일반 소나무 각재보다 강도가 높아 하중이 걸리는 부위나 고급 마감이 필요한 곳에 사용됩니다.",
+    },
+    ("insulation", "아이소핑크/토이락"): {
+        "slug": "insulation-isopink-toirock",
+        "category_label": "단열재",
+        "title": "아이소핑크/토이락 단가 및 규격 안내",
+        "description": "압출법 단열재의 대표 제품군으로, 두께별(10T~100T)로 다양하게 구성되어 있어 벽체·바닥 등 용도에 맞는 단열 시공에 사용됩니다.",
+    },
+    ("insulation", "단열재 이보드"): {
+        "slug": "insulation-eboard",
+        "category_label": "단열재",
+        "title": "단열재 이보드 단가 및 규격 안내",
+        "description": "두께와 표면 마감(도배용/페인트용)에 따라 세분화된 이보드로, 마감 방식에 맞춰 선택해 시공할 수 있습니다.",
+    },
+    ("insulation", "열반사 단열재"): {
+        "slug": "insulation-reflective",
+        "category_label": "단열재",
+        "title": "열반사 단열재 단가 및 규격 안내",
+        "description": "은박 양면 접착 처리된 단열재로, 좁은 공간에서도 효과적인 열 반사 성능을 발휘해 얇은 두께로 단열이 필요한 곳에 사용됩니다.",
+    },
+    ("insulation", "스티로폼"): {
+        "slug": "insulation-styrofoam",
+        "category_label": "단열재",
+        "title": "스티로폼 단가 및 규격 안내",
+        "description": "가볍고 경제적인 단열재로, 벽체나 바닥 하지 단열 등 일반적인 단열 시공에 널리 사용됩니다.",
+    },
+    ("insulation", "글라스울"): {
+        "slug": "insulation-glasswool",
+        "category_label": "단열재",
+        "title": "글라스울 단가 및 규격 안내",
+        "description": "유리섬유를 압축해 만든 단열재로, 단열과 함께 흡음 성능도 갖춰 소음 차단이 필요한 벽체·천장에 사용됩니다.",
+    },
+    ("insulation", "차음 충진재"): {
+        "slug": "insulation-filler",
+        "category_label": "단열재",
+        "title": "차음 충진재 단가 및 규격 안내",
+        "description": "벽체나 바닥 사이 빈 공간을 채워 소음을 차단하는 충진용 자재로, 층간소음 저감 시공에 사용됩니다.",
     },
 }
 

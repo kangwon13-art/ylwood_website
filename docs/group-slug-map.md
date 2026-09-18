@@ -66,6 +66,19 @@
 | timber | 마감용 구조재 | `timber-structural` | `/groups/timber-structural.html` | 생성 완료(60x60/90x90 표기 확인 요청 중, 로컬 커밋, push 대기) |
 | timber | 라왕 각재 | `timber-lawan` | `/groups/timber-lawan.html` | 생성 완료(로컬 커밋, push 대기) |
 
+## 단열재 (지시서#12, 2026-09-18)
+
+문서 원안(재질 설명형 명칭)과 품목 구성이 완전히 동일하고 그룹명만 단순화된 경우 — 구조적 이슈 없음. 글라스울/차음 충진재 2개는 1품목 단독 그룹, 지금까지와 동일한 논리로 개별 페이지 진행.
+
+| 카테고리 키 | 시트상 그룹명 | 슬러그 | URL | 상태 |
+|---|---|---|---|---|
+| insulation | 아이소핑크/토이락 | `insulation-isopink-toirock` | `/groups/insulation-isopink-toirock.html` | 생성 완료(로컬 커밋, push 대기) |
+| insulation | 단열재 이보드 | `insulation-eboard` | `/groups/insulation-eboard.html` | 생성 완료(로컬 커밋, push 대기) |
+| insulation | 열반사 단열재 | `insulation-reflective` | `/groups/insulation-reflective.html` | 생성 완료(로컬 커밋, push 대기) |
+| insulation | 스티로폼 | `insulation-styrofoam` | `/groups/insulation-styrofoam.html` | 생성 완료(로컬 커밋, push 대기) |
+| insulation | 글라스울 | `insulation-glasswool` | `/groups/insulation-glasswool.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| insulation | 차음 충진재 | `insulation-filler` | `/groups/insulation-filler.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+
 ## 나머지 카테고리 (지시서#12 전수 감사 결과, 2026-09-18)
 
 `g1-group-mapping-v2.md`에 카테고리별 시트 실제 그룹명·개수를 전부 정리해뒀다. 남은 진행 순서(사이트맵 우선순위 기준, 카테고리당 1~2개 라운드):
@@ -76,7 +89,7 @@
 | plywood | 합판 | 9 | 9개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | interior_plywood | 인테리어합판 | 7 | 7개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | timber | 목재/구조재 | 4 | 4개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
-| insulation | 단열재 | 6 | 미부여 |
+| insulation | 단열재 | 6 | 6개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | deck_timber | 방부목/특수목/합성목 | 6 | 미부여 |
 | louver_wood | 루바/집성판 | 12 | 미부여 |
 | hardware | 철물/부자재 | 27 (+ 그룹 미지정 12개) | **보류 — 시트 그룹 정리 후 재개** |
