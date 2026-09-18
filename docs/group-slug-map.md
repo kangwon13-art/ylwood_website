@@ -79,6 +79,19 @@
 | insulation | 글라스울 | `insulation-glasswool` | `/groups/insulation-glasswool.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
 | insulation | 차음 충진재 | `insulation-filler` | `/groups/insulation-filler.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
 
+## 방부목/특수목/합성목 (지시서#12, 2026-09-18)
+
+방킬라이/무방부 데크재 2개는 1품목 단독 그룹 — 지금까지와 동일한 논리로 개별 페이지 진행. "방부목 데크재/각재" 12개 품목 통합 그룹은 MDF(12개)에서 이미 검증된 표 길이라 별도 이슈 없음.
+
+| 카테고리 키 | 시트상 그룹명 | 슬러그 | URL | 상태 |
+|---|---|---|---|---|
+| deck_timber | 방부목 데크재/각재 | `deck-timber-treated` | `/groups/deck-timber-treated.html` | 생성 완료(로컬 커밋, push 대기) |
+| deck_timber | 방킬라이 | `deck-timber-bankirai` | `/groups/deck-timber-bankirai.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| deck_timber | 합성데크 | `deck-timber-composite` | `/groups/deck-timber-composite.html` | 생성 완료(로컬 커밋, push 대기) |
+| deck_timber | 무방부 데크재 | `deck-timber-untreated` | `/groups/deck-timber-untreated.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| deck_timber | 라틱스 방부/PVC | `deck-timber-lattice` | `/groups/deck-timber-lattice.html` | 생성 완료(로컬 커밋, push 대기) |
+| deck_timber | 사이딩 | `deck-timber-siding` | `/groups/deck-timber-siding.html` | 생성 완료(로컬 커밋, push 대기) |
+
 ## 나머지 카테고리 (지시서#12 전수 감사 결과, 2026-09-18)
 
 `g1-group-mapping-v2.md`에 카테고리별 시트 실제 그룹명·개수를 전부 정리해뒀다. 남은 진행 순서(사이트맵 우선순위 기준, 카테고리당 1~2개 라운드):
@@ -90,7 +103,7 @@
 | interior_plywood | 인테리어합판 | 7 | 7개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | timber | 목재/구조재 | 4 | 4개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | insulation | 단열재 | 6 | 6개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
-| deck_timber | 방부목/특수목/합성목 | 6 | 미부여 |
+| deck_timber | 방부목/특수목/합성목 | 6 | 6개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | louver_wood | 루바/집성판 | 12 | 미부여 |
 | hardware | 철물/부자재 | 27 (+ 그룹 미지정 12개) | **보류 — 시트 그룹 정리 후 재개** |
 

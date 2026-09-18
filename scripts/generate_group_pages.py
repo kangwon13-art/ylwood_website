@@ -31,6 +31,7 @@ SHEET_CONFIG = {
     "interior_plywood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1502465421",
     "timber": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1035321209",
     "insulation": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1422880070",
+    "deck_timber": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1255269005",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -250,6 +251,42 @@ GROUP_PAGE_MAP = {
         "category_label": "단열재",
         "title": "차음 충진재 단가 및 규격 안내",
         "description": "벽체나 바닥 사이 빈 공간을 채워 소음을 차단하는 충진용 자재로, 층간소음 저감 시공에 사용됩니다.",
+    },
+    ("deck_timber", "방부목 데크재/각재"): {
+        "slug": "deck-timber-treated",
+        "category_label": "방부목/특수목/합성목",
+        "title": "방부목 데크재/각재 단가 및 규격 안내",
+        "description": "야외 환경에 강한 방부 처리 목재로, 데크 시공용 판재부터 구조용 각재까지 다양한 규격을 갖춰 테라스·야외 데크 시공 전반에 사용됩니다.",
+    },
+    ("deck_timber", "방킬라이"): {
+        "slug": "deck-timber-bankirai",
+        "category_label": "방부목/특수목/합성목",
+        "title": "방킬라이 단가 및 규격 안내",
+        "description": "내구성이 뛰어난 하드우드 계열 목재로, 습기와 마모에 강해 야외 데크나 계단 등 하중이 걸리는 부위에 사용됩니다.",
+    },
+    ("deck_timber", "합성데크"): {
+        "slug": "deck-timber-composite",
+        "category_label": "방부목/특수목/합성목",
+        "title": "합성데크 단가 및 규격 안내",
+        "description": "목분과 플라스틱을 합성해 만든 데크재로, 방부목 대비 변색·부식에 강하고 유지관리가 쉬워 장기간 사용하는 야외 시공에 적합합니다.",
+    },
+    ("deck_timber", "무방부 데크재"): {
+        "slug": "deck-timber-untreated",
+        "category_label": "방부목/특수목/합성목",
+        "title": "무방부 데크재 단가 및 규격 안내",
+        "description": "방부 처리 없이 가공한 데크재로, 실내나 방부 처리가 필요 없는 환경의 데크 시공에 사용됩니다.",
+    },
+    ("deck_timber", "라틱스 방부/PVC"): {
+        "slug": "deck-timber-lattice",
+        "category_label": "방부목/특수목/합성목",
+        "title": "라틱스 방부/PVC 단가 및 규격 안내",
+        "description": "울타리나 파고라 등에 사용하는 라틱스(격자) 자재로, 방부목과 PVC 소재 중 선택할 수 있습니다.",
+    },
+    ("deck_timber", "사이딩"): {
+        "slug": "deck-timber-siding",
+        "category_label": "방부목/특수목/합성목",
+        "title": "사이딩 단가 및 규격 안내",
+        "description": "건물 외벽 마감용 판재로, 방부 처리 또는 삼목 소재로 제공되어 외부 마감재로 사용됩니다.",
     },
 }
 
