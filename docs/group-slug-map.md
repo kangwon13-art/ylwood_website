@@ -55,6 +55,17 @@
 | interior_plywood | 자작합판 | `interior-plywood-birch` | `/groups/interior-plywood-birch.html` | 생성 완료(로컬 커밋, push 대기) |
 | interior_plywood | 타공판 | `interior-plywood-perforated` | `/groups/interior-plywood-perforated.html` | 생성 완료(로컬 커밋, push 대기) |
 
+## 목재/구조재 (지시서#12, 2026-09-18)
+
+**미해결 확인 요청**: "마감용 구조재" 그룹의 "60x60"/"90x90" 표기가 실제 판매 중인 구조재 규격(인치 기준 4x4/6x6일 가능성)과 일치하는지 감독이 실물 기준으로 확인 필요 — 이번 라운드는 시트 값(60x60/90x90) 그대로 진행. 틀리면 발주 오류로 직결되는 부분이라 코드/문서 판단으로 임의 정정하지 않음.
+
+| 카테고리 키 | 시트상 그룹명 | 슬러그 | URL | 상태 |
+|---|---|---|---|---|
+| timber | 소송 각재 | `timber-sosong` | `/groups/timber-sosong.html` | 생성 완료(로컬 커밋, push 대기) |
+| timber | 뉴송 각재 | `timber-newsong` | `/groups/timber-newsong.html` | 생성 완료(로컬 커밋, push 대기) |
+| timber | 마감용 구조재 | `timber-structural` | `/groups/timber-structural.html` | 생성 완료(60x60/90x90 표기 확인 요청 중, 로컬 커밋, push 대기) |
+| timber | 라왕 각재 | `timber-lawan` | `/groups/timber-lawan.html` | 생성 완료(로컬 커밋, push 대기) |
+
 ## 나머지 카테고리 (지시서#12 전수 감사 결과, 2026-09-18)
 
 `g1-group-mapping-v2.md`에 카테고리별 시트 실제 그룹명·개수를 전부 정리해뒀다. 남은 진행 순서(사이트맵 우선순위 기준, 카테고리당 1~2개 라운드):
@@ -64,7 +75,7 @@
 | mdf | MDF | 1 | `mdf-general` — 생성 완료(로컬 커밋, push 대기) |
 | plywood | 합판 | 9 | 9개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | interior_plywood | 인테리어합판 | 7 | 7개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
-| timber | 목재/구조재 | 4 | 미부여 |
+| timber | 목재/구조재 | 4 | 4개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | insulation | 단열재 | 6 | 미부여 |
 | deck_timber | 방부목/특수목/합성목 | 6 | 미부여 |
 | louver_wood | 루바/집성판 | 12 | 미부여 |

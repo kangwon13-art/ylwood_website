@@ -29,6 +29,7 @@ SHEET_CONFIG = {
     "mdf": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=0",
     "plywood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=2105087312",
     "interior_plywood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1502465421",
+    "timber": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1035321209",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -188,6 +189,30 @@ GROUP_PAGE_MAP = {
         "category_label": "인테리어합판",
         "title": "타공판 단가 및 규격 안내",
         "description": "일정한 간격으로 구멍(홀) 또는 선(라인) 형태의 타공 가공을 더한 판재로, 수납 공구 벽이나 환기가 필요한 마감재로 사용됩니다.",
+    },
+    ("timber", "소송 각재"): {
+        "slug": "timber-sosong",
+        "category_label": "목재/구조재",
+        "title": "소송 각재 단가 및 규격 안내",
+        "description": "각재 형태로 가공된 소나무 목재로, 한치각·투바이 등 다양한 규격을 갖춰 인테리어 및 소규모 목공 작업의 기본 자재로 사용됩니다.",
+    },
+    ("timber", "뉴송 각재"): {
+        "slug": "timber-newsong",
+        "category_label": "목재/구조재",
+        "title": "뉴송 각재 단가 및 규격 안내",
+        "description": "폼다루끼·투바이·오비끼 등 용도별로 세분화된 뉴송 각재로, 거푸집 공사나 구조 보강 작업에 주로 사용됩니다.",
+    },
+    ("timber", "마감용 구조재"): {
+        "slug": "timber-structural",
+        "category_label": "목재/구조재",
+        "title": "마감용 구조재 단가 및 규격 안내",
+        "description": "폭별로 다양한 규격을 갖춘 구조용 목재로, 벽체·천장 프레임 시공 등 건축 구조를 잡는 기초 작업에 사용됩니다.",
+    },
+    ("timber", "라왕 각재"): {
+        "slug": "timber-lawan",
+        "category_label": "목재/구조재",
+        "title": "라왕 각재 단가 및 규격 안내",
+        "description": "라왕 원목으로 가공한 각재로, 일반 소나무 각재보다 강도가 높아 하중이 걸리는 부위나 고급 마감이 필요한 곳에 사용됩니다.",
     },
 }
 
