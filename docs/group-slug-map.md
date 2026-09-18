@@ -41,6 +41,20 @@
 | plywood | 미장(라미날 합판) | `plywood-laminate` | `/groups/plywood-laminate.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
 | plywood | 스페이스월 | `plywood-spacewall` | `/groups/plywood-spacewall.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
 
+## 인테리어합판 (지시서#12, 2026-09-18)
+
+레드오크합판은 1품목짜리 단독 그룹 — 합판 카테고리 때와 동일한 판단(딥링크 일관성 + 구체적 검색어 SEO 가치)으로 통합 없이 개별 페이지 진행.
+
+| 카테고리 키 | 시트상 그룹명 | 슬러그 | URL | 상태 |
+|---|---|---|---|---|
+| interior_plywood | 미송합판 유절 | `interior-plywood-misong-knotted` | `/groups/interior-plywood-misong-knotted.html` | 생성 완료(로컬 커밋, push 대기) |
+| interior_plywood | 미송합판 무절 | `interior-plywood-misong-clear` | `/groups/interior-plywood-misong-clear.html` | 생성 완료(로컬 커밋, push 대기) |
+| interior_plywood | 낙엽송합판(라찌합판) | `interior-plywood-larch` | `/groups/interior-plywood-larch.html` | 생성 완료(로컬 커밋, push 대기) |
+| interior_plywood | 오쿠메합판 | `interior-plywood-okoume` | `/groups/interior-plywood-okoume.html` | 생성 완료(로컬 커밋, push 대기) |
+| interior_plywood | 레드오크합판 | `interior-plywood-red-oak` | `/groups/interior-plywood-red-oak.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| interior_plywood | 자작합판 | `interior-plywood-birch` | `/groups/interior-plywood-birch.html` | 생성 완료(로컬 커밋, push 대기) |
+| interior_plywood | 타공판 | `interior-plywood-perforated` | `/groups/interior-plywood-perforated.html` | 생성 완료(로컬 커밋, push 대기) |
+
 ## 나머지 카테고리 (지시서#12 전수 감사 결과, 2026-09-18)
 
 `g1-group-mapping-v2.md`에 카테고리별 시트 실제 그룹명·개수를 전부 정리해뒀다. 남은 진행 순서(사이트맵 우선순위 기준, 카테고리당 1~2개 라운드):
@@ -49,7 +63,7 @@
 |---|---|---|---|
 | mdf | MDF | 1 | `mdf-general` — 생성 완료(로컬 커밋, push 대기) |
 | plywood | 합판 | 9 | 9개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
-| interior_plywood | 인테리어합판 | 7 | 미부여 |
+| interior_plywood | 인테리어합판 | 7 | 7개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | timber | 목재/구조재 | 4 | 미부여 |
 | insulation | 단열재 | 6 | 미부여 |
 | deck_timber | 방부목/특수목/합성목 | 6 | 미부여 |

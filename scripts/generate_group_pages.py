@@ -28,6 +28,7 @@ SHEET_CONFIG = {
     "finishing": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1810019476",
     "mdf": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=0",
     "plywood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=2105087312",
+    "interior_plywood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1502465421",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -145,6 +146,48 @@ GROUP_PAGE_MAP = {
         "category_label": "합판",
         "title": "스페이스월 단가 및 규격 안내",
         "description": "벽면 마감용 자재로, 백색 쫄대가 포함되어 시공 마무리까지 한 번에 처리할 수 있습니다.",
+    },
+    ("interior_plywood", "미송합판 유절"): {
+        "slug": "interior-plywood-misong-knotted",
+        "category_label": "인테리어합판",
+        "title": "미송합판 유절 단가 및 규격 안내",
+        "description": "나무 옹이(유절) 무늬가 자연스럽게 드러나는 미송 합판으로, 목재 본연의 질감을 살린 마감이 필요한 곳에 사용됩니다. 다양한 두께(4.6mm~18mm)로 제공됩니다.",
+    },
+    ("interior_plywood", "미송합판 무절"): {
+        "slug": "interior-plywood-misong-clear",
+        "category_label": "인테리어합판",
+        "title": "미송합판 무절 단가 및 규격 안내",
+        "description": "옹이가 없는 매끈한 표면의 미송 합판으로, 깔끔한 마감이 필요한 가구·인테리어 제작에 적합합니다.",
+    },
+    ("interior_plywood", "낙엽송합판(라찌합판)"): {
+        "slug": "interior-plywood-larch",
+        "category_label": "인테리어합판",
+        "title": "낙엽송합판(라찌합판) 단가 및 규격 안내",
+        "description": "낙엽송을 사용한 합판으로, 일반 합판보다 강도가 높고 내구성이 우수해 구조재나 바닥 하지재로 많이 사용됩니다.",
+    },
+    ("interior_plywood", "오쿠메합판"): {
+        "slug": "interior-plywood-okoume",
+        "category_label": "인테리어합판",
+        "title": "오쿠메합판 단가 및 규격 안내",
+        "description": "가볍고 가공이 쉬운 오쿠메 원목을 사용한 합판으로, 곡면 가공이나 선박·차량 내장재 등 특수 용도에도 사용됩니다.",
+    },
+    ("interior_plywood", "레드오크합판"): {
+        "slug": "interior-plywood-red-oak",
+        "category_label": "인테리어합판",
+        "title": "레드오크합판 단가 및 규격 안내",
+        "description": "붉은빛이 도는 오크 무늬목을 표면에 적용한 합판으로, 고급스러운 원목 질감의 마감이 필요한 가구·인테리어에 사용됩니다.",
+    },
+    ("interior_plywood", "자작합판"): {
+        "slug": "interior-plywood-birch",
+        "category_label": "인테리어합판",
+        "title": "자작합판 단가 및 규격 안내",
+        "description": "층이 촘촘하고 단면이 아름다운 자작나무 합판으로, 절단면을 그대로 노출하는 디자인 가구나 마감재로 인기가 높습니다. 두께별로 폭넓게 제공됩니다.",
+    },
+    ("interior_plywood", "타공판"): {
+        "slug": "interior-plywood-perforated",
+        "category_label": "인테리어합판",
+        "title": "타공판 단가 및 규격 안내",
+        "description": "일정한 간격으로 구멍(홀) 또는 선(라인) 형태의 타공 가공을 더한 판재로, 수납 공구 벽이나 환기가 필요한 마감재로 사용됩니다.",
     },
 }
 
