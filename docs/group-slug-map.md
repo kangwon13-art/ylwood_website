@@ -92,6 +92,25 @@
 | deck_timber | 라틱스 방부/PVC | `deck-timber-lattice` | `/groups/deck-timber-lattice.html` | 생성 완료(로컬 커밋, push 대기) |
 | deck_timber | 사이딩 | `deck-timber-siding` | `/groups/deck-timber-siding.html` | 생성 완료(로컬 커밋, push 대기) |
 
+## 루바/집성판 (지시서#12, 2026-09-18, #12 마지막 카테고리)
+
+라왕/멀바우 집성판의 동일 두께 중복처럼 보이는 항목은 실제로는 규격(시트 사이즈)이 다른 별개 품목으로 확인됨(910×2440mm vs 4×8/1220×2440mm 등) — 데이터 이상 아님.
+
+| 카테고리 키 | 시트상 그룹명 | 슬러그 | URL | 상태 |
+|---|---|---|---|---|
+| louver_wood | 원목루바 | `louver-wood-solid` | `/groups/louver-wood-solid.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 히노끼 판재 | `louver-wood-hinoki-plank` | `/groups/louver-wood-hinoki-plank.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 라디에타파인 집성판 | `louver-wood-radiata-pine` | `/groups/louver-wood-radiata-pine.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 레드파인 집성판 | `louver-wood-red-pine` | `/groups/louver-wood-red-pine.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 삼목 집성판 | `louver-wood-cedar` | `/groups/louver-wood-cedar.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 히노끼 집성판 | `louver-wood-hinoki-glulam` | `/groups/louver-wood-hinoki-glulam.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 고무나무 집성판 | `louver-wood-rubberwood` | `/groups/louver-wood-rubberwood.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 라왕 집성판 | `louver-wood-lawan` | `/groups/louver-wood-lawan.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 멀바우 집성판 | `louver-wood-merbau` | `/groups/louver-wood-merbau.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 오크 집성판 | `louver-wood-oak` | `/groups/louver-wood-oak.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 애쉬 집성판 | `louver-wood-ash` | `/groups/louver-wood-ash.html` | 생성 완료(로컬 커밋, push 대기) |
+| louver_wood | 아카시아 집성판 | `louver-wood-acacia` | `/groups/louver-wood-acacia.html` | 생성 완료(로컬 커밋, push 대기) |
+
 ## 나머지 카테고리 (지시서#12 전수 감사 결과, 2026-09-18)
 
 `g1-group-mapping-v2.md`에 카테고리별 시트 실제 그룹명·개수를 전부 정리해뒀다. 남은 진행 순서(사이트맵 우선순위 기준, 카테고리당 1~2개 라운드):
@@ -104,7 +123,7 @@
 | timber | 목재/구조재 | 4 | 4개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | insulation | 단열재 | 6 | 6개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | deck_timber | 방부목/특수목/합성목 | 6 | 6개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
-| louver_wood | 루바/집성판 | 12 | 미부여 |
+| louver_wood | 루바/집성판 | 12 | 12개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) — **#12 전체 카테고리 완료(철물/부자재 제외)** |
 | hardware | 철물/부자재 | 27 (+ 그룹 미지정 12개) | **보류 — 시트 그룹 정리 후 재개** |
 
 철물/부자재 제외 나머지 8개 카테고리 합계 약 45개 그룹(75개에서 마감자재 3개 기완료분 제외). 원래 "61개 그룹" 추정치는 `g1-group-mapping-v2.md` 원안(구 시트 상태) 기준이었고, 전수 감사 결과 실제로는 카테고리별 그룹 수가 달라져 있었다.

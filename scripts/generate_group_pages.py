@@ -32,6 +32,7 @@ SHEET_CONFIG = {
     "timber": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1035321209",
     "insulation": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1422880070",
     "deck_timber": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1255269005",
+    "louver_wood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1375140463",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -287,6 +288,78 @@ GROUP_PAGE_MAP = {
         "category_label": "방부목/특수목/합성목",
         "title": "사이딩 단가 및 규격 안내",
         "description": "건물 외벽 마감용 판재로, 방부 처리 또는 삼목 소재로 제공되어 외부 마감재로 사용됩니다.",
+    },
+    ("louver_wood", "원목루바"): {
+        "slug": "louver-wood-solid",
+        "category_label": "루바/집성판",
+        "title": "원목루바 단가 및 규격 안내",
+        "description": "미송·삼목·히노끼 등 원목 소재로 만든 루바로, 벽면이나 천장에 세로 라인 무늬를 연출하는 인테리어 마감재로 사용됩니다.",
+    },
+    ("louver_wood", "히노끼 판재"): {
+        "slug": "louver-wood-hinoki-plank",
+        "category_label": "루바/집성판",
+        "title": "히노끼 판재 단가 및 규격 안내",
+        "description": "편백나무(히노끼) 원목 판재로, 은은한 향과 항균 효과가 있어 사우나·욕실 등 습한 공간의 마감재로 많이 사용됩니다.",
+    },
+    ("louver_wood", "라디에타파인 집성판"): {
+        "slug": "louver-wood-radiata-pine",
+        "category_label": "루바/집성판",
+        "title": "라디에타파인 집성판 단가 및 규격 안내",
+        "description": "여러 조각의 목재를 접합해 만든 라디에타파인 집성판으로, 두께별로 폭넓게 구성되어 있어 가구·선반 제작에 널리 사용됩니다.",
+    },
+    ("louver_wood", "레드파인 집성판"): {
+        "slug": "louver-wood-red-pine",
+        "category_label": "루바/집성판",
+        "title": "레드파인 집성판 단가 및 규격 안내",
+        "description": "붉은빛이 도는 소나무 계열 집성판으로, 자연스러운 우드 톤의 가구나 인테리어 마감재로 사용됩니다.",
+    },
+    ("louver_wood", "삼목 집성판"): {
+        "slug": "louver-wood-cedar",
+        "category_label": "루바/집성판",
+        "title": "삼목 집성판 단가 및 규격 안내",
+        "description": "삼나무를 접합해 만든 집성판으로, 가볍고 향이 좋아 수납장이나 선반 등 다양한 목공 작업에 사용됩니다.",
+    },
+    ("louver_wood", "히노끼 집성판"): {
+        "slug": "louver-wood-hinoki-glulam",
+        "category_label": "루바/집성판",
+        "title": "히노끼 집성판 단가 및 규격 안내",
+        "description": "편백나무 집성판으로, 무절·유절 등급에 따라 표면 무늬가 달라 용도에 맞게 선택할 수 있습니다.",
+    },
+    ("louver_wood", "고무나무 집성판"): {
+        "slug": "louver-wood-rubberwood",
+        "category_label": "루바/집성판",
+        "title": "고무나무 집성판 단가 및 규격 안내",
+        "description": "단단하고 무늬가 균일한 고무나무 집성판으로, 식탁 상판이나 가구 제작에 많이 사용됩니다.",
+    },
+    ("louver_wood", "라왕 집성판"): {
+        "slug": "louver-wood-lawan",
+        "category_label": "루바/집성판",
+        "title": "라왕 집성판 단가 및 규격 안내",
+        "description": "강도가 높은 라왕 원목 집성판으로, 규격이 다양해 구조용 가구부터 마감재까지 폭넓게 사용됩니다.",
+    },
+    ("louver_wood", "멀바우 집성판"): {
+        "slug": "louver-wood-merbau",
+        "category_label": "루바/집성판",
+        "title": "멀바우 집성판 단가 및 규격 안내",
+        "description": "짙은 색상과 뛰어난 내구성을 가진 멀바우 집성판으로, 계단재·손스침 등 고급 마감이 필요한 부위에 사용됩니다.",
+    },
+    ("louver_wood", "오크 집성판"): {
+        "slug": "louver-wood-oak",
+        "category_label": "루바/집성판",
+        "title": "오크 집성판 단가 및 규격 안내",
+        "description": "오크 원목을 접합한 집성판으로, 고급스러운 무늬와 내구성을 갖춰 가구 상판이나 계단판으로 사용됩니다.",
+    },
+    ("louver_wood", "애쉬 집성판"): {
+        "slug": "louver-wood-ash",
+        "category_label": "루바/집성판",
+        "title": "애쉬 집성판 단가 및 규격 안내",
+        "description": "애쉬(물푸레나무) 집성판으로, 일반 애쉬와 탄화 처리된 애쉬가 있어 원하는 색감에 맞게 선택할 수 있습니다.",
+    },
+    ("louver_wood", "아카시아 집성판"): {
+        "slug": "louver-wood-acacia",
+        "category_label": "루바/집성판",
+        "title": "아카시아 집성판 단가 및 규격 안내",
+        "description": "단단하고 무늬가 독특한 아카시아 집성판으로, 식탁이나 도마 등 실용적인 가구 제작에 사용됩니다.",
     },
 }
 
