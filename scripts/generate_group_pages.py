@@ -26,6 +26,7 @@ KST = timezone(timedelta(hours=9))
 SHEET_CONFIG = {
     "plaster": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1430273857",
     "finishing": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1810019476",
+    "mdf": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=0",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -83,6 +84,12 @@ GROUP_PAGE_MAP = {
         "title": "영림 월판넬(인피니월·월시스템와이드) 안내",
         "description": "벽면 마감을 위한 모듈형 월판넬 시스템으로, 현장 조건에 따라 맞춤 시공이 가능합니다. 정확한 사양과 단가는 상담을 통해 안내해 드립니다.",
         "inquiry_only": True,
+    },
+    ("mdf", "MDF"): {
+        "slug": "mdf-general",
+        "category_label": "MDF",
+        "title": "MDF(중밀도섬유판) 단가 및 규격 안내",
+        "description": "나무 섬유를 압축 성형해 만든 목재 판재로, 표면이 균일하고 가공이 쉬워 가구·몰딩·인테리어 마감재의 기초 자재로 널리 사용됩니다. 두께별로 다양한 규격을 제공합니다.",
     },
 }
 
