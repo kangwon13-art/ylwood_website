@@ -33,6 +33,7 @@ SHEET_CONFIG = {
     "insulation": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1422880070",
     "deck_timber": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1255269005",
     "louver_wood": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1375140463",
+    "hardware": "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1436943636",
 }
 
 # 헤더 인덱싱 버그(2026-08) 재발 방지: 최소한 이 별칭 중 하나는 헤더 행에 반드시 있어야 한다.
@@ -360,6 +361,96 @@ GROUP_PAGE_MAP = {
         "category_label": "루바/집성판",
         "title": "아카시아 집성판 단가 및 규격 안내",
         "description": "단단하고 무늬가 독특한 아카시아 집성판으로, 식탁이나 도마 등 실용적인 가구 제작에 사용됩니다.",
+    },
+    ("hardware", "접착재/본드"): {
+        "slug": "hardware-adhesive-bond",
+        "category_label": "철물/부자재",
+        "title": "접착재/본드 단가 및 규격 안내",
+        "description": "목공·건축 현장에서 쓰이는 범용 본드류로, 합판·MDF·석고보드 등 다양한 자재의 접착에 사용됩니다.",
+    },
+    ("hardware", "폼 / 부자재"): {
+        "slug": "hardware-foam-supplies",
+        "category_label": "철물/부자재",
+        "title": "폼 / 부자재 단가 및 규격 안내",
+        "description": "문틀·창호 시공 시 틈새를 채우는 발포 폴리우레탄 폼과 전용 건(gun)으로, 단열과 고정을 동시에 처리할 때 사용됩니다.",
+    },
+    ("hardware", "무초산 실리콘"): {
+        "slug": "hardware-silicone-neutral",
+        "category_label": "철물/부자재",
+        "title": "무초산 실리콘 단가 및 규격 안내",
+        "description": "금속·유리 등 다양한 소재에 부식 없이 사용 가능한 중성 실리콘으로, 다양한 색상으로 마감 부위별 코킹 작업에 사용됩니다.",
+    },
+    ("hardware", "바이오 실리콘"): {
+        "slug": "hardware-silicone-bio",
+        "category_label": "철물/부자재",
+        "title": "바이오 실리콘 단가 및 규격 안내",
+        "description": "곰팡이 억제 성분이 포함된 실리콘으로, 습기가 많은 욕실·주방 등의 코킹 작업에 사용됩니다.",
+    },
+    ("hardware", "수성 실리콘"): {
+        "slug": "hardware-silicone-water",
+        "category_label": "철물/부자재",
+        "title": "수성 실리콘 단가 및 규격 안내",
+        "description": "물로 희석·정리가 가능한 수성 타입 실리콘으로, 도장 마감이 필요한 부위의 코킹에 사용됩니다.",
+    },
+    ("hardware", "외부용 실리콘"): {
+        "slug": "hardware-silicone-exterior",
+        "category_label": "철물/부자재",
+        "title": "외부용 실리콘 단가 및 규격 안내",
+        "description": "자외선과 온도 변화에 강한 실외 전용 실리콘으로, 외벽·창호 등 외부 마감 코킹에 사용됩니다.",
+    },
+    ("hardware", "아연피스 목재용 외날"): {
+        "slug": "hardware-screw-zinc-wood",
+        "category_label": "철물/부자재",
+        "title": "아연피스 목재용 외날 단가 및 규격 안내",
+        "description": "아연 도금 처리된 목재용 나사로, 부식에 강해 목재 구조물 및 가구 조립에 사용됩니다.",
+    },
+    ("hardware", "윙스크류 양날"): {
+        "slug": "hardware-screw-wing",
+        "category_label": "철물/부자재",
+        "title": "윙스크류 양날 단가 및 규격 안내",
+        "description": "양쪽에 날이 있어 목재에 쉽게 파고드는 윙스크류로, 두꺼운 목재 자재의 고정에 사용됩니다.",
+    },
+    ("hardware", "석고피스 양날"): {
+        "slug": "hardware-screw-drywall",
+        "category_label": "철물/부자재",
+        "title": "석고피스 양날 단가 및 규격 안내",
+        "description": "석고보드 시공 전용 나사로, 경량철골이나 목재 틀에 석고보드를 고정할 때 사용됩니다.",
+    },
+    ("hardware", "스텐피스 양날"): {
+        "slug": "hardware-screw-stainless",
+        "category_label": "철물/부자재",
+        "title": "스텐피스 양날 단가 및 규격 안내",
+        "description": "녹슬지 않는 스테인리스 재질의 나사로, 습기에 노출되는 부위나 외부 목공 작업의 고정에 사용됩니다.",
+    },
+    ("hardware", "타카핀 U자"): {
+        "slug": "hardware-staple-u",
+        "category_label": "철물/부자재",
+        "title": "타카핀 U자 단가 및 규격 안내",
+        "description": "U자형 타카핀으로, 얇은 판재나 몰딩 마감 시 압정형 고정에 사용됩니다.",
+    },
+    ("hardware", "타카핀 DT/T"): {
+        "slug": "hardware-staple-dt-t",
+        "category_label": "철물/부자재",
+        "title": "타카핀 DT/T 단가 및 규격 안내",
+        "description": "DT/T 규격 타카핀으로, 가구 및 목공 조립 시 프레임 고정에 사용됩니다.",
+    },
+    ("hardware", "타카핀 실타카"): {
+        "slug": "hardware-staple-fine",
+        "category_label": "철물/부자재",
+        "title": "타카핀 실타카 단가 및 규격 안내",
+        "description": "가는 실선 형태의 실타카핀으로, 몰딩이나 얇은 마감재의 정밀 고정에 사용됩니다.",
+    },
+    ("hardware", "타카핀 F"): {
+        "slug": "hardware-staple-f",
+        "category_label": "철물/부자재",
+        "title": "타카핀 F 단가 및 규격 안내",
+        "description": "F자 규격 타카핀으로, 합판·석고보드 등 넓은 면적의 고정 작업에 사용됩니다.",
+    },
+    ("hardware", "타카핀 ST"): {
+        "slug": "hardware-staple-st",
+        "category_label": "철물/부자재",
+        "title": "타카핀 ST 단가 및 규격 안내",
+        "description": "ST 규격 타카핀으로, 목재 프레임 및 구조재 조립 고정에 사용됩니다.",
     },
 }
 
