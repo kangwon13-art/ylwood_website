@@ -452,6 +452,84 @@ GROUP_PAGE_MAP = {
         "title": "타카핀 ST 단가 및 규격 안내",
         "description": "ST 규격 타카핀으로, 목재 프레임 및 구조재 조립 고정에 사용됩니다.",
     },
+    ("hardware", "점검구"): {
+        "slug": "hardware-access-panel",
+        "category_label": "철물/부자재",
+        "title": "점검구 단가 및 규격 안내",
+        "description": "천장이나 벽체 내부 설비 점검을 위한 개폐형 점검구로, 배관·전기 설비 유지보수 동선 확보에 사용됩니다.",
+    },
+    ("hardware", "방부철물"): {
+        "slug": "hardware-preservative-metal",
+        "category_label": "철물/부자재",
+        "title": "방부철물 단가 및 규격 안내",
+        "description": "방부 처리된 목재 구조용 철물로, 데크나 파고라 등 외부 목구조물의 접합부 보강에 사용됩니다.",
+    },
+    ("hardware", "주춧돌"): {
+        "slug": "hardware-post-base",
+        "category_label": "철물/부자재",
+        "title": "주춧돌 단가 및 규격 안내",
+        "description": "목재 기둥 하부에 설치하는 받침 철물로, 지면과의 접촉을 차단해 기둥의 부식을 방지합니다.",
+    },
+    ("hardware", "도어손잡이"): {
+        "slug": "hardware-door-handle",
+        "category_label": "철물/부자재",
+        "title": "도어손잡이 단가 및 규격 안내",
+        "description": "문짝에 설치하는 손잡이 철물로, 다양한 디자인으로 문짝 시공 마감에 사용됩니다.",
+    },
+    ("hardware", "실리콘 부자재"): {
+        "slug": "hardware-silicone-supplies",
+        "category_label": "철물/부자재",
+        "title": "실리콘 부자재 단가 및 규격 안내",
+        "description": "실리콘 시공에 필요한 보조 자재로, 코킹 작업의 마감 품질을 높일 때 사용됩니다.",
+    },
+    ("hardware", "톱날/부자재"): {
+        "slug": "hardware-saw-blade",
+        "category_label": "철물/부자재",
+        "title": "톱날/부자재 단가 및 규격 안내",
+        "description": "목재 절단용 톱날 및 관련 부자재로, 현장 재단 작업에 사용됩니다.",
+    },
+    ("hardware", "오일스테인"): {
+        "slug": "hardware-oil-stain",
+        "category_label": "철물/부자재",
+        "title": "오일스테인 단가 및 규격 안내",
+        "description": "목재 표면에 도포하는 오일 스테인으로, 목재의 색상 표현과 방수·방오 마감에 사용됩니다.",
+    },
+    ("hardware", "사포"): {
+        "slug": "hardware-sandpaper",
+        "category_label": "철물/부자재",
+        "title": "사포 단가 및 규격 안내",
+        "description": "목재·도장면 연마용 사포로, 마감 전 표면 정리 작업에 사용됩니다.",
+    },
+    ("hardware", "반코팅 장갑"): {
+        "slug": "hardware-gloves-coated",
+        "category_label": "철물/부자재",
+        "title": "반코팅 장갑 단가 및 규격 안내",
+        "description": "손바닥 부분이 코팅된 작업용 장갑으로, 현장 작업 시 손 보호와 그립력 확보에 사용됩니다.",
+    },
+    ("hardware", "마대"): {
+        "slug": "hardware-burlap-sack",
+        "category_label": "철물/부자재",
+        "title": "마대 단가 및 규격 안내",
+        "description": "현장에서 자재 운반이나 폐자재 정리에 사용하는 마대자루입니다.",
+    },
+    ("hardware", "보양지/테이프"): {
+        "slug": "hardware-protection-tape",
+        "category_label": "철물/부자재",
+        "title": "보양지/테이프 단가 및 규격 안내",
+        "description": "시공 중 바닥이나 마감면을 보호하는 보양지와 테이프로, 오염·손상 방지에 사용됩니다.",
+    },
+    ("hardware", "로라"): {
+        "slug": "hardware-paint-roller",
+        "category_label": "철물/부자재",
+        "title": "로라 단가 및 규격 안내",
+        "description": "도장 작업용 페인트 롤러로, 넓은 면적의 균일한 도장 작업에 사용됩니다.",
+    },
+    ("hardware", "코팅제 집성판 전용"): {
+        "slug": "hardware-coating-glulam",
+        "category_label": "철물/부자재",
+        "title": "코팅제 집성판 전용 단가 및 규격 안내",
+        "description": "집성판 전용 표면 코팅제로, 집성판의 내구성과 마감 품질을 높일 때 사용됩니다.",
+    },
 }
 
 PRICE_CHANGE_WARN_RATIO = 0.20  # ±20% 이상 튀면 경고

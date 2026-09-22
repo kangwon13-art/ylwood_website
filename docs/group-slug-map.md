@@ -133,6 +133,26 @@
 | hardware | 타카핀 F | `hardware-staple-f` | `/groups/hardware-staple-f.html` | 생성 완료(로컬 커밋, push 대기) |
 | hardware | 타카핀 ST | `hardware-staple-st` | `/groups/hardware-staple-st.html` | 생성 완료(로컬 커밋, push 대기) |
 
+## 철물/부자재 (지시서#13, 2026-09-23, 배치 B: 16~28, #13 전체 완료)
+
+| 카테고리 키 | 시트상 그룹명 | 슬러그 | URL | 상태 |
+|---|---|---|---|---|
+| hardware | 점검구 | `hardware-access-panel` | `/groups/hardware-access-panel.html` | 생성 완료(로컬 커밋, push 대기) |
+| hardware | 방부철물 | `hardware-preservative-metal` | `/groups/hardware-preservative-metal.html` | 생성 완료(로컬 커밋, push 대기) |
+| hardware | 주춧돌 | `hardware-post-base` | `/groups/hardware-post-base.html` | 생성 완료(로컬 커밋, push 대기) |
+| hardware | 도어손잡이 | `hardware-door-handle` | `/groups/hardware-door-handle.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| hardware | 실리콘 부자재 | `hardware-silicone-supplies` | `/groups/hardware-silicone-supplies.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| hardware | 톱날/부자재 | `hardware-saw-blade` | `/groups/hardware-saw-blade.html` | 생성 완료(로컬 커밋, push 대기) |
+| hardware | 오일스테인 | `hardware-oil-stain` | `/groups/hardware-oil-stain.html` | 생성 완료(16품목, 사이트 전체 최대 단일그룹, 로컬 커밋, push 대기) |
+| hardware | 사포 | `hardware-sandpaper` | `/groups/hardware-sandpaper.html` | 생성 완료(로컬 커밋, push 대기) |
+| hardware | 반코팅 장갑 | `hardware-gloves-coated` | `/groups/hardware-gloves-coated.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+| hardware | 마대 | `hardware-burlap-sack` | `/groups/hardware-burlap-sack.html` | 생성 완료(로컬 커밋, push 대기) |
+| hardware | 보양지/테이프 | `hardware-protection-tape` | `/groups/hardware-protection-tape.html` | 생성 완료(로컬 커밋, push 대기) |
+| hardware | 로라 | `hardware-paint-roller` | `/groups/hardware-paint-roller.html` | 생성 완료(로컬 커밋, push 대기) |
+| hardware | 코팅제 집성판 전용 | `hardware-coating-glulam` | `/groups/hardware-coating-glulam.html` | 생성 완료(단독 품목 1개, 로컬 커밋, push 대기) |
+
+**철물/부자재 28그룹, 지시서#13 전체 완료** — 이것으로 사이트 전체 그룹 정적 페이지 80개(파일럿 포함) 생성 완료.
+
 ## 나머지 카테고리 (지시서#12 전수 감사 결과, 2026-09-18)
 
 `g1-group-mapping-v2.md`에 카테고리별 시트 실제 그룹명·개수를 전부 정리해뒀다. 남은 진행 순서(사이트맵 우선순위 기준, 카테고리당 1~2개 라운드):
@@ -146,6 +166,6 @@
 | insulation | 단열재 | 6 | 6개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | deck_timber | 방부목/특수목/합성목 | 6 | 6개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) |
 | louver_wood | 루바/집성판 | 12 | 12개 전부 생성 완료(위 표 참조, 로컬 커밋, push 대기) — **#12 전체 카테고리 완료(철물/부자재 제외)** |
-| hardware | 철물/부자재 | 28 (그룹 미지정 0개, 2026-09-22 시트 정리 완료) | 배치 A(15개) 생성 완료 — 위 표 참조, 배치 B(13개) 진행 중 |
+| hardware | 철물/부자재 | 28 (그룹 미지정 0개, 2026-09-22 시트 정리 완료) | 28개 전부 생성 완료(배치 A+B, 위 표 참조) — **#13 전체 완료** |
 
 철물/부자재 제외 나머지 8개 카테고리 합계 약 45개 그룹(75개에서 마감자재 3개 기완료분 제외). 원래 "61개 그룹" 추정치는 `g1-group-mapping-v2.md` 원안(구 시트 상태) 기준이었고, 전수 감사 결과 실제로는 카테고리별 그룹 수가 달라져 있었다.
