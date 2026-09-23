@@ -795,20 +795,32 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
                             <td>{it['unit'] or '-'}</td>
                             <td class="price-col font-num">{format_price(it['price'])}</td>
                         </tr>"""
-        product = {"@type": "Product", "name": it["name"], "sku": it["id"]}
         if it["price"] > 0:
-            product["offers"] = {
-                "@type": "Offer",
-                "price": it["price"],
-                "priceCurrency": "KRW",
-                "availability": "https://schema.org/InStock",
-                "url": canonical,
+            product = {
+                "@type": "Product",
+                "name": it["name"],
+                "sku": it["id"],
+                "offers": {
+                    "@type": "Offer",
+                    "price": it["price"],
+                    "priceCurrency": "KRW",
+                    "availability": "https://schema.org/InStock",
+                    "url": canonical,
+                },
             }
-        product_entries.append({
-            "@type": "ListItem",
-            "position": i + 1,
-            "item": product,
-        })
+            product_entries.append({
+                "@type": "ListItem",
+                "position": i + 1,
+                "item": product,
+            })
+        else:
+            # 가격 미정(견적문의) 품목은 Product/offers를 쓰지 않는다 — 가격 없는 Product는
+            # 리치결과 테스트에서 오류로 잡힘(지시서 SEO-01c). 이름만 있는 ListItem으로 대체.
+            product_entries.append({
+                "@type": "ListItem",
+                "position": i + 1,
+                "name": it["name"],
+            })
 
     calc_cat_link = f"/calculator.html?cat={category}"
     json_ld = {
@@ -857,7 +869,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
                 <strong>실시간 단가 준비 중인 품목입니다</strong>
                 <p>정확한 사양과 단가는 카카오톡 또는 전화 상담으로 빠르게 안내해 드립니다.</p>
                 <div class="inquiry-cta-row">
-                    <a href="tel:02-1234-5678" class="btn btn-primary" data-phone-cta>전화 문의</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" data-phone-cta>전화 문의</a>
                     <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
                 </div>
             </div>"""
@@ -935,7 +947,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
                     <span class="header-phone-icon">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
                     </span>
-                    <span class="header-phone-number">02-1234-5678</span>
+                    <span class="header-phone-number"></span>
                 </div>
             </div>
         </div>
@@ -975,7 +987,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
     </main>
 
     <div class="floating-buttons">
-        <a href="tel:02-1234-5678" class="floating-btn-circle phone" title="전화 연결">
+        <a href="javascript:void(0)" class="floating-btn-circle phone" title="전화 연결">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.502-5.114-3.792-6.616-6.616l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
@@ -1004,7 +1016,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
                     </div>
                 </div>
                 <div class="footer-links">
-                    <div class="footer-tel">고객센터 <span>02-1234-5678</span></div>
+                    <div class="footer-tel">고객센터 <span></span></div>
                     <div class="footer-bottom-nav">
                         <a href="/calculator.html">최신단가표</a>
                         <a href="/door_order.html">문짝·문틀 주문</a>
