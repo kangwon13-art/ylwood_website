@@ -757,6 +757,11 @@ HEAD_CSS = """
         table.group-table td.name-col { font-weight: 700; color: var(--color-text-white); }
         table.group-table td.price-col { text-align: right; font-weight: 700; color: var(--color-accent-orange); white-space: nowrap; }
         .group-cta-wrap { max-width: 360px; }
+        .group-siblings { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--color-border); }
+        .group-siblings-title { font-size: 13px; font-weight: 700; color: var(--color-text-muted); margin-bottom: 12px; }
+        .group-siblings-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .group-siblings-list a { font-size: 13px; color: var(--color-text-light); background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 50px; padding: 7px 14px; text-decoration: none; transition: var(--transition-smooth); }
+        .group-siblings-list a:hover { color: var(--color-accent-orange); border-color: var(--color-accent-orange); }
         .inquiry-banner { background: var(--color-accent-orange-light); border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 12px; padding: 18px 20px; margin-bottom: 28px; word-break: keep-all; }
         .inquiry-banner strong { display: block; font-size: 15px; color: var(--color-text-white); margin-bottom: 6px; }
         .inquiry-banner p { font-size: 13.5px; color: var(--color-text-light); line-height: 1.7; margin-bottom: 14px; }
@@ -772,7 +777,7 @@ HEAD_CSS = """
 """
 
 
-def render_page(category, group_name, meta, items, generated_at, gid_no):
+def render_page(category, group_name, meta, items, generated_at, gid_no, siblings=None):
     slug = meta["slug"]
     canonical = f"https://infill-wood.kr/groups/{slug}.html"
     title_tag = f"{meta['title']} | INFILL"
@@ -781,8 +786,8 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
     gen_date_str = generated_at.strftime("%Y-%m-%d")
 
     rows_html = ""
-    ld_offers = []
-    for it in items:
+    product_entries = []
+    for i, it in enumerate(items):
         rows_html += f"""
                         <tr>
                             <td class="name-col">{it['name']}</td>
@@ -790,23 +795,39 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
                             <td>{it['unit'] or '-'}</td>
                             <td class="price-col font-num">{format_price(it['price'])}</td>
                         </tr>"""
+        product = {"@type": "Product", "name": it["name"], "sku": it["id"]}
         if it["price"] > 0:
-            ld_offers.append({
+            product["offers"] = {
                 "@type": "Offer",
-                "name": it["name"],
                 "price": it["price"],
                 "priceCurrency": "KRW",
                 "availability": "https://schema.org/InStock",
                 "url": canonical,
-            })
+            }
+        product_entries.append({
+            "@type": "ListItem",
+            "position": i + 1,
+            "item": product,
+        })
 
+    calc_cat_link = f"/calculator.html?cat={category}"
     json_ld = {
         "@context": "https://schema.org",
-        "@type": "ItemList",
-        "name": meta["title"],
-        "itemListElement": [
-            {"@type": "Product", "name": it["name"], "sku": it["id"]}
-            for it in items
+        "@graph": [
+            {
+                "@type": "ItemList",
+                "name": meta["title"],
+                "itemListElement": product_entries,
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://infill-wood.kr/"},
+                    {"@type": "ListItem", "position": 2, "name": "최신단가표", "item": f"https://infill-wood.kr{calc_cat_link}"},
+                    {"@type": "ListItem", "position": 3, "name": meta["category_label"], "item": f"https://infill-wood.kr{calc_cat_link}"},
+                    {"@type": "ListItem", "position": 4, "name": group_name, "item": canonical},
+                ],
+            },
         ],
     }
 
@@ -817,13 +838,26 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
         "items": [{"id": it["id"], "name": it["name"], "price": it["price"]} for it in items],
     }
 
+    sibling_links = ""
+    if siblings:
+        for sib_name, sib_slug in siblings:
+            if sib_slug == slug:
+                continue
+            sibling_links += f'<a href="/groups/{sib_slug}.html">{sib_name}</a>'
+    siblings_html = ""
+    if sibling_links:
+        siblings_html = f"""<div class="group-siblings">
+                <div class="group-siblings-title">{meta['category_label']}의 다른 그룹</div>
+                <div class="group-siblings-list">{sibling_links}</div>
+            </div>"""
+
     inquiry_only = bool(meta.get("inquiry_only"))
     if inquiry_only:
         note_or_banner_html = f"""<div class="inquiry-banner">
                 <strong>실시간 단가 준비 중인 품목입니다</strong>
                 <p>정확한 사양과 단가는 카카오톡 또는 전화 상담으로 빠르게 안내해 드립니다.</p>
                 <div class="inquiry-cta-row">
-                    <a href="tel:02-1234-5678" class="btn btn-primary">전화 문의</a>
+                    <a href="tel:02-1234-5678" class="btn btn-primary" data-phone-cta>전화 문의</a>
                     <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
                 </div>
             </div>"""
@@ -853,6 +887,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
     <meta property="og:description" content="{meta['description']}">
     <meta property="og:type" content="product.group">
     <meta property="og:url" content="{canonical}">
+    <meta property="og:image" content="https://infill-wood.kr/assets/og/og-default.png">
 
     <link rel="icon" type="image/svg+xml" href="/assets/logo/app-icon.svg">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -861,6 +896,9 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- 대표전화 등 공통 설정 (지시서 SEO-01 F) -->
+    <script src="/site-config.js"></script>
 
     <script type="application/ld+json">{json.dumps(json_ld, ensure_ascii=False)}</script>
 
@@ -872,7 +910,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
 
     <header id="header">
         <div class="container header-wrap">
-            <a href="/index.html" class="logo-area">
+            <a href="/" class="logo-area">
                 <svg viewBox="0 0 100 100" aria-hidden="true">
                     <polygon points="90,52 70,86.64 30,86.64 10,52 30,17.36 70,17.36" fill="none" stroke="#1A1F2B" stroke-width="7" />
                     <rect x="32" y="34" width="36" height="32" rx="3" fill="#FF6B35" />
@@ -906,7 +944,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
     <main class="group-main">
         <div class="container">
             <div class="breadcrumb">
-                <a href="/index.html">홈</a><span class="sep">›</span><a href="/calculator.html?cat={category}">최신단가표</a><span class="sep">›</span><a href="/calculator.html?cat={category}">{meta['category_label']}</a><span class="sep">›</span>{group_name}
+                <a href="/">홈</a><span class="sep">›</span><a href="/calculator.html?cat={category}">최신단가표</a><span class="sep">›</span><a href="/calculator.html?cat={category}">{meta['category_label']}</a><span class="sep">›</span>{group_name}
             </div>
             <span class="group-category-tag">{meta['category_label']}</span>
             <h1 class="group-title">{meta['title']}</h1>
@@ -931,6 +969,8 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
             <div class="group-cta-wrap">
                 {cta_html}
             </div>
+
+            {siblings_html}
         </div>
     </main>
 
@@ -986,6 +1026,18 @@ def render_page(category, group_name, meta, items, generated_at, gid_no):
     return html
 
 
+def write_groups_index_js():
+    """calculator.html이 카테고리·그룹명 -> 그룹 페이지 슬러그를 찾아 내부 링크를 붙일 때 쓰는 매핑.
+    이 스크립트가 유일한 소스 — 재생성할 때마다 함께 갱신된다(지시서 SEO-01 E)."""
+    by_category = {}
+    for (category, group_name), meta in GROUP_PAGE_MAP.items():
+        by_category.setdefault(category, {})[group_name] = meta["slug"]
+    js = "// 자동 생성 파일 — scripts/generate_group_pages.py가 관리함. 직접 수정하지 말 것.\n"
+    js += "const GROUP_PAGE_SLUGS = " + json.dumps(by_category, ensure_ascii=False, indent=2) + ";\n"
+    (REPO_ROOT / "groups-index.js").write_text(js, encoding="utf-8")
+    print(f"[생성 완료] groups-index.js ({len(GROUP_PAGE_MAP)}개 그룹 매핑)")
+
+
 def main():
     GROUPS_DIR.mkdir(exist_ok=True)
     generated_at = datetime.now(KST)
@@ -998,6 +1050,10 @@ def main():
         print(f"[fetch] {cat} CSV 가져오는 중...")
         items_by_category[cat] = load_category(cat)
         print(f"  -> {len(items_by_category[cat])}개 품목 로드")
+
+    siblings_by_category = {}
+    for (category, group_name), meta in GROUP_PAGE_MAP.items():
+        siblings_by_category.setdefault(category, []).append((group_name, meta["slug"]))
 
     gid_counter = 0
     for (category, group_name), meta in GROUP_PAGE_MAP.items():
@@ -1013,10 +1069,13 @@ def main():
         warnings = check_price_outliers(meta["slug"], items, out_path)
         all_warnings.extend(warnings)
 
-        html = render_page(category, group_name, meta, items, generated_at, gid_counter)
+        html = render_page(category, group_name, meta, items, generated_at, gid_counter,
+                            siblings=siblings_by_category.get(category))
         out_path.write_text(html, encoding="utf-8")
         generated_files.append(str(out_path.relative_to(REPO_ROOT)))
         print(f"[생성 완료] {out_path.relative_to(REPO_ROOT)} ({len(items)}개 품목)")
+
+    write_groups_index_js()
 
     print()
     print(f"총 {len(generated_files)}개 페이지 생성: {generated_files}")

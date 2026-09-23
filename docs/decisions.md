@@ -19,7 +19,7 @@
 * **Date:** 2026-07-11
 * **Decision:** 로컬 개발용 Python HTTP 서버는 `Cache-Control: no-store` 헤더를 반드시 포함하여 서빙한다. 실기기(모바일)에서 확인 시 파일 수정 후 반드시 브라우저 강제 새로고침 또는 캐시 버스터(`?v=YYYYMMDD`)를 붙여 접속한다.
 * **배경:** Python `http.server`는 기본적으로 `Cache-Control` 헤더를 보내지 않아 실기기 브라우저가 이전 응답을 캐시로 사용한다. 이로 인해 코드 수정이 실기기에 반영되지 않은 것처럼 보이는 오진이 반복 발생했다.
-* **규칙:** 서버 시작 시 `serve.py`(캐시 비활성화 커스텀 핸들러)를 사용한다. 상세 내용은 `serve.py` 참조.
+* **규칙:** 서버 시작 시 `_dev/serve.py`(캐시 비활성화 커스텀 핸들러, 저장소 루트에서 실행)를 사용한다. 상세 내용은 `_dev/serve.py` 참조. (2026-09-23 지시서 SEO-01로 저장소 루트에서 `_dev/`로 이동, `_redirects`가 `/_dev/*`를 404 처리해 외부에는 노출되지 않음)
 
 ---
 
@@ -73,7 +73,7 @@
 * **Date:** 2026-07-11
 * **Decision:** 로컬 개발 서버는 `Cache-Control: no-store` 헤더로 응답하고, LTE 등 Wi-Fi 외 네트워크에서도 확인 가능하도록 기본적으로 **cloudflared 터널을 우선 사용**한다.
 * **배경:** Python `http.server` 기본 캐시 헤더 미설정으로 실기기 브라우저가 구버전을 캐시하여 코드 수정이 반영되지 않은 것처럼 보이는 오진이 반복됐다. Wi-Fi 의존 링크는 LTE 환경 감독 확인 불가.
-* **규칙:** 서버 실행 시 `uv run python serve.py` 사용 (프로젝트 루트의 `serve.py` 참조). 실기기 링크는 cloudflared 터널 URL로 발급.
+* **규칙:** 서버 실행 시 `uv run python _dev/serve.py` 사용 (저장소 루트에서 실행, `_dev/serve.py` 참조). 실기기 링크는 cloudflared 터널 URL로 발급 — `cloudflared` 실행 파일은 저장소에 포함하지 않고 로컬에 별도 설치해 사용한다(2026-09-23, 지시서 SEO-01).
 
 ---
 

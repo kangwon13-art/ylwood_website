@@ -16,7 +16,7 @@
 - **호스팅**: Netlify + GitHub 연동 자동배포(대시보드에서 설정, 저장소 내 `netlify.toml` 등 별도 설정 파일 없음) — Netlify 대시보드 접근 권한이 없어 실제 반영 여부는 매번 육안/curl 확인 필요.
 - **SEO**: `sitemap.xml`(6개 페이지 URL 등록, `bc31364`), 네이버 서치어드바이저 사이트 등록+소유확인 완료(HTML 파일 업로드 방식, `naverb69c5f03d3ba5cfdfe5bbb0862756fc7.html`, `5cdae6a`).
 - **카카오 채널**: `http://pf.kakao.com/_LixnwX/chat` (6개 페이지 전부 동일 링크로 실연동 확인됨)
-- **로컬 개발**: `uv run python serve.py`(포트 8080, `Cache-Control: no-store` 강제) + `cloudflared.exe`(portable quick tunnel)로 실기기 확인 링크 발급.
+- **로컬 개발**: `uv run python _dev/serve.py`(저장소 루트에서 실행, 포트 8080, `Cache-Control: no-store` 강제) + `cloudflared`(2026-09-23 지시서 SEO-01로 저장소에서 제외 — 로컬에 별도 설치해 사용, 예: `C:\Program Files (x86)\cloudflared\cloudflared.exe`)로 실기기 확인 링크 발급.
 
 ### 주요 파일 (현재 실제 링크되어 서비스 중인 6개 페이지)
 
