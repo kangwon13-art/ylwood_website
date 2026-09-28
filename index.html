@@ -457,36 +457,6 @@
             transform: translateY(-3px);
         }
 
-        .hero-badge-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-top: 56px;
-            border-top: 1px solid var(--color-border);
-            padding-top: 36px;
-        }
-
-        .hero-badge-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .hero-badge-title {
-            font-size: 14px;
-            color: var(--color-text-muted);
-        }
-
-        .hero-badge-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--color-text-white);
-        }
-
-        .hero-badge-value span {
-            color: var(--color-accent-orange);
-        }
-
         .hero-image-panel {
             position: relative;
             display: flex;
@@ -522,7 +492,7 @@
         }
 
         /* 작업지시서#06 항목3-1: "단가 투명 보장제" 카드(백색 박스+그림자+체크아이콘 나열)를
-           SaaS 위젯처럼 보이던 형태에서, 하단 통계 3종(.hero-badge-grid)과 동일한 톤 —
+           SaaS 위젯처럼 보이던 형태에서, (삭제된) 하단 통계 3종과 동일한 톤 —
            박스 없이 헤어라인 구분 + 라벨(뮤트)/값(강조) 나열 — 정보 블록으로 재구성 */
         .hero-card {
             background: transparent;
@@ -616,7 +586,7 @@
             grid-template-columns: repeat(2, 1fr);
             row-gap: 16px;
             column-gap: 32px;
-            margin: 18px auto 36px;
+            margin: 18px auto 0;
             max-width: 660px;
             width: 100%;
         }
@@ -1428,10 +1398,6 @@
                 justify-content: center;
             }
 
-            .hero-badge-grid {
-                width: 100%;
-            }
-
             .category-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1989,20 +1955,6 @@
                         <span>간편 유선 상담 신청</span>
                     </button>
                 </div>
-                <div class="hero-badge-grid">
-                    <div class="hero-badge-item">
-                        <span class="hero-badge-title">당일 배송율</span>
-                        <span class="hero-badge-value font-num">98.4<span>%</span></span>
-                    </div>
-                    <div class="hero-badge-item">
-                        <span class="hero-badge-title">누적 거래처</span>
-                        <span class="hero-badge-value font-num">3,500<span>+</span></span>
-                    </div>
-                    <div class="hero-badge-item">
-                        <span class="hero-badge-title">품목 수</span>
-                        <span class="hero-badge-value font-num">120<span>여종</span></span>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -2341,6 +2293,7 @@
                 <div class="footer-info">
                     <div class="footer-logo">INFILL<span class="footer-logo-endorsement">by 영림우드</span></div>
                     <div class="footer-details">
+                        영림몰딩도어 · 영림중문 · 영림키친바스 공식 유통사<br>
                         (주)영림우드 | 대표이사: 허강원 | 사업자등록번호: 124-87-19164<br>
                         본사/물류창고: 경기도 수원시 권선구 서부로 1628<br>
                         이메일: ylwood0009@naver.com | 팩스: 031-291-4629
