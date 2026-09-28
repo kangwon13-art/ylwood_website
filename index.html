@@ -365,35 +365,6 @@
             max-width: 840px;
         }
 
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 107, 53, 0.12);
-            color: var(--color-accent-orange);
-            font-size: 14px;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 107, 53, 0.25);
-            margin-bottom: 24px;
-            animation: pulse-border 2s infinite;
-        }
-
-        @keyframes pulse-border {
-            0% {
-                border-color: rgba(255, 107, 53, 0.25);
-            }
-
-            50% {
-                border-color: rgba(255, 107, 53, 0.6);
-            }
-
-            100% {
-                border-color: rgba(255, 107, 53, 0.25);
-            }
-        }
-
         /* 대산 참고 리브랜딩: 헤드라인을 눈에 띄게 확대 */
         .hero-title {
             font-size: 64px;
@@ -421,34 +392,6 @@
             max-width: 640px;
         }
 
-        /* 히어로 마이크로 수정(3차): 서브카피 텍스트 → 영림우드가 공식 유통하는 브랜드
-           로고 2종(영림몰딩도어/영림키친바스)을 나란히 표시. (4차) 흰 배경 박스 제거한
-           투명 PNG로 교체 + 크기 약 1.5배 확대(26px→39px) */
-        /* 대산 참고 리브랜딩: 검색창 아래 보조 신뢰 요소로 격하 — 서브카피가 부활했으므로
-           배지는 다시 작게(주인공은 헤드라인/서브카피/검색창) */
-        .hero-distributor-badges {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin: 18px 0 20px;
-            flex-wrap: wrap;
-        }
-
-        .hero-distributor-logo {
-            height: 24px;
-            width: auto;
-            display: block;
-            opacity: 0.85;
-        }
-
-        .hero-distributor-divider {
-            width: 1px;
-            height: 16px;
-            background: var(--color-border);
-            flex-shrink: 0;
-        }
-
         /* 히어로 마이크로 수정 항목4: 검색창을 한 단계 더 확대 */
         .hero-search {
             width: 100%;
@@ -468,40 +411,6 @@
             left: 22px !important;
             width: 24px;
             height: 24px;
-        }
-
-        /* 검색창 바로 아래 한 줄: 실시간 갱신 인디케이터 */
-        .hero-live-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--color-text-muted);
-            margin-bottom: 32px;
-        }
-
-        .hero-live-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-            flex-shrink: 0;
-            animation: hero-live-pulse 2s infinite;
-        }
-
-        @keyframes hero-live-pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55);
-            }
-
-            70% {
-                box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-            }
         }
 
         .hero-ctas {
@@ -707,7 +616,7 @@
             grid-template-columns: repeat(2, 1fr);
             row-gap: 16px;
             column-gap: 32px;
-            margin: 8px auto 36px;
+            margin: 18px auto 36px;
             max-width: 660px;
             width: 100%;
         }
@@ -2023,13 +1932,6 @@
     <section class="hero">
         <div class="container hero-wrap">
             <div class="hero-content">
-                <div class="hero-tag">
-                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="margin-top: 1px;">
-                        <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h-2v-2h4v8zm0-10h-2V5h-2v2h4z" />
-                    </svg>
-                    INFILL · 건축자재 전문
-                </div>
                 <h1 class="hero-title">
                     찾는 자재 검색 한 번,<br>
                     <span>단가부터 견적까지 한 화면에서</span>
@@ -2047,17 +1949,6 @@
                     <div class="global-search-dropdown" id="globalSearchDropdown"
                         style="display: none; position: absolute; top: calc(100% + 5px); left: 0; right: 0; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; max-height: 250px; overflow-y: auto; box-shadow: var(--shadow-premium); z-index: 9999;">
                     </div>
-                </div>
-                <!-- 대산 참고 리브랜딩: 로고 배지를 검색창 아래(보조 신뢰 요소)로 이동 -->
-                <div class="hero-distributor-badges">
-                    <img src="assets/logo/yl1-transparent.png" alt="영림몰딩도어 공식 유통사" class="hero-distributor-logo">
-                    <span class="hero-distributor-divider" aria-hidden="true"></span>
-                    <img src="assets/logo/yl2-transparent.png" alt="영림키친바스 공식 유통사" class="hero-distributor-logo">
-                </div>
-                <!-- 작업지시서#06 항목3-1(2차): "단가 투명 보장제" 카드 전체 삭제, 한 줄 인디케이터로 대체 -->
-                <div class="hero-live-status">
-                    <span class="hero-live-dot" aria-hidden="true"></span>
-                    <span>실시간 단가 업데이트 <span class="font-num" id="heroDate">오늘 09:00 기준 완료</span></span>
                 </div>
                 <!-- Hero Navigation Grid & Secondary CTA -->
                 <div class="hero-navigation-grid">
@@ -3295,13 +3186,6 @@
 
         // 1. Initialize
         window.addEventListener("DOMContentLoaded", () => {
-            // Set Hero Date
-            const d = new Date();
-            const heroDateEl = document.getElementById("heroDate");
-            if (heroDateEl) {
-                heroDateEl.innerText = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 기준 완료`;
-            }
-
             // Header scroll effect
             window.addEventListener("scroll", () => {
                 const header = document.getElementById("header");
