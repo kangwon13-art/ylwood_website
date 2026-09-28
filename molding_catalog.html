@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INFILL | 몰딩 색상별 주문</title>
     <link rel="canonical" href="https://infill-wood.kr/molding_catalog.html">
-    <meta name="description" content="몰딩 보유 색상 8종의 재고 종류를 확인하고, 필요한 종류를 담아 카카오톡으로 바로 문의하세요.">
+    <meta name="description" content="몰딩 보유 색상 8종의 몰딩 종류를 확인하고, 필요한 종류를 담아 카카오톡으로 바로 문의하세요.">
     <meta property="og:title" content="INFILL - 몰딩 색상별 주문">
     <meta property="og:description" content="색상을 고르면 해당 색상으로 바로 되는 몰딩 종류를 확인할 수 있습니다.">
     <meta property="og:type" content="website">
@@ -50,8 +50,6 @@
             --color-text-muted: #5F6875;
             --color-text-light: #333A47;
             --color-border: #DDE1E8;
-            --color-stock-bg: #EAF3DE;
-            --color-stock-text: #3B6D11;
             --font-family-base: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
             --font-family-alt: 'Montserrat', sans-serif;
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -404,15 +402,6 @@
             color: var(--color-text-white);
         }
 
-        .stock-count-badge {
-            background: var(--color-stock-bg);
-            color: var(--color-stock-text);
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-        }
-
         .unit-hint {
             font-size: 12.5px;
             color: var(--color-text-muted);
@@ -474,25 +463,6 @@
             gap: 8px;
             flex-shrink: 0;
             /* 필수: 컨트롤 블록은 줄어들지 않음 */
-        }
-
-        .stock-badge {
-            flex-shrink: 0;
-            /* 필수: 뱃지는 절대 줄어들거나 밀리지 않음 */
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-
-        .stock-badge.in {
-            background: var(--color-stock-bg);
-            color: var(--color-stock-text);
-        }
-
-        .stock-badge.out {
-            background: var(--color-bg-tertiary);
-            color: var(--color-text-muted);
         }
 
         .molding-qty-stepper {
@@ -994,7 +964,6 @@
             <div class="molding-card">
                 <div class="result-header">
                     <div class="result-color-name" id="resultColorName"></div>
-                    <div class="stock-count-badge" id="stockCountBadge"></div>
                 </div>
                 <div class="unit-hint">2. 필요한 종류를 담아주세요 · 1개 = 2.4M 기준</div>
                 <div class="molding-list" id="moldingList"></div>
@@ -1016,7 +985,7 @@
                     <path
                         d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.51 1.86 4.717 4.655 5.92-.187.697-.68 2.537-.777 2.923-.12.483.178.477.375.343.153-.103 2.454-1.68 3.447-2.355C11.14 17.065 11.57 17.1 12 17.1c4.97 0 9-3.185 9-7.115S16.97 3 12 3z" />
                 </svg>
-                담긴 품목 재고·견적 문의
+                담긴 품목 견적 문의
             </button>
 
         </div>
@@ -1355,10 +1324,7 @@
         // ===================== 3. 결과 헤더 + 목록 =====================
 
         function renderResultHeader() {
-            const items = MOLDING_DATA[currentColor] || [];
-            const inStockCount = items.filter(it => it.inStock).length;
             document.getElementById("resultColorName").textContent = currentColor;
-            document.getElementById("stockCountBadge").textContent = `${inStockCount}종 재고 보유`;
         }
 
         function moldingRowKey(colorName, item) {
@@ -1372,16 +1338,12 @@
             box.innerHTML = items.map(item => {
                 const key = moldingRowKey(currentColor, item);
                 if (!(key in qtyState)) qtyState[key] = 1;
-                const badge = item.inStock
-                    ? `<span class="stock-badge in">재고</span>`
-                    : `<span class="stock-badge out">주문제작</span>`;
                 const specText = item.spec ? item.spec : "-";
                 return `
                     <div class="molding-row">
                         <div class="molding-row-main">
                             <div class="molding-row-namebadge">
                                 <span class="molding-row-name" title="${item.name}">${item.name}</span>
-                                ${badge}
                             </div>
                             <span class="molding-row-spec">${specText}</span>
                         </div>
@@ -1425,15 +1387,12 @@
         function addMoldingItem(key) {
             const [colorName, name, spec] = key.split("|");
             const qty = qtyState[key] || 1;
-            const items = MOLDING_DATA[colorName] || [];
-            const item = items.find(it => it.name === name && it.spec === spec);
             cart.push({
                 other: false,
                 color: colorName,
                 name: name,
                 spec: spec,
-                qty: qty,
-                inStock: item ? item.inStock : true
+                qty: qty
             });
             qtyState[key] = 1;
             const el = document.getElementById(`qty-${cssEscapeKey(key)}`);
@@ -1531,7 +1490,7 @@
         // ===================== 6. 카카오톡 전송 =====================
 
         function buildMoldingKakaoMessage() {
-            const lines = ["[몰딩 재고·견적 문의]", ""];
+            const lines = ["[몰딩 견적 문의]", ""];
             const hasOther = cart.some(it => it.other);
 
             cart.forEach((item, i) => {
