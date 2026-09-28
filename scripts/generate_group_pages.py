@@ -868,7 +868,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
     if inquiry_only:
         note_or_banner_html = f"""<div class="inquiry-banner">
                 <strong>실시간 단가 준비 중인 품목입니다</strong>
-                <p>정확한 사양과 단가는 카카오톡 또는 전화 상담으로 빠르게 안내해 드립니다.</p>
+                <p>현장 수량·규격·재단·납기는 전화 또는 카카오톡으로 빠르게 안내해 드립니다.</p>
                 <div class="inquiry-cta-row">
                     <a href="javascript:void(0)" class="btn btn-primary" data-phone-cta data-cta-location="group_banner">전화 문의</a>
                     <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
@@ -883,7 +883,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
     if not inquiry_only:
         bottom_banner_html = """<div class="inquiry-banner">
                 <strong>수량·사양 상담이 필요하신가요?</strong>
-                <p>현장 수량, 규격, 납기 등은 전화 또는 카카오톡으로 빠르게 안내해 드립니다.</p>
+                <p>현장 수량·규격·재단·납기는 전화 또는 카카오톡으로 빠르게 안내해 드립니다.</p>
                 <div class="inquiry-cta-row">
                     <a href="javascript:void(0)" class="btn btn-primary" data-phone-cta data-cta-location="group_banner">전화 문의</a>
                     <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
