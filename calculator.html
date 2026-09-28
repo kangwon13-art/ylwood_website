@@ -8,6 +8,8 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
+        // 운영 도메인 외(localhost·trycloudflare·netlify.app 등)에서는 GA4 전송 차단 (지시서 #14 피드백)
+        if (location.hostname !== 'infill-wood.kr') window['ga-disable-G-B8ZLZEVV7E'] = true;
         gtag('config', 'G-B8ZLZEVV7E');
     </script>
     <meta charset="UTF-8">
