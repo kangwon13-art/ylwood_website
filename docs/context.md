@@ -26,7 +26,7 @@
 | `calculator.html` | (index와 동일 타이틀) | 실시간 자재 견적 계산기 — 전 카테고리 단가표+장바구니, 이 사이트의 핵심 기능 |
 | `catalog.html` | INFILL \| 영림카탈로그 - 디지털 카탈로그 | E-카탈로그(PDF/이미지 형태 제품 카탈로그) 열람 페이지 |
 | `door_order.html` | INFILL \| 문짝·문틀 주문 사양 정리 | 문/문틀 종류·색상·사이즈 조합 선택 후 카카오로 주문 사양 전달 |
-| `molding_catalog.html` | INFILL \| 몰딩 색상별 주문 (구: 몰딩 색상별 재고 확인) | 몰딩 8개 색상별 재고 O/X 확인 + 장바구니 |
+| `molding_catalog.html` | INFILL \| 몰딩 색상별 주문 (구: 몰딩 색상별 재고 확인) | 몰딩 8개 색상별 종류 확인 + 장바구니 → 카톡 견적 문의 (재고 O/X 표시는 #15에서 삭제) |
 | `wallpanel.html` | INFILL \| 월판넬 디자인 둘러보기 | 템바보드/인피니월 패턴·색상 선택 후 장바구니 |
 
 각 파일은 **완전히 독립된 `<style>`/`<script>` 블록**을 가진 개별 정적 페이지입니다(공유 CSS/JS 파일 없음) — 한 페이지 수정이 다른 페이지에 영향을 줄 수 없는 구조이며, 동시에 6개 페이지에 걸친 공통 컴포넌트(헤더, 담기 버튼 등)는 매번 개별적으로 동일하게 반영해야 합니다.
@@ -78,6 +78,7 @@
 | 2026-09-15 후속 | `7bd7e20` | 위 id 중복 사고의 재발 방지 원칙(`decisions.md` #8)·해결 이력(본 문서 8번 섹션) 문서화. |
 | 2026-09-16, 지시서#10 A | `56de3e9` | Netlify 기본 도메인(`endearing-cassata-cf0649.netlify.app`) → 커스텀 도메인 `infill-wood.kr` 301 강제 리다이렉트. 저장소 루트에 `_redirects` 파일 신규(경로·쿼리스트링 보존, Deploy Preview URL은 영향 없음, `infill-wood.kr` 자체는 루프 없이 200 유지 — 배포 후 curl로 검증 완료). |
 | 2026-09-16, 지시서#10 B | `a6f6592` | **calculator.html 이메일 견적 요청 폼 신규**(카카오 병행 채널, 대체 아님) + `catalog.html` 죽은 EmailJS SDK 스크립트 제거. 상세는 4번 섹션 참조. |
+| 2026-09-28, 지시서#15 | `47975de`, `6649b3e`, `ae8a920`(+context.md, **로컬 커밋, push 승인 대기**) | **index 히어로 정리:** 상단 배지 "INFILL · 건축자재 전문", 유통사 로고 2종(영림몰딩도어/영림키친바스), "실시간 단가 업데이트" 한 줄과 전용 CSS·JS(`heroDate`) 삭제(로고 파일 `assets/logo/yl1*`·`yl2*`는 유지). 검색창→바로가기 카드 간격을 기존 검색창→로고 간격인 34px로 맞춤(`.hero-navigation-grid` 위 여백 8→18px, 375/768/1280 동일). **몰딩 재고 표시 삭제:** 품목별 "재고/주문제작" 배지, "N종 재고 보유" 배지, 관련 CSS 삭제. 버튼 "담긴 품목 견적 문의", 카톡 머리글 "[몰딩 견적 문의]", meta description "몰딩 종류를 확인하고"로 교체. 시트 재고 열은 유지(화면에서 읽지 않음). **그룹 배너 설명:** 80개 모두 "현장 수량·규격·재단·납기는 전화 또는 카카오톡으로 빠르게 안내해 드립니다."(제목은 각자 유지), 재생성 가격 변경 0건. |
 | 2026-09-28, 지시서#14 + 피드백 | `ad121d5`, `5be6dfb`, `fa52fa2`, `86873af`, `e299421`, `fb46669`(push 완료, 운영 배포 확인 2026-09-28) | **문의 전환 계측.** `site-config.js` 클릭 위임으로 `phone_click`/`kakao_click`, 사양전송 3종 `spec_send`, index 문의폼 `generate_lead(index_inquiry)`, calculator `generate_lead`에 `lead_source=calculator_quote` 추가(이벤트 표는 4번 섹션). **피드백 반영:** ① B-2 — 처음엔 79개 가격형 페이지에 문의배너가 없어 생략했으나 감독 지시로 가격형 템플릿 CTA 아래에 문의 배너(전화·카톡) 신설 → `data-phone-cta` 80개 파일 각 1건 ② 배너 버튼 `nowrap` + 패딩 `14px 12px`/15px로 375px 줄바꿈 해소(80개×375/768/1280 전부 한 줄, 가로넘침 0) ③ 운영 도메인 외 GA4 전송 차단(`ga-disable` 플래그). 80개 재생성 가격 변경 0건. Playwright로 `/g/collect` 요청을 가로채 이벤트명·파라미터·중복 없음 검증. |
 | 2026-09-23 후속, 대표전화 실제번호+SEO-01c+SEO-02 | `331a2bd`(push 완료) | **대표전화 010-5250-0019 실제 개통 반영 + 구조화데이터/전화번호 원문노출 후속 수정.** 대표전화: `site-config.js` 실제 번호로 교체(`phoneEnabled: true`), index.html LocalBusiness JSON-LD에 `telephone: "+82-10-5250-0019"` 추가. SEO-01c: 그룹페이지 80개 중 가격 0원(견적문의) 79개 품목이 Product인데 offers 없어 구글 오류 대상이던 것을 이름만 있는 ListItem으로 변경(offers 없는 Product 0건 스크립트 검증, schema.org 검증기 3샘플 오류 0). SEO-02: 헤더/푸터/플로팅버튼/그룹문의배너의 전화번호 텍스트·`tel:` 링크를 HTML 원문에서 완전 제거 — 빈 자리표시만 두고 `site-config.js`가 `phoneEnabled`일 때만 JS로 채움(이전엔 JS로 숨기기만 해서 원문엔 번호가 그대로 있었음). `phoneEnabled` true/false 토글 양쪽 다 레이아웃 확인. 배포 후 `1234-5678` grep 결과 index.html placeholder 1건 외 0건, `telephone` 필드 라이브 확인 완료. |
 | 2026-09-23, 지시서 SEO-01 | `a761972`(push 완료) | **검색 노출 1차 정비.** A) `_redirects`에 `/docs/*` `/cutting/*` `/scripts/*` `/_dev/*` 404! 규칙(내부 파일 외부 노출 차단, Netlify splat-끝단만 허용·shadowing 방지로 `!` 강제 — 최초 확장자 와일드카드 시도는 Netlify 문법 오류로 감독이 2차례 교정 지시), 루트 작업파일 38개 `_dev/`로 이동, `cloudflared.exe` 저장소 추적 해제. B) canonical/og:url을 `/index.html`→`/`로 통일(sitemap·내부 로고링크 포함, `/index.html→/301` 리다이렉트는 shadowing 위험으로 canonical 단독 처리로 최종 결정). C) index.html·calculator.html title/description 교체, keywords 삭제, calculator.html 첫 H1 태그 부여, 전 페이지+그룹페이지 og:image 추가(`assets/og/og-default.png`, 에이전트 임시 생성). D) index.html에 Organization/WebSite/FAQPage JSON-LD(FAQ 텍스트 화면과 100% 일치 검증), 그룹페이지 80개에 Product offers+BreadcrumbList 추가(0원 품목은 offers 제외) — schema.org 공식 검증기로 무로그인 검증(오류 0). E) `groups-index.js` 자동생성 파일로 calculator.html 그룹카드에 그룹페이지 링크, 그룹페이지 하단에 동카테고리 형제그룹 링크. F) `site-config.js` 단일 상수로 대표전화 관리 — 헤더/푸터/플로팅버튼/그룹페이지 문의배너 전화CTA 전부 숨김(카톡만 유지), 견적서 PNG 전화번호→이메일. 배포 후 `/docs/context.md`·`/_dev/serve.py` 404, netlify.app→신도메인 301 전부 실측 확인 완료. |
@@ -191,9 +192,14 @@
 
 ## 8. 현재 미해결 항목
 
+- **(2026-09-28, 지시서#15) 로컬 커밋 완료, push 승인 대기**(`1ff3e88`과 함께 1회 push 예정):
+  - **D-1 감독 확인 대기 — 답변 전 손대지 말 것**: index.html `.hero-badge-grid` 수치 3종(당일 배송율 98.4% / 누적 거래처 3,500+ / 품목 수 120여종)이 실제 수치인지 감독이 확인 중. 답변에 따라 수정 또는 삭제 지시 예정.
+  - molding_catalog.html 페이지 상단 영문 태그 **"Molding Stock"**(`.page-tag`)은 #15 범위에 없어 유지 — 재고 표시를 없앤 취지와 어긋나 교체 여부 감독 판단 필요.
+  - molding 시트의 재고 열(`inStock`)은 시트 로딩·기본 데이터에 그대로 남아 있고 화면에서는 읽지 않음. 정렬·노출 여부에 재고 값이 영향 주는 로직은 원래 없었음.
+
 - **(2026-09-28, 지시서#14) 배포 완료 — 감독 후속 작업**(운영 도메인 샘플 3개에서 배너 전화 버튼 표시·`phone_click` 요청 발생 확인 완료):
   - 배포 후 감독 몫: GA4 관리 → 이벤트에서 `phone_click`/`kakao_click`/`spec_send`/`generate_lead`를 주요 이벤트(전환)로 표시(첫 수신 후 최대 24시간 뒤 목록에 나타남), 통화 시 "홈페이지 보고 연락" O/X 기록, 2주 뒤 파워링크 판단.
-  - 가격형 배너 문구("수량·사양 상담이 필요하신가요? / 현장 수량, 규격, 납기 등은 전화 또는 카카오톡으로 빠르게 안내해 드립니다.")는 제가 쓴 초안 — 감독 확인 대기.
+  - 그룹 배너 문구는 #15에서 감독 확정 문구로 교체 완료(아래 #15 항목).
   - 검증 과정에서 테스트 요청 가로채기 설정 오류로 **첫 테스트 실행과 디버그 실행 1회분의 localhost 발 테스트 히트(page_view 및 테스트 클릭 이벤트)가 실제 GA4 속성으로 전송됨**(2026-09-28). 보고서에서 호스트 이름 `localhost`로 걸러낼 수 있음. 이후 테스트는 전부 가로채 실제 전송 0건 확인. 운영 도메인 게이트 배포 후에는 이런 개발 트래픽 유입 자체가 차단됨.
 
 - **(2026-09-23, 지시서 SEO-01) push·배포·차단 실측까지 완료. 감독 후속 확인만 남음**:
