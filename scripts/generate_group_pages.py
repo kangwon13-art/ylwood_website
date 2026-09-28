@@ -869,7 +869,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
                 <strong>실시간 단가 준비 중인 품목입니다</strong>
                 <p>정확한 사양과 단가는 카카오톡 또는 전화 상담으로 빠르게 안내해 드립니다.</p>
                 <div class="inquiry-cta-row">
-                    <a href="javascript:void(0)" class="btn btn-primary" data-phone-cta>전화 문의</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" data-phone-cta data-cta-location="group_banner">전화 문의</a>
                     <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
                 </div>
             </div>"""
