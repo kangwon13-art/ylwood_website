@@ -8,6 +8,8 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
+        // 운영 도메인 외(localhost·trycloudflare·netlify.app 등)에서는 GA4 전송 차단 (지시서 #14 피드백)
+        if (location.hostname !== 'infill-wood.kr') window['ga-disable-G-B8ZLZEVV7E'] = true;
         gtag('config', 'G-B8ZLZEVV7E');
     </script>
     <meta charset="UTF-8">
@@ -145,7 +147,8 @@
         .inquiry-banner strong { display: block; font-size: 15px; color: var(--color-text-white); margin-bottom: 6px; }
         .inquiry-banner p { font-size: 13.5px; color: var(--color-text-light); line-height: 1.7; margin-bottom: 14px; }
         .inquiry-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .inquiry-cta-row a { flex: 1; min-width: 140px; }
+        .inquiry-cta-row a { flex: 1; min-width: 140px; padding: 14px 12px; font-size: 15px; white-space: nowrap; }
+        .group-cta-wrap + .inquiry-banner { margin-top: 28px; margin-bottom: 0; }
         .btn-kakao-inline { background: #FEE500; color: #191919; }
         .btn-kakao-inline:hover { background: #f5dc00; transform: translateY(-2px); }
         @media (max-width: 1024px) {
@@ -250,6 +253,14 @@
             <div class="group-cta-wrap">
                 <a href="/calculator.html?cat=louver_wood&id=louver_wood_27" class="btn btn-primary btn-full">계산기에서 담기 · 견적 받기</a>
             </div>
+            <div class="inquiry-banner">
+                <strong>수량·사양 상담이 필요하신가요?</strong>
+                <p>현장 수량, 규격, 납기 등은 전화 또는 카카오톡으로 빠르게 안내해 드립니다.</p>
+                <div class="inquiry-cta-row">
+                    <a href="javascript:void(0)" class="btn btn-primary" data-phone-cta data-cta-location="group_banner">전화 문의</a>
+                    <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
+                </div>
+            </div>
 
             <div class="group-siblings">
                 <div class="group-siblings-title">루바/집성판의 다른 그룹</div>
@@ -300,8 +311,8 @@
         </div>
     </footer>
 
-    <!-- generated: 2026-09-28T09:42:34.462730+09:00, source rows: 5 -->
-    <!-- SNAPSHOT_JSON: {"generated_at": "2026-09-28T09:42:34.462730+09:00", "category": "louver_wood", "group": "라왕 집성판", "items": [{"id": "louver_wood_27", "name": "라왕집성판 15T", "price": 0}, {"id": "louver_wood_28", "name": "라왕집성판 18T", "price": 0}, {"id": "louver_wood_29", "name": "라왕집성판 18T", "price": 74000}, {"id": "louver_wood_30", "name": "라왕집성판 24T", "price": 0}, {"id": "louver_wood_31", "name": "라왕집성판 30T", "price": 0}]} -->
+    <!-- generated: 2026-09-28T10:14:14.400857+09:00, source rows: 5 -->
+    <!-- SNAPSHOT_JSON: {"generated_at": "2026-09-28T10:14:14.400857+09:00", "category": "louver_wood", "group": "라왕 집성판", "items": [{"id": "louver_wood_27", "name": "라왕집성판 15T", "price": 0}, {"id": "louver_wood_28", "name": "라왕집성판 18T", "price": 0}, {"id": "louver_wood_29", "name": "라왕집성판 18T", "price": 74000}, {"id": "louver_wood_30", "name": "라왕집성판 24T", "price": 0}, {"id": "louver_wood_31", "name": "라왕집성판 30T", "price": 0}]} -->
 
 </body>
 

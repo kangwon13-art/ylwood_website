@@ -8,6 +8,8 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
+        // 운영 도메인 외(localhost·trycloudflare·netlify.app 등)에서는 GA4 전송 차단 (지시서 #14 피드백)
+        if (location.hostname !== 'infill-wood.kr') window['ga-disable-G-B8ZLZEVV7E'] = true;
         gtag('config', 'G-B8ZLZEVV7E');
     </script>
     <meta charset="UTF-8">
@@ -145,7 +147,8 @@
         .inquiry-banner strong { display: block; font-size: 15px; color: var(--color-text-white); margin-bottom: 6px; }
         .inquiry-banner p { font-size: 13.5px; color: var(--color-text-light); line-height: 1.7; margin-bottom: 14px; }
         .inquiry-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .inquiry-cta-row a { flex: 1; min-width: 140px; }
+        .inquiry-cta-row a { flex: 1; min-width: 140px; padding: 14px 12px; font-size: 15px; white-space: nowrap; }
+        .group-cta-wrap + .inquiry-banner { margin-top: 28px; margin-bottom: 0; }
         .btn-kakao-inline { background: #FEE500; color: #191919; }
         .btn-kakao-inline:hover { background: #f5dc00; transform: translateY(-2px); }
         @media (max-width: 1024px) {
@@ -292,6 +295,14 @@
             <div class="group-cta-wrap">
                 <a href="/calculator.html?cat=hardware&id=hardware_1" class="btn btn-primary btn-full">계산기에서 담기 · 견적 받기</a>
             </div>
+            <div class="inquiry-banner">
+                <strong>수량·사양 상담이 필요하신가요?</strong>
+                <p>현장 수량, 규격, 납기 등은 전화 또는 카카오톡으로 빠르게 안내해 드립니다.</p>
+                <div class="inquiry-cta-row">
+                    <a href="javascript:void(0)" class="btn btn-primary" data-phone-cta data-cta-location="group_banner">전화 문의</a>
+                    <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
+                </div>
+            </div>
 
             <div class="group-siblings">
                 <div class="group-siblings-title">철물/부자재의 다른 그룹</div>
@@ -342,8 +353,8 @@
         </div>
     </footer>
 
-    <!-- generated: 2026-09-28T09:42:34.462730+09:00, source rows: 12 -->
-    <!-- SNAPSHOT_JSON: {"generated_at": "2026-09-28T09:42:34.462730+09:00", "category": "hardware", "group": "접착재/본드", "items": [{"id": "hardware_1", "name": "본드 205", "price": 2900}, {"id": "hardware_2", "name": "본드 505", "price": 2900}, {"id": "hardware_3", "name": "G1 본드", "price": 0}, {"id": "hardware_4", "name": "G2 본드", "price": 22000}, {"id": "hardware_5", "name": "G3 본드", "price": 0}, {"id": "hardware_6", "name": "스프레이접착제 77 소", "price": 11000}, {"id": "hardware_7", "name": "아이소본드", "price": 0}, {"id": "hardware_80", "name": "핫멜트건 대", "price": 9000}, {"id": "hardware_81", "name": "핫멜트건 소", "price": 0}, {"id": "hardware_82", "name": "핫멜트알", "price": 6000}, {"id": "hardware_85", "name": "프라이머 수성 1KG", "price": 11000}, {"id": "hardware_87", "name": "바르네 퍼티 5K", "price": 7000}]} -->
+    <!-- generated: 2026-09-28T10:14:14.400857+09:00, source rows: 12 -->
+    <!-- SNAPSHOT_JSON: {"generated_at": "2026-09-28T10:14:14.400857+09:00", "category": "hardware", "group": "접착재/본드", "items": [{"id": "hardware_1", "name": "본드 205", "price": 2900}, {"id": "hardware_2", "name": "본드 505", "price": 2900}, {"id": "hardware_3", "name": "G1 본드", "price": 0}, {"id": "hardware_4", "name": "G2 본드", "price": 22000}, {"id": "hardware_5", "name": "G3 본드", "price": 0}, {"id": "hardware_6", "name": "스프레이접착제 77 소", "price": 11000}, {"id": "hardware_7", "name": "아이소본드", "price": 0}, {"id": "hardware_80", "name": "핫멜트건 대", "price": 9000}, {"id": "hardware_81", "name": "핫멜트건 소", "price": 0}, {"id": "hardware_82", "name": "핫멜트알", "price": 6000}, {"id": "hardware_85", "name": "프라이머 수성 1KG", "price": 11000}, {"id": "hardware_87", "name": "바르네 퍼티 5K", "price": 7000}]} -->
 
 </body>
 

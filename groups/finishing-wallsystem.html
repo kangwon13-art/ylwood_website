@@ -8,6 +8,8 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
+        // 운영 도메인 외(localhost·trycloudflare·netlify.app 등)에서는 GA4 전송 차단 (지시서 #14 피드백)
+        if (location.hostname !== 'infill-wood.kr') window['ga-disable-G-B8ZLZEVV7E'] = true;
         gtag('config', 'G-B8ZLZEVV7E');
     </script>
     <meta charset="UTF-8">
@@ -145,7 +147,8 @@
         .inquiry-banner strong { display: block; font-size: 15px; color: var(--color-text-white); margin-bottom: 6px; }
         .inquiry-banner p { font-size: 13.5px; color: var(--color-text-light); line-height: 1.7; margin-bottom: 14px; }
         .inquiry-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .inquiry-cta-row a { flex: 1; min-width: 140px; }
+        .inquiry-cta-row a { flex: 1; min-width: 140px; padding: 14px 12px; font-size: 15px; white-space: nowrap; }
+        .group-cta-wrap + .inquiry-banner { margin-top: 28px; margin-bottom: 0; }
         .btn-kakao-inline { background: #FEE500; color: #191919; }
         .btn-kakao-inline:hover { background: #f5dc00; transform: translateY(-2px); }
         @media (max-width: 1024px) {
@@ -245,6 +248,7 @@
             <div class="group-cta-wrap">
                 <a href="/calculator.html?cat=finishing&id=finishing_13" class="btn btn-primary btn-full">계산기에서 확인하기</a>
             </div>
+            
 
             <div class="group-siblings">
                 <div class="group-siblings-title">마감자재의 다른 그룹</div>
@@ -295,8 +299,8 @@
         </div>
     </footer>
 
-    <!-- generated: 2026-09-28T09:42:34.462730+09:00, source rows: 3 -->
-    <!-- SNAPSHOT_JSON: {"generated_at": "2026-09-28T09:42:34.462730+09:00", "category": "finishing", "group": "영림 월판넬", "items": [{"id": "finishing_13", "name": "인피니월", "price": 0}, {"id": "finishing_14", "name": "월시스템와이드 600", "price": 0}, {"id": "finishing_15", "name": "월시스템와이드 900", "price": 0}]} -->
+    <!-- generated: 2026-09-28T10:14:14.400857+09:00, source rows: 3 -->
+    <!-- SNAPSHOT_JSON: {"generated_at": "2026-09-28T10:14:14.400857+09:00", "category": "finishing", "group": "영림 월판넬", "items": [{"id": "finishing_13", "name": "인피니월", "price": 0}, {"id": "finishing_14", "name": "월시스템와이드 600", "price": 0}, {"id": "finishing_15", "name": "월시스템와이드 900", "price": 0}]} -->
 
 </body>
 

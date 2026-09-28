@@ -766,7 +766,8 @@ HEAD_CSS = """
         .inquiry-banner strong { display: block; font-size: 15px; color: var(--color-text-white); margin-bottom: 6px; }
         .inquiry-banner p { font-size: 13.5px; color: var(--color-text-light); line-height: 1.7; margin-bottom: 14px; }
         .inquiry-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .inquiry-cta-row a { flex: 1; min-width: 140px; }
+        .inquiry-cta-row a { flex: 1; min-width: 140px; padding: 14px 12px; font-size: 15px; white-space: nowrap; }
+        .group-cta-wrap + .inquiry-banner { margin-top: 28px; margin-bottom: 0; }
         .btn-kakao-inline { background: #FEE500; color: #191919; }
         .btn-kakao-inline:hover { background: #f5dc00; transform: translateY(-2px); }
         @media (max-width: 1024px) {
@@ -877,6 +878,17 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
     else:
         note_or_banner_html = f'<div class="snapshot-note">기준일 {gen_date_str} · 실시간 최신 단가는 <a href="{calc_link}">계산기에서 확인</a>하세요</div>'
         cta_html = f'<a href="{calc_link}" class="btn btn-primary btn-full">계산기에서 담기 · 견적 받기</a>'
+    # 가격형 페이지 하단 문의 배너(지시서 #14 B-2). 문의형은 상단 배너가 이미 있어 넣지 않는다.
+    bottom_banner_html = ""
+    if not inquiry_only:
+        bottom_banner_html = """<div class="inquiry-banner">
+                <strong>수량·사양 상담이 필요하신가요?</strong>
+                <p>현장 수량, 규격, 납기 등은 전화 또는 카카오톡으로 빠르게 안내해 드립니다.</p>
+                <div class="inquiry-cta-row">
+                    <a href="javascript:void(0)" class="btn btn-primary" data-phone-cta data-cta-location="group_banner">전화 문의</a>
+                    <a href="https://pf.kakao.com/_LixnwX/chat" target="_blank" class="btn btn-kakao-inline">카카오톡 문의</a>
+                </div>
+            </div>"""
 
     html = f"""<!DOCTYPE html>
 <html lang="ko">
@@ -888,6 +900,8 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
         window.dataLayer = window.dataLayer || [];
         function gtag() {{ dataLayer.push(arguments); }}
         gtag('js', new Date());
+        // 운영 도메인 외(localhost·trycloudflare·netlify.app 등)에서는 GA4 전송 차단 (지시서 #14 피드백)
+        if (location.hostname !== 'infill-wood.kr') window['ga-disable-G-B8ZLZEVV7E'] = true;
         gtag('config', 'G-B8ZLZEVV7E');
     </script>
     <meta charset="UTF-8">
@@ -981,6 +995,7 @@ def render_page(category, group_name, meta, items, generated_at, gid_no, sibling
             <div class="group-cta-wrap">
                 {cta_html}
             </div>
+            {bottom_banner_html}
 
             {siblings_html}
         </div>
