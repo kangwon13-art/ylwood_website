@@ -1048,6 +1048,57 @@
             text-decoration: underline;
         }
 
+        /* 지시서#16 A: 시트 로딩 중 스켈레톤 — 실제 카드/행과 같은 마크업·글자 크기를 쓰고
+           글자만 투명 처리해 로드 후 높이가 바뀌지 않게 함. 색은 기존 변수만 사용. */
+        .skeleton-text {
+            color: transparent !important;
+            background: var(--color-bg-tertiary);
+            border-radius: 6px;
+            animation: skeleton-pulse 1.4s ease-in-out infinite;
+        }
+
+        /* 표는 짝수 행 배경이 bg-tertiary라 같은 색이면 막대가 안 보임 — 표에서만 테두리 색 사용 */
+        .skeleton-row .skeleton-text {
+            background: var(--color-border);
+        }
+
+        .group-card.skeleton-card {
+            cursor: default;
+        }
+
+        .group-card.skeleton-card .group-card-thumb {
+            background: var(--color-bg-tertiary);
+            border-color: var(--color-border);
+            animation: skeleton-pulse 1.4s ease-in-out infinite;
+        }
+
+        .group-card.skeleton-card .group-card-chevron {
+            stroke: var(--color-border);
+        }
+
+        @keyframes skeleton-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 지시서#16 B: 안내문 공통 스타일 — 운반비 안내(#delivery-info-alert)의 기존 인라인 스타일을
+           그대로 클래스로 옮긴 것(시각 변화 없음). 시트 실패 안내·장바구니 갱신 안내도 이 클래스를 재사용. */
+        .calc-alert {
+            display: flex;
+            background: rgba(255, 107, 53, 0.12);
+            border: 1px solid var(--color-accent-orange);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 22px;
+            color: var(--color-text-white);
+            font-weight: 600;
+            align-items: center;
+            gap: 12px;
+            font-size: 14.5px;
+            line-height: 1.5;
+            box-shadow: var(--shadow-premium);
+        }
+
         .group-card-chevron {
             flex-shrink: 0;
             width: 20px;
@@ -3048,13 +3099,14 @@
                     <!-- 작업지시서#07-5: 위 사이드바 옆 실제 콘텐츠 영역(표+안내문). PC 그리드의 2번째 컬럼 역할 -->
                     <div class="calc-content-area">
                         <!-- Delivery Info Alert (Shown only when delivery tab is active) -->
-                        <div id="delivery-info-alert"
-                            style="display: none; background: rgba(255, 107, 53, 0.12); border: 1px solid var(--color-accent-orange); border-radius: 12px; padding: 18px; margin-bottom: 22px; color: var(--color-text-white); font-weight: 600; align-items: center; gap: 12px; font-size: 14.5px; line-height: 1.5; box-shadow: var(--shadow-premium);">
+                        <div id="delivery-info-alert" class="calc-alert" style="display: none;">
                             <span style="font-size: 18px;">⚠️</span>
                             <span>운반비는 거리 및 상차 품목에 따라 상이합니다. 반드시 전화 문의 후 결제해 주세요.</span>
                         </div>
+                        <div id="sheet-fallback-alert" class="calc-alert" style="display: none;">일부 단가가 최신이 아닐 수 있습니다. 정확한 금액은 전화·카카오톡으로 확인해 주세요.</div>
 
-                        <div class="table-responsive">
+                        <!-- 지시서#16: 첫 화면은 그룹 목록 스켈레톤 상태로 시작(표는 JS가 운반비 탭에서만 다시 표시) -->
+                        <div class="table-responsive" style="display: none;">
                             <table class="price-table">
                                 <thead>
                                     <tr>
@@ -3090,8 +3142,75 @@
                         </div>
 
                         <!-- 지시서#03 G2: 모바일 그룹 카드 목록 (현재 MDF 카테고리만 표시, GROUPED_UI_CATEGORIES 참고) -->
-                        <div class="mobile-group-list" id="mobileGroupList">
-                            <!-- Loaded dynamically via JavaScript (renderMobileGroupList) -->
+                        <div class="mobile-group-list" id="mobileGroupList" style="display: block;">
+                            <!-- Loaded dynamically via JavaScript (renderMobileGroupList).
+                                 지시서#16: JS 실행 전 첫 화면부터 스켈레톤이 보이도록 원문에 5개를 미리 넣어 둠
+                                 (레이아웃 이동 방지, renderLoadingSkeleton과 같은 마크업) -->
+                            <div class="group-card-wrapper" aria-hidden="true">
+                                <div class="group-card skeleton-card">
+                                    <div class="group-card-thumb"></div>
+                                    <div class="group-card-body">
+                                        <div class="group-card-name"><span class="skeleton-text">자재 그룹 이름</span></div>
+                                        <div class="group-card-count"><span class="skeleton-text">00개 옵션</span></div>
+                                        <span class="group-card-slug-link skeleton-text">규격·단가 안내 ›</span>
+                                    </div>
+                                    <svg class="group-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="group-card-wrapper" aria-hidden="true">
+                                <div class="group-card skeleton-card">
+                                    <div class="group-card-thumb"></div>
+                                    <div class="group-card-body">
+                                        <div class="group-card-name"><span class="skeleton-text">자재 그룹 이름</span></div>
+                                        <div class="group-card-count"><span class="skeleton-text">00개 옵션</span></div>
+                                        <span class="group-card-slug-link skeleton-text">규격·단가 안내 ›</span>
+                                    </div>
+                                    <svg class="group-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="group-card-wrapper" aria-hidden="true">
+                                <div class="group-card skeleton-card">
+                                    <div class="group-card-thumb"></div>
+                                    <div class="group-card-body">
+                                        <div class="group-card-name"><span class="skeleton-text">자재 그룹 이름</span></div>
+                                        <div class="group-card-count"><span class="skeleton-text">00개 옵션</span></div>
+                                        <span class="group-card-slug-link skeleton-text">규격·단가 안내 ›</span>
+                                    </div>
+                                    <svg class="group-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="group-card-wrapper" aria-hidden="true">
+                                <div class="group-card skeleton-card">
+                                    <div class="group-card-thumb"></div>
+                                    <div class="group-card-body">
+                                        <div class="group-card-name"><span class="skeleton-text">자재 그룹 이름</span></div>
+                                        <div class="group-card-count"><span class="skeleton-text">00개 옵션</span></div>
+                                        <span class="group-card-slug-link skeleton-text">규격·단가 안내 ›</span>
+                                    </div>
+                                    <svg class="group-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="group-card-wrapper" aria-hidden="true">
+                                <div class="group-card skeleton-card">
+                                    <div class="group-card-thumb"></div>
+                                    <div class="group-card-body">
+                                        <div class="group-card-name"><span class="skeleton-text">자재 그룹 이름</span></div>
+                                        <div class="group-card-count"><span class="skeleton-text">00개 옵션</span></div>
+                                        <span class="group-card-slug-link skeleton-text">규격·단가 안내 ›</span>
+                                    </div>
+                                    <svg class="group-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3121,6 +3240,7 @@
                             onclick="event.stopPropagation(); closeCartPanel();">✕</button>
                     </div>
                     <div class="sidebar-inner-content">
+                        <div id="cart-pruned-alert" class="calc-alert" style="display: none;">일부 품목 정보가 갱신되어 다시 담아 주세요.</div>
                         <div class="selected-list" id="selected-items-list">
                             <div class="empty-cart-msg">선택된 자재가 없습니다.<br>수량을 추가해 주세요.</div>
                         </div>
@@ -3710,7 +3830,14 @@
             references: { url: "https://docs.google.com/spreadsheets/d/1ZdtOewDMmYCZ4leyrbBHDRLfMh-NgvO6iPNI24YQ7Lk/export?format=csv&gid=1626176847" }
         };
         const SHEET_DATA = {};
-        let isSheetLoading = false;
+        // 지시서#16: 첫 렌더부터 로딩 상태로 시작 — 하드코딩 예비 목록이 한 프레임도 그려지지 않게 함.
+        let isSheetLoading = true;
+        // 시트 요청 타임아웃(ms). 이 시간 안에 받지 못한 카테고리만 예비 데이터로 표시한다.
+        const SHEET_TIMEOUT_MS = 5000;
+        // 시트 로드를 끝내고 화면을 확정한 뒤엔 true — 이후 늦게 도착한 응답은 무시(화면 재변경 금지).
+        let sheetLoadFinalized = false;
+        // 시트를 받지 못해 예비 데이터로 표시 중인 카테고리
+        const sheetFallbackCats = new Set();
         let pendingTabCategory = null;
 
         // ===== BASE SNAPSHOT: deep-copy of the hardcoded PRODUCTS_DATA =====
@@ -4046,14 +4173,15 @@
             };
         }
 
-        async function fetchSheetData(category) {
+        // 지시서#16: 성공 시 true, 실패·타임아웃·빈 시트면 false를 돌려준다(예비 데이터 사용 여부 판단용).
+        async function fetchSheetData(category, signal) {
             const config = SHEET_CONFIG[category];
             if (!config || !config.url) {
-                return;
+                return false;
             }
 
             try {
-                const response = await fetch(config.url);
+                const response = await fetch(config.url, { signal });
                 if (!response.ok) {
                     throw new Error(`CSV fetch failed with status ${response.status}`);
                 }
@@ -4065,7 +4193,7 @@
                     .map(line => parseCSVLine(line));
 
                 if (!rows.length) {
-                    return;
+                    return false;
                 }
 
                 const headerRow = rows[0];
@@ -4084,13 +4212,21 @@
                     return an - bn;
                 });
 
+                // 타임아웃으로 화면을 이미 확정했으면 늦게 온 응답은 반영하지 않는다(다음 방문에 반영).
+                if (sheetLoadFinalized) {
+                    return false;
+                }
+
                 if (transformed.length > 0) {
                     SHEET_DATA[category] = transformed;
                     loadLocalData();
                     console.log(`Successfully loaded ${category} data from Google Sheets CSV.`);
+                    return true;
                 }
+                return false;
             } catch (error) {
                 console.warn(`Failed to fetch ${category} CSV data:`, error);
+                return false;
             }
         }
 
@@ -4101,21 +4237,105 @@
         async function fetchAllSheetData() {
             isSheetLoading = true;
             renderActiveProducts();
+            // 지시서#16 B: 5초 안에 못 받은 요청은 중단하고, 그 카테고리만 예비 데이터로 표시한다.
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), SHEET_TIMEOUT_MS);
             try {
                 const categories = Object.keys(SHEET_CONFIG);
-                await Promise.allSettled(categories.map(category => fetchSheetData(category)));
+                const results = await Promise.allSettled(categories.map(category => fetchSheetData(category, controller.signal)));
+                categories.forEach((category, i) => {
+                    const ok = results[i].status === "fulfilled" && results[i].value === true;
+                    if (!ok) sheetFallbackCats.add(category);
+                });
                 loadLocalData();
             } catch (error) {
                 console.warn("Failed to load all sheet data:", error);
             } finally {
+                clearTimeout(timeoutId);
+                sheetLoadFinalized = true;
                 isSheetLoading = false;
                 if (pendingTabCategory) {
                     currentActiveTab = pendingTabCategory;
                     pendingTabCategory = null;
                 }
                 renderActiveProducts();
+                pruneStaleCartItems();
                 updateEstimateSummary();
                 handleUrlParameters();
+            }
+        }
+
+        // 지시서#16 C: 장바구니(yw_cart)에 현재 품목 데이터에 없는 id(예비 데이터 시절 id 등)가 남아 있으면 제거.
+        function pruneStaleCartItems() {
+            const validIds = new Set();
+            for (const cat in PRODUCTS_DATA) {
+                (PRODUCTS_DATA[cat] || []).forEach(item => validIds.add(String(item.id)));
+            }
+            let removed = 0;
+            Object.keys(selectedQuantities).forEach(id => {
+                if (!validIds.has(String(id))) {
+                    delete selectedQuantities[id];
+                    removed += 1;
+                }
+            });
+            if (removed > 0) {
+                try {
+                    sessionStorage.setItem('yw_cart', JSON.stringify(selectedQuantities));
+                } catch (e) { }
+                const alertEl = document.getElementById("cart-pruned-alert");
+                if (alertEl) alertEl.style.display = "flex";
+            }
+        }
+
+        // 지시서#16 B: 현재 탭에 예비 데이터로 표시 중인 카테고리가 있으면 목록 위 안내 한 줄 표시
+        const ALL_TAB_CATEGORIES = ['finishing', 'mdf', 'plywood', 'interior_plywood',
+            'timber', 'plaster', 'insulation', 'deck_timber', 'louver_wood', 'hardware'];
+        function updateSheetFallbackAlert(categoryKey) {
+            const alertEl = document.getElementById("sheet-fallback-alert");
+            if (!alertEl) return;
+            let show = false;
+            if (!isSheetLoading) {
+                show = categoryKey === 'all_categories'
+                    ? ALL_TAB_CATEGORIES.some(cat => sheetFallbackCats.has(cat))
+                    : sheetFallbackCats.has(categoryKey);
+            }
+            alertEl.style.display = show ? "flex" : "none";
+        }
+
+        // 지시서#16 A: 로딩 중 스켈레톤 — PC 표 6줄, 그룹 카드 5개
+        function renderLoadingSkeleton(tbody, groupListWrap) {
+            if (tbody) {
+                let rows = "";
+                for (let i = 0; i < 6; i++) {
+                    rows += `<tr class="skeleton-row">
+                        <td><span class="prod-name skeleton-text">자재 품목 이름</span></td>
+                        <td><span class="prod-spec skeleton-text" style="font-size:14px;">규격 정보</span></td>
+                        <td><span class="font-num skeleton-text" style="font-size:13px;">단위</span></td>
+                        <td><span class="price-col font-num skeleton-text">00,000</span></td>
+                        <td><span class="skeleton-text">수량 선택</span></td>
+                    </tr>`;
+                }
+                tbody.innerHTML = rows;
+            }
+            if (groupListWrap) {
+                openAccordionInfo = null;
+                let cards = "";
+                for (let i = 0; i < 5; i++) {
+                    cards += `<div class="group-card-wrapper" aria-hidden="true">
+                        <div class="group-card skeleton-card">
+                            <div class="group-card-thumb"></div>
+                            <div class="group-card-body">
+                                <div class="group-card-name"><span class="skeleton-text">자재 그룹 이름</span></div>
+                                <div class="group-card-count"><span class="skeleton-text">00개 옵션</span></div>
+                                <span class="group-card-slug-link skeleton-text">규격·단가 안내 ›</span>
+                            </div>
+                            <svg class="group-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                            </svg>
+                        </div>
+                    </div>`;
+                }
+                groupListWrap.innerHTML = cards;
             }
         }
 
@@ -4238,17 +4458,11 @@
                 }
             }
 
+            // 지시서#16: 예비 데이터는 검색 등 내부용으로만 준비하고, 화면은 스켈레톤으로 시작한다.
+            // 견적 영역도 시트 로드 후(fetchAllSheetData 마지막)에 그린다 — 예비 가격이 잠깐 보이지 않게.
             loadLocalData();
             renderActiveProducts();
-            updateEstimateSummary();
             fetchAllSheetData();
-
-            // Set Hero Date
-            const d = new Date();
-            const heroDateEl = document.getElementById("heroDate");
-            if (heroDateEl) {
-                heroDateEl.innerText = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 09:00 기준 완료`;
-            }
 
             // Header scroll effect
             window.addEventListener("scroll", () => {
@@ -4408,21 +4622,12 @@
             if (tableWrap) tableWrap.style.display = groupedActive ? "none" : "";
             if (groupListWrap) groupListWrap.style.display = groupedActive ? "block" : "none";
 
-            // 전체 탭 로딩 중 처리: 하나라도 로딩 중이면 로딩 메시지 표시
-            if (categoryKey === 'all_categories' && isSheetLoading) {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: var(--color-text-muted);">데이터를 불러오는 중입니다...</td>`;
-                tbody.appendChild(tr);
-                if (groupedActive) {
-                    renderMobileGroupList(categoryKey);
-                }
-                return;
-            }
+            updateSheetFallbackAlert(categoryKey);
 
-            if (isSheetLoading && !SHEET_DATA[categoryKey]?.length) {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `<td colspan="5" style="text-align: center; padding: 40px; color: var(--color-text-muted);">데이터를 불러오는 중입니다...</td>`;
-                tbody.appendChild(tr);
+            // 지시서#16 A: 로딩 중에는 예비 목록 대신 표·그룹 목록 모두 스켈레톤만 표시
+            // (전체 탭은 전 카테고리가 끝날 때까지, 개별 탭은 해당 시트가 오기 전까지)
+            if (isSheetLoading && (categoryKey === 'all_categories' || !SHEET_DATA[categoryKey]?.length)) {
+                renderLoadingSkeleton(tbody, groupListWrap);
                 return;
             }
 
