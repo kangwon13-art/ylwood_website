@@ -32,3 +32,54 @@ if (document.readyState === "loading") {
 } else {
     applySiteConfigContact();
 }
+
+// 지시서 #14: 문의 전환 계측(전화·카톡 클릭 → GA4 이벤트).
+// 이벤트 이름·파라미터를 바꾸면 GA4 누적 데이터가 끊기므로 변경 시 docs/context.md 4번 섹션 표도 함께 갱신할 것.
+function getPageType() {
+    const path = location.pathname;
+    if (path.indexOf("/groups/") !== -1) return "group";
+    if (path.indexOf("calculator") !== -1) return "calculator";
+    if (path.indexOf("molding") !== -1) return "molding";
+    if (path.indexOf("catalog") !== -1) return "catalog";
+    if (path.indexOf("door_order") !== -1) return "door_order";
+    if (path.indexOf("wallpanel") !== -1) return "wallpanel";
+    if (path === "/" || path.indexOf("index.html") !== -1) return "index";
+    return "other";
+}
+
+function getCtaLocation(el) {
+    if (el.dataset.ctaLocation) return el.dataset.ctaLocation;
+    if (el.classList.contains("floating-btn-circle") || el.closest(".floating-buttons")) return "floating";
+    if (el.classList.contains("btn-kakao-inline")) return "inline";
+    if (el.hasAttribute("data-phone-cta") && el.closest(".inquiry-banner")) return "group_banner";
+    if (el.classList.contains("btn-kakao") || el.closest(".sidebar-cta-secondary")) return "calculator_sidebar";
+    if (el.closest("header")) return "header";
+    if (el.closest("footer")) return "footer";
+    return "other";
+}
+
+// 캡처 단계에서 1회만 처리 — 한 요소가 여러 셀렉터에 걸려도(예: .btn-kakao는 카톡 링크이기도 함)
+// closest()로 가장 가까운 CTA 하나만 골라 이벤트 1건만 보낸다.
+document.addEventListener("click", function (e) {
+    if (typeof gtag !== "function") return;
+
+    const phoneEl = e.target.closest("a.floating-btn-circle.phone, a[data-phone-cta]");
+    if (phoneEl) {
+        if (!SITE_CONFIG.phoneEnabled) return;
+        gtag("event", "phone_click", {
+            cta_location: getCtaLocation(phoneEl),
+            page_type: getPageType(),
+            transport_type: "beacon"
+        });
+        return;
+    }
+
+    const kakaoEl = e.target.closest('a[href*="pf.kakao.com"], .btn-kakao, .btn-kakao-inline');
+    if (kakaoEl) {
+        gtag("event", "kakao_click", {
+            cta_location: getCtaLocation(kakaoEl),
+            page_type: getPageType(),
+            transport_type: "beacon"
+        });
+    }
+}, true);

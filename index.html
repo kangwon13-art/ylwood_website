@@ -3757,6 +3757,10 @@
                     submitBtn.disabled = false;
                     submitBtn.textContent = originalText;
 
+                    if (typeof gtag === "function") {
+                        gtag("event", "generate_lead", { lead_source: "index_inquiry" });
+                    }
+
                     // Show Success Modal
                     const modal = document.getElementById("successModal");
                     modal.classList.add("active");

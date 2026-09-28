@@ -1563,6 +1563,9 @@
             navigator.clipboard.writeText(text).catch(err => {
                 // Fallback: 클립보드 복사 실패해도 채팅방 이동은 정상 진행
             });
+            if (typeof gtag === "function") {
+                gtag("event", "spec_send", { spec_type: "molding", item_count: cart.length, transport_type: "beacon" });
+            }
             window.open("https://pf.kakao.com/_LixnwX/chat", "_blank");
             showToast("사양이 복사되었습니다. 채팅창에 붙여넣기해서 전송해주세요.");
         }
